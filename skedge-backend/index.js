@@ -1,9 +1,10 @@
 const express = require('express')
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const database_service = require('./database-service');
 const port = 4200;
+
 
  //////////////////////
 // Express Middlewares
@@ -21,18 +22,20 @@ app.use(bodyParser.json());
 // Simple hello word GET endpoint at the root
 app.get('/', (req, res) => res.send('Hello World!'));
 
-// PUT /prototype endpoint from prototype meeting
+// prototype endpoint
 app.put('/prototype', (req, res) => {
-
-    // Prints request to console
     console.log(req.body);
-    
+
+    // Sends course to database with name from json payload
+    var db_msg = database_service.writeCourseToDatabase(req.body.name);
+
     // Appends message to json payload
     ret_obj = req.body;
-    ret_obj.msg = "Hello from the express backend!!!";
+    ret_obj.msg = db_msg;
 
     // Responds with modified json payload
     res.json(ret_obj);
+    
 })
 
 
