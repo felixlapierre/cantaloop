@@ -29,7 +29,6 @@ module.exports = {
         if (db.readyState == 1) {
             course.save(function (err, course) {
                 if (err) return console.error(err);
-                console.log(course.name)
             });
             return "Sent "+value+" to the database!";
         }

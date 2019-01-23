@@ -28,11 +28,11 @@ class App extends Component {
     return (
       <div>
         <label>
-          Name:
+          Enter a Course Name: 
           <input type="text" name="name" value={this.state.value} onChange={this.handleChange}/>
         </label>
         <button onClick={this.handleSubmit}>
-          Hello
+          Send to MongoDB!
         </button>
       </div>
     );
