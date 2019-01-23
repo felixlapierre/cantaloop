@@ -1,18 +1,19 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const app = express()
-const port = 4200
+const cors = require('cors');
+const app = express();
+const port = 4200;
 
-
+app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Hello World!'));
 app.put('/prototype', (req, res) => {
-    console.log(req.body)
-    //ret_obj = {"name": "it worked bro!! -express.js"}
-    res.json(req.body);
-    //res.send({"response": req.body+", it worked!!"})
+    console.log(req.body);
+    ret_obj = req.body;
+    ret_obj.name = "Hello from the backend!!!"
+    res.json(ret_obj);
 })
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
