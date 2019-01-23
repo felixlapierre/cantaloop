@@ -10,7 +10,7 @@ class App extends Component {
   }
   handleClick() {
     console.log('Request Sending');
-    axios.put('/localhost/prototype', {"name": "Jon"})
+    axios.put('http://localhost:4200/prototype', {"name": "Jon"})
     .then(res => {
         this.setState({name: "works"});
         console.log(res);
