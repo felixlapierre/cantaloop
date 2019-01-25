@@ -1,0 +1,20 @@
+{
+  "name": "skedge-backend",
+  "version": "1.0.0",
+  "description": "skedge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "cantaloop"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.6"
+  }
+}
