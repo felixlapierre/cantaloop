@@ -171,3 +171,10 @@ fabric.properties
 
 
 # End of https://www.gitignore.io/api/node
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
