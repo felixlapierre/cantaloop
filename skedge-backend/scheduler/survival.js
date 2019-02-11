@@ -1,3 +1,10 @@
+/**
+ * Determines which individuals will survive into the next generation 
+ *  
+ * @param oldGeneration a set of individuals from a previous generation
+ * @returns an array of individuals that have a high rank
+ */
+
 const cullRate = 5; // TODO: change
 
 function survival( oldGeneration )
@@ -11,7 +18,6 @@ function survival( oldGeneration )
              {
                 newGeneration.push( oldGeneration[key] );
              }
-            
         }
     }
     return newGeneration;
