@@ -21,6 +21,7 @@ describe('breed', function(){
         // act
         var child = breed(parent1, parent2);
         console.log(child.semester);
+        
         // assert
         expect(child).to.satisfy(function(child){
             return (child.semester["COMP346"].valueOf() == (parent1.semester["COMP346"]).valueOf()

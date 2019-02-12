@@ -4,7 +4,7 @@ var individual = require("../individual.js");
 
 describe('mutate', function(){
     it('should create new offspring with different allele', function(){
-        //arrange
+        // arrange
         var semester = {
             "COMP346" : "SomeSectionA",
             "SOEN341" : "SomeSectionA",
@@ -17,10 +17,11 @@ describe('mutate', function(){
             "SOEN331" : ["SomeSectionA", "SomeSectionB", "SomeSectionC", "SomeSectionD","SomeSectionE","SomeSectionF","SomeSectionG"]
         }
 
-        //act
+        // act
         var child = mutate(parent, sectionList);
-
-        //assert
+        console.log(child.semester);
+        
+        // assert
         expect(child).to.satisfy(function(child){
             return !(child.semester["COMP346"].valueOf() == (parent.semester["COMP346"]).valueOf()
                 && child.semester["SOEN341"].valueOf() == (parent.semester["SOEN341"]).valueOf()

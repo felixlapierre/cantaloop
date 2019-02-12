@@ -7,14 +7,14 @@
 
 const cullRate = 5; // TODO: change
 
-function survival( oldGeneration )
+function survive( oldGeneration )
 {
     var newGeneration = [];
     for ( var key in oldGeneration)
     {
         if ( oldGeneration.hasOwnProperty(key))
         {
-             if ( oldGeneration[key].rank > cullRate )
+             if ( oldGeneration[key].fitness >= cullRate )
              {
                 newGeneration.push( oldGeneration[key] );
              }
@@ -23,4 +23,4 @@ function survival( oldGeneration )
     return newGeneration;
 }
 
-module.exports= survival;
+module.exports= survive;
