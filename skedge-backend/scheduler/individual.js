@@ -18,14 +18,12 @@ function individual(parentSemester)
 {
     this.fitness = 0;
     this.genome = []; //array of course name and codes
-    this.semester = parentSemester;
-    // this.semester = JSON.parse(JSON.stringify(parentSemester));
+    this.semester = JSON.parse(JSON.stringify(parentSemester));
 
     for (const key in parentSemester)
     {
         if (parentSemester.hasOwnProperty(key))
         {
-           // this.semester[key]= JSON.parse(JSON.stringify(parentSemester[key]));
             this.genome.push(key);
         }
     }

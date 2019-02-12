@@ -15,12 +15,6 @@ function mutate(parent, sectionList)
 
     var alleles = sectionList[mutantCourse];
     var newAllele = alleles[Math.floor(alleles.length* Math.random())];
-
-    console.log("mutation:");
-    console.log(mutantCourse);
-    console.log(offspring.semester[mutantCourse]);
-    console.log(newAllele);
-    
     offspring.semester[mutantCourse] = newAllele;
 
     return offspring;

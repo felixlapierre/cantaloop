@@ -20,11 +20,6 @@ describe('mutate', function(){
         //act
         var child = mutate(parent, sectionList);
 
-        console.log("parent"); 
-        console.log(parent.semester);
-        console.log("child"); 
-        console.log(child.semester);
-
         //assert
         expect(child).to.satisfy(function(child){
             return !(child.semester["COMP346"].valueOf() == (parent.semester["COMP346"]).valueOf()
