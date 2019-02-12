@@ -10,7 +10,6 @@ describe('mutate', function(){
             "SOEN341" : "SomeSectionA",
             "SOEN331" : "SomeSectionA"
         };
-        console.log(semester);
 
         var parent =individual(semester);
         
@@ -19,19 +18,16 @@ describe('mutate', function(){
             "SOEN341" : ["SomeSectionA", "SomeSectionB"],
             "SOEN331" : ["SomeSectionA", "SomeSectionB"]
         }
-        console.log(sectionList);
 
         //act
         var child = mutate(parent, sectionList);
-        console.log("child");
-        console.log(child.genome);
-        console.log(child.semester);
 
         //assert
         expect(child).to.satisfy(function(child){
-            return !(child.semester["COMP346"].equals(parent.semester["COMP346"])
-                && child.semester["SOEN341"].equals(parent.semester["SOEN341"])
-                && child.semester["SOEN331"].equals(parent.semester["SOEN331"]));
+            console.log(child.semester.COMP346)
+            return !(child.semester["COMP346"].valueOf() == (parent.semester["COMP346"]).valueOf()
+                && child.semester["SOEN341"].valueOf() == (parent.semester["SOEN341"]).valueOf()
+                && child.semester["SOEN331"].valueOf() == (parent.semester["SOEN331"]).valueOf());
         })
         
     });
