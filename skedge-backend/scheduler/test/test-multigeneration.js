@@ -4,8 +4,8 @@ var generation = require("../generation.js");
 
 
 
-describe( 'generation', function(){
-    it('should create a generation of individuals based on a parent generation', function()
+describe( 'multigeneration', function(){
+    it('should create a descendant generation of individuals based on an ancestor generation', function()
     {
         // arrange
         var sectionList = 
@@ -68,13 +68,33 @@ describe( 'generation', function(){
                 "SOEN341" : sectionList["SOEN341"][Math.floor(sectionList["SOEN341"].length* Math.random())],
                 "SOEN331" : sectionList["SOEN331"][Math.floor(sectionList["SOEN331"].length* Math.random())]
             };
-            oldGeneration[index] = new individual(semester);    
+
+            oldGeneration[index] = new individual(semester);
+                 
         }
 
         evaluateFitness(oldGeneration);
 
+        oldGeneration.every(function(val)
+        {
+            console.log(val.fitness+ " "+JSON.stringify(val.semester));
+            return true;
+        });
+
         // act
         var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList);
+        for (let i = 0; i < 30; i++) { 
+            var temp = new generation(oldGeneration, evaluateFitness, sectionList);
+            oldGeneration = newGeneration;
+            newGeneration = temp;
+        }
+
+        console.log("30th decendant");
+        newGeneration.every(function(val)
+        {
+            console.log(val.fitness+ " "+JSON.stringify(val.semester));
+            return true;
+        });
         
         // assert
         expect(newGeneration).to.satisfy( function(newGeneration){

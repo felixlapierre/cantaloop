@@ -1,16 +1,17 @@
 var survive = require("./survive.js");
 var breed = require("./breed.js");
 var mutate = require("./mutate.js");
+
 const POPULATIONLIMIT = 20;
+
 function generation(parentPopulation, evaluateFitness, sectionList)
 {
     this.population = [];
-    
     var survivors = survive(parentPopulation);
-
+    
     copySurvivorsToNewPopulation(survivors, this.population);
     performMutations(survivors, this.population, sectionList);
-    performBreeding(survivors, (POPULATIONLIMIT-population.length), this.population);
+    performBreeding(survivors, (POPULATIONLIMIT-this.population.length), this.population);
 
     evaluateFitness(this.population);
     this.population.sort(function(a, b){return a.fitness - b.fitness});
@@ -20,6 +21,7 @@ function generation(parentPopulation, evaluateFitness, sectionList)
 
 function copySurvivorsToNewPopulation(survivors, population)
 {
+    survivors.reverse();
     survivors.every(function(val){
         if (population.length <= 5)
         {
