@@ -5,7 +5,7 @@
  * @returns an array of individuals that have a high rank
  */
 
-const cullRate = 5; // TODO: change
+const cullRate = 6; // TODO: change
 
 function survive( oldGeneration )
 {

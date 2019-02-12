@@ -10,9 +10,12 @@ function generation(parentPopulation, evaluateFitness, sectionList)
 
     copySurvivorsToNewPopulation(survivors, this.population);
     performMutations(survivors, this.population, sectionList);
-    performBreeding(survivors, (populationSize-population.length), this.population);
+    performBreeding(survivors, (POPULATIONLIMIT-population.length), this.population);
 
     evaluateFitness(this.population);
+    this.population.sort(function(a, b){return a.fitness - b.fitness});
+    
+    return this.population;
 }
 
 function copySurvivorsToNewPopulation(survivors, population)

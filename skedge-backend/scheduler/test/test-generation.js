@@ -22,16 +22,17 @@ describe( 'generation', function(){
         {
             var semester = 
             {
-                "COMP346" : sectionList["COMP346"][Math.floor(sectionList["COMP346"]* Math.random())],
-                "SOEN341" : sectionList["SOEN341"][Math.floor(sectionList["SOEN341"]* Math.random())],
-                "SOEN331" : sectionList["SOEN331"][Math.floor(sectionList["SOEN331"]* Math.random())]
+                "COMP346" : sectionList["COMP346"][Math.floor(sectionList["COMP346"].length* Math.random())],
+                "SOEN341" : sectionList["SOEN341"][Math.floor(sectionList["SOEN341"].length* Math.random())],
+                "SOEN331" : sectionList["SOEN331"][Math.floor(sectionList["SOEN331"].length* Math.random())]
             };
 
             oldGeneration[index] = new individual(semester);
             oldGeneration[index].fitness= Math.floor(10* Math.random());
             console.log(oldGeneration[index].fitness+ " "+JSON.stringify(oldGeneration[index].semester));      
         }
-        function evaluateFitness(population){
+        function evaluateFitness(population)
+        {
 
             for (const key in population) {
                 if (population.hasOwnProperty(key)) {
@@ -73,7 +74,7 @@ describe( 'generation', function(){
         }
 
         // act
-        var newGeneration = generation(oldGeneration, evaluateFitness);
+        var newGeneration = generation(oldGeneration, evaluateFitness, sectionList);
         newGeneration.every(function(val)
         {
             console.log(val.fitness+ " "+JSON.stringify(val.semester));

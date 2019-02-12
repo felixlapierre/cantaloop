@@ -35,17 +35,8 @@ describe('survive', function(){
             }
         }
 
-        
         // act
         var newGeneration = survive(oldGeneration);
-        console.log("Survivors");
-        for ( var key in newGeneration)
-        {
-            if ( newGeneration.hasOwnProperty(key))
-            {
-                console.log(newGeneration[key].fitness+ " "+JSON.stringify(newGeneration[key].semester));
-            }
-        }
 
         // assert
         expect(newGeneration).to.satisfy( function(newGeneration){
