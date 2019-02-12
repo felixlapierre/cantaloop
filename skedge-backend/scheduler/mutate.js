@@ -9,14 +9,20 @@
 const individual = require('./individual.js');
 
 function mutate(parent, sectionList)
-{
-    var offspring = individual(parent.semester);
-
+{   
+    var offspring = new individual(JSON.parse(JSON.stringify(parent.semester)));
     var mutantCourse = parent.genome[Math.floor(parent.genome.length* Math.random())]; 
+
     var alleles = sectionList[mutantCourse];
     var newAllele = alleles[Math.floor(alleles.length* Math.random())];
-    offspring.semester[mutantCourse] = newAllele;
+
+    console.log("mutation:");
+    console.log(mutantCourse);
+    console.log(offspring.semester[mutantCourse]);
+    console.log(newAllele);
     
+    offspring.semester[mutantCourse] = newAllele;
+
     return offspring;
 }
 
