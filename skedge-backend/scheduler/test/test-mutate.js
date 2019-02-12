@@ -10,17 +10,22 @@ describe('mutate', function(){
             "SOEN341" : "SomeSectionA",
             "SOEN331" : "SomeSectionA"
         };
+        console.log(semester);
+
         var parent =individual(semester);
-        console.log("Semester"+ semester);
         
         var sectionList = {
             "COMP346" : ["SomeSectionA", "SomeSectionB", "SomeSectionC"],
             "SOEN341" : ["SomeSectionA", "SomeSectionB"],
             "SOEN331" : ["SomeSectionA", "SomeSectionB"]
         }
+        console.log(sectionList);
 
         //act
         var child = mutate(parent, sectionList);
+        console.log("child");
+        console.log(child.genome);
+        console.log(child.semester);
 
         //assert
         expect(child).to.satisfy(function(child){

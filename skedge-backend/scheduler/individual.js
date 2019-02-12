@@ -27,7 +27,6 @@ function individual(parentSemester)
             this.genome.push(key);
         }
     }
-    console.log("This semester"+ parentSemester);
     return this;
 }
 module.exports = individual;
