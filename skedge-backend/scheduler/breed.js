@@ -6,21 +6,22 @@
  * @returns an individual with a random mix of alleles of its parents
  */
 
-const individual = require('individual.js');
+const individual = require('./individual.js');
 
 function breed(parent1, parent2)
 {
-    var offpring = individual(parent1.semester);
+    var offspring = new individual(JSON.parse(JSON.stringify(parent1.semester)));
+
     for (const key in offspring.semester)
     {
         if (offspring.semester.hasOwnProperty(key)) 
         {
             if (Math.floor(2* Math.random())==1){
-                offpring.semester[key] = parent2.semester[key];
+                offspring.semester[key] = parent2.semester[key];
             }
         }
     }
-    return offpring;
+    return offspring;
 }
 
 module.exports = breed;
