@@ -10,6 +10,7 @@ const cullRate = 5; // TODO: change
 function survive( oldGeneration )
 {
     var newGeneration = [];
+
     for ( var key in oldGeneration)
     {
         if ( oldGeneration.hasOwnProperty(key))
@@ -20,6 +21,7 @@ function survive( oldGeneration )
              }
         }
     }
+    newGeneration.sort(function(a, b){return a.fitness - b.fitness});
     return newGeneration;
 }
 
