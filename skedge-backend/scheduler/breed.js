@@ -18,7 +18,6 @@ function breed(parent1, parent2)
             if (Math.floor(2* Math.random())==1){
                 offpring.semester[key] = parent2.semester[key];
             }
-            
         }
     }
     return offpring;
