@@ -21,7 +21,12 @@ function selectGenomes(courseRecord, courseSequence, semesters, courseMap)
     var ranks = rankCourses(courseSequence, courseMap);
 
     semesters.array.forEach(semester => {
-        
+        genomes[semester.season + " " + semester.year] = [];
+
+        for(var i = 0; i < ranks.length; i++)
+        {
+            
+        }
     });
     
 }
