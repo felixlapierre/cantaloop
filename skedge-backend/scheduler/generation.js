@@ -11,10 +11,10 @@ function generation(parentPopulation, evaluateFitness, sectionList)
     
     copySurvivorsToNewPopulation(survivors, this.population);
     performMutations(survivors, this.population, sectionList);
-    performBreeding(survivors, (POPULATIONLIMIT-this.population.length), this.population);
+    performBreeding(survivors, ( POPULATIONLIMIT - this.population.length ), this.population);
 
-    evaluateFitness(this.population);
-    this.population.sort(function(a, b){return a.fitness - b.fitness});
+    evaluateFitness( this.population );
+    this.population.sort(function(a, b) { return a.fitness - b.fitness });
     
     return this.population;
 }
@@ -45,7 +45,7 @@ function performBreeding(survivors, populationSize, population)
 {
     for (let i = 0; i < populationSize; i++)
     {
-        var child = breed(survivors[Math.floor(survivors.length* Math.random())],survivors[Math.floor(survivors.length* Math.random())]);
+        var child = breed(survivors[Math.floor(survivors.length* Math.random())], survivors[Math.floor(survivors.length* Math.random())]);
         population.push(child);
     }
 }
