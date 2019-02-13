@@ -21,27 +21,46 @@ function selectGenomes(courseRecord, courseSequence, semesters, courseMap)
     var ranks = rankCourses(courseSequence, courseMap);
 
     semesters.array.forEach(semester => {
-        genomes[semester.season + " " + semester.year] = [];
+        var genomeOfThisSemester = [];
 
         for(var i = 0; i < ranks.length; i++)
         {
+            var courseId = ranks[i];
+            //Skip class if already taken
+            if(courseStatus[courseId].valueOf() !== "Incomplete")
+                break;
+
+            //Are this class' prerequisites/corequisites taken/in progress?
+            var canTakeClass = CheckPrerequisitesCorequisitesTaken(courseId, courseStatus, courseMap);
             
+            if(canTakeClass)
+            {
+                genomeOfThisSemester.push(courseId);
+                courseStatus[courseId] = "In Progress";
+            }
         }
+
+        genomes[semester.season + " " + semester.year] = genomeOfThisSemester;
+
+        genomeOfThisSemester.forEach((courseId) => {
+            courseStatus[courseId] = "Complete";
+        });
     });
-    
+
+    return genomes;
 }
 
 function SetStatusOfCoursesTaken(courseRecord, courseStatus)
 {
     courseRecord.array.forEach(element => {
-        courseStatus[element] = "Taken";
+        courseStatus[element] = "Complete";
     });
 }
 
 function SetStatusOfUpcomingCourses(courseSequence, courseStatus)
 {
     courseSequence.array.forEach(element => {
-        courseStatus[element] = "Upcoming";
+        courseStatus[element] = "Incomplete";
     });
 }
 
@@ -64,13 +83,22 @@ function AddUpcomingCourseIfNotUpcoming(courseId, courseStatus, courseSequence)
 {
     if(courseStatus[courseId] === undefined)
     {
-        courseStatus[courseId] = "Upcoming";
+        courseStatus[courseId] = "Incomplete";
         courseSequence.push(courseId);
     }
 }
 
 function CheckPrerequisitesCorequisitesTaken(courseId, courseStatus, courseMap)
 {
+    courseMap[courseId].prerequisites.forEach((prereqId) => {
+        if(courseStatus[prereqId] !== "Complete")
+            return false;
+    });
 
+    courseMap[courseId].corequisites.forEach((coreqId) => {
+        if(courseStatus[coreqId] !== "Complete"
+            && courseStatus[coreqId] !== "In Progress");
+            return false;
+    });
 }
 module.exports = selectGenomes;
