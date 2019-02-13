@@ -6,21 +6,20 @@ describe('breed', function(){
     it('should create new offspring with random alleles from parents', function(){
         // arrange
         var semester1 = {
-            "COMP346" : "SomeSectionA",
-            "SOEN341" : "SomeSectionA",
-            "SOEN331" : "SomeSectionA"
+            "COMP346" : "A",
+            "SOEN341" : "A",
+            "SOEN331" : "A"
         };
         var semester2 = {
-            "COMP346" : "SomeSectionG",
-            "SOEN341" : "SomeSectionG",
-            "SOEN331" : "SomeSectionG"
+            "COMP346" : "G",
+            "SOEN341" : "G",
+            "SOEN331" : "G"
         };
         var parent1 = new individual(semester1);
         var parent2 = new individual(semester2);    
         
         // act
         var child = breed(parent1, parent2);
-        console.log(child.semester);
         
         // assert
         expect(child).to.satisfy(function(child){
