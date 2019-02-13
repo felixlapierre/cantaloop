@@ -9,58 +9,22 @@ var rankCourses = require('rank-courses');
  */
 function selectGenomes(courseRecord, courseSequence, semesters, courseMap)
 {
-    var genomes = [];
-
     //Status indicates, for every class, if student has taken, is taking, or will take (upcoming) class.
     var courseStatus = {};
 
-    SetStatusOfCoursesTaken(courseRecord, courseStatus);
-    SetStatusOfUpcomingCourses(courseSequence, courseStatus)
+    SetStatusesOfCourses(courseRecord, "Complete", courseStatus);
+    SetStatusesOfCourses(courseSequence, "Incomplete", courseStatus)
     AddMissingPrerequisitesCorequisitesToCourseSequence(courseSequence, courseMap, courseStatus);
 
     var ranks = rankCourses(courseSequence, courseMap);
 
-    semesters.array.forEach(semester => {
-        var genomeOfThisSemester = [];
-
-        for(var i = 0; i < ranks.length; i++)
-        {
-            var courseId = ranks[i];
-            //Skip class if already taken
-            if(courseStatus[courseId].valueOf() !== "Incomplete")
-                break;
-
-            //Are this class' prerequisites/corequisites taken/in progress?
-            var canTakeClass = CheckPrerequisitesCorequisitesTaken(courseId, courseStatus, courseMap);
-            
-            if(canTakeClass)
-            {
-                genomeOfThisSemester.push(courseId);
-                courseStatus[courseId] = "In Progress";
-            }
-        }
-
-        genomes[semester.season + " " + semester.year] = genomeOfThisSemester;
-
-        genomeOfThisSemester.forEach((courseId) => {
-            courseStatus[courseId] = "Complete";
-        });
-    });
-
-    return genomes;
+    return CreateGenomesForEachSemester(semesters, ranks, courseStatus, courseMap);
 }
 
-function SetStatusOfCoursesTaken(courseRecord, courseStatus)
+function SetStatusesOfCourses(courseList, newStatus, courseStatusMap)
 {
-    courseRecord.array.forEach(element => {
-        courseStatus[element] = "Complete";
-    });
-}
-
-function SetStatusOfUpcomingCourses(courseSequence, courseStatus)
-{
-    courseSequence.array.forEach(element => {
-        courseStatus[element] = "Incomplete";
+    courseList.array.forEach(courseId => {
+        courseStatusMap[courseId] = newStatus;
     });
 }
 
@@ -88,17 +52,56 @@ function AddUpcomingCourseIfNotUpcoming(courseId, courseStatus, courseSequence)
     }
 }
 
-function CheckPrerequisitesCorequisitesTaken(courseId, courseStatus, courseMap)
+function PrerequisitesCorequisitesTaken(courseId, courseStatus, courseMap)
 {
-    courseMap[courseId].prerequisites.forEach((prereqId) => {
+    courseMap[courseId].prerequisites.array.forEach((prereqId) => {
         if(courseStatus[prereqId] !== "Complete")
             return false;
     });
 
-    courseMap[courseId].corequisites.forEach((coreqId) => {
+    courseMap[courseId].corequisites.array.forEach((coreqId) => {
         if(courseStatus[coreqId] !== "Complete"
             && courseStatus[coreqId] !== "In Progress");
             return false;
     });
+}
+
+function CreateGenomesForEachSemester(semesters, courseRanks, courseStatus, courseMap)
+{
+    var genomes = {};
+
+    semesters.array.forEach(semester => {
+        var genomeOfThisSemester = [];
+        var creditsTakenSoFar = 0;
+
+        courseRanks.array.forEach(courseId => {
+            if(!CourseAlreadyTaken(courseId, courseStatus)
+                && PrerequisitesCorequisitesTaken(courseId, courseStatus, courseMap)
+                && CourseCreditsFitInSemester(courseId, creditsTakenSoFar, semester, courseMap))
+            {
+                genomeOfThisSemester.push(courseId);
+                courseStatus[courseId] = "In Progress";
+                creditsTakenSoFar += courseMap[courseId].credits;
+            }
+        })
+
+        genomes[semester.season + " " + semester.year] = genomeOfThisSemester;
+
+        genomeOfThisSemester.array.forEach((courseId) => {
+            courseStatus[courseId] = "Complete";
+        });
+    });
+
+    return genomes;
+}
+
+function CourseAlreadyTaken(courseId, courseStatus)
+{
+    return courseStatus[courseId] === "Complete";
+}
+
+function CourseCreditsFitInSemester(courseId, creditsTaken, semester, courseMap)
+{
+    return semester.credits - creditsTaken >= courseMap[courseId].credits;
 }
 module.exports = selectGenomes;
