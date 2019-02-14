@@ -1,5 +1,5 @@
-var rankCourses = require('rank-courses');
-import Requisites from "./requisites";
+var rankCourses = require('./rank-courses');
+var Requisites = require("./requisites");
 
 class GenomeSelector
 {
@@ -17,11 +17,11 @@ class GenomeSelector
     selectGenomes(courseRecord, courseSequence, semesters)
     {
         this.requisites = new Requisites(this.courseCatalog, courseRecord, courseSequence);
-        this.requisites.AddMissingPrerequisitesCorequisitesToCourseSequence(courseSequence);
+        this.requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
 
         var ranks = rankCourses(courseSequence, this.courseCatalog);
 
-        return CreateGenomesForEachSemester(semesters, ranks);
+        return this.CreateGenomesForEachSemester(semesters, ranks);
     }
 
     CreateGenomesForEachSemester(semesters, courseRanks)
@@ -55,7 +55,7 @@ class GenomeSelector
     {
         return !this.requisites.IsCourseComplete(courseId)
             && this.requisites.ArePrereqsAndCoreqsTaken(courseId)
-            && CourseCreditsFitInSemester(courseId, creditsSoFar, semester)
+            && this.CourseCreditsFitInSemester(courseId, creditsSoFar, semester)
     }
 
     CourseCreditsFitInSemester(courseId, creditsTaken, semester)
@@ -65,4 +65,4 @@ class GenomeSelector
 }
 
 
-module.exports = selectGenomes;
+module.exports = GenomeSelector;
