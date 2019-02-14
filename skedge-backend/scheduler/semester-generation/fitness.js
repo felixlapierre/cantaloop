@@ -47,20 +47,13 @@ function evaluateFitness(semester)
                     for (const key2 in semester[genome[j]]) {
 
                         if (semester[genome[j]].hasOwnProperty(key2)) {
-                            // console.log(genome[i]);
-                            // console.log(key);
-                            // console.log(genome[j]);
-                            // console.log(key2);
-                            var hold = overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
-                            // console.log(hold);
-                            fitness = fitness - hold;
+                            fitness = fitness - overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
                         }
                     }
                 }
             }
         }
     }
-    console.log(fitness);
     return fitness;
 }
 

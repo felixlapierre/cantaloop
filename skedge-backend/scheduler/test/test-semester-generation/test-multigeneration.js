@@ -87,7 +87,6 @@ describe( 'multigeneration', function(){
             newGeneration = temp;
         }
 
-        console.log("100th decendant");
         newGeneration.every(function(val)
         {     
             // console.log(val.fitness+ " "+JSON.stringify(val.semester));

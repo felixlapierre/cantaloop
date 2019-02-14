@@ -82,7 +82,7 @@ semester[4] = // GOOD
     }
 }
 
-describe('evalutate fitness', function(){
+describe('rankFitness', function(){
     it('should set fitness value for semester without conflicts', function(){
         // arrange
 

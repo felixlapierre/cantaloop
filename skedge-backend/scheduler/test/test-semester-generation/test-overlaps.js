@@ -6,8 +6,8 @@ classes[0] = { "time_start":"8:45","time_end":"10:00","days":"TuTh" };
 classes[1] = { "time_start":"9:45","time_end":"11:00","days":"TuTh" };
 classes[2] = { "time_start":"8:45","time_end":"10:00","days":"MoWe" };
 
-describe('evalutate overlaps', function(){
-    it('should assign a fitness value corresponding to full overlap', function(){
+describe('overlaps', function(){
+    it('should assign a fitness value corresponding to full double overlap', function(){
         // arrange
 
         // act
@@ -24,14 +24,13 @@ describe('evalutate overlaps', function(){
 
         // act
         var overlapAmount = overlap(classes[0], classes[1]);
-        console.log(overlapAmount);
+
         // assert
         expect(overlapAmount).to.satisfy(function(overlapAmount){
             return overlapAmount > 0;
         });
 
     });
-
     it('should assign a fitness value corresponding to no overlap', function(){
         // arrange
 
