@@ -4,7 +4,7 @@ var Status = {
     Incomplete = "Incomplete"
 }
 
-class RequisiteCourseHandler
+class Requisites
 {
     constructor(courseCatalog, courseRecord, courseSequence)
     {
@@ -50,20 +50,35 @@ class RequisiteCourseHandler
     {
         //Return false as soon as an untaken prerequisite or corequisite is found
         this.catalog[courseId].prerequisites.array.forEach((prereqId) => {
-            if(this.status[prereqId] !== "Complete")
+            if(!IsCourseComplete(courseId))
                 return false;
         });
 
         this.catalog[courseId].corequisites.array.forEach((coreqId) => {
-            if(this.status[coreqId] !== "Complete"
-                && this.status[coreqId] !== "In Progress");
+            if(!IsCourseComplete(courseId)
+                && !IsCourseInProgress(courseId));
                 return false;
         });
     }
 
-    CourseAlreadyTaken(courseId)
+    IsCourseComplete(courseId)
     {
-        return this.status[courseId] === "Complete";
+        return this.status[courseId] === Status.Complete;
+    }
+
+    IsCourseInProgress(courseId)
+    {
+        return this.status[courseId] === Status.InProgress;
+    }
+
+    SetCourseInProgress(courseId)
+    {
+        this.status[courseId] = Status.InProgress;
+    }
+
+    SetCourseComplete(courseId)
+    {
+        this.status[courseId] = Status.Complete;
     }
 }
 

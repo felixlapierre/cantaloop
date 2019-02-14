@@ -1,4 +1,5 @@
 var rankCourses = require('rank-courses');
+import Requisites from "./requisites";
 
 class GenomeSelector
 {
@@ -15,18 +16,15 @@ class GenomeSelector
      */
     selectGenomes(courseRecord, courseSequence, semesters)
     {
-        //Status indicates, for every class, if student has taken, is taking, or will take (upcoming) class.
-        var courseStatus = {};
-
-
-        AddMissingPrerequisitesCorequisitesToCourseSequence(courseSequence, this.courseCatalog, courseStatus);
+        this.requisites = new Requisites(this.courseCatalog, courseRecord, courseSequence);
+        this.requisites.AddMissingPrerequisitesCorequisitesToCourseSequence(courseSequence);
 
         var ranks = rankCourses(courseSequence, this.courseCatalog);
 
-        return CreateGenomesForEachSemester(semesters, ranks, courseStatus, this.courseCatalog);
+        return CreateGenomesForEachSemester(semesters, ranks);
     }
 
-    CreateGenomesForEachSemester(semesters, courseRanks, courseStatus)
+    CreateGenomesForEachSemester(semesters, courseRanks)
     {
         var genomes = {};
 
@@ -35,12 +33,10 @@ class GenomeSelector
             var creditsTakenSoFar = 0;
 
             courseRanks.array.forEach(courseId => {
-                if(!CourseAlreadyTaken(courseId, courseStatus)
-                    && PrerequisitesCorequisitesTaken(courseId, courseStatus)
-                    && CourseCreditsFitInSemester(courseId, creditsTakenSoFar, semester))
+                if(this.ClassCanBeTaken(courseId, creditsTakenSoFar, semester))
                 {
                     genomeOfThisSemester.push(courseId);
-                    courseStatus[courseId] = "In Progress";
+                    this.requisites.SetCourseInProgress(courseId);
                     creditsTakenSoFar += this.courseCatalog[courseId].credits;
                 }
             })
@@ -48,16 +44,18 @@ class GenomeSelector
             genomes[semester.season + " " + semester.year] = genomeOfThisSemester;
 
             genomeOfThisSemester.array.forEach((courseId) => {
-                courseStatus[courseId] = "Complete";
+                this.requisites.SetCourseComplete(courseId);
             });
         });
 
         return genomes;
     }
 
-    CourseAlreadyTaken(courseId, courseStatus)
+    ClassCanBeTaken(courseId, creditsSoFar, semester)
     {
-        return courseStatus[courseId] === "Complete";
+        return !this.requisites.IsCourseComplete(courseId)
+            && this.requisites.ArePrereqsAndCoreqsTaken(courseId)
+            && CourseCreditsFitInSemester(courseId, creditsSoFar, semester)
     }
 
     CourseCreditsFitInSemester(courseId, creditsTaken, semester)
