@@ -30,13 +30,12 @@
         };
 
 */
-const individual = require('individual.js');
-const overlaps = require('overlap.js');
+const overlaps = require('./overlaps.js');
 
 function evaluateFitness(semester)
 {
-    var genome = semester.keys(semster);
-    var fitness = 100;
+    var genome = Object.keys(semester);
+    var fitness = 1440;
 
     for (let i = 0; i < genome.length; i++) {
         for (let j = (i + 1); j < genome.length; j++) {
@@ -48,14 +47,20 @@ function evaluateFitness(semester)
                     for (const key2 in semester[genome[j]]) {
 
                         if (semester[genome[j]].hasOwnProperty(key2)) {
-                            fitness = fitness-overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
-                            
+                            // console.log(genome[i]);
+                            // console.log(key);
+                            // console.log(genome[j]);
+                            // console.log(key2);
+                            var hold = overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
+                            // console.log(hold);
+                            fitness = fitness - hold;
                         }
                     }
                 }
             }
         }
     }
+    console.log(fitness);
     return fitness;
 }
 
