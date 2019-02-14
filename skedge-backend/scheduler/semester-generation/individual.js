@@ -11,7 +11,7 @@
 *   };
 *
 * @param {*} parentSemester object with the courses and alleles that the individual will be made with
-* @returns an individual with one allele different than the parent
+* @returns an individual with the same alleles as the parent
 */
 
 function individual(parentSemester)
