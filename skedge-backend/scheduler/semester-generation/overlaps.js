@@ -9,20 +9,19 @@
 
 function overlaps(class1, class2)
 {
-    var c1startTime = class1.time_start.split(":");
-    var c2startTime = class2.time_start.split(":");
-    var c1endTime = class1.time_end.split(":");
-    var c2endTime = class2.time_end.split(":");
-
-    var multipleOverlap = 1;
-
-    if ( class1.days.length == 3 || class1.days.length == 3) {// "TBD"
+    if ( class1.days.length == 3 || class2.days.length == 3) {// "TBD"
         return 0;
     }
 
     if (!(class1.days.includes(class2.days) || class2.days.includes(class1.days))) {
         return 0; // no days in common
     }
+    var c1startTime = class1.time_start.split(":");
+    var c2startTime = class2.time_start.split(":");
+    var c1endTime = class1.time_end.split(":");
+    var c2endTime = class2.time_end.split(":");
+    var multipleOverlap = 1;
+
     if ( class1.days.length == 4 && class1.days.valueOf() ==  class2.days.valueOf()) // 2 days in common
     {
         multipleOverlap = 2;

@@ -1,5 +1,7 @@
 var expect = require('chai').expect;
-var fitness = require("../../semester-generation/fitness.js");
+var rankGeneration = require("../../semester-generation/fitness.js").rankGeneration;
+var individual = require("../../semester-generation/individual.js");
+
 var semester = [];
 semester[0] = // pure single conflict
 {
@@ -16,7 +18,7 @@ semester[0] = // pure single conflict
         "LEC" : { "time_start":"8:45","time_end":"10:00","days":"MoWe" },
         "TUT" : { "time_start":"14:45","time_end":"16:00","days":"Fr" } //conflict
     }
-}
+};
 semester[1] = // pure double conflict
 {
     "COMP346" : {
@@ -32,7 +34,7 @@ semester[1] = // pure double conflict
         "LEC" : { "time_start":"8:45","time_end":"10:00","days":"MoWe" },
         "TUT" : { "time_start":"14:45","time_end":"16:00","days":"Mo" } 
     }
-}
+};
 semester[2] = // partial single conflict
 {
     "COMP346" : {
@@ -48,7 +50,7 @@ semester[2] = // partial single conflict
         "LEC" : { "time_start":"8:45","time_end":"10:00","days":"MoWe" },
         "TUT" : { "time_start":"14:45","time_end":"16:00","days":"Fr" } //conflict 
     }
-}
+};
 semester[3] = // partial double conflict
 {
     "COMP346" : {
@@ -64,7 +66,7 @@ semester[3] = // partial double conflict
         "LEC" : { "time_start":"8:45","time_end":"10:00","days":"MoWe" },
         "TUT" : { "time_start":"14:45","time_end":"16:00","days":"Mo" } 
     }
-}
+};
 semester[4] = // GOOD
 {
     "COMP346" : {
@@ -80,71 +82,33 @@ semester[4] = // GOOD
         "LEC" : { "time_start":"8:45","time_end":"10:00","days":"MoWe" },
         "TUT" : { "time_start":"14:45","time_end":"16:00","days":"Mo" } 
     }
-}
+};
 
-describe('rankFitness', function(){
-    it('should set fitness value for semester without conflicts', function(){
+describe('rankGeneration', function(){
+    it('should set a fitness for all members in a generation', function(){
+      
         // arrange
+        var generation = [];
+        for (let i = 0; i < 4; i++) {
+            generation[i] = new individual(semester[0]);
+            generation[i+4] = new individual(semester[1]);
+            generation[i+8] = new individual(semester[2]);
+            generation[i+12] = new individual(semester[3]);
+            generation[i+16] = new individual(semester[4]);
+            
+        }
+        console.log(generation.length);
 
         // act
-        var fitnessRank = fitness(semester[4]);
+        rankGeneration(generation);  
 
         // assert
-        expect(fitnessRank).to.satisfy(function(fitnessRank){
-            return fitnessRank == 1440;
+        expect(generation).to.satisfy( function(generation ){
+            return generation.every(function(val){
+                    return val.hasOwnProperty("fitness");         
+            });
         });
 
-    });
-
-    it('should set fitness value for semester with pure single conflict', function(){
-        // arrange
-
-        // act
-        var fitnessRank = fitness(semester[0]);
-
-        // assert
-        expect(fitnessRank).to.satisfy(function(fitnessRank){
-            return fitnessRank == 1365;
-        });
 
     });
-    
-    it('should set fitness value for semester with pure double conflict', function(){
-        // arrange
-
-        // act
-        var fitnessRank = fitness(semester[1]);
-
-        // assert
-        expect(fitnessRank).to.satisfy(function(fitnessRank){
-            return fitnessRank == 1290;
-        });
-
-    });
-
-    it('should set fitness value for semester with partial single conflict', function(){
-        // arrange
-        // act
-        var fitnessRank = fitness(semester[2]);
-
-        // assert
-        expect(fitnessRank).to.satisfy(function(fitnessRank){
-            return fitnessRank == 1425;
-        });
-
-    });
-
-    it('should set fitness value for semester with partial double conflict', function(){
-        // arrange
-
-        // act
-        var fitnessRank = fitness(semester[3]);
-
-        // assert
-        expect(fitnessRank).to.satisfy(function(fitnessRank){
-            return fitnessRank == 1410;
-        });
-
-    });
-
 });

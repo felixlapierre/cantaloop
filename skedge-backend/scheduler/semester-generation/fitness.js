@@ -57,4 +57,20 @@ function evaluateFitness(semester)
     return fitness;
 }
 
-module.exports = evaluateFitness;
+/**
+ * assigns a rank to all individuals of a generation
+ * uses evaluateFitness
+ * 
+ * @param {*} generation 
+ */
+function rankGeneration(generation){
+    for (const key in generation) {
+        if (generation.hasOwnProperty(key)) {
+            generation[key].fitness = evaluateFitness(generation[key].semester);
+        }
+    }
+}
+
+
+module.exports.evaluateFitness = evaluateFitness;
+module.exports.rankGeneration = rankGeneration;
