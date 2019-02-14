@@ -4,7 +4,10 @@
   "description": "skedge",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "tests": "npm run scheduler-tests",
+    "scheduler-tests": "mocha scheduler --recursive",
+    "scheduler-unit-tests": "mocha scheduler/test --recursive",
+    "scheduler-integration-tests": "mocha scheduler/integration-test --recursive"
   },
   "repository": {
     "type": "git",
