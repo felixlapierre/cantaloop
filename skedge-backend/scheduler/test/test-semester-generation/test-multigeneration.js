@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var individual = require("../../individual.js");
-var generation = require("../../generation.js");
+var individual = require("../../semester-generation/individual.js");
+var generation = require("../../semester-generation/generation.js");
 
 
 
