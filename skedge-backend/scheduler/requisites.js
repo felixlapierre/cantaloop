@@ -1,7 +1,7 @@
 var Status = {
     Complete: "Complete",
     InProgress: "In Progress",
-    Incomplete = "Incomplete"
+    Incomplete: "Incomplete"
 }
 
 class Requisites
@@ -18,7 +18,7 @@ class Requisites
 
     SetStatusesOfCourses(courseList, newStatus)
     {
-        courseList.array.forEach(courseId => {
+        courseList.forEach(courseId => {
             this.status[courseId] = newStatus;
         });
     }
@@ -28,37 +28,38 @@ class Requisites
         //Regular for loop since course sequence will be extended
         for(var i = 0; i < courseSequence.length; i++)
         {
-            this.catalog[courseSequence[i]].prerequisites.array.forEach(courseId => {
-                if(status[courseId] === undefined)
+            this.catalog[courseSequence[i]].prerequisites.forEach(courseId => {
+                if(this.status[courseId] === undefined)
                 {
-                    status[courseId] = "Incomplete";
+                    this.status[courseId] = "Incomplete";
                     courseSequence.push(courseId);
                 }
             });
 
-            this.catalog[courseSequence[i]].corequisites.array.forEach(courseId => {
-                if(status[courseId] === undefined)
+            this.catalog[courseSequence[i]].corequisites.forEach(courseId => {
+                if(this.status[courseId] === undefined)
                 {
-                    status[courseId] = "Incomplete";
+                    this.status[courseId] = "Incomplete";
                     courseSequence.push(courseId);
                 }            
             });
         }
     }
 
-    CoursePrereqsAndCoreqsTaken(courseId)
+    ArePrereqsAndCoreqsTaken(courseId)
     {
         //Return false as soon as an untaken prerequisite or corequisite is found
-        this.catalog[courseId].prerequisites.array.forEach((prereqId) => {
-            if(!IsCourseComplete(courseId))
-                return false;
-        });
+        if(!this.catalog[courseId].prerequisites.every(prereqId => {
+            return this.IsCourseComplete(prereqId);
+        }))
+            return false;
 
-        this.catalog[courseId].corequisites.array.forEach((coreqId) => {
-            if(!IsCourseComplete(courseId)
-                && !IsCourseInProgress(courseId));
-                return false;
-        });
+        if(!this.catalog[courseId].corequisites.every(coreqId => {
+            return this.IsCourseComplete(coreqId) || this.IsCourseInProgress(coreqId);
+        }))
+            return false;
+
+        return true;
     }
 
     IsCourseComplete(courseId)
@@ -82,5 +83,4 @@ class Requisites
     }
 }
 
-
-
+module.exports = Requisites;

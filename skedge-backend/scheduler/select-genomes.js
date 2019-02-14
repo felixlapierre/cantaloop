@@ -28,11 +28,11 @@ class GenomeSelector
     {
         var genomes = {};
 
-        semesters.array.forEach(semester => {
+        semesters.forEach(semester => {
             var genomeOfThisSemester = [];
             var creditsTakenSoFar = 0;
 
-            courseRanks.array.forEach(courseId => {
+            courseRanks.forEach(courseId => {
                 if(this.ClassCanBeTaken(courseId, creditsTakenSoFar, semester))
                 {
                     genomeOfThisSemester.push(courseId);
@@ -43,7 +43,7 @@ class GenomeSelector
 
             genomes[semester.season + " " + semester.year] = genomeOfThisSemester;
 
-            genomeOfThisSemester.array.forEach((courseId) => {
+            genomeOfThisSemester.forEach((courseId) => {
                 this.requisites.SetCourseComplete(courseId);
             });
         });
