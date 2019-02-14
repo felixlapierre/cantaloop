@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var mutate = require("../mutate.js");
-var individual = require("../individual.js");
+var mutate = require("../../semester-generation/mutate.js");
+var individual = require("../../semester-generation/individual.js");
 
 describe('mutate', function(){
     it('should create new offspring with different allele', function(){
