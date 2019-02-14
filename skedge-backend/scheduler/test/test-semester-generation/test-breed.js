@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var breed = require("../breed.js");
-var individual = require("../individual.js");
+var breed = require("../../semester-generation/breed.js");
+var individual = require("../../semester-generation/individual.js");
 
 describe('breed', function(){
     it('should create new offspring with random alleles from parents', function(){

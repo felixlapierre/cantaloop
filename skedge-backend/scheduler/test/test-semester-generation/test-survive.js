@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var individual = require("../individual.js");
-var survive = require("../survive.js");
+var individual = require("../../semester-generation/individual.js");
+var survive = require("../../semester-generation/survive.js");
 
 
 describe('survive', function(){
