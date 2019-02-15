@@ -97,7 +97,6 @@ describe('rankGeneration', function(){
             generation[i+16] = new individual(semester[4]);
             
         }
-        console.log(generation.length);
 
         // act
         rankGeneration(generation);  
