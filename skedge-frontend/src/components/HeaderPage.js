@@ -14,7 +14,7 @@ class HeaderPage extends Component {
       <div id='headerPage'>
         <img id='pageHeaderLogo' src={logo} width="50px" height="50px"/>
         <div id='pageHeaderTitle'>Skedge</div>
-        <Icon circular name='users'/>
+        <Icon id='pageHeaderUserIcon' name='user' size='big'/>
       </div>
     );
   }

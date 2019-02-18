@@ -48,12 +48,8 @@ class Skedge extends Component {
       <div id='landingPage'>
         <h1>Welcome to Skedge</h1>
         <Form id='loginForm'>
-          <Form.Field id='userNameBox'>
-            <input placeholder='UserName' />
-          </Form.Field>
-          <Form.Field>
-            <input placeholder='Password' />
-          </Form.Field>
+          <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' />
+          <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'/>
           <Form.Group>
             <Button onClick={this.handleLogin} id='loginButton'>Login</Button>
             <Button onClick={this.handleRegister} id='registerButton'>Register</Button>

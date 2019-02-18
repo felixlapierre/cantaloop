@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
+import 'semantic-ui-css/semantic.min.css';
 import Skedge from './components/Skedge';
 import ScheduleBuilderPage from './components/ScheduleBuilderPage';
 import * as serviceWorker from './serviceWorker';

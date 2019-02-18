@@ -11,3 +11,7 @@
 #pageHeaderTitle {
   display: inline-block;
 }
+
+#pageHeaderUserIcon {
+  float: right;
+}
