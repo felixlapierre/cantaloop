@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import '../styles/Skedge.css';
+import '../styles/LandingPage.css';
 import axios from 'axios';
 import {Button, Checkbox, Form} from 'semantic-ui-react';
 
-//Skedge App class
+//LandingPage App class
 //Renders the landing page and login form
-class Skedge extends Component {
+class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = { value: ''};
@@ -61,4 +61,4 @@ class Skedge extends Component {
   }
 }
 
-export default Skedge;
+export default LandingPage;
