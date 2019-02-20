@@ -10,6 +10,9 @@
 
 #pageHeaderTitle {
   display: inline-block;
+  font-size: 40px;
+  font-family: impact, fantasy, monospace;
+  font-weight: bold;
 }
 
 #pageHeaderUserIcon {
