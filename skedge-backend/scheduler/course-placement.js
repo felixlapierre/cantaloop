@@ -1,7 +1,7 @@
 var rankCourses = require('./rank-courses');
 var Requisites = require("./requisites");
 
-class GenomeSelector
+class CoursePlacer
 {
     constructor(courseCatalog)
     {
@@ -9,46 +9,46 @@ class GenomeSelector
     }
 
     /**
-     * Selects the genome for each semester. Assumes start of Fall 2017
+     * Selects the placement for each semester. Assumes start of Fall 2017
      * @param {*} courseRecord An array of strings representing the courses already taken
      * @param {*} courseSequence An array of strings representing the courses to be taken
      * @param {*} semesters An array containing objects with properties 'season' and 'year' indicating the sequence of semesters to be taken and their credits
      */
-    selectGenomes(courseRecord, courseSequence, semesters)
+    placeCourses(courseRecord, courseSequence, semesters)
     {
         this.requisites = new Requisites(this.courseCatalog, courseRecord, courseSequence);
         this.requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
 
         var ranks = rankCourses(courseSequence, this.courseCatalog);
 
-        return this.CreateGenomesForEachSemester(semesters, ranks);
+        return this.PlaceCoursesForEachSemester(semesters, ranks);
     }
 
-    CreateGenomesForEachSemester(semesters, courseRanks)
+    PlaceCoursesForEachSemester(semesters, courseRanks)
     {
-        var genomes = {};
+        var placements = {};
 
         semesters.forEach(semester => {
-            var genomeOfThisSemester = [];
+            var placementOfThisSemester = [];
             var creditsTakenSoFar = 0;
 
             courseRanks.forEach(courseId => {
                 if(this.ClassCanBeTaken(courseId, creditsTakenSoFar, semester))
                 {
-                    genomeOfThisSemester.push(courseId);
+                    placementOfThisSemester.push(courseId);
                     this.requisites.SetCourseInProgress(courseId);
                     creditsTakenSoFar += this.courseCatalog[courseId].credits;
                 }
             })
 
-            genomes[semester.season + " " + semester.year] = genomeOfThisSemester;
+            placements[semester.season + " " + semester.year] = placementOfThisSemester;
 
-            genomeOfThisSemester.forEach((courseId) => {
+            placementOfThisSemester.forEach((courseId) => {
                 this.requisites.SetCourseComplete(courseId);
             });
         });
 
-        return genomes;
+        return placements;
     }
 
     ClassCanBeTaken(courseId, creditsSoFar, semester)
@@ -65,4 +65,4 @@ class GenomeSelector
 }
 
 
-module.exports = GenomeSelector;
+module.exports = CoursePlacer;

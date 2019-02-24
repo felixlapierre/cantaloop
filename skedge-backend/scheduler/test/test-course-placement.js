@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var GenomeSelector = require("../genome-selector");
+var CoursePlacer = require("../course-placement");
 
 var someCatalog = {
     "BasicClassA": {
@@ -34,23 +34,23 @@ var someSemesters = [
     {"year": 2019, "season": "winter"}
 ]
 
-describe('selectGenomes', () => {
-    it('should create empty genomes if no courses are selected', () => {
+describe('placeCourses', () => {
+    it('should create empty placements if no courses are selected', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = [];
 
-        var genomeSelector = new GenomeSelector(someCatalog);
+        var coursePlacer = new CoursePlacer(someCatalog);
 
         //Act
-        var genomes = genomeSelector.selectGenomes(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
 
         //Assert
-        for(var key in genomes)
+        for(var key in placements)
         {
-            if(genomes.hasOwnProperty(key))
+            if(placements.hasOwnProperty(key))
             {
-                expect(genomes[key]).to.be.empty;
+                expect(placements[key]).to.be.empty;
             }
         }
     })
@@ -63,14 +63,14 @@ describe('selectGenomes', () => {
         someSemesters[0].credits = 2;
         someSemesters[1].credits = 2;
 
-        var genomeSelector = new GenomeSelector(someCatalog);
+        var coursePlacer = new CoursePlacer(someCatalog);
 
         //Act
-        var genomes = genomeSelector.selectGenomes(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
 
         //Assert
-        expect(genomes["fall 2018"]).to.include.members(["BasicClassB"])
-        expect(genomes["winter 2019"]).to.include.members(["HasClassBPrerequisite"]);
+        expect(placements["fall 2018"]).to.include.members(["BasicClassB"])
+        expect(placements["winter 2019"]).to.include.members(["HasClassBPrerequisite"]);
     })
 
     it('should place a course with its corequisite if possible', () => {
@@ -80,13 +80,13 @@ describe('selectGenomes', () => {
         someSemesters[0].credits = 2;
         someSemesters[1].credits = 2;
 
-        var genomeSelector = new GenomeSelector(someCatalog);
+        var coursePlacer = new CoursePlacer(someCatalog);
 
         //Act
-        var genomes = genomeSelector.selectGenomes(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
 
         //Assert
-        expect(genomes['fall 2018']).to.include.members(["HasClassACorequisite", "BasicClassA"]);
+        expect(placements['fall 2018']).to.include.members(["HasClassACorequisite", "BasicClassA"]);
     })
 
     it('should prioritize taking a class that is prerequisite to another', () => {
@@ -97,13 +97,13 @@ describe('selectGenomes', () => {
         someSemesters[0].credits = 3;
         someSemesters[1].credits = 5;
 
-        var genomeSelector = new GenomeSelector(someCatalog);
+        var coursePlacer = new CoursePlacer(someCatalog);
 
         //Act
-        var genomes = genomeSelector.selectGenomes(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
 
         //Assert
-        expect(genomes['fall 2018']).to.include.members(['BasicClassB']);
+        expect(placements['fall 2018']).to.include.members(['BasicClassB']);
     })
 
     //Should place courses if their prereqs/coreqs are in the course record
