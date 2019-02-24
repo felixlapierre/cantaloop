@@ -26,12 +26,18 @@ var someCatalog = {
         "prerequisites": ["BasicClassB"],
         "corequisites": [],
         "credits": 2
+    },
+    "HasClassBPrereqClassCCoreq": {
+        "prerequisites": ["BasicClassB"],
+        "corequisites": ["BasicClassC"],
+        "credits": 2
     }
 }
 
 var someSemesters = [
     {"year": 2018, "season": "fall"},
-    {"year": 2019, "season": "winter"}
+    {"year": 2019, "season": "winter"},
+    {"year": 2019, "season": "fall"}
 ]
 
 describe('placeCourses', () => {
@@ -69,8 +75,8 @@ describe('placeCourses', () => {
         var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
 
         //Assert
-        expect(placements["fall 2018"]).to.include.members(["BasicClassB"])
-        expect(placements["winter 2019"]).to.include.members(["HasClassBPrerequisite"]);
+        var checker = new CourseChecker(placements);
+        checker.isTakenBefore("BasicClassB", "HasClassBPrerequisite");
     })
 
     it('should place a course with its corequisite if possible', () => {
@@ -86,7 +92,8 @@ describe('placeCourses', () => {
         var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
 
         //Assert
-        expect(placements['fall 2018']).to.include.members(["HasClassACorequisite", "BasicClassA"]);
+        var checker = new CourseChecker(placements);
+        checker.isTakenWith("BasicClassA", "HasClassACorequisite");
     })
 
     it('should prioritize taking a class that is prerequisite to another', () => {
@@ -106,5 +113,57 @@ describe('placeCourses', () => {
         expect(placements['fall 2018']).to.include.members(['BasicClassB']);
     })
 
-    //Should place courses if their prereqs/coreqs are in the course record
+    it("Should place a course after its prerequisite and corequisite.", () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["HasClassBPrereqClassCCoreq", "BasicClassB", "BasicClassC"];
+
+        someSemesters[0].credits = 4; //So there is possibility to put the class with dependencies in first semester
+        someSemesters[1].credits = 5;
+
+        var coursePlacer = new CoursePlacer(someCatalog);
+
+        //Act
+        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
+
+        //Assert
+        var checker = new CourseChecker(placements);
+        checker.isTakenBefore("BasicClassB", "HasClassBPrereqClassCCoreq");
+        checker.isTakenWith("BasicClassC", "HasClassBPrereqClassCCoreq");
+    })
+
+    //Check with classes in course record
 })
+
+class CourseChecker
+{
+    
+    constructor(placements)
+    {
+        this.order = {};
+        var semesters = ['fall 2018', 'winter 2019', 'fall 2019'];
+        
+        for(var i = 0; i < semesters.length; i++)
+        {
+            var semester = semesters[i];
+            placements[semester].forEach(courseId => {
+                this.order[courseId] = i;
+            });
+        }
+    }
+
+    isTakenBefore(courseTakenBefore, courseTakenAfter)
+    {
+        expect(this.order[courseTakenAfter] > this.order[courseTakenBefore],
+            courseTakenBefore + " should be taken before " + courseTakenAfter)
+            .to.be.true;
+    }
+
+    isTakenWith(courseOne, courseTwo)
+    {
+        expect(this.order[courseOne] == this.order[courseTwo], 
+            courseOne + " should be taken with " + courseTwo)
+            .to.be.true;
+    }
+
+}
