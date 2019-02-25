@@ -16,7 +16,7 @@ class App extends Component {
 
   handleSubmit(){
     console.log('Request Sending, ' + this.state.value);
-    axios.put('http://localhost:4200/prototype', {"name": this.state.value})
+    axios.put('/prototype', {"name": this.state.value})
     .then(res => {
         this.setState({name: "works"});
         console.log(res);

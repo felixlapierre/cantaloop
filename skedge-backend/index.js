@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser');
+const path = require('path');
 const cors = require('cors');
 const app = express();
 const database_service = require('./database-service');
@@ -14,13 +15,12 @@ app.use(cors());
 // Using bodyParser.json() to automatically parse the body of 
 // incoming requests.
 app.use(bodyParser.json());
+// Using express.static to serve the React frontend at root.
+app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
 
  ///////////////////
 // Express Enpoints
-
-// Simple hello word GET endpoint at the root
-app.get('/', (req, res) => res.send('Hello World!'));
 
 // prototype endpoint
 app.put('/prototype', (req, res) => {
