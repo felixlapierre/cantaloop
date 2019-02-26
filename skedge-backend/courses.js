@@ -17,6 +17,7 @@ for (var i=0; i<classes.length; i++){
 	myData = callWebAPI(classes[i].substring(0,4), classes[i].substring(5));
 	filteredJSON = retrieveLastThreeSemesterData(JSON.parse(myData), {classStartDate: '07/01/2019'});
 	console.log(removeUnwantedAttributes(filteredJSON));
+	//putCoursesInDatabase(removeUnwantedAttributes(filteredJSON));
 }
 
 function callWebAPI(subject, catalog){
@@ -40,25 +41,32 @@ function retrieveLastThreeSemesterData(myObject, myCriteria){
 
 }
 
-function removeUnwantedAttributes (filtered_json){
-	for (var elements in filtered_json){
-		delete filtered_json[elements].courseID;
-		delete filtered_json[elements].termCode;
-		delete filtered_json[elements].componentDescription;
-		delete filtered_json[elements].classNumber;
-		delete filtered_json[elements].classAssociation;
-		delete filtered_json[elements].topicID;
-		delete filtered_json[elements].topicDescription;
-		delete filtered_json[elements].classStatus;
-		delete filtered_json[elements].departmentCode;
-		delete filtered_json[elements].departmentDescription;
-		delete filtered_json[elements].facultyCode;
-		delete filtered_json[elements].facultyDescription;
-		delete filtered_json[elements].currentEnrollment;
-		delete filtered_json[elements].waitlistCapacity;
-		delete filtered_json[elements].currentWaitlistTotal;
-		delete filtered_json[elements].hasSeatReserved;
+function removeUnwantedAttributes (filteredJSON){
+	for (var elements in filteredJSON){
+		delete filteredJSON[elements].courseID;
+		delete filteredJSON[elements].termCode;
+		delete filteredJSON[elements].componentDescription;
+		delete filteredJSON[elements].classNumber;
+		delete filteredJSON[elements].classAssociation;
+		delete filteredJSON[elements].topicID;
+		delete filteredJSON[elements].topicDescription;
+		delete filteredJSON[elements].classStatus;
+		delete filteredJSON[elements].departmentCode;
+		delete filteredJSON[elements].departmentDescription;
+		delete filteredJSON[elements].facultyCode;
+		delete filteredJSON[elements].facultyDescription;
+		delete filteredJSON[elements].currentEnrollment;
+		delete filteredJSON[elements].waitlistCapacity;
+		delete filteredJSON[elements].currentWaitlistTotal;
+		delete filteredJSON[elements].hasSeatReserved;
 	}
 	
-	return filtered_json;
+	return filteredJSON;
+}
+
+function putCoursesInDatabase(filteredJSON){
+	//possible actions
+	//1. delete current collection with all the courses
+	//2. reformat the multiple jsons into one
+	//3. put json object in database
 }
