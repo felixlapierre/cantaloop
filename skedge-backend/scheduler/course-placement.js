@@ -7,21 +7,10 @@ class CoursePlacer
     }
 
     /**
-     * TODO: Remove once this code has been moved to scheduler.js
-     * @param {*} courseRecord An array of strings representing the courses already taken
-     * @param {*} courseSequence An array of strings representing the courses to be taken
-     * @param {*} semesters An array containing objects with properties 'season' and 'year' indicating the sequence of semesters to be taken and their credits
+     * Select which courses will be taken in which semesters
+     * @param {Array<Semester>} semesters Semesters in which classes will be taken, sorted in chronological ascending order.
+     * @param {Array<String>} courseRanks Course IDs to be taken, sorted by priority of prerequisite, corequisite
      */
-    // placeCourses(courseRecord, courseSequence, semesters)
-    // {
-    //     this.requisites = new Requisites(this.courseCatalog, courseRecord, courseSequence);
-    //     this.requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
-
-    //     var ranks = rankCourses(courseSequence, this.courseCatalog);
-
-    //     return this.PlaceCoursesForEachSemester(semesters, ranks);
-    // }
-
     PlaceCourses(semesters, courseRanks)
     {
         var placements = {};
