@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var individual = require("../semester-generation/individual.js");
-var generation = require("../semester-generation/generation.js");
+var generation = require("../semester-generation/generation.js").generation;
 
 
 
@@ -74,7 +74,7 @@ describe( 'generation', function(){
         evaluateFitness(oldGeneration);
 
         // act
-        var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList);
+        var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList, 20);
         
         // assert
         expect(newGeneration).to.satisfy( function(newGeneration){
