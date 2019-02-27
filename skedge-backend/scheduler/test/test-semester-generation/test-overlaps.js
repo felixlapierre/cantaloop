@@ -10,58 +10,56 @@ classes[4] = { "time_start":"9:45", "time_end":"11:00","days":"Tu" };   // parti
 classes[5] = { "time_start":"0:00", "time_end":"00:00","days":"TBD" };  // online
 classes[6] = { "time_start":"10:15","time_end":"11:30","days":"Tu" };   // single same day no
 
-describe('overlaps', function(){
-    
+describe('overlaps', function() {
+
     it('should assign no value for online course overlap', function(){
-        // arrange
+        // Arrange
+        var someClass = classes[0];
+        var someClassThatIsOnline = classes[5];
 
-        // act
-        var overlapAmount = overlap(classes[0], classes[5]);
+        // Act
+        var overlapAmount = overlap(someClass, someClassThatIsOnline);
 
-        // assert
-        expect(overlapAmount).to.satisfy(function(overlapAmount){
-            return overlapAmount == 0;
-        });
-
+        // Assert
+        expect(overlapAmount).to.equal(0);
     });
-    it('should assign no value for classes happening on different day', function(){
-        // arrange
 
-        // act
+    it('should assign no value for classes happening on different day', function(){
+        // Arrange
+
+        // Act
         var overlapAmount = overlap(classes[0], classes[2]);
 
-        // assert
+        // Assert
         expect(overlapAmount).to.satisfy(function(overlapAmount){
             return overlapAmount == 0;
         });
-
     });
 
     it('should assign no value for online course overlap', function(){
-        // arrange
+        // Arrange
 
-        // act
+        // Act
         var overlapAmount = overlap(classes[3], classes[6]);
 
-        // assert
+        // Assert
         expect(overlapAmount).to.satisfy(function(overlapAmount){
             return overlapAmount == 0;
         });
-
     });
 
     it('should assign a fitness value corresponding to full double overlap', function(){
-        // arrange
+        // Arrange
 
-        // act
+        // Act
         var overlapAmount = overlap(classes[0], classes[0]);
 
-        // assert
+        // Assert
         expect(overlapAmount).to.satisfy(function(overlapAmount){
             return overlapAmount > 60;
         });
-
     });
+
     it('should assign a fitness value corresponding to partial double overlap', function(){
         // arrange
 
@@ -72,8 +70,8 @@ describe('overlaps', function(){
         expect(overlapAmount).to.satisfy(function(overlapAmount){
             return overlapAmount > 0;
         });
-
     });
+
     // full single
     it('should assign a fitness value corresponding to full single overlap', function(){
         // arrange
@@ -98,8 +96,5 @@ describe('overlaps', function(){
         expect(overlapAmount).to.satisfy(function(overlapAmount){
             return overlapAmount == 15;
         });
-
     });
-
-
 });

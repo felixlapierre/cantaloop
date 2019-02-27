@@ -31,8 +31,6 @@ describe('breed', function(){
 
                 && (child.semester["SOEN331"].valueOf() == (parent1.semester["SOEN331"]).valueOf() 
                 || child.semester["SOEN331"].valueOf() == (parent2.semester["SOEN331"]).valueOf());
-        })
-
-
+        });
     });
 });
