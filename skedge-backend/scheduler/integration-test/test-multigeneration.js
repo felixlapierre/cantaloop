@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var individual = require("../semester-generation/individual.js");
-var generation = require("../semester-generation/generation.js");
+var generation = require("../semester-generation/generation.js").generation;
 
 
 
@@ -80,9 +80,9 @@ describe( 'multigeneration', function(){
         oldGenAverage = oldGenAverage/20;
 
         // act
-        var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList);
+        var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList, 20);
         for (let i = 0; i < 100; i++) { 
-            var temp = new generation(oldGeneration, evaluateFitness, sectionList);
+            var temp = new generation(oldGeneration, evaluateFitness, sectionList, 20);
             oldGeneration = newGeneration;
             newGeneration = temp;
         }

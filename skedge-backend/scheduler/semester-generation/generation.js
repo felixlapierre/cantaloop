@@ -1,17 +1,16 @@
 var survive = require("./survive.js");
 var breed = require("./breed.js");
 var mutate = require("./mutate.js");
+var individual = require('./individual.js');
 
-const POPULATIONLIMIT = 20;
-
-function generation(parentPopulation, evaluateFitness, sectionList)
+function generation(parentPopulation, evaluateFitness, sectionList, populationLimit)
 {
     this.population = [];
     var survivors = survive(parentPopulation);
     
     copySurvivorsToNewPopulation(survivors, this.population);
     performMutations(survivors, this.population, sectionList);
-    performBreeding(survivors, ( POPULATIONLIMIT - this.population.length ), this.population);
+    performBreeding(survivors, ( populationLimit - this.population.length ), this.population);
 
     evaluateFitness( this.population );
     this.population.sort(function(a, b) { return a.fitness - b.fitness });
@@ -50,4 +49,25 @@ function performBreeding(survivors, populationSize, population)
     }
 }
 
-module.exports = generation;
+function initalGeneration(genome, sectionList, rankGeneration, populationLimit)
+{
+    var generation = [];
+    var semester = {};
+
+    for (let i = 0; i < populationLimit; i++) {
+        genome.every(function(val)
+        {
+            semester[val] = sectionList[val][Math.floor(sectionList[val].length* Math.random())];
+            return true;
+        });
+        generation.push( new individual(semester));
+    }
+
+    rankGeneration(generation);
+
+    return generation;
+    
+}
+
+module.exports.generation = generation;
+module.exports.initalGeneration = initalGeneration;
