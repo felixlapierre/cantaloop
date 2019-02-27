@@ -16,7 +16,7 @@ describe('breed', function(){
             "SOEN331" : "G"
         };
         var parent1 = new individual(semester1);
-        var parent2 = new individual(semester2);    
+        var parent2 = new individual(semester2);
         
         // act
         var child = breed(parent1, parent2);
