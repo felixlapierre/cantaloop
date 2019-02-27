@@ -1,5 +1,5 @@
 var expect = require("chai").expect;
-var rankCourses = require("../rank-courses");
+var rankCourses = require("../../course-placement/rank-courses");
 
 describe('rankCourses', function() {
     it('should include classes that are not prereqs or coreqs in the rankings', () => {

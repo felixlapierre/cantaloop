@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var CoursePlacer = require("../course-placement");
-var Requisites = require("../requisites");
+var CoursePlacer = require("../../course-placement/course-placement");
+var Requisites = require("../../course-placement/requisites");
 
 var someCatalog = {
     "BasicClassA": {

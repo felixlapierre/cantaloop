@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
-var Requisites = require("../requisites");
-var AddMissingPrerequisitesAndCorequisites = require("../add-missing-requisites");
+var Requisites = require("../../course-placement/requisites");
+var AddMissingPrerequisitesAndCorequisites = require("../../course-placement/add-missing-requisites");
 
 var someCatalog = {
     "COMP101": {
