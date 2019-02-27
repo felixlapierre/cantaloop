@@ -11,12 +11,17 @@ class Scheduler
 
     GenerateSchedules(courseRecord, courseSequence, semesters)
     {
+        var placements = this.GetPlacements(courseRecord, courseSequence, semesters);
+    }
+
+    GetPlacements(courseRecord, courseSequence, semesters)
+    {
         var requisites = new Requisites(this.catalog, courseRecord, courseSequence);
 
         AddMissingRequisites(this.catalog, courseSequence, requisites);
-        
+
         var placer = new CoursePlacer(this.catalog, requisites);
 
-        var placements = placer.placeCourses(courseRecord, courseSequence, semesters);
+        return placer.placeCourses(courseRecord, courseSequence, semesters);
     }
 }
