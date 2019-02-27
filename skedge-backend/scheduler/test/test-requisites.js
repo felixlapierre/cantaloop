@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var Requisites = require("../requisites");
+var AddMissingPrerequisitesAndCorequisites = require("../add-missing-requisites");
 
 var someCatalog = {
     "COMP101": {
@@ -25,7 +26,7 @@ describe('addMissingPrerequisitesAndCorequisites', () => {
         var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
 
         //Act
-        requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
+        AddMissingPrerequisitesAndCorequisites(someCatalog, courseSequence, requisites);
 
         //Assert
         expect(courseSequence).to.include.members(["COMP101"]);
@@ -39,7 +40,7 @@ describe('addMissingPrerequisitesAndCorequisites', () => {
         var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
 
         //Act
-        requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
+        AddMissingPrerequisitesAndCorequisites(someCatalog, courseSequence, requisites);
 
         //Assert
         expect(courseSequence).to.include.members(["COMP101"]);

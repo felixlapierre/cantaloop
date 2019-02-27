@@ -1,30 +1,28 @@
-var rankCourses = require('./rank-courses');
-var Requisites = require("./requisites");
-
 class CoursePlacer
 {
-    constructor(courseCatalog)
+    constructor(courseCatalog, requisites)
     {
         this.courseCatalog = courseCatalog;
+        this.requisites = requisites;
     }
 
     /**
-     * Selects the placement for each semester. Assumes start of Fall 2017
+     * TODO: Remove once this code has been moved to scheduler.js
      * @param {*} courseRecord An array of strings representing the courses already taken
      * @param {*} courseSequence An array of strings representing the courses to be taken
      * @param {*} semesters An array containing objects with properties 'season' and 'year' indicating the sequence of semesters to be taken and their credits
      */
-    placeCourses(courseRecord, courseSequence, semesters)
-    {
-        this.requisites = new Requisites(this.courseCatalog, courseRecord, courseSequence);
-        this.requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
+    // placeCourses(courseRecord, courseSequence, semesters)
+    // {
+    //     this.requisites = new Requisites(this.courseCatalog, courseRecord, courseSequence);
+    //     this.requisites.AddMissingPrerequisitesAndCorequisites(courseSequence);
 
-        var ranks = rankCourses(courseSequence, this.courseCatalog);
+    //     var ranks = rankCourses(courseSequence, this.courseCatalog);
 
-        return this.PlaceCoursesForEachSemester(semesters, ranks);
-    }
+    //     return this.PlaceCoursesForEachSemester(semesters, ranks);
+    // }
 
-    PlaceCoursesForEachSemester(semesters, courseRanks)
+    PlaceCourses(semesters, courseRanks)
     {
         var placements = {};
 

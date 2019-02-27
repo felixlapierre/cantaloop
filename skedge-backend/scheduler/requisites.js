@@ -22,30 +22,7 @@ class Requisites
             this.status[courseId] = newStatus;
         });
     }
-
-    AddMissingPrerequisitesAndCorequisites(courseSequence)
-    {
-        //Regular for loop since course sequence will be extended
-        for(var i = 0; i < courseSequence.length; i++)
-        {
-            this.catalog[courseSequence[i]].prerequisites.forEach(courseId => {
-                if(this.status[courseId] === undefined)
-                {
-                    this.status[courseId] = "Incomplete";
-                    courseSequence.push(courseId);
-                }
-            });
-
-            this.catalog[courseSequence[i]].corequisites.forEach(courseId => {
-                if(this.status[courseId] === undefined)
-                {
-                    this.status[courseId] = "Incomplete";
-                    courseSequence.push(courseId);
-                }            
-            });
-        }
-    }
-
+    
     ArePrereqsAndCoreqsTaken(courseId)
     {
         //Return false as soon as an untaken prerequisite or corequisite is found

@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var CoursePlacer = require("../course-placement");
+var Requisites = require("../requisites");
 
 var someCatalog = {
     "BasicClassA": {
@@ -34,6 +35,8 @@ var someCatalog = {
     }
 }
 
+var someRankedCourses = ["BasicClassB", "BasicClassC", "BasicClassA", "HasClassACorequisite", "HasClassBPrereqClassCCoreq", "HasClassBPrerequisite"];
+
 var someSemesters = [
     {"year": 2018, "season": "fall"},
     {"year": 2019, "season": "winter"},
@@ -45,11 +48,12 @@ describe('placeCourses', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = [];
+        var ranks = MockRankCourses(courseSequence);
 
-        var coursePlacer = new CoursePlacer(someCatalog);
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
 
         //Act
-        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
 
         //Assert
         for(var key in placements)
@@ -65,14 +69,15 @@ describe('placeCourses', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = ["HasClassBPrerequisite", "BasicClassB"];
+        var ranks = MockRankCourses(courseSequence);
 
         someSemesters[0].credits = 2;
         someSemesters[1].credits = 2;
 
-        var coursePlacer = new CoursePlacer(someCatalog);
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
 
         //Act
-        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
 
         //Assert
         var checker = new CourseChecker(placements);
@@ -83,13 +88,15 @@ describe('placeCourses', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = ["HasClassACorequisite", "BasicClassA"]
+        var ranks = MockRankCourses(courseSequence);
+
         someSemesters[0].credits = 2;
         someSemesters[1].credits = 2;
 
-        var coursePlacer = new CoursePlacer(someCatalog);
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
 
         //Act
-        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
 
         //Assert
         var checker = new CourseChecker(placements);
@@ -100,14 +107,15 @@ describe('placeCourses', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = [ "BasicClassC", "HasClassBPrerequisite", "BasicClassB"];
+        var ranks = MockRankCourses(courseSequence);
 
         someSemesters[0].credits = 3;
         someSemesters[1].credits = 5;
 
-        var coursePlacer = new CoursePlacer(someCatalog);
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
 
         //Act
-        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
 
         //Assert
         expect(placements['fall 2018']).to.include.members(['BasicClassB']);
@@ -117,14 +125,15 @@ describe('placeCourses', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = ["HasClassBPrereqClassCCoreq", "BasicClassB", "BasicClassC"];
+        var ranks = MockRankCourses(courseSequence);
 
         someSemesters[0].credits = 4; //So there is possibility to put the class with dependencies in first semester
         someSemesters[1].credits = 5;
 
-        var coursePlacer = new CoursePlacer(someCatalog);
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
 
         //Act
-        var placements = coursePlacer.placeCourses(courseRecord, courseSequence, someSemesters);
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
 
         //Assert
         var checker = new CourseChecker(placements);
@@ -134,6 +143,22 @@ describe('placeCourses', () => {
 
     //Check with classes in course record
 })
+
+function CreateCoursePlacer(courseRecord, courseSequence)
+{
+    var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
+    return new CoursePlacer(someCatalog, requisites);
+}
+
+function MockRankCourses(courses)
+{
+    var ranks = [];
+    someRankedCourses.forEach(courseId => {
+        if(courses.includes(courseId))
+            ranks.push(courseId);
+    });
+    return ranks;
+}
 
 class CourseChecker
 {
