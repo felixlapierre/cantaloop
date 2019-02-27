@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const database_service = require('./database-service');
 const port = 4200;
+const courseList = require ('./course' );
 
 
  //////////////////////
@@ -19,8 +20,11 @@ app.use(bodyParser.json());
  ///////////////////
 // Express Enpoints
 
-// Simple hello word GET endpoint at the root
-app.get('/', (req, res) => res.send('Hello World!'));
+// getCourse endpoint, it will return a json object
+app.get('/getCourse', (req, res) => {
+    res.send(courseList);
+}
+);
 
 // prototype endpoint
 app.put('/prototype', (req, res) => {
