@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/HeaderPage.css';
 import logo from '../images/cantaloop.png';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Dropdown } from 'semantic-ui-react';
 
 //The header of the page after a user logs in, will always be at the top of the page.
 class HeaderPage extends Component {
