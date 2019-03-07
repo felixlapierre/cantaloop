@@ -20,7 +20,7 @@ class Scheduler
     {
         var placements = this.GetPlacements(courseRecord, courseSequence, semesters);
 
-        var schedules = GenerateSchedulesFromGenerations(placements);
+        var schedules = GenerateSchedulesForSemesters(semesters, placements);
 
         return schedules;
     }
