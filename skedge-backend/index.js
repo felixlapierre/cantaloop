@@ -59,7 +59,7 @@ app.post('/generateSchedules', (req, res) => {
     var courseSequence = req.body.courseSequence;
     var semesters = req.body.semesters;
 
-    //var generatedSchedules = createSchedule(courseRecord, courseSequence, semesters); // returns an array of schedules for each semester
+    //var generatedSchedules = GenerateSchedules(courseRecord, courseSequence, semesters); // returns an array of schedules for each semester
     
     res.json(generatedSchedules);
 });
