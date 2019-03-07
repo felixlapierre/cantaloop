@@ -56,6 +56,7 @@ class Scheduler
             schedules.push({
                 "year": semester.year,
                 "season": semester.season,
+                "credits": semester.credits,
                 "schedules": generation
             });
         });
