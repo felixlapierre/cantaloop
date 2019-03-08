@@ -2,65 +2,65 @@ import React, { Component } from 'react';
 import '../styles/UserRecordPage.css';
 import { Dropdown, Button } from 'semantic-ui-react'
 
-const courseOptions = [
-  {
-    key: 'COMP 232',
-    value: 'Math for CompSci',
-    text: 'Math for CompSci'
-  },
-  {
-    key: 'COMP 248',
-    value: 'OOP 1',
-    text: 'OOP 1'
-  },
-  {
-    key: 'ENGR 202',
-    value: 'Prof. Practice and Responsibility',
-    text: 'Prof. Practice and Responsibility'
-  },
-  {
-    key: 'ENGR 213',
-    value: 'ODE 1',
-    text: 'ODE 1'
-  },
-  {
-    key: 'ENGR 251',
-    value: 'Thermodynamics',
-    text: 'Thermodynamics'
-  },
-  {
-    key: 'COMP 249',
-    value: 'OOP 2',
-    text: 'OOP 2'
-  },
-  {
-    key: 'ENGR 233',
-    value: 'ODE 2',
-    text: 'ODE 2'
-  },
-  {
-    key: 'SOEN 228',
-    value: 'Hardware',
-    text: 'Hardware'
-  },
-  {
-    key: 'SOEN 287',
-    value: 'Web Programming',
-    text: 'Web Programming'
-  },
-  {
-    key: 'PHYS 252',
-    value: 'Waves and Optics',
-    text: 'Waves and Optics'
-  }
-]
-
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
+
+  let courseOptions = [
+    {
+      key: 'COMP 232',
+      value: 'Math for CompSci',
+      text: 'Math for CompSci'
+    },
+    {
+      key: 'COMP 248',
+      value: 'OOP 1',
+      text: 'OOP 1'
+    },
+    {
+      key: 'ENGR 202',
+      value: 'Prof. Practice and Responsibility',
+      text: 'Prof. Practice and Responsibility'
+    },
+    {
+      key: 'ENGR 213',
+      value: 'ODE 1',
+      text: 'ODE 1'
+    },
+    {
+      key: 'ENGR 251',
+      value: 'Thermodynamics',
+      text: 'Thermodynamics'
+    },
+    {
+      key: 'COMP 249',
+      value: 'OOP 2',
+      text: 'OOP 2'
+    },
+    {
+      key: 'ENGR 233',
+      value: 'ODE 2',
+      text: 'ODE 2'
+    },
+    {
+      key: 'SOEN 228',
+      value: 'Hardware',
+      text: 'Hardware'
+    },
+    {
+      key: 'SOEN 287',
+      value: 'Web Programming',
+      text: 'Web Programming'
+    },
+    {
+      key: 'PHYS 252',
+      value: 'Waves and Optics',
+      text: 'Waves and Optics'
+    }
+  ]
 
   handleClick(){
     console.log("hello");
