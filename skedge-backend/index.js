@@ -4,7 +4,11 @@ const cors = require('cors');
 const app = express();
 const database_service = require('./database-service');
 const port = 4200;
-const courseList = require ('./course' );
+
+
+const courseDescriptions = require('./courseDescriptions')
+
+
 
 
  //////////////////////
@@ -20,9 +24,17 @@ app.use(bodyParser.json());
  ///////////////////
 // Express Enpoints
 
-// getCourse endpoint, it will return a json object
-app.get('/getCourse', (req, res) => {
-    res.send(courseList);
+// getName endpoint, it will return a json object containing a list of all courses
+app.get('courses/getNames', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from 
+    //MongoDB and it would return an array of all courses available with instances variable 
+    //such as Name, semester, nb of credits, timeslot etc.
+    //Not sure if the method would take in an input??
+
+    //var courseList = database_service.getCourseDescription(); 
+
+    res.json(courseList);
 }
 );
 
