@@ -9,9 +9,6 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 //Render the main component, which is called Skedge.
-<<<<<<< HEAD
-ReactDOM.render(<UserRecordPage />, document.getElementById('root'));
-=======
 ReactDOM.render(
   <Router>
     <div id='container'>
@@ -20,7 +17,6 @@ ReactDOM.render(
       <Route path="/record" component={UserRecordPage} />
     </div>
   </Router>, document.getElementById('root'));
->>>>>>> 1098d4affa15f9b24897c9939a50618d63bd63ae
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
