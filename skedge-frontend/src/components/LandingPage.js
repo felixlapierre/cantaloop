@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 import axios from 'axios';
 import {Button, Checkbox, Form} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 //LandingPage App class
 //Renders the landing page and login form
@@ -54,7 +55,7 @@ class LandingPage extends Component {
             <Button onClick={this.handleLogin} id='loginButton'>Login</Button>
             <Button onClick={this.handleRegister} id='registerButton'>Register</Button>
           </Form.Group>
-          <Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button>
+          <Link to='/schedule'><Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button></Link>
         </Form>
       </div>
     );
