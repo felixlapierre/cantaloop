@@ -42,7 +42,7 @@ app.put('/prototype', (req, res) => {
     
 });
 
-app.post('/generateSchedules', (req, res) => {
+app.post('/genSchedules', (req, res) => {
     // TESTING
 
     // Empty input
