@@ -1,4 +1,17 @@
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const userName = "144";
+const passWord = "d4a992f7c25f4fb53ec1de9f0222a83d";
+const request = new XMLHttpRequest();
+
+//const db = mongoose.connection;
+
+/*db.on('error', console.error.bind(console, 'connection error:'));
+
+db.once('open', function() {
+    console.log("Connected to MongoDB!!!");
+});
+
+mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app");*/
 
 const classes = ["SOEN-298", "SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
     "SOEN 321", "SOEN 331", "SOEN 341", "SOEN 342", "SOEN 343", "SOEN 344", "SOEN 345", "SOEN 357", "SOEN 384",
@@ -9,36 +22,46 @@ const classes = ["SOEN-298", "SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SO
     "ENGR 243", "ENGR 251", "ENGR 361", "ENGR 201", "ENGR 202", "ENGR 213", "ENGR 411", "ENGR 371", "ENGR 391",
     "ENGR 301", "MECH 221", "PHYS 252", "PHYS 284", "PHYS 385", "AERO 480", "AERO 482"];
 
-let myData;
+let retrievedData;
 let filteredJSON;
+let lectures;
+let tutorials;
+let labs;
+let subject;
+let catalog;
+
 for (let i=0; i<classes.length; i++){
-	console.log(classes[i].substring(0,4));
-	console.log(classes[i].substring(5));
-	myData = callWebAPI(classes[i].substring(0,4), classes[i].substring(5));
-	filteredJSON = retrieveLastThreeSemesterData(JSON.parse(myData), {classStartDate: '07/01/2019'});
-	console.log(removeUnwantedAttributes(filteredJSON));
-	//putCoursesInDatabase(removeUnwantedAttributes(filteredJSON));
+    subject = classes[i].substring(0,4);
+    catalog = classes[i].substring(5)
+	console.log(subject);
+	console.log(catalog);
+
+	retrievedData = removeUnwantedAttributes(callWebAPI(subject, catalog));
+
+	filteredJSON = filterData(JSON.parse(retrievedData), {classStartDate: '07/01/2019'});
+
+    lectures = filterData(filteredJSON, {componentCode: 'LEC'});
+    tutorials = filterData(filteredJSON, {componentCode: 'TUT'});
+    labs = filterData(filteredJSON, {componentCode: 'LAB'});
+
+	putCoursesInDatabase(filteredJSON,'courses');
+
+    //console.log(enterThreeDifferentCourseTypesIntoDB(JSON.parse(retrievedData)));
 }
 
 function callWebAPI(subject, catalog){
-	const userName = "144";
-    const passWord = "d4a992f7c25f4fb53ec1de9f0222a83d";
-
-    const request = new XMLHttpRequest();
     request.open("GET", "https://opendata.concordia.ca/API/v1/course/schedule/filter/*/"+ subject +"/" + catalog, false, userName, passWord);
 	request.send();
 	console.log(request.status);
-	
-	return myData = request.responseText;
+	return request.responseText;
 }
 
-function retrieveLastThreeSemesterData(myObject, myCriteria){
+function filterData(myObject, myCriteria){
   return myObject.filter(function(obj) {
     return Object.keys(myCriteria).every(function(c) {
       return obj[c] == myCriteria[c];
     });
   });
-
 }
 
 function removeUnwantedAttributes (filteredJSON){
@@ -64,9 +87,5 @@ function removeUnwantedAttributes (filteredJSON){
 	return filteredJSON;
 }
 
-function putCoursesInDatabase(filteredJSON){
-	//possible actions
-	//1. delete current collection with all the courses
-	//2. reformat the multiple jsons into one
-	//3. put json object in database
+function putCoursesInDatabase(objectJSON, collectionName){
 }

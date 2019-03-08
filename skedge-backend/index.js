@@ -35,7 +35,6 @@ app.put('/prototype', (req, res) => {
 
     // Responds with modified json payload
     res.json(ret_obj);
-    
 })
 
 

@@ -15,6 +15,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mongoose": "^5.4.6"
+    "mongoose": "^5.4.6",
+    "xmlhttprequest": "^1.8.0"
   }
 }
