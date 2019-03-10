@@ -87,5 +87,20 @@ function removeUnwantedAttributes (filteredJSON){
 	return filteredJSON;
 }
 
+
+// const insertDocuments = function(db, callback){
+// 	const collection = db.collection('courses');
+// 	collection.insertMany([{a:1}, {a:2}], 
+// 	function (err, result){
+// 		assert.equal(err,null);
+// 		assert.equal(2, result.result.n);
+// 		assert.equal(2, result.ops.length);
+// 		console.log("Inserted 2 courses successfully");
+// 		callback(result);
+// 	});
+// }
+
 function putCoursesInDatabase(objectJSON, collectionName){
+
+
 }
