@@ -1,0 +1,86 @@
+{
+  "semesterSchedule": [
+    {
+      "year": 2019,
+      "season": "Fall",
+      "credits": 15.3,
+      "schedules": [
+        {
+          "lecture": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "TuTh"
+          },
+          "lab": {
+            "time-start": "14:45",
+            "time-end": "16:00",
+            "days": "We"
+          },
+          "tutorial": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "Mo"
+          }
+        },
+        {
+          "lecture": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "TuTh"
+          },
+          "lab": {
+            "time-start": "14:45",
+            "time-end": "16:00",
+            "days": "We"
+          },
+          "tutorial": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "Mo"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2019,
+      "season": "Winter",
+      "credits": 20,
+      "schedules": [
+        {
+          "lecture": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "TuTh"
+          },
+          "lab": {
+            "time-start": "14:45",
+            "time-end": "16:00",
+            "days": "We"
+          },
+          "tutorial": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "Mo"
+          }
+        },
+        {
+          "lecture": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "TuTh"
+          },
+          "lab": {
+            "time-start": "14:45",
+            "time-end": "16:00",
+            "days": "We"
+          },
+          "tutorial": {
+            "time-start": "8:45",
+            "time-end": "10:00",
+            "days": "Mo"
+          }
+        }
+      ]
+    }
+  ]
+}
