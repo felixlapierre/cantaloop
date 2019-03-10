@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
 import HeaderPage from './HeaderPage.js';
-import { Button, Header, Icon, Image, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
+import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../styles/UserRecordPage.css';
-import { Dropdown, Button } from 'semantic-ui-react'
+import { Dropdown, Button } from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+
 
 const courseOptions = [
   {
@@ -111,7 +113,7 @@ class UserRecordPage extends Component {
             </form>
         </div>
         <div>
-        <Button id = "goToScheduleBuilder" >Make My Schedule</Button>
+        <Link to='/schedule'><Button id = "goToScheduleBuilder" >Make My Schedule</Button></Link>
         </div>
       </div>
     );

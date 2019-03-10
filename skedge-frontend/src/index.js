@@ -6,7 +6,7 @@ import LandingPage from './components/LandingPage';
 import ScheduleBuilderPage from './components/ScheduleBuilderPage';
 import UserRecordPage from './components/UserRecordPage';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 //Render the main component, which is called Skedge.
 ReactDOM.render(
