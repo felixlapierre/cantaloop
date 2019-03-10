@@ -5,27 +5,27 @@ function AddMissingPrerequisitesAndCorequisites(courseCatalog, courseSequence, r
     for(var i = 0; i < courseSequence.length; i++)
     {
         var courseId = courseSequence[i];
-        courseSequence.push(...AddMissingPrerequisites(courseId, courseCatalog, requisites));
-        courseSequence.push(...AddMissingCorequisites(courseId, courseCatalog, requisites));
+        courseSequence.push(...GetMissingPrerequisites(courseId, courseCatalog, requisites));
+        courseSequence.push(...GetMissingCorequisites(courseId, courseCatalog, requisites));
     }
 }
 
-function AddMissingPrerequisites(courseId, courseCatalog, requisites)
+function GetMissingPrerequisites(courseId, courseCatalog, requisites)
 {
     var courses = courseCatalog[courseId].prerequisites;
-    return AddAllMissingCoursesFrom(courses, requisites);
+    return GetAllMissingCoursesFrom(courses, requisites);
 }
 
-function AddMissingCorequisites(courseId, courseCatalog, requisites)
+function GetMissingCorequisites(courseId, courseCatalog, requisites)
 {
     var courses = courseCatalog[courseId].corequisites;
-    return AddAllMissingCoursesFrom(courses, requisites);
+    return GetAllMissingCoursesFrom(courses, requisites);
 }
 
-function AddAllMissingCoursesFrom(courses, requisites)
+function GetAllMissingCoursesFrom(courses, requisites)
 {
     var missingCourses = [];
-    
+
     courses.forEach(courseId => {
         if(requisites.status[courseId] === undefined)
         {
