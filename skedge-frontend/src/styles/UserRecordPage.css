@@ -7,27 +7,28 @@ h5 {
 }
 
 #outer {
-    width: 50%;
-    height: 200px;
+    width: 60%;
+    height: 600px;
     margin: auto;
     padding: 10px;
+    border-color: grey;
+    border-width: 3px;
+    border-style:dotted;
+    border-radius: 20px;
 }
 
-#recordCcoursesDropdown {
-   width: 50%;
-   height: 100px;
+#recordCcoursesDropdown, #wantedCoursesDropdown {
+   width: 60%;
+   height: 200px;
    border-color: salmon;
-   float: left;
    border-width: 3px;
    border-style: solid;
    border-radius: 20px;
 }
 
-#wantedCoursesDropdown {
-  margin-left: 50%;
-  height: 100px;
-  border-color: salmon;
-  border-width: 3px;
-  border-style: solid;
-  border-radius: 20px;
+
+
+.dropdown{
+  float: left;
+  width: 65%;
 }

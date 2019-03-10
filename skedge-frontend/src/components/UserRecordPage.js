@@ -6,7 +6,7 @@ const courseOptions = [
   {
     key: 'COMP 232',
     value: 'Math for CompSci',
-    text: 'Math for CompSci'
+    text: 'Math for CompSci',
   },
   {
     key: 'COMP 248',
@@ -59,11 +59,16 @@ const courseOptions = [
 class UserRecordPage extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleAddCourseToRecord = this.handleAddCourseToRecord.bind(this);
+    this.handleAddCourseToCourseSequence = this.handleAddCourseToCourseSequence.bind(this);
   }
 
-  handleClick(){
-    console.log("hello");
+  handleAddCourseToRecord(){
+    console.log("added to record!");
+  }
+
+  handleAddCourseToCourseSequence(){
+    console.log("added to course sequence!");
   }
 
   render() {
@@ -72,31 +77,37 @@ class UserRecordPage extends Component {
         <h3 id = "welcome-title" >
           Hi! Welcome to Skedge
         </h3>
-        <div id = "recordCcoursesDropdown">
+        <form id = "recordCcoursesDropdown">
           <h5>
             What classes have you taken?
           </h5>
-          <Dropdown
-          onClick = {this.handleClick}
-          placeholder = 'Select Course'
-          fluid
-          search
-          selection
-          options = {courseOptions}
-          />
-        </div>
-        <div id = "wantedCoursesDropdown">
+          <div className = "dropdown">
+              <Dropdown
+              placeholder = 'Select Course'
+              fluid
+              search
+              selection
+              options = {courseOptions}
+              />
+          </div>
+          <Button id = "Button" onClick = {this.handleAddCourseToRecord}>Add Course</Button>
+        </form>
+        <br/>
+        <form id = "wantedCoursesDropdown">
           <h5>
-            What classes would you like to take?
+              What classes would you like to take?
           </h5>
-          <Dropdown
-          placeholder = 'Select Course'
-          fluid
-          search
-          selection
-          options = {courseOptions}
-          />
-        </div>
+          <div className = "dropdown">
+              <Dropdown
+              placeholder = 'Select Course'
+              fluid
+              search
+              selection
+              options = {courseOptions}
+              />
+          </div>
+          <Button id = "button" onClick = {this.handleAddCourseToCourseSequence}>Add Course</Button>
+        </form>
       </div>
     );
   }
