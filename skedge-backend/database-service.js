@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 const assert = require('assert');
+let courseModel = require('./courseSchem');
+
 
 
 const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
@@ -30,35 +32,8 @@ class Database {
 
   module.exports = new Database();
 
-const courseSchema = new mongoose.Schema({
-    session: string,
-    subject: string,
-    catalog: number,
-    section: number,
-    componentCode: string,
-    courseTitle: string,
-    locationCode: string,
-    instructionModeCode: string,
-    instructionModeDescription: string,
-    meetingPatternNumber: number,
-    roomCode: string,
-    buildingCode: string,
-    room: number,
-    classStartTime: mixed,
-    classEndTime: mixed,
-    modays: mixed,
-    tuesdays: mixed,
-    wednesdays: mixed,
-    thursdays: mixed,
-    fridays: mixed,
-    saturdays: mixed,
-    sundays: mixed,
-    classStartDate: mixed,
-    classEndDate: mixed,
-    career: mixed,
-    enrollmentCapacity: number
-});
-const CourseModel = mongoose.model("Course", courseSchema);
+
+
 
 
 
@@ -75,21 +50,47 @@ const insertDocuments = function(db, callback){
 	});
 }
 
+/////TESTING with hardcoded course//////////
+///So the following code here works/////////
 
-// module.exports = {
-//     writeCourseToDatabase: function(value) {
-//         var course = new CourseModel({
-//             name: value,
-//             credits: 3
-//         });
-//         if (db.readyState == 1) {
-//             course.save(function (err, course) {
-//                 if (err) return console.error(err);
-//             });
-//             return "Sent "+value+" to the database!";
-//         }
-//         else{
-//             return "Couldn't save "+value+", DB isn't ready."
-//         }
-//     }
-// }
+let course1 = new courseModel (
+    {
+        session: "13W",
+        subject: "BIOL",
+        catalog: "201",
+        section: "50",
+        componentCode: "LEC",
+        courseTitle: "INTRODUCTORY BIOLOGY",
+        locationCode: "LOY",
+        instructionModeCode: "P",
+        instructionModeDescription: "In Person",
+        meetingPatternNumber: "1",
+        roomCode: "CC320",
+        buildingCode: "CC",
+        room: "320",
+        classStartTime: "18.30.00",
+        classEndTime: "21.00.00",
+        modays: "N",
+        tuesdays: "Y",
+        wednesdays: "N",
+        thursdays: null,
+        fridays: "N",
+        saturdays: "N",
+        sundays: "N",
+        classStartDate: "07/05/2014",
+        classEndDate: "19/08/2014",
+        career: "Undergraduate",
+        enrollmentCapacity: "72"
+    }   
+)
+course1.save()
+    .then(doc => {
+        console.log(doc)
+    })
+    .catch( err => {
+        console.log("errorr")
+    })
+
+
+
+
