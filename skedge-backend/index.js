@@ -11,6 +11,9 @@ const generatedSchedules = require('./generatedSchedules');
 const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
 
+const courseDescriptions = require('./courseDescriptions')
+
+
  //////////////////////
 // Express Middlewares
 
@@ -25,6 +28,20 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
  ///////////////////
 // Express Enpoints
+
+// getName endpoint, it will return a json object containing a list of all courses
+app.get('courses/getNames', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from 
+    //MongoDB and it would return an array of all courses available with instances variable 
+    //such as Name, semester, nb of credits, timeslot etc.
+    //Not sure if the method would take in an input??
+
+    //var courseList = database_service.getCourseDescription(); 
+
+    res.json(courseList);
+}
+);
 
 // prototype endpoint
 app.put('/prototype', (req, res) => {
