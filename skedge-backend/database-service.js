@@ -1,45 +1,62 @@
 //
 //
-// This module is only for the prototype.
-// It can be deleted by the database team whenever they're ready.
+// Everything related to connecting to MongoDB and manipulating the database
 //
 //
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-
-var db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error:'));
-
-db.once('open', function() {
-    console.log("Connected to MongoDB!!!");
-});
-
-const courseSchema = new Schema({
-    id: ObjectId,
-    name: String,
-    credits: Number
-});
-const CourseModel = mongoose.model("Course", courseSchema);
+const assert = require('assert');
+let courseModel = require('./courseSchem');
+fs = require('fs');
 
 
-mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app");
+const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
+const database = 'skedge-app';
 
-module.exports = {
-    writeCourseToDatabase: function(value) {
-        var course = new CourseModel({
-            name: value,
-            credits: 3
-        });
-        if (db.readyState == 1) {
-            course.save(function (err, course) {
-                if (err) return console.error(err);
-            });
-            return "Sent "+value+" to the database!";
-        }
-        else{
-            return "Couldn't save "+value+", DB isn't ready."
-        }
+
+class Database {
+    constructor() {
+      this._connect()
     }
-}
+  _connect() {
+       mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
+         .then(() => {
+           console.log('Database connection successful')
+         })
+         .catch(err => {
+           console.error('Database connection error')
+         })
+    }
+  }
+
+  module.exports = new Database();
+
+    const db = new Database();
+
+
+
+//  ///////////////////////////////////////////////////////////////////////////////   
+// /////// Trying to load a json file, parse it and save it into the database ////
+
+// var listCourse = fs.readFileSync('./coursesTesting.json', 'utf8', (err, data) => {
+//     if(err) throw err;
+//     return(listCourse);
+// });
+
+// var listConverted = JSON.parse(listCourse);
+
+// mongoose.connection.collection('courses').insertMany(listConverted, function( err, result){
+//     if(err){
+//         console.log("Error, fail");
+//     }else{
+//         console.log("yay reussi");
+//     }
+// })
+
+
+
+
+
+
+
