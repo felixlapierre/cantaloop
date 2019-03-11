@@ -13,17 +13,10 @@ db.once('open', function() {
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app");*/
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
-const assert = require('assert');
-let courseModel = require('./courseSchem');
-fs = require('fs');
-
-
 const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
 const database = 'skedge-app';
 
-
+//Im putting this here for now just for testing purpose
 class Database {
     constructor() {
       this._connect()
@@ -72,7 +65,7 @@ for (let i=0; i<classes.length; i++){
     tutorials = filterData(filteredJSON, {componentCode: 'TUT'});
     labs = filterData(filteredJSON, {componentCode: 'LAB'});
 
-	putCoursesInDatabase(filteredJSON,'courses');
+	// putCoursesInDatabase(filteredJSON,'courses');
 	putCoursesInDatabase(lectures,'lectures');
 	putCoursesInDatabase(tutorials, 'tutorials');
 	putCoursesInDatabase(labs, 'labs');
@@ -120,9 +113,6 @@ function removeUnwantedAttributes (filteredJSON){
 
 
 function putCoursesInDatabase(objectJSON, collectionName){
-
-	
-	// var listConverted = JSON.parse(objectJSON);
 	
 	mongoose.connection.collection(collectionName).insertMany(objectJSON, function( err, result){
 		if(err){
