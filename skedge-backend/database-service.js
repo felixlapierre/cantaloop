@@ -4,9 +4,6 @@
 // It can be deleted by the database team whenever they're ready.
 //
 //
-
-
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
@@ -44,7 +41,5 @@ module.exports = {
         else{
             return "Couldn't save "+value+", DB isn't ready."
         }
-
-        
     }
 }
