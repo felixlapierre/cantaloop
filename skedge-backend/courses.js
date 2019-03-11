@@ -3,16 +3,6 @@ const userName = "144";
 const passWord = "d4a992f7c25f4fb53ec1de9f0222a83d";
 const request = new XMLHttpRequest();
 
-//const db = mongoose.connection;
-
-/*db.on('error', console.error.bind(console, 'connection error:'));
-
-db.once('open', function() {
-    console.log("Connected to MongoDB!!!");
-});
-
-mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app");*/
-
 const classes = ["SOEN 298", "SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
     "SOEN 321", "SOEN 331", "SOEN 341", "SOEN 342", "SOEN 343", "SOEN 344", "SOEN 345", "SOEN 357", "SOEN 384",
     "SOEN 385", "SOEN 390", "SOEN 490", "COMP 232", "COMP 248", "COMP 249", "COMP 335", "COMP 346", "COMP 348",
@@ -100,4 +90,5 @@ function retrieveLastThreeSemesterData() {
 }
 
 function putCoursesInDatabase(objectJSON, collectionName){
+
 }
