@@ -12,6 +12,34 @@ db.once('open', function() {
 });
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app");*/
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+const assert = require('assert');
+let courseModel = require('./courseSchem');
+fs = require('fs');
+
+
+const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
+const database = 'skedge-app';
+
+
+class Database {
+    constructor() {
+      this._connect()
+    }
+  _connect() {
+       mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
+         .then(() => {
+           console.log('Database connection successful')
+         })
+         .catch(err => {
+           console.error('Database connection error')
+         })
+    }
+  }
+
+  module.exports = new Database();
 
 const classes = ["SOEN-298", "SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
     "SOEN 321", "SOEN 331", "SOEN 341", "SOEN 342", "SOEN 343", "SOEN 344", "SOEN 345", "SOEN 357", "SOEN 384",
@@ -45,6 +73,9 @@ for (let i=0; i<classes.length; i++){
     labs = filterData(filteredJSON, {componentCode: 'LAB'});
 
 	putCoursesInDatabase(filteredJSON,'courses');
+	putCoursesInDatabase(lectures,'lectures');
+	putCoursesInDatabase(tutorials, 'tutorials');
+	putCoursesInDatabase(labs, 'labs');
 
     //console.log(enterThreeDifferentCourseTypesIntoDB(JSON.parse(retrievedData)));
 }
@@ -88,19 +119,17 @@ function removeUnwantedAttributes (filteredJSON){
 }
 
 
-// const insertDocuments = function(db, callback){
-// 	const collection = db.collection('courses');
-// 	collection.insertMany([{a:1}, {a:2}], 
-// 	function (err, result){
-// 		assert.equal(err,null);
-// 		assert.equal(2, result.result.n);
-// 		assert.equal(2, result.ops.length);
-// 		console.log("Inserted 2 courses successfully");
-// 		callback(result);
-// 	});
-// }
-
 function putCoursesInDatabase(objectJSON, collectionName){
 
+	
+	// var listConverted = JSON.parse(objectJSON);
+	
+	mongoose.connection.collection(collectionName).insertMany(objectJSON, function( err, result){
+		if(err){
+			console.log("Error, fail");
+		}else{
+			console.log("Successfully added into database!");
+		}
+	})
 
 }
