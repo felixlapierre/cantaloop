@@ -59,8 +59,6 @@ for (let i=0; i<classes.length; i++){
 
 	retrievedData = removeUnwantedAttributes(callWebAPI(subject, catalog));
 
-	filteredJSON = filterData(JSON.parse(retrievedData), {classStartDate: '07/01/2019'});
-
     lectures = filterData(filteredJSON, {componentCode: 'LEC'});
     tutorials = filterData(filteredJSON, {componentCode: 'TUT'});
     labs = filterData(filteredJSON, {componentCode: 'LAB'});
