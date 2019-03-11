@@ -8,7 +8,6 @@ class Requisites
 {
     constructor(courseCatalog, courseRecord, courseSequence)
     {
-        //Status holds the status of each course
         this.status = {};
         this.catalog = courseCatalog;
 
@@ -25,18 +24,24 @@ class Requisites
     
     ArePrereqsAndCoreqsTaken(courseId)
     {
-        //Return false as soon as an untaken prerequisite or corequisite is found
-        if(!this.catalog[courseId].prerequisites.every(prereqId => {
-            return this.IsCourseComplete(prereqId);
-        }))
-            return false;
+        var prerequisites = this.catalog[courseId].prerequisites;
+        var corequisites = this.catalog[courseId].corequisites;
+        return this.CoursesAreFulfilledPrerequisites(prerequisites)
+            && this.CoursesAreFulfilledCorequisites(corequisites);        
+    }
 
-        if(!this.catalog[courseId].corequisites.every(coreqId => {
-            return this.IsCourseComplete(coreqId) || this.IsCourseInProgress(coreqId);
-        }))
-            return false;
+    CoursesAreFulfilledPrerequisites(listOfCourses)
+    {
+        return listOfCourses.every(courseId => {
+            return this.IsCourseComplete(courseId);
+        });
+    }
 
-        return true;
+    CoursesAreFulfilledCorequisites(listOfCourses)
+    {
+        return listOfCourses.every(courseId => {
+            return this.IsCourseComplete(courseId) || this.IsCourseInProgress(courseId);
+        });
     }
 
     IsCourseComplete(courseId)

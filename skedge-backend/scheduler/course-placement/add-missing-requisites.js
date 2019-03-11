@@ -1,7 +1,6 @@
 function AddMissingPrerequisitesAndCorequisites(courseCatalog, courseSequence, requisites)
 {
     //Regular for loop since course sequence will be extended
-    console.log(courseSequence);
     for(var i = 0; i < courseSequence.length; i++)
     {
         var courseId = courseSequence[i];
