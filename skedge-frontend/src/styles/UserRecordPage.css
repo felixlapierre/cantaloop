@@ -1,0 +1,48 @@
+#welcome-title {
+  text-align: center;
+}
+
+h5 {
+  text-align: center;
+}
+
+#outer {
+    width: 60%;
+    height: 560px;
+    margin: auto;
+    padding: 10px;
+    border-color: grey;
+    border-width: 3px;
+    border-style:dotted;
+    border-radius: 20px;
+}
+
+#formDiv {
+    width: 100%;
+    height: 500px;
+    margin: auto;
+    padding: 10px;
+    border-color: green;
+    border-width: 3px;
+    border-style:dashed;
+    border-radius: 20px;
+}
+
+
+#recordCcoursesDropdown, #wantedCoursesDropdown {
+   width: 60%;
+   height: 200px;
+   border-color: salmon;
+   border-width: 3px;
+   border-style: solid;
+   border-radius: 20px;
+}
+
+#goToScheduleBuilder {
+  margin-left: 267px;
+}
+
+.dropdown{
+  float: left;
+  width: 65%;
+}
