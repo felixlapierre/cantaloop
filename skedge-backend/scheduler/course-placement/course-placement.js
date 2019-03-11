@@ -25,6 +25,8 @@ class CoursePlacer
                     placementOfThisSemester.push(courseId);
                     this.requisites.SetCourseInProgress(courseId);
                     creditsTakenSoFar += this.courseCatalog[courseId].credits;
+                    if(creditsTakenSoFar == semester.credits)
+                        break; //Stop trying to fit more classes into this semester
                 }
             })
 
