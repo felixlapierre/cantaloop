@@ -1,0 +1,20 @@
+#headerPage {
+  border-bottom: 2px solid;
+  padding: 10px 10px 35px 10px;
+  text-align: center;
+}
+
+#pageHeaderLogo {
+  float:left;
+}
+
+#pageHeaderTitle {
+  display: inline-block;
+  font-size: 40px;
+  font-family: impact, fantasy, monospace;
+  font-weight: bold;
+}
+
+#pageHeaderUserIcon {
+  float: right;
+}

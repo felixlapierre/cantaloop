@@ -34,7 +34,7 @@ class Database {
 
   module.exports = new Database();
 
-const classes = ["SOEN-298", "SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
+const classes = ["SOEN 298", "SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
     "SOEN 321", "SOEN 331", "SOEN 341", "SOEN 342", "SOEN 343", "SOEN 344", "SOEN 345", "SOEN 357", "SOEN 384",
     "SOEN 385", "SOEN 390", "SOEN 490", "COMP 232", "COMP 248", "COMP 249", "COMP 335", "COMP 346", "COMP 348",
     "COMP 345", "COMP 353", "COMP 371", "COMP 426", "COMP 428", "COMP 442", "COMP 445", "COMP 451", "COMP 465",
@@ -50,10 +50,11 @@ let tutorials;
 let labs;
 let subject;
 let catalog;
+let latestData;
 
-for (let i=0; i<classes.length; i++){
-    subject = classes[i].substring(0,4);
-    catalog = classes[i].substring(5)
+for (let i=0; i<classes.length-1; i++){
+  subject = classes[i].substring(0,4);
+  catalog = classes[i].substring(5);
 	console.log(subject);
 	console.log(catalog);
 
@@ -62,13 +63,21 @@ for (let i=0; i<classes.length; i++){
     lectures = filterData(filteredJSON, {componentCode: 'LEC'});
     tutorials = filterData(filteredJSON, {componentCode: 'TUT'});
     labs = filterData(filteredJSON, {componentCode: 'LAB'});
+	filteredJSON = filterData(JSON.parse(retrievedData), {classStartDate: '03/09/2019'});
+
+  latestData = retrieveLastThreeSemesterData();
+
+
+  lectures = filterData(filteredJSON, {componentCode: 'LEC'});
+  tutorials = filterData(filteredJSON, {componentCode: 'TUT'});
+  labs = filterData(filteredJSON, {componentCode: 'LAB'});
 
 	// putCoursesInDatabase(filteredJSON,'courses');
 	putCoursesInDatabase(lectures,'lectures');
 	putCoursesInDatabase(tutorials, 'tutorials');
 	putCoursesInDatabase(labs, 'labs');
 
-    //console.log(enterThreeDifferentCourseTypesIntoDB(JSON.parse(retrievedData)));
+  //console.log(enterThreeDifferentCourseTypesIntoDB(JSON.parse(retrievedData)));
 }
 
 function callWebAPI(subject, catalog){
@@ -89,7 +98,7 @@ function filterData(myObject, myCriteria){
 function removeUnwantedAttributes (filteredJSON){
 	for (let elements in filteredJSON){
 		delete filteredJSON[elements].courseID;
-		delete filteredJSON[elements].termCode;
+		//delete filteredJSON[elements].termCode;
 		delete filteredJSON[elements].componentDescription;
 		delete filteredJSON[elements].classNumber;
 		delete filteredJSON[elements].classAssociation;
@@ -105,7 +114,7 @@ function removeUnwantedAttributes (filteredJSON){
 		delete filteredJSON[elements].currentWaitlistTotal;
 		delete filteredJSON[elements].hasSeatReserved;
 	}
-	
+
 	return filteredJSON;
 }
 
@@ -120,4 +129,14 @@ function putCoursesInDatabase(objectJSON, collectionName){
 		}
 	})
 
+}
+function retrieveLastThreeSemesterData() {
+  let summerData = filterData(JSON.parse(retrievedData), {termCode: '2190'});
+  let fallData = filterData(JSON.parse(retrievedData), {termCode: '2192'});
+  let winterData = filterData(JSON.parse(retrievedData), {termCode: '2194'});
+  let latestData = summerData.concat(fallData.concat(winterData));
+  return latestData;
+}
+
+function putCoursesInDatabase(objectJSON, collectionName){
 }
