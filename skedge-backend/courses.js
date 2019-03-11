@@ -139,4 +139,5 @@ function retrieveLastThreeSemesterData() {
 }
 
 function putCoursesInDatabase(objectJSON, collectionName){
+
 }
