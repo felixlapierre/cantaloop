@@ -1,3 +1,12 @@
+//
+//
+// This module is only for the prototype.
+// It can be deleted by the database team whenever they're ready.
+//
+//
+
+
+
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
