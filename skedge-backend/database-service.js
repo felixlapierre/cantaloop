@@ -4,16 +4,9 @@
 //
 //
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 const assert = require('assert');
-let courseModel = require('./courseSchem');
-fs = require('fs');
 
-
-const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
 const database = 'skedge-app';
-
 
 class Database {
     constructor() {
@@ -32,31 +25,74 @@ class Database {
 
   module.exports = new Database();
 
-    const db = new Database();
+function getCourses(){
 
+}
 
+function getCourses(subject, catalog){
 
-//  ///////////////////////////////////////////////////////////////////////////////   
-// /////// Trying to load a json file, parse it and save it into the database ////
+}
 
-// var listCourse = fs.readFileSync('./coursesTesting.json', 'utf8', (err, data) => {
-//     if(err) throw err;
-//     return(listCourse);
-// });
+function getLabs(){
 
-// var listConverted = JSON.parse(listCourse);
+}
 
-// mongoose.connection.collection('courses').insertMany(listConverted, function( err, result){
-//     if(err){
-//         console.log("Error, fail");
-//     }else{
-//         console.log("yay reussi");
-//     }
-// })
+function getLabs(subject, catalog){
 
+}
 
+function getLectures(){
 
+}
 
+function getLectures(subject, catalog){
 
+}
 
+function getTutorials(){
 
+}
+
+function getTutorials(subject, catalog){
+
+}
+
+function getSections(){
+
+}
+
+function getSections(subject, catalog){
+
+}
+
+function getCoPreRequisites(){
+
+}
+
+function getCoPreRequisites(subject, catalog){
+
+}
+
+function getDescriptions(){
+
+}
+
+function getDescriptions(subject, catalog){
+
+}
+
+function getUserRecord(){
+
+}
+
+function putUserRecord(){
+
+}
+
+function getUserSchedule() {
+
+}
+
+function putUserSchedule(){
+
+}
