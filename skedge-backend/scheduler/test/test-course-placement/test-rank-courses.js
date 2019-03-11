@@ -91,7 +91,7 @@ describe('rankCourses', function() {
         expect(ranks).to.deep.equal(["COMP101","COMP102","COMP103"]);
     });
 
-    it('should highly rank classes that are corequisites ', () => {
+    it('should highly rank classes that are corequisites of corequisites', () => {
         //Arrange
         var someCourseList = ["COMP101", "COMP102", "COMP103"];
         var someSequenceWithPrereqisiteChain = {
