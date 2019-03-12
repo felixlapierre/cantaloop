@@ -10,82 +10,91 @@ const database = 'skedge-app';
 
 class Database {
     constructor() {
-      this._connect()
+        this._connect()
     }
-  _connect() {
-       mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
-         .then(() => {
-           console.log('Database connection successful')
-         })
-         .catch(err => {
-           console.error('Database connection error')
-         })
+
+    _connect() {
+        mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
+            .then(() => {
+                console.log('Database connection successful')
+            })
+            .catch(err => {
+                console.error('Database connection error')
+            })
     }
-  }
+}
 
-  module.exports = new Database();
+module.exports = new Database();
 
-function getCourses(){
+function getCourseCatalog() {
 
 }
 
-function getCourses(subject, catalog){
+function getCourseDescription(){
 
 }
 
-function getLabs(){
+function getCourses() {
 
 }
 
-function getLabs(subject, catalog){
+function getCourses(subject, catalog) {
 
 }
 
-function getLectures(){
+function getLabs() {
 
 }
 
-function getLectures(subject, catalog){
+function getLabs(subject, catalog) {
 
 }
 
-function getTutorials(){
+function getLectures() {
 
 }
 
-function getTutorials(subject, catalog){
+function getLectures(subject, catalog) {
 
 }
 
-function getSections(){
+function getTutorials() {
 
 }
 
-function getSections(subject, catalog){
+function getTutorials(subject, catalog) {
 
 }
 
-function getCoPreRequisites(){
+function getSections() {
 
 }
 
-function getCoPreRequisites(subject, catalog){
+function getSections(subject, catalog) {
 
 }
 
-function getDescriptions(){
+function getCoPreRequisites() {
 
 }
 
-function getDescriptions(subject, catalog){
+function getCoPreRequisites(subject, catalog) {
 
 }
 
-function getUserRecord(){
+function getDescriptions() {
 
 }
 
-function putUserRecord(){
+function getDescriptions(subject, catalog) {
+
+}
+
+function getUserRecord() {
+
+}
+
+function putUserRecord() {
 
 }
 
@@ -93,6 +102,6 @@ function getUserSchedule() {
 
 }
 
-function putUserSchedule(){
+function putUserSchedule() {
 
 }
