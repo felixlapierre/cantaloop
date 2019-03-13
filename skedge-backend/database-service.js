@@ -51,6 +51,13 @@ function getCourseCatalog() {
 
 
 function getCourseDescription(){
+  courseSchem.courseSch.find({}, 'subject catalog courseTitle', function(err, result){
+    if(err){
+      console.log("None")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
 
@@ -80,7 +87,8 @@ function getCourses(subject, catalog) {
 
 }
 
-// getCourses('ENGR','213');<== This works but im not sure in what format we want to return the stuff
+// getCourses('ENGR','213');
+//<== This works but im not sure in what format we want to return the stuff
 
 function getLabs() {
   courseSchem.labSch.find({} ,function(err, result){
@@ -167,5 +175,10 @@ function getUserSchedule() {
 }
 
 function putUserSchedule() {
+
+}
+
+module.exports= {
+  courseDescription : getCourseDescription()
 
 }
