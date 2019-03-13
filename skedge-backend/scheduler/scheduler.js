@@ -43,7 +43,7 @@ class Scheduler
 
     GenerateSchedulesForSemesters(semesters, placements)
     {
-        var schedules = [];
+        var allSchedules = [];
 
         semesters.forEach(semester => {
 
@@ -58,15 +58,21 @@ class Scheduler
                 generation = Generation(generation, rankingFunction, sectionList, populationLimit);
             }
 
-            schedules.push({
+            var currentSemesterSchedules = [];
+
+            generation.forEach(individual => {
+                currentSemesterSchedules.push(individual.semester);
+            })
+
+            allSchedules.push({
                 "year": semester.year,
                 "season": semester.season,
                 "credits": semester.credits,
-                "schedules": generation
+                "schedules": currentSemesterSchedules
             });
         });
 
-        return schedules;
+        return allSchedules;
     }
 
     GetSectionList(courses, season)
