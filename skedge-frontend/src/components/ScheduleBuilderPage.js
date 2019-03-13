@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
+import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
+import TabContent from './TabContent.js';
 import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
 
 //The main page after a user logs in
@@ -19,12 +21,29 @@ class ScheduleBuilderPage extends Component {
     console.log(this.state.visible);
   }
 
+  componentWillMount(){
+    this.panes = [];
+    var years = {};
+    this.props.scheduleGiven.forEach(element => {
+      var year = element.year;
+      var season = element.season;
+      if(years[year] === undefined)
+        years[year] = {};
+      years[year][season] = element.schedules;
+    });
+    for(var yearKey in years){
+      var scheduleComponents = [];
+      for(var seasonKey in years[yearKey]){
+        scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+      }
+      this.panes.push({
+        menuItem: yearKey,
+        render: () => <TabContent scheduleComponents={scheduleComponents}/>
+      })
+    }
+  }
+
   render() {
-    const panes = [
-      { menuItem: 'Semester 1', render: () => <Tab.Pane>Semester 1 Content</Tab.Pane> },
-      { menuItem: 'Semester 2', render: () => <Tab.Pane>Semester 2 Content</Tab.Pane>  },
-      { menuItem: 'Semester 3', render: () => <Tab.Pane>Semester 3 Content</Tab.Pane>  },
-    ];
     return (
       <div>
         <HeaderPage />
@@ -45,7 +64,7 @@ class ScheduleBuilderPage extends Component {
 
             <Sidebar.Pusher>
               <Segment basic>
-                <Tab panes={panes} />
+                <Tab panes={this.panes} />
                 <br />
                 <br />
                 <br />
