@@ -11,7 +11,7 @@ const generatedSchedules = require('./generatedSchedules');
 const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
 
-const courseDescriptions = require('./courseDescriptions')
+// const courseDescriptions = require('./courseDescriptions')
 
 
  //////////////////////
@@ -37,7 +37,8 @@ app.get('courses/getNames', (req, res) => {
     //such as Name, semester, nb of credits, timeslot etc.
     //Not sure if the method would take in an input??
 
-    //var courseList = database_service.getCourseDescription(); 
+    var courseList = database_service.courseDescription;
+    console.log(courseList);
 
     res.json(courseList);
 }
