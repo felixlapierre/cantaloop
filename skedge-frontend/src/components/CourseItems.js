@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import '../styles/CourseItems.css';
+import '../styles/CourseItems.css';
 
 //blob that has a name and class code
 class CourseItems extends Component {
