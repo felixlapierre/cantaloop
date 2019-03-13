@@ -7,7 +7,7 @@ h5 {
 }
 
 #outer {
-    width: 60%;
+    width: 80%;
     height: 560px;
     margin: auto;
     padding: 10px;
@@ -24,18 +24,29 @@ h5 {
     padding: 10px;
     border-color: green;
     border-width: 3px;
-    border-style:dashed;
+    border-style: dashed;
     border-radius: 20px;
 }
 
 
-#recordCcoursesDropdown, #wantedCoursesDropdown {
-   width: 60%;
+#recordCcoursesDropdown, #wantedCoursesDropdown{
+   width: 50%;
    height: 200px;
    border-color: salmon;
    border-width: 3px;
    border-style: solid;
    border-radius: 20px;
+   float: left;
+}
+
+#recordCourses, #wantedCourses {
+   width: 50%;
+   height: 200px;
+   border-color: salmon;
+   border-width: 3px;
+   border-style: solid;
+   border-radius: 20px;
+   float: right;
 }
 
 #goToScheduleBuilder {
