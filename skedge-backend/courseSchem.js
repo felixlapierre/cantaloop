@@ -3,8 +3,8 @@ let mongoose = require('mongoose');
 const courseSchema = new mongoose.Schema({
     session: String,
     subject: String,
-    catalog: Number,
-    section: Number,
+    catalog: String,
+    section: String,
     componentCode: String,
     courseTitle: String,
     locationCode: String,
@@ -30,4 +30,9 @@ const courseSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('courses', courseSchema);
+module.exports = {
+    courseSch : mongoose.model('courses', courseSchema),
+    lecSch:  mongoose.model('lectures', courseSchema),
+    tutSch: mongoose.model('tutorials', courseSchema),
+    labSch: mongoose.model('labs', courseSchema)
+}

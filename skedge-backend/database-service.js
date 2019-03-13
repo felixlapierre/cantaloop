@@ -5,8 +5,14 @@
 //
 const mongoose = require('mongoose');
 const assert = require('assert');
+const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
 
 const database = 'skedge-app';
+
+const db = mongoose.connection;
+
+var courseSchem= require('./courseSchem');
+
 
 class Database {
     constructor() {
@@ -21,44 +27,102 @@ class Database {
             .catch(err => {
                 console.error('Database connection error')
             })
+          
+
     }
 }
 
 module.exports = new Database();
 
-function getCourseCatalog() {
 
+
+
+//Returns everything in the database??
+function getCourseCatalog() {
+  courseSchem.lecSch.find({} ,'subject catalog', function(err, result){
+    if(err){
+      console.log("None")
+    }else{
+      console.log(result);
+    }
+  });
 }
+
+
 
 function getCourseDescription(){
 
 }
 
 function getCourses() {
+  courseSchem.courseSch.find({} ,function(err, result){
+    if(err){
+      console.log("None")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
+
+
 
 function getCourses(subject, catalog) {
+  courseSchem.courseSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
+
+// getCourses('ENGR','213');<== This works but im not sure in what format we want to return the stuff
 
 function getLabs() {
+  courseSchem.labSch.find({} ,function(err, result){
+    if(err){
+      console.log("None")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
+
 
 function getLabs(subject, catalog) {
 
 }
 
 function getLectures() {
+  courseSchem.lecSch.find({} ,function(err, result){
+    if(err){
+      console.log("None")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
+
+
 
 function getLectures(subject, catalog) {
 
 }
 
 function getTutorials() {
+  courseSchem.tutSch.find({} ,function(err, result){
+    if(err){
+      console.log("None")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
 
