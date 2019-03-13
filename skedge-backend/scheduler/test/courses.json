@@ -1,0 +1,147 @@
+{
+    "courses":
+    {
+        "COMP232" : {
+            "fall": [
+                {
+                    "LEC":{"time_start":"8:45","time_end":"10:00","days":"MoWe"},
+                    "LAB":{"time_start":"10:00", "time_end":"12:00","days":"Tu"},
+                    "TUT":{"time_start":"17:00", "time_end":"18:05","days":"Fr"}
+                },
+                {
+                    "LEC":{"time_start":"8:45","time_end":"10:00","days":"TuTr"},
+                    "LAB":{"time_start":"10:00", "time_end":"12:00","days":"Fr"},
+                    "TUT":{"time_start":"17:00", "time_end":"18:05","days":"Mo"}
+                }
+            ],
+            "winter": [
+                {
+                    "LEC":{"time_start":"8:45","time_end":"10:00","days":"MoWe"},
+                    "LAB":{"time_start":"10:00", "time_end":"12:00","days":"Tu"},
+                    "TUT":{"time_start":"17:00", "time_end":"18:05","days":"Fr"}
+                },
+                {
+                    "LEC":{"time_start":"8:45","time_end":"10:00","days":"TuTr"},
+                    "LAB":{"time_start":"10:00", "time_end":"12:00","days":"Fr"},
+                    "TUT":{"time_start":"17:00", "time_end":"18:05","days":"Mo"}
+                }
+            ],
+            "prerequisites" : [],
+            "corequisites" : [],
+            "credits": 3
+        },
+        "COMP248" : {
+            "fall": [
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"MoTu"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"We"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Fr"}
+                },
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"WeTr"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"Mo"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"We"}
+                }
+            ],
+            "winter": [
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"MoTu"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"We"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Fr"}
+                },
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"WeTr"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"Mo"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"We"}
+                }
+            ],
+            "prerequisites" : [],
+            "corequisites" : [],
+            "credits": 3.5
+        },
+        "COMP249" : {
+            "prerequisites" : ["COMP248"],
+            "corequisites" : [],
+            "credits": 3.5
+        },
+        "COMP348" : {
+            "prerequisites": ["COMP249"],
+            "corequisites" : [],
+            "credits": 3
+        },
+        "COMP346" : {
+            "prerequisites": ["COMP352", "SOEN228"],
+            "corequisites" : [],
+            "credits": 4
+        },
+        "COMP352" : {
+            "prerequisites" : ["COMP249"],
+            "corequisites" : [],
+            "credits": 3
+        },
+        "SOEN287" : {
+            "prerequisites": ["COMP248"],
+            "corequisites": [],
+            "credits" : 3
+        },
+        "SOEN331" : {
+            "prerequisites" : ["COMP232", "COMP249"],
+            "corequisites" : [],
+            "credits": 3
+        },
+        "ENGR201" : {
+            "fall": {"sections":[{"year":2017,"semester":"Fall","code":"EC","section_type":"LEC","days":"TBA","time_start":"0:00","time_end":"0:00","room":"ONLINE"},{"year":2017,"semester":"Fall","code":"ECEA","section_type":"TUT","days":"We","time_start":"8:45","time_end":"9:35","room":"FG B080 SGW"},{"year":2017,"semester":"Fall","code":"ECEB","section_type":"TUT","days":"We","time_start":"8:45","time_end":"9:35","room":"FG B080 SGW"},{"year":2017,"semester":"Fall","code":"ECEC","section_type":"TUT","days":"Th","time_start":"16:15","time_end":"17:05","room":"H 423 SGW"},{"year":2017,"semester":"Fall","code":"ECED","section_type":"TUT","days":"Th","time_start":"16:15","time_end":"17:05","room":"H 423 SGW"},{"year":2017,"semester":"Fall","code":"ECEE","section_type":"TUT","days":"Th","time_start":"17:45","time_end":"18:35","room":"H 631 SGW"},{"year":2017,"semester":"Fall","code":"ECEF","section_type":"TUT","days":"Th","time_start":"17:45","time_end":"18:35","room":"H 631 SGW"},{"year":2017,"semester":"Fall","code":"ECEG","section_type":"TUT","days":"Tu","time_start":"16:15","time_end":"17:05","room":"FG B080 SGW"},{"year":2017,"semester":"Fall","code":"ECEH","section_type":"TUT","days":"Tu","time_start":"16:15","time_end":"17:15","room":"FG B080 SGW"},{"year":2017,"semester":"Fall","code":"ECEI","section_type":"TUT","days":"Th","time_start":"18:45","time_end":"19:45","room":"H 631 SGW"},{"year":2017,"semester":"Fall","code":"ECEJ","section_type":"TUT","days":"Th","time_start":"18:45","time_end":"19:35","room":"H 631 SGW"}],"total":11},
+            "winter": {"sections":[{"year":2018,"semester":"Winter","code":"EC","section_type":"LEC","days":"TBA","time_start":"0:00","time_end":"0:00","room":"ONLINE"},{"year":2018,"semester":"Winter","code":"ECEA","section_type":"TUT","days":"Fr","time_start":"8:45","time_end":"9:35","room":"FG B055 SGW"},{"year":2018,"semester":"Winter","code":"ECEB","section_type":"TUT","days":"Fr","time_start":"8:45","time_end":"9:35","room":"FG B055 SGW"},{"year":2018,"semester":"Winter","code":"ECEC","section_type":"TUT","days":"Tu","time_start":"16:15","time_end":"17:05","room":"FG B055 SGW"},{"year":2018,"semester":"Winter","code":"ECED","section_type":"TUT","days":"Tu","time_start":"16:15","time_end":"17:05","room":"FG B080 SGW"},{"year":2018,"semester":"Winter","code":"ECEE","section_type":"TUT","days":"We","time_start":"8:45","time_end":"9:35","room":"FG B080 SGW"},{"year":2018,"semester":"Winter","code":"ECEF","section_type":"TUT","days":"We","time_start":"8:45","time_end":"9:35","room":"FG B080 SGW"},{"year":2018,"semester":"Winter","code":"ECEG","section_type":"TUT","days":"Th","time_start":"16:15","time_end":"17:05","room":"FG B055 SGW"},{"year":2018,"semester":"Winter","code":"ECEH","section_type":"TUT","days":"Th","time_start":"16:15","time_end":"17:05","room":"FG B080 SGW"},{"year":2018,"semester":"Winter","code":"ECEJ","section_type":"TUT","days":"Th","time_start":"16:15","time_end":"17:05","room":"FG B080 SGW"}],"total":10},
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 1.5
+        },
+        "ENGR202" : {
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 1.5
+        },
+        "ENGR213" : {
+            "fall": {"sections":[{"year":2017,"semester":"Fall","code":"P","section_type":"LEC","days":"MoWe","time_start":"11:45","time_end":"13:00","room":"FG C070 SGW"},{"year":2017,"semester":"Fall","code":"P PA","section_type":"TUT","days":"Fr","time_start":"13:15","time_end":"14:55","room":"H 557 SGW"},{"year":2017,"semester":"Fall","code":"P PB","section_type":"TUT","days":"Fr","time_start":"13:15","time_end":"14:55","room":"FG B050 SGW"},{"year":2017,"semester":"Fall","code":"R","section_type":"LEC","days":"WeFr","time_start":"8:45","time_end":"10:00","room":"FG C070 SGW"},{"year":2017,"semester":"Fall","code":"R RA","section_type":"TUT","days":"Mo","time_start":"8:20","time_end":"10:00","room":"H 431 SGW"},{"year":2017,"semester":"Fall","code":"R RB","section_type":"TUT","days":"Mo","time_start":"8:20","time_end":"10:00","room":"H 433 SGW"},{"year":2017,"semester":"Fall","code":"T","section_type":"LEC","days":"TuTh","time_start":"10:15","time_end":"11:30","room":"H 535 SGW"},{"year":2017,"semester":"Fall","code":"T TA","section_type":"TUT","days":"Mo","time_start":"13:15","time_end":"14:55","room":"H 557 SGW"},{"year":2017,"semester":"Fall","code":"T TB","section_type":"TUT","days":"Mo","time_start":"13:15","time_end":"14:55","room":"H 509 SGW"},{"year":2017,"semester":"Fall","code":"U","section_type":"LEC","days":"WeFr","time_start":"11:45","time_end":"13:00","room":"FG C080 SGW"},{"year":2017,"semester":"Fall","code":"U UA","section_type":"TUT","days":"Fr","time_start":"14:15","time_end":"15:55","room":"H 431 SGW"},{"year":2017,"semester":"Fall","code":"U UB","section_type":"TUT","days":"Mo","time_start":"14:15","time_end":"15:55","room":"H 431 SGW"},{"year":2017,"semester":"Fall","code":"V","section_type":"LEC","days":"WeFr","time_start":"8:45","time_end":"10:00","room":"FG C080 SGW"},{"year":2017,"semester":"Fall","code":"V VA","section_type":"TUT","days":"Th","time_start":"13:45","time_end":"15:25","room":"H 433 SGW"},{"year":2017,"semester":"Fall","code":"V VB","section_type":"TUT","days":"Mo","time_start":"8:20","time_end":"10:00","room":"H 561 SGW"},{"year":2017,"semester":"Fall","code":"X","section_type":"LEC","days":"TuTh","time_start":"10:15","time_end":"11:30","room":"FG C070 SGW"},{"year":2017,"semester":"Fall","code":"X XA","section_type":"TUT","days":"Mo","time_start":"13:15","time_end":"14:55","room":"H 433 SGW"},{"year":2017,"semester":"Fall","code":"X XB","section_type":"TUT","days":"Mo","time_start":"13:15","time_end":"14:55","room":"FG B030 SGW"},{"year":2017,"semester":"Fall","code":"XX","section_type":"LEC","days":"Fr","time_start":"17:45","time_end":"20:15","room":"FG C080 SGW"},{"year":2017,"semester":"Fall","code":"XXXE","section_type":"TUT","days":"Fr","time_start":"15:45","time_end":"17:25","room":"H 433 SGW"},{"year":2017,"semester":"Fall","code":"XXXF","section_type":"TUT","days":"Fr","time_start":"15:45","time_end":"17:25","room":"H 509 SGW"}],"total":21},
+            "winter": {"sections":[{"year":2018,"semester":"Winter","code":"F","section_type":"LEC","days":"TuTh","time_start":"14:45","time_end":"16:00","room":"H 435 SGW"},{"year":2018,"semester":"Winter","code":"F FA","section_type":"TUT","days":"Mo","time_start":"18:00","time_end":"19:40","room":"H 415 SGW"},{"year":2018,"semester":"Winter","code":"F FB","section_type":"TUT","days":"Fr","time_start":"17:45","time_end":"19:25","room":"MB S1.430 SGW"},{"year":2018,"semester":"Winter","code":"G","section_type":"LEC","days":"TuTh","time_start":"14:45","time_end":"16:00","room":"H 535 SGW"},{"year":2018,"semester":"Winter","code":"G GA","section_type":"TUT","days":"Mo","time_start":"16:10","time_end":"17:50","room":"H 507 SGW"},{"year":2018,"semester":"Winter","code":"G GB","section_type":"TUT","days":"Fr","time_start":"17:45","time_end":"19:25","room":"FG B070 SGW"},{"year":2018,"semester":"Winter","code":"J","section_type":"LEC","days":"TuTh","time_start":"14:45","time_end":"16:00","room":"FG C070 SGW"},{"year":2018,"semester":"Winter","code":"J JA","section_type":"TUT","days":"Fr","time_start":"15:45","time_end":"17:25","room":"MB 5.275 SGW"},{"year":2018,"semester":"Winter","code":"J JB","section_type":"TUT","days":"Fr","time_start":"15:45","time_end":"17:25","room":"MB S1.115 SGW"},{"year":2018,"semester":"Winter","code":"W","section_type":"LEC","days":"WeFr","time_start":"14:45","time_end":"16:00","room":"H 531 SGW"},{"year":2018,"semester":"Winter","code":"W WA","section_type":"TUT","days":"Fr","time_start":"16:10","time_end":"17:50","room":"MB S1.235 SGW"},{"year":2018,"semester":"Winter","code":"W WB","section_type":"TUT","days":"Mo","time_start":"18:00","time_end":"19:40","room":"H 507 SGW"}],"total":12},
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 3
+        },
+        "ENGR233" : {
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 3
+        },
+        "ENGR371": {
+            "prerequisites": ["ENGR213","ENGR233"],
+            "corequisites": [],
+            "credits": 3
+        },
+        "ENCS282": {
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 3
+        },
+        "ELEC275": {
+            "prerequisites": [],
+            "corequisites": ["ENGR213"],
+            "credits": 3.5
+        },
+        "Basic Science 1": {
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 3
+        },
+        "Basic Science 2": {
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 3
+        },
+        "General Education Elective": {
+            "prerequisites": [],
+            "corequisites": [],
+            "credits": 3
+        }
+    }
+}
