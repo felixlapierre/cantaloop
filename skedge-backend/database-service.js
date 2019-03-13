@@ -38,6 +38,7 @@ module.exports = new Database();
 
 
 //Returns everything in the database??
+//Faut trouver une facon de pas printer les duplicates
 function getCourseCatalog() {
   courseSchem.lecSch.find({} ,'subject catalog', function(err, result){
     if(err){
@@ -50,6 +51,7 @@ function getCourseCatalog() {
 
 
 
+//Faut trouver une facon de pas printer les duplicates
 function getCourseDescription(){
   courseSchem.courseSch.find({}, 'subject catalog courseTitle', function(err, result){
     if(err){
@@ -60,6 +62,7 @@ function getCourseDescription(){
   });
 
 }
+
 
 function getCourses() {
   courseSchem.courseSch.find({} ,function(err, result){
@@ -76,8 +79,8 @@ function getCourses() {
 
 function getCourses(subject, catalog) {
   courseSchem.courseSch.find({'subject': subject, 'catalog': catalog} 
-  ,'subject catalog componentCode section'
-  ,function(err, result){
+  ,'subject catalog componentCode section',
+  function(err, result){
     if(err){
       console.log("Error!")
     }else{
@@ -91,7 +94,8 @@ function getCourses(subject, catalog) {
 //<== This works but im not sure in what format we want to return the stuff
 
 function getLabs() {
-  courseSchem.labSch.find({} ,function(err, result){
+  courseSchem.labSch.find({},'subject catalog componentCode section',
+  function(err, result){
     if(err){
       console.log("None")
     }else{
@@ -103,6 +107,15 @@ function getLabs() {
 
 
 function getLabs(subject, catalog) {
+  courseSchem.labSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section',
+  function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
 
@@ -120,6 +133,15 @@ function getLectures() {
 
 
 function getLectures(subject, catalog) {
+  courseSchem.lecSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section',
+  function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
 
@@ -135,6 +157,15 @@ function getTutorials() {
 }
 
 function getTutorials(subject, catalog) {
+  courseSchem.tutSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section',
+  function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 }
 
