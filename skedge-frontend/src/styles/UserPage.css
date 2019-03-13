@@ -18,39 +18,23 @@ h5 {
     margin: auto;
     padding: 10px;
     text-align: center;
-  /* border-color: red;
-    border-width: 3px;
-    border-style:dotted;
-    border-radius: 20px;*/
 }
 
 .formDiv {
     width: 100%;
     height: 420px;
-  /*border-color: purple;
-    border-width: 3px;
-    border-style: dashed;
-    border-radius: 20px;*/
 }
 
 #recordCcoursesDropdown {
    width: 350px;
    height: 100px;
    float: left;
-  /* border-color: salmon;
-   border-width: 3px;
-   border-style: solid;
-   border-radius: 20px; */
 }
 
 #wantedCoursesDropdown {
   width: 350px;
   height: 100px;
   float: right;
- /* border-color: salmon;
-  border-width: 3px;
-  border-style: solid;
-  border-radius: 20px; */
 }
 
 
@@ -59,10 +43,6 @@ h5 {
    height: 300px;
    overflow-y:auto;
    float: left;
-   /*border-color: salmon;
-   border-width: 3px;
-   border-style: solid;
-   border-radius: 20px;*/
 }
 
  #wantedCourses {
@@ -70,10 +50,6 @@ h5 {
    height: 300px;
    overflow-y:auto;
    float: right;
-   /*border-color: salmon;
-   border-width: 3px;
-   border-style: solid;
-   border-radius: 20px;*/
 }
 
 #goToScheduleBuilder {

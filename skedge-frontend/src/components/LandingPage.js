@@ -47,7 +47,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div id='landingPage'>
-        <h1>Welcome to Skedge</h1>
+        <h1>Skedge</h1>
         <Form id='loginForm'>
           <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' />
           <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'/>
