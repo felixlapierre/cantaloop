@@ -105,12 +105,30 @@ class UserRecordPage extends Component {
 
   addRecordItem = e => {
     e.preventDefault();
-    console.log('Hello Add Record Item')
+    const currentItem = this.state.currentRecordItem;
+    console.log(currentItem);
+    if(currentItem.text !== ""){
+      const items = [...this.state.recordItems, currentItem]
+      this.setState({
+         recordItems: items,
+         currentRecordItem: { text: '', key: '' },
+       })
+       console.log(items)
+   }
   }
 
   addCourseItem = e => {
     e.preventDefault();
-    console.log('Hello Add Course Item')
+    const currentItem = this.state.currentCourseItem;
+    console.log(currentItem);
+    if(currentItem.text !== ""){
+      const items = [...this.state.courseItems, currentItem]
+      this.setState({
+         currentItems: items,
+         currentCourseItem: { text: '', key: '' },
+       })
+       console.log(items)
+   }
   }
 
   render() {
