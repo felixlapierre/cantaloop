@@ -2,10 +2,10 @@
  * Ranks each course in the provided course list by how many classes
  * depend on it.
  * @param {*} courseList The list of classes to be ranked
- * @param {*} courseMap The map of course prerequisites, corequisites.
+ * @param {*} courseCatalog The map containing course prerequisites, corequisites.
  * @returns an array with each course in order of the ranking
  */
-function assignCourseRanks(courseList, courseMap)
+function assignCourseRanks(courseList, courseCatalog)
 {
     var courseRanks = {};
     for(var key = 0; key < courseList.length; key++)
@@ -14,7 +14,7 @@ function assignCourseRanks(courseList, courseMap)
         if(courseRanks[courseId] === undefined)
             courseRanks[courseId] = 0;
 
-        addRankToPrerequisitesAndCorequisites(courseId, courseMap, courseRanks);
+        addRankToPrerequisitesAndCorequisites(courseId, courseCatalog, courseRanks);
     }
     var ranksAsArray = toSortedArray(courseRanks);
     return ranksAsArray;

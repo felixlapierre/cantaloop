@@ -1,6 +1,7 @@
 var CoursePlacer = require("./course-placement/course-placement");
 var Requisites = require("./course-placement/requisites");
 var AddMissingRequisites = require("./course-placement/add-missing-requisites");
+var RankCourses = require("./course-placement/rank-courses");
 
 var Generation = require("./semester-generation/generation").generation;
 var InitialGeneration = require("./semester-generation/generation").initalGeneration;
@@ -20,7 +21,7 @@ class Scheduler
     {
         var placements = this.GetPlacements(courseRecord, courseSequence, semesters);
 
-        var schedules = GenerateSchedulesForSemesters(semesters, placements);
+        var schedules = this.GenerateSchedulesForSemesters(semesters, placements);
 
         return schedules;
     }
@@ -31,9 +32,13 @@ class Scheduler
 
         AddMissingRequisites(this.catalog, courseSequence, requisites);
 
+        var ranks = RankCourses(courseSequence, this.catalog);
+
         var placer = new CoursePlacer(this.catalog, requisites);
 
-        return placer.placeCourses(courseRecord, courseSequence, semesters);
+        var placements = placer.PlaceCourses(semesters, ranks);
+
+        return placements;
     }
 
     GenerateSchedulesForSemesters(semesters, placements)
@@ -44,7 +49,7 @@ class Scheduler
 
             var placement = placements[semester.season + " " + semester.year];
 
-            var sectionList = GetSectionList(placement, semester.season);
+            var sectionList = this.GetSectionList(placement, semester.season);
 
             var generation = InitialGeneration(placement, sectionList, rankingFunction, populationLimit);
 
@@ -75,3 +80,5 @@ class Scheduler
         return sectionList;
     }
 }
+
+module.exports = Scheduler;
