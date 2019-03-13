@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/UserRecordPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
-
+import CourseItems from './CourseItems.js';
 
 const courseOptions = [
   {
@@ -69,6 +69,10 @@ class UserRecordPage extends Component {
     }
     this.handleRecordInput = this.handleRecordInput.bind(this);
     this.handleCourseInput = this.handleCourseInput.bind(this);
+    this.addRecordItem = this.addRecordItem.bind(this);
+    this.addCourseItem = this.addCourseItem.bind(this);
+    this.deleteRecordItem = this.deleteRecordItem.bind(this);
+    this.deleteCourseItem = this.deleteCourseItem.bind(this);
   }
 
   handleRecordInput(event, data) {
@@ -84,7 +88,6 @@ class UserRecordPage extends Component {
     this.setState({
       currentRecordItem: currentItem
     })
-    console.log(currentItem);
   }
 
   handleCourseInput(event, data) {
@@ -100,35 +103,48 @@ class UserRecordPage extends Component {
     this.setState({
       currentCourseItem: currentItem
     })
-    console.log(currentItem);
   }
 
   addRecordItem = e => {
     e.preventDefault();
     const currentItem = this.state.currentRecordItem;
-    console.log(currentItem);
     if(currentItem.text !== ""){
       const items = [...this.state.recordItems, currentItem]
       this.setState({
          recordItems: items,
          currentRecordItem: { text: '', key: '' },
        })
-       console.log(items)
    }
   }
 
   addCourseItem = e => {
     e.preventDefault();
     const currentItem = this.state.currentCourseItem;
-    console.log(currentItem);
     if(currentItem.text !== ""){
       const items = [...this.state.courseItems, currentItem]
       this.setState({
-         currentItems: items,
+         courseItems: items,
          currentCourseItem: { text: '', key: '' },
        })
-       console.log(items)
    }
+  }
+
+  deleteRecordItem(key){
+    const filteredItems = this.state.recordItems.filter(item => {
+      return item.key !== key
+    })
+    this.setState({
+      recordItems: filteredItems
+    })
+  }
+
+  deleteCourseItem(key){
+    const filteredItems = this.state.courseItems.filter(item => {
+      return item.key !== key
+    })
+    this.setState({
+      courseItems: filteredItems
+    })
   }
 
   render() {
@@ -155,7 +171,7 @@ class UserRecordPage extends Component {
                     <Button id = "Button" onClick = {this.addRecordItem}>Add Course</Button>
                   </form>
                   <div id = "recordCourses">
-                      heyo
+                      <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem} />
                   </div>
                   <br/>
                   <form id = "wantedCoursesDropdown">
@@ -175,7 +191,7 @@ class UserRecordPage extends Component {
                     <Button id = "button" onClick = {this.addCourseItem}>Add Course</Button>
                   </form>
                   <div id = "wantedCourses">
-                      heyo
+                      <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem} />
                   </div>
             </div>
           <div>
