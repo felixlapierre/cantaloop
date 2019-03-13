@@ -1,0 +1,28 @@
+#landingPage {
+  text-align:center;
+}
+
+#loginForm {
+  display:inline-block;
+  text-align:center;
+  padding: 1rem;
+  border: 2px solid;
+}
+
+#loginButton {
+  float: left;
+  margin: 1rem;
+}
+
+#registerButton {
+  float: right;
+  margin: 1rem;
+}
+
+#loginButtonGuest {
+  width: 100%;
+}
+
+#userNameBox {
+  margin: 1rem 0 1rem 0;
+}
