@@ -19,6 +19,9 @@ describe('createSchedules', () => {
                 "numberOfCourses": 5
             }
         ]
+
+        //Act
+        var schedules = scheduler.GenerateSchedules(someEmptyCourseRecord, someEmptyCourseSequence, someSemesters);
     })
     it('should place a single class on its own in the first semester', () => {
         //Arrange

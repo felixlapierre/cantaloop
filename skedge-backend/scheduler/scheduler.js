@@ -47,22 +47,25 @@ class Scheduler
 
         semesters.forEach(semester => {
 
-            var placement = placements[semester.season + " " + semester.year];
-
-            var sectionList = this.GetSectionList(placement, semester.season);
-
-            var generation = InitialGeneration(placement, sectionList, rankingFunction, populationLimit);
-
-            for(var i = 0; i < numberOfGenerations; i++)
-            {
-                generation = Generation(generation, rankingFunction, sectionList, populationLimit);
-            }
-
             var currentSemesterSchedules = [];
 
-            generation.forEach(individual => {
-                currentSemesterSchedules.push(individual.semester);
-            })
+            var placement = placements[semester.season + " " + semester.year];
+
+            if(placement.length != 0)
+            {
+                var sectionList = this.GetSectionList(placement, semester.season);
+
+                var generation = InitialGeneration(placement, sectionList, rankingFunction, populationLimit);
+
+                for(var i = 0; i < numberOfGenerations; i++)
+                {
+                    generation = Generation(generation, rankingFunction, sectionList, populationLimit);
+                }
+
+                generation.forEach(individual => {
+                    currentSemesterSchedules.push(individual.semester);
+                })
+            }
 
             allSchedules.push({
                 "year": semester.year,
