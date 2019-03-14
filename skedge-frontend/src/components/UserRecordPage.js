@@ -73,6 +73,7 @@ class UserRecordPage extends Component {
     this.deleteRecordItem = this.deleteRecordItem.bind(this);
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
+    this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
   }
 
   handleRecordInput(event, data) {
@@ -171,12 +172,17 @@ class UserRecordPage extends Component {
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
-    console.log(recordArray);
-    console.log(courseSequenceArray);
-    return [
-      recordArray,
-      courseSequenceArray
-    ]
+    
+    return {
+      "record": recordArray,
+      "courseSequence": courseSequenceArray
+    }
+  }
+
+  handleCourseSubmission(){
+    let coursesPayload = this.formatRecordAndCourseSequence();
+    console.log(coursesPayload.record);
+    console.log(coursesPayload.courseSequence);
   }
 
   render() {
@@ -229,7 +235,7 @@ class UserRecordPage extends Component {
                   </div>
             </div>
           <div>
-          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.formatRecordAndCourseSequence}>
+          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>
           Make My Schedule
           </Button></Link>
           </div>
