@@ -19,7 +19,7 @@ const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
 // Using CORS to allow local host to be the client and server.
 app.use(cors());
-// Using bodyParser.json() to automatically parse the body of 
+// Using bodyParser.json() to automatically parse the body of
 // incoming requests.
 app.use(bodyParser.json());
 // Using express.static to serve the React frontend at root.
@@ -29,16 +29,20 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
  ///////////////////
 // Express Enpoints
 
-// getName endpoint, it will return a json object containing a list of all courses
-app.get('courses/getNames', (req, res) => {
 
-    //Method has not been defined yet, but assuming that it will take the info directly from 
-    //MongoDB and it would return an array of all courses available with instances variable 
+
+// getName endpoint, it will return a json object containing a list of all courses
+app.get('/courses/getNames', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from
+    //MongoDB and it would return an array of all courses available with instances variable
     //such as Name, semester, nb of credits, timeslot etc.
     //Not sure if the method would take in an input??
 
-    var courseList = database_service.courseDescription;
-    //console.log(courseList);
+
+    var courseList = database_service.getCoursesDescription();
+
+    console.log(courseList);
 
     res.json(courseList);
 }
@@ -66,7 +70,7 @@ app.post('/genSchedules', (req, res) => {
     // Missing information (semesters array is empty, etc.)
     // CourseRecord must be an array of strings (valid if matches with one of the courses in the database)
     // CourseSequence must be an array of valid strings (valid if matches with one of the courses in the database)
-    // In Semesters, 
+    // In Semesters,
     // year should be a number and it should be >= 2019
     // season should be either "Fall", "Winter" or "Summer"
     // credits should be a number, any restrictions for credits (bond de .5 seulements)????
@@ -83,4 +87,4 @@ app.post('/genSchedules', (req, res) => {
 
  ////////////////////
 // Express listener
-app.listen(port, () => console.log(`We are listening on port ${port}!`));
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));

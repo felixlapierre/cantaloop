@@ -27,18 +27,33 @@ class Database {
             .catch(err => {
                 console.error('Database connection error')
             })
-          
+
 
     }
 }
 
+//Removes all duplicate instances of a course
+function removeDuplicate(myArray) {
+  let result = [];
+  let duplicate = false;
+  for (let elements in myArray){
+    for (i = 0; i < result.length; i++){
+      if (myArray[elements].courseTitle==result[i].courseTitle) {
+        duplicate = true;
+      }
+    }
+    if (duplicate == false){
+      result.push(myArray[elements]);
+    }
+    duplicate = false;
+  }
+  return result;
+}
+
 module.exports = new Database();
 
-
-
-
-//Returns everything in the database??
-function getCourseCatalog() {
+module.exports = {
+getCourseCatalog: function () {
   courseSchem.lecSch.find({} ,'subject catalog', function(err, result){
     if(err){
       console.log("None")
@@ -46,22 +61,22 @@ function getCourseCatalog() {
       console.log(result);
     }
   });
-}
+},
 
 
 
-function getCourseDescription(){
+getCoursesDescription: function () {
   courseSchem.courseSch.find({}, 'subject catalog courseTitle', function(err, result){
     if(err){
       console.log("None")
     }else{
-      console.log(result);
+      console.log(removeDuplicate(result));
     }
   });
 
-}
+},
 
-function getCourses() {
+getCourses: function () {
   courseSchem.courseSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -70,12 +85,11 @@ function getCourses() {
     }
   });
 
-}
+},
 
 
-
-function getCourses(subject, catalog) {
-  courseSchem.courseSch.find({'subject': subject, 'catalog': catalog} 
+getCourses: function(subject,catalog) {
+  courseSchem.courseSch.find({'subject': subject, 'catalog': catalog}
   ,'subject catalog componentCode section'
   ,function(err, result){
     if(err){
@@ -85,12 +99,12 @@ function getCourses(subject, catalog) {
     }
   });
 
-}
+},
 
 // getCourses('ENGR','213');
 //<== This works but im not sure in what format we want to return the stuff
 
-function getLabs() {
+getLabs: function () {
   courseSchem.labSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -99,14 +113,23 @@ function getLabs() {
     }
   });
 
-}
+},
 
 
-function getLabs(subject, catalog) {
+getLabs: function (subject, catalog) {
+  courseSchem.labSch.find({'subject': subject, 'catalog': catalog}
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
-}
+},
 
-function getLectures() {
+getLectures: function () {
   courseSchem.lecSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -115,15 +138,24 @@ function getLectures() {
     }
   });
 
-}
+},
 
 
 
-function getLectures(subject, catalog) {
+getLectures: function (subject, catalog) {
+  courseSchem.lecSch.find({'subject': subject, 'catalog': catalog}
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
-}
+},
 
-function getTutorials() {
+getTutorials: function () {
   courseSchem.tutSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -132,53 +164,65 @@ function getTutorials() {
     }
   });
 
+},
+
+getTutorials: function (subject, catalog) {
+  courseSchem.tutSch.find({'subject': subject, 'catalog': catalog}
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
+
+},
+
+getSections: function () {
+
+},
+
+getSections: function (subject, catalog) {
+
+},
+
+getCoPreRequisites:function () {
+
+},
+
+getCoPreRequisites: function (subject, catalog) {
+
+},
+
+getDescriptions: function () {
+
+},
+
+getDescriptions: function (subject, catalog) {
+
+},
+
+getUserRecord: function () {
+
+},
+
+putUserRecord: function () {
+
+},
+
+getUserSchedule: function () {
+
+},
+
+putUserSchedule: function () {
+
 }
+};
+<<<<<<< HEAD
+=======
 
-function getTutorials(subject, catalog) {
 
-}
 
-function getSections() {
 
-}
-
-function getSections(subject, catalog) {
-
-}
-
-function getCoPreRequisites() {
-
-}
-
-function getCoPreRequisites(subject, catalog) {
-
-}
-
-function getDescriptions() {
-
-}
-
-function getDescriptions(subject, catalog) {
-
-}
-
-function getUserRecord() {
-
-}
-
-function putUserRecord() {
-
-}
-
-function getUserSchedule() {
-
-}
-
-function putUserSchedule() {
-
-}
-
-module.exports= {
-  courseDescription : getCourseDescription()
-
-}
+>>>>>>> ca941f636461eaa9b957288c3b52d0dbe0492822
