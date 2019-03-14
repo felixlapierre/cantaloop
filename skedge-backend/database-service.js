@@ -27,16 +27,30 @@ class Database {
             .catch(err => {
                 console.error('Database connection error')
             })
-          
+
 
     }
 }
 
+//Removes all duplicate instances of a course
+function removeDuplicate(myArray) {
+  let result = [];
+  let duplicate = false;
+  for (let elements in myArray){
+    for (i = 0; i < result.length; i++){
+      if (myArray[elements].courseTitle==result[i].courseTitle) {
+        duplicate = true;
+      }
+    }
+    if (duplicate == false){
+      result.push(myArray[elements]);
+    }
+    duplicate = false;
+  }
+  return result;
+}
+
 module.exports = new Database();
-
-
-
-
 
 module.exports = {
 getCourseCatalog: function () {
@@ -56,7 +70,7 @@ getCoursesDescription: function () {
     if(err){
       console.log("None")
     }else{
-      console.log(result);
+      console.log(removeDuplicate(result));
     }
   });
 
@@ -75,7 +89,7 @@ getCourses: function () {
 
 
 getCourses: function(subject,catalog) {
-  courseSchem.courseSch.find({'subject': subject, 'catalog': catalog} 
+  courseSchem.courseSch.find({'subject': subject, 'catalog': catalog}
   ,'subject catalog componentCode section'
   ,function(err, result){
     if(err){
@@ -103,7 +117,7 @@ getLabs: function () {
 
 
 getLabs: function (subject, catalog) {
-  courseSchem.labSch.find({'subject': subject, 'catalog': catalog} 
+  courseSchem.labSch.find({'subject': subject, 'catalog': catalog}
   ,'subject catalog componentCode section'
   ,function(err, result){
     if(err){
@@ -129,7 +143,7 @@ getLectures: function () {
 
 
 getLectures: function (subject, catalog) {
-  courseSchem.lecSch.find({'subject': subject, 'catalog': catalog} 
+  courseSchem.lecSch.find({'subject': subject, 'catalog': catalog}
   ,'subject catalog componentCode section'
   ,function(err, result){
     if(err){
@@ -153,7 +167,7 @@ getTutorials: function () {
 },
 
 getTutorials: function (subject, catalog) {
-  courseSchem.tutSch.find({'subject': subject, 'catalog': catalog} 
+  courseSchem.tutSch.find({'subject': subject, 'catalog': catalog}
   ,'subject catalog componentCode section'
   ,function(err, result){
     if(err){
@@ -205,6 +219,3 @@ putUserSchedule: function () {
 
 }
 };
-
-
-
