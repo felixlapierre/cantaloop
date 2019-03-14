@@ -38,7 +38,7 @@ class ScheduleBuilderPage extends Component {
       }
       this.panes.push({
         menuItem: yearKey,
-        render: () => <TabContent scheduleComponents={scheduleComponents}/>
+        render: () => <TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/>
       })
     }
   }

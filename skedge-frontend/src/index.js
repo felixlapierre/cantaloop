@@ -1015,7 +1015,6 @@ ReactDOM.render(
     <div id='container'>
       <Route exact path="/" component={LandingPage} />
       <Route path="/schedule" render={(props) => <ScheduleBuilderPage scheduleGiven={testJson} />}/>
-      <Route path="/schedule" render={(props) => <TabContent scheduleGiven={testJson}/> } />
       <Route path="/record" component={UserRecordPage} />
     </div>
   </Router>, document.getElementById('root'));
