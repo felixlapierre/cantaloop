@@ -1,0 +1,18 @@
+{
+  "courseRecord": ["COMP248", "COMP232"],
+  "courseSequence": ["COMP249", "SOEN287"],
+  "semesters":[
+    {
+      "year": "2019",
+      "season": "Fall",
+      "credits": 15.3,
+      "numCourses": 5
+    },
+    {
+      "year": "2019",
+      "season": "Winter",
+      "credits": 20,
+      "numCourses": 5
+    }
+    ]
+}
