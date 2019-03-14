@@ -38,8 +38,8 @@ module.exports = new Database();
 
 
 //Returns everything in the database??
-//Faut trouver une facon de pas printer les duplicates
-function getCourseCatalog() {
+module.exports = {
+getCourseCatalog: function () {
   courseSchem.lecSch.find({} ,'subject catalog', function(err, result){
     if(err){
       console.log("None")
@@ -47,12 +47,11 @@ function getCourseCatalog() {
       console.log(result);
     }
   });
-}
+},
 
 
 
-//Faut trouver une facon de pas printer les duplicates
-function getCourseDescription(){
+getCoursesDescription: function () {
   courseSchem.courseSch.find({}, 'subject catalog courseTitle', function(err, result){
     if(err){
       console.log("None")
@@ -61,10 +60,9 @@ function getCourseDescription(){
     }
   });
 
-}
+},
 
-
-function getCourses() {
+getCourses: function () {
   courseSchem.courseSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -73,14 +71,13 @@ function getCourses() {
     }
   });
 
-}
+},
 
 
-
-function getCourses(subject, catalog) {
+getCourses: function(subject,catalog) {
   courseSchem.courseSch.find({'subject': subject, 'catalog': catalog} 
-  ,'subject catalog componentCode section',
-  function(err, result){
+  ,'subject catalog componentCode section'
+  ,function(err, result){
     if(err){
       console.log("Error!")
     }else{
@@ -88,14 +85,13 @@ function getCourses(subject, catalog) {
     }
   });
 
-}
+},
 
 // getCourses('ENGR','213');
 //<== This works but im not sure in what format we want to return the stuff
 
-function getLabs() {
-  courseSchem.labSch.find({},'subject catalog componentCode section',
-  function(err, result){
+getLabs: function () {
+  courseSchem.labSch.find({} ,function(err, result){
     if(err){
       console.log("None")
     }else{
@@ -103,23 +99,14 @@ function getLabs() {
     }
   });
 
-}
+},
 
 
-function getLabs(subject, catalog) {
-  courseSchem.labSch.find({'subject': subject, 'catalog': catalog} 
-  ,'subject catalog componentCode section',
-  function(err, result){
-    if(err){
-      console.log("Error!")
-    }else{
-      console.log(result);
-    }
-  });
+getLabs: function getLabs(subject, catalog) {
 
-}
+},
 
-function getLectures() {
+getLectures: function getLectures() {
   courseSchem.lecSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -128,24 +115,15 @@ function getLectures() {
     }
   });
 
-}
+},
 
 
 
-function getLectures(subject, catalog) {
-  courseSchem.lecSch.find({'subject': subject, 'catalog': catalog} 
-  ,'subject catalog componentCode section',
-  function(err, result){
-    if(err){
-      console.log("Error!")
-    }else{
-      console.log(result);
-    }
-  });
+getLectures: function getLectures(subject, catalog) {
 
-}
+},
 
-function getTutorials() {
+getTutorials: function getTutorials() {
   courseSchem.tutSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -154,62 +132,52 @@ function getTutorials() {
     }
   });
 
-}
+},
 
-function getTutorials(subject, catalog) {
-  courseSchem.tutSch.find({'subject': subject, 'catalog': catalog} 
-  ,'subject catalog componentCode section',
-  function(err, result){
-    if(err){
-      console.log("Error!")
-    }else{
-      console.log(result);
-    }
-  });
+getTutorials: function getTutorials(subject, catalog) {
 
-}
+},
 
-function getSections() {
+getSections: function getSections() {
 
-}
+},
 
-function getSections(subject, catalog) {
+getSections: function getSections(subject, catalog) {
 
-}
+},
 
-function getCoPreRequisites() {
+getCoPreRequisites:function getCoPreRequisites() {
 
-}
+},
 
-function getCoPreRequisites(subject, catalog) {
+getCoPreRequisites: function getCoPreRequisites(subject, catalog) {
 
-}
+},
 
-function getDescriptions() {
+getDescriptions: function getDescriptions() {
 
-}
+},
 
-function getDescriptions(subject, catalog) {
+getDescriptions: function getDescriptions(subject, catalog) {
 
-}
+},
 
-function getUserRecord() {
+getUserRecord: function getUserRecord() {
 
-}
+},
 
-function putUserRecord() {
+putUserRecord: function putUserRecord() {
 
-}
+},
 
-function getUserSchedule() {
+getUserSchedule: function getUserSchedule() {
+
+},
+
+putUserSchedule: function putUserSchedule() {
 
 }
+};
 
-function putUserSchedule() {
 
-}
 
-module.exports= {
-  courseDescription : getCourseDescription()
-
-}
