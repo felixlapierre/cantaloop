@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const app = express();
-const database_service = require('./database-service');
+const database_service = require('./database/database-service');
 const port = 4200;
 
 // Data for testing endpoint /generateSchedules

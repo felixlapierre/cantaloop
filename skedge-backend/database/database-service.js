@@ -12,6 +12,7 @@ const database = 'skedge-app';
 const db = mongoose.connection;
 
 var courseSchem= require('./courseSchem');
+var courseDescriptionSchema = require('./courseDescriptionSchema');
 
 
 class Database {
@@ -66,13 +67,13 @@ getCourseCatalog: function () {
 
 
 getCoursesDescription: function () {
-  courseSchem.courseSch.find({}, 'subject catalog courseTitle', function(err, result){
-    if(err){
-      console.log("None")
-    }else{
-      console.log(removeDuplicate(result));
-    }
-  });
+    courseDescriptionSchema.courseDescription.find({}, function(err, result){
+        if(err){
+            console.log("None")
+        }else{
+            console.log(result);
+        }
+    });
 
 },
 
@@ -219,10 +220,4 @@ putUserSchedule: function () {
 
 }
 };
-<<<<<<< HEAD
-=======
 
-
-
-
->>>>>>> ca941f636461eaa9b957288c3b52d0dbe0492822
