@@ -39,9 +39,13 @@ app.get('/courses/getNames', (req, res) => {
     //such as Name, semester, nb of credits, timeslot etc.
     //Not sure if the method would take in an input??
 
+<<<<<<< HEAD
     
     var courseList = database_service.getCoursesDescription();
 
+=======
+    var courseList = database_service.courseDescription;
+>>>>>>> bdf231c58fc4414840076a6e9b4a29765f7d33dc
     console.log(courseList);
 
     res.json(courseList);
