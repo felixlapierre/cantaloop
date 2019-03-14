@@ -38,7 +38,7 @@ app.get('courses/getNames', (req, res) => {
     //Not sure if the method would take in an input??
 
     var courseList = database_service.courseDescription;
-    console.log(courseList);
+    //console.log(courseList);
 
     res.json(courseList);
 }
@@ -46,7 +46,7 @@ app.get('courses/getNames', (req, res) => {
 
 // prototype endpoint
 app.put('/prototype', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     // Sends course to database with name from json payload
     var db_msg = database_service.writeCourseToDatabase(req.body.name);
@@ -75,10 +75,6 @@ app.post('/genSchedules', (req, res) => {
     var courseRecord = req.body.courseRecord;
     var courseSequence = req.body.courseSequence;
     var semesters = req.body.semesters;
-    console.log("\n\n\n\n\n\n\n\n-------------------------------------------------------------------------------------\n\n\n\n\n\n\n\n")
-    console.log(courseRecord);
-    console.log(courseSequence);
-    console.log(semesters);
 
     //var generatedSchedules = scheduler.GenerateSchedules(courseRecord, courseSequence, semesters); // returns an array of schedules for each semester
     let generatedSchedules = {"hey from the backout":"helloworld"}
@@ -88,4 +84,4 @@ app.post('/genSchedules', (req, res) => {
 
  ////////////////////
 // Express listener
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`We are listening on port ${port}!`));
