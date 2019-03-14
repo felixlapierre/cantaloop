@@ -3,6 +3,7 @@ import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import CourseItems from './CourseItems.js';
+import axios from "axios"
 
 const courseOptions = [
   {
@@ -172,17 +173,82 @@ class UserRecordPage extends Component {
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
+
+    let semesters = [
+      {
+        "year": 2019,
+        "season": "fall",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2020,
+        "season": "winter",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2020,
+        "season": "fall",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2021,
+        "season": "winter",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2021,
+        "season": "fall",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2022,
+        "season": "winter",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2022,
+        "season": "fall",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      },
+      {
+        "year": 2023,
+        "season": "winter",
+        "credits": 20,
+        "numCourses": 5,
+        "restrictions": [] 
+      }
+    ]
     
     return {
-      "record": recordArray,
-      "courseSequence": courseSequenceArray
+      "courseRecord": recordArray,
+      "courseSequence": courseSequenceArray,
+      "semesters": semesters
     }
   }
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-    console.log(coursesPayload.record);
+    console.log(coursesPayload.courseRecord);
     console.log(coursesPayload.courseSequence);
+    console.log(coursesPayload.semesters);
+    axios.post('/genSchedules', coursesPayload).then(response => {
+      console.log("Received: ");
+      console.log(response.data);
+    });
   }
 
   render() {

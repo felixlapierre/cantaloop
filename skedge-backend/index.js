@@ -75,9 +75,13 @@ app.post('/genSchedules', (req, res) => {
     var courseRecord = req.body.courseRecord;
     var courseSequence = req.body.courseSequence;
     var semesters = req.body.semesters;
+    console.log("\n\n\n\n\n\n\n\n-------------------------------------------------------------------------------------\n\n\n\n\n\n\n\n")
+    console.log(courseRecord);
+    console.log(courseSequence);
+    console.log(semesters);
 
     //var generatedSchedules = scheduler.GenerateSchedules(courseRecord, courseSequence, semesters); // returns an array of schedules for each semester
-    
+    let generatedSchedules = {"hey from the backout":"helloworld"}
     res.json(generatedSchedules);
 });
 
