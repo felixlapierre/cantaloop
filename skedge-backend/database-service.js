@@ -37,7 +37,7 @@ module.exports = new Database();
 
 
 
-//Returns everything in the database??
+
 module.exports = {
 getCourseCatalog: function () {
   courseSchem.lecSch.find({} ,'subject catalog', function(err, result){
@@ -102,11 +102,20 @@ getLabs: function () {
 },
 
 
-getLabs: function getLabs(subject, catalog) {
+getLabs: function (subject, catalog) {
+  courseSchem.labSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 },
 
-getLectures: function getLectures() {
+getLectures: function () {
   courseSchem.lecSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -119,11 +128,20 @@ getLectures: function getLectures() {
 
 
 
-getLectures: function getLectures(subject, catalog) {
+getLectures: function (subject, catalog) {
+  courseSchem.lecSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 },
 
-getTutorials: function getTutorials() {
+getTutorials: function () {
   courseSchem.tutSch.find({} ,function(err, result){
     if(err){
       console.log("None")
@@ -134,47 +152,56 @@ getTutorials: function getTutorials() {
 
 },
 
-getTutorials: function getTutorials(subject, catalog) {
+getTutorials: function (subject, catalog) {
+  courseSchem.tutSch.find({'subject': subject, 'catalog': catalog} 
+  ,'subject catalog componentCode section'
+  ,function(err, result){
+    if(err){
+      console.log("Error!")
+    }else{
+      console.log(result);
+    }
+  });
 
 },
 
-getSections: function getSections() {
+getSections: function () {
 
 },
 
-getSections: function getSections(subject, catalog) {
+getSections: function (subject, catalog) {
 
 },
 
-getCoPreRequisites:function getCoPreRequisites() {
+getCoPreRequisites:function () {
 
 },
 
-getCoPreRequisites: function getCoPreRequisites(subject, catalog) {
+getCoPreRequisites: function (subject, catalog) {
 
 },
 
-getDescriptions: function getDescriptions() {
+getDescriptions: function () {
 
 },
 
-getDescriptions: function getDescriptions(subject, catalog) {
+getDescriptions: function (subject, catalog) {
 
 },
 
-getUserRecord: function getUserRecord() {
+getUserRecord: function () {
 
 },
 
-putUserRecord: function putUserRecord() {
+putUserRecord: function () {
 
 },
 
-getUserSchedule: function getUserSchedule() {
+getUserSchedule: function () {
 
 },
 
-putUserSchedule: function putUserSchedule() {
+putUserSchedule: function () {
 
 }
 };

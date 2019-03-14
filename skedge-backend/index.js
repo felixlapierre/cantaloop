@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 // Express Enpoints
 
 
+
 // getName endpoint, it will return a json object containing a list of all courses
 app.get('/courses/getNames', (req, res) => {
 
