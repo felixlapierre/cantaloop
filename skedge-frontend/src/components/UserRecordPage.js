@@ -72,6 +72,7 @@ class UserRecordPage extends Component {
     this.addCourseItem = this.addCourseItem.bind(this);
     this.deleteRecordItem = this.deleteRecordItem.bind(this);
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
+    this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
   }
 
   handleRecordInput(event, data) {
@@ -104,10 +105,10 @@ class UserRecordPage extends Component {
     })
   }
 
-  addRecordItem = e => {
-    e.preventDefault();
+  addRecordItem(event) {
+    event.preventDefault();
     const currentItem = this.state.currentRecordItem;
-    if(currentItem.text !== ""){
+    if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
       this.setState({
          recordItems: items,
@@ -116,16 +117,25 @@ class UserRecordPage extends Component {
    }
   }
 
-  addCourseItem = e => {
-    e.preventDefault();
+  addCourseItem(event) {
+    event.preventDefault();
     const currentItem = this.state.currentCourseItem;
-    if(currentItem.text !== ""){
+    if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
       this.setState({
          courseItems: items,
          currentCourseItem: { text: '', key: '' },
        })
    }
+  }
+
+  arrayItemsContainsItem(array, keyValuePair){
+    for(var i in array){
+      if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
+        return true;
+      }
+    }
+    return false;
   }
 
   deleteRecordItem(key){
@@ -146,16 +156,39 @@ class UserRecordPage extends Component {
     })
   }
 
+  formatRecordAndCourseSequence(){
+    var recordArray = [];
+    var courseSequenceArray = [];
+    var recordItems = this.state.recordItems;
+    var courseItems = this.state.courseItems;
+    for(var i in recordItems){
+      var courseCodeR = recordItems[i].key;
+      var capitalizedCourseCodeR = courseCodeR.toUpperCase();
+      recordArray.push(capitalizedCourseCodeR.replace(/\s/g, ''));
+    }
+    for(var j in this.state.courseItems){
+      var courseCodeCS = courseItems[j].key;
+      var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
+      courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
+    }
+    console.log(recordArray);
+    console.log(courseSequenceArray);
+    return [
+      recordArray,
+      courseSequenceArray
+    ]
+  }
+
   render() {
     return (
-      <div class = "outer">
-        <h3 class = "welcome-title" >
+      <div className = "outer">
+        <h3 className = "welcome-title" >
         <br/>
           Hi! Welcome to Skedge
           <br/>
           <br/>
         </h3>
-          <div class = "formDiv">
+          <div className = "formDiv">
                   <form id = "recordCcoursesDropdown">
                     <h5>
                       What classes have you taken?
@@ -196,7 +229,9 @@ class UserRecordPage extends Component {
                   </div>
             </div>
           <div>
-          <Link to='/schedule'><Button id = "goToScheduleBuilder">Make My Schedule</Button></Link>
+          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.formatRecordAndCourseSequence}>
+          Make My Schedule
+          </Button></Link>
           </div>
       </div>
     );
