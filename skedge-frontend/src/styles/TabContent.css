@@ -1,0 +1,23 @@
+.grid {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 50px repeat(5, 200px);
+    grid-template-rows: repeat(20, 50px);
+  }
+  
+  .title {
+    display: grid;
+    grid-column: 1 / 7;
+    grid-gap: 10px;
+    grid-template-columns: 50px repeat(5, 200px);
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+    justify-items: center;
+  }
+  
+  .time {
+    display: grid;
+    grid-row: 2 / 21;
+    grid-gap: 10px;
+    grid-template-rows: repeat(20, 50px);
+  }

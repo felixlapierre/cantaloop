@@ -4,6 +4,7 @@ import './styles/index.css';
 import 'semantic-ui-css/semantic.min.css';
 import LandingPage from './components/LandingPage';
 import ScheduleBuilderPage from './components/ScheduleBuilderPage';
+import TabContent from './components/TabContent';
 import UserRecordPage from './components/UserRecordPage';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -1014,6 +1015,7 @@ ReactDOM.render(
     <div id='container'>
       <Route exact path="/" component={LandingPage} />
       <Route path="/schedule" render={(props) => <ScheduleBuilderPage scheduleGiven={testJson} />}/>
+      <Route path="/schedule" render={(props) => <TabContent scheduleGiven={testJson}/> } />
       <Route path="/record" component={UserRecordPage} />
     </div>
   </Router>, document.getElementById('root'));
