@@ -27,10 +27,9 @@ function ValidateParameterIsArrayOfSemesters(parameter, parameterName)
     }
 
     parameter.forEach(semester => {
-        ValidatePropertyOfSemesterIsOfType(semester.year, Number, "year");
-        ValidatePropertyOfSemesterIsOfType(semester.credits, Number, "credits");
-        ValidatePropertyOfSemesterIsOfType(semester.numCourses, Number, "numCourses");
-        ValidatePropertyOfSemesterIsOfType(semester.restrictions, Array, "restrictions");
+        ValidatePropertyOfSemesterIsNumber(semester.year, "year");
+        ValidatePropertyOfSemesterIsNumber(semester.credits, "credits");
+        ValidatePropertyOfSemesterIsNumber(semester.numCourses, "numCourses");
 
         var season = semester.season;
         if(!(["fall", "winter", "summer"].includes(season)))
@@ -40,11 +39,11 @@ function ValidateParameterIsArrayOfSemesters(parameter, parameterName)
     })
 }
 
-function ValidatePropertyOfSemesterIsOfType(parameter, type, parameterName)
+function ValidatePropertyOfSemesterIsNumber(parameter, parameterName)
 {
-    if(!(parameter instanceof type))
+    if(isNaN(parameter))
     {
-        ThrowSchedulerInputFormatException("A Semester provided to the scheduler had a non-" + type + " " + parameterName + " parameter: " + parameter);
+        ThrowSchedulerInputFormatException("A Semester provided to the scheduler had a non-number " + parameterName + " parameter: " + parameter);
     }
 }
 
@@ -58,3 +57,4 @@ function ThrowSchedulerInputFormatException(message)
 
 module.exports = {};
 module.exports.ValidateParameterIsArrayOfCourseIds = ValidateParameterIsArrayOfCourseIds;
+module.exports.ValidateParameterIsArrayOfSemesters = ValidateParameterIsArrayOfSemesters;

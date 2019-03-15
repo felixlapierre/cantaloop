@@ -7,7 +7,7 @@ describe('ValidateParameterIsArrayOfCourseIds', () => {
             year: 5,
             season: "fall",
             credits: 15,
-            numCourses = 5,
+            numCourses: 5,
             restrictions: []
         };
     })
@@ -42,5 +42,8 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
         //Arrange
         var someSemesterWithBadYear = someValidSemester;
         someSemesterWithBadYear.year = "5";
+
+        //Act & Assert
+        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesterWithBadYear, "parameterName")).to.throw("SchedulerInputFormatException");
     })
 })

@@ -16,7 +16,7 @@ describe('createSchedules', () => {
                 "season": "fall",
                 "year": "2019",
                 "credits": 16,
-                "numberOfCourses": 5
+                "numCourses": 5
             }
         ]
 
@@ -39,7 +39,7 @@ describe('createSchedules', () => {
                 "season":"fall",
                 "year":"2019",
                 "credits": 16,
-                "numberOfCourses": 5
+                "numCourses": 5
             }
         ]
 
