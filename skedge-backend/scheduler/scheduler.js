@@ -6,6 +6,7 @@ var RankCourses = require("./course-placement/rank-courses");
 var Generation = require("./semester-generation/generation").generation;
 var InitialGeneration = require("./semester-generation/generation").initalGeneration;
 var rankingFunction = require("./semester-generation/fitness").rankGeneration;
+var validator = require("./validate-scheduler-input");
 
 const populationLimit = 20;
 const numberOfGenerations = 100;
@@ -19,11 +20,24 @@ class Scheduler
 
     GenerateSchedules(courseRecord, courseSequence, semesters)
     {
+        this.ValidateInput(courseRecord, courseSequence, semesters);
+
         var placements = this.GetPlacements(courseRecord, courseSequence, semesters);
 
         var schedules = this.GenerateSchedulesForSemesters(semesters, placements);
 
         return schedules;
+    }
+
+    ValidateInput(courseRecord, courseSequence, semesters)
+    {
+        validator.ValidateParameterIsArrayOfCourseIds(courseRecord, "courseRecord");
+        validator.ValidateCourseIdsAreInCourseCatalog(courseRecord, this.catalog, "courseRecord");
+
+        validator.ValidateParameterIsArrayOfCourseIds(courseSequence, "courseSequence");
+        validator.ValidateCourseIdsAreInCourseCatalog(courseSequence, this.catalog, "courseSequence");
+        
+        validator.ValidateParameterIsArrayOfSemesters(semesters, "semesters");
     }
 
     GetPlacements(courseRecord, courseSequence, semesters)

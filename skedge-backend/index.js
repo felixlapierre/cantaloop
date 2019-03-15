@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const app = express();
-const database_service = require('./database-service');
 const port = 4200;
+
+const database_service = require('./database/database-service');
+const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
 // Data for testing endpoint /generateSchedules
 const generatedSchedules = require('./generatedSchedules');
@@ -40,11 +42,13 @@ app.get('/courses/getNames', (req, res) => {
     //Not sure if the method would take in an input??
 
 
-    var courseList = database_service.getCoursesDescription();
+    database_service.getCoursesDescription()
+    .then((courseList) =>{
+        courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
+        res.json(courseList);
+    });
 
-    console.log(courseList);
 
-    res.json(courseList);
 }
 );
 
