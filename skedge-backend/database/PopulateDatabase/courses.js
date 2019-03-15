@@ -1,29 +1,9 @@
-
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const userName = "144";
 const passWord = "d4a992f7c25f4fb53ec1de9f0222a83d";
 const request = new XMLHttpRequest();
 
-const mongoose = require('mongoose');
-const server = 'skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net';
-const database = 'skedge-app';
-
-class Database {
-	constructor() {
-		this._connect()
-	}
-	_connect() {
-		mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
-			.then(() => {
-				console.log('Database connection successful')
-			})
-			.catch(err => {
-				console.error('Database connection error')
-			})
-	}
-}
-
-module.exports = new Database();
+const database_service = require('../database-service');
 
 const classes = ["SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
 	"SOEN 321", "SOEN 331", "SOEN 341", "SOEN 342", "SOEN 343", "SOEN 344", "SOEN 345", "SOEN 357", "SOEN 384",
@@ -34,13 +14,12 @@ const classes = ["SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SO
 	"ENGR 243", "ENGR 251", "ENGR 361", "ENGR 201", "ENGR 202", "ENGR 213", "ENGR 411", "ENGR 371", "ENGR 391",
 	"ENGR 301", "MECH 221", "PHYS 252", "PHYS 284", "PHYS 385", "AERO 480", "AERO 482"];
 
+let subject;
+let catalog;
 let retrievedData;
 let lectures;
 let tutorials;
 let labs;
-let subject;
-let catalog;
-let latestData;
 
 for (let i = 0; i <classes.length; i++) {
 	subject = classes[i].substring(0, 4);
@@ -48,28 +27,28 @@ for (let i = 0; i <classes.length; i++) {
 	console.log(subject);
 	console.log(catalog);
 
-	retrievedData = removeUnwantedAttributes(callWebAPI(subject, catalog));
+	retrievedData = retrieveLastThreeSemesterData(
+	    removeUnwantedAttributes(
+	        callCourseScheduleAPI(subject, catalog)));
 
-	latestData = retrieveLastThreeSemesterData(retrievedData);
+	lectures = retrieveSpecificCourses(retrievedData, { componentCode: 'LEC' });
+	tutorials = retrieveSpecificCourses(retrievedData, { componentCode: 'TUT' });
+	labs = retrieveSpecificCourses(retrievedData, { componentCode: 'LAB' });
 
-	lectures = filterData(latestData, { componentCode: 'LEC' });
-	tutorials = filterData(latestData, { componentCode: 'TUT' });
-	labs = filterData(latestData, { componentCode: 'LAB' });
-
-	putCoursesInDatabase(latestData, 'courses');
-	putCoursesInDatabase(lectures, 'lectures');
-	putCoursesInDatabase(tutorials, 'tutorials');
-	putCoursesInDatabase(labs, 'labs');
+	database_service.insertManyInDatabase(retrievedData, 'courses');
+	database_service.insertManyInDatabase(lectures, 'lectures');
+	database_service.insertManyInDatabase(tutorials, 'tutorials');
+	database_service.insertManyInDatabase(labs, 'labs');
 }
 
-function callWebAPI(subject, catalog) {
+function callCourseScheduleAPI(subject, catalog) {
 	request.open("GET", "https://opendata.concordia.ca/API/v1/course/schedule/filter/*/" + subject + "/" + catalog, false, userName, passWord);
 	request.send();
 	console.log(request.status);
 	return request.responseText;
 }
 
-function filterData(myObject, myCriteria) {
+function retrieveSpecificCourses(myObject, myCriteria) {
 	return myObject.filter(function (obj) {
 		return Object.keys(myCriteria).every(function (c) {
 			return obj[c] == myCriteria[c];
@@ -99,22 +78,10 @@ function removeUnwantedAttributes(filteredJSON) {
 	return filteredJSON;
 }
 
-
-function putCoursesInDatabase(objectJSON, collectionName) {
-
-	mongoose.connection.collection(collectionName).insertMany(objectJSON, function (err, result) {
-		if (err) {
-			console.log("Error, fail");
-		} else {
-			console.log("Successfully added into database!");
-		}
-	})
-
-}
 function retrieveLastThreeSemesterData(retrievedData) {
-	let summerData = filterData(JSON.parse(retrievedData), { termCode: '2190' });
-	let fallData = filterData(JSON.parse(retrievedData), { termCode: '2192' });
-	let winterData = filterData(JSON.parse(retrievedData), { termCode: '2194' });
+	let summerData = retrieveSpecificCourses(JSON.parse(retrievedData), { termCode: '2190' });
+	let fallData = retrieveSpecificCourses(JSON.parse(retrievedData), { termCode: '2192' });
+	let winterData = retrieveSpecificCourses(JSON.parse(retrievedData), { termCode: '2194' });
 	let latestData = summerData.concat(fallData.concat(winterData));
 	return latestData;
 }

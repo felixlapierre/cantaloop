@@ -14,7 +14,7 @@ const generatedSchedules = require('./generatedSchedules');
 const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
 
-// const courseDescriptions = require('./courseDescriptions')
+// const courseDescriptions.js = require('./courseDescriptions.js')
 
 
  //////////////////////
