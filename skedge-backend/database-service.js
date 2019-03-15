@@ -219,10 +219,3 @@ putUserSchedule: function () {
 
 }
 };
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> ca941f636461eaa9b957288c3b52d0dbe0492822
