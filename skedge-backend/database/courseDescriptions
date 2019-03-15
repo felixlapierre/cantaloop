@@ -48,11 +48,13 @@ for (let i = 0; i <classes.length; i++) {
     courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
     if(courseCatalog != undefined) {
         courseName = courseCatalog.title;
-        // console.log(courseCatalog.prerequisites);
-        console.log("Prereq: ");
-        console.log(getPrerequisite(courseCatalog.prerequisites));
-        console.log("Coreq: ");
-        console.log(getCorequisite(courseCatalog.prerequisites));
+        console.log(createCatalogJSONObject(subject+catalog,
+                                        parseInt(courseCatalog.classUnit),
+                                        getPrerequisite(courseCatalog.prerequisites),
+                                        getCorequisite(courseCatalog.prerequisites),
+                                        [],
+                                        [],
+                                        []));
         //putDataInDatabase(courseCatalog, 'courseCatalog');
     }
 
@@ -100,9 +102,9 @@ function createJSONObject(courseID, name, description) {
 function createCatalogJSONObject(courseId, courseCredits, coursePrerequisites, courseCorequisites, fallSections, winterSections, summerSections) {
     return JSON.parse("{\"" +
                         courseId + "\": { " +
-        "\"prerequisites\":\"" + coursePrerequisites + "\"," +
-        "\"corequisites\":\"" + courseCorequisites + "\"," +
-        "\"credits\":\"" + courseCredits + "\"," +
+        "\"prerequisites\":" + JSON.stringify(coursePrerequisites) + "," +
+        "\"corequisites\":" + JSON.stringify(courseCorequisites) + "," +
+        "\"credits\":" + courseCredits + "," +
         "\"fall\":\"" + fallSections + "\"," +
         "\"winter\":\"" + winterSections + "\"," +
         "\"summer\":\"" + summerSections +
