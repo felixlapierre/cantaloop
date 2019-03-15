@@ -32,7 +32,11 @@ class Scheduler
     ValidateInput(courseRecord, courseSequence, semesters)
     {
         validator.ValidateParameterIsArrayOfCourseIds(courseRecord, "courseRecord");
+        validator.ValidateCourseIdsAreInCourseCatalog(courseRecord, this.catalog, "courseRecord");
+
         validator.ValidateParameterIsArrayOfCourseIds(courseSequence, "courseSequence");
+        validator.ValidateCourseIdsAreInCourseCatalog(courseSequence, this.catalog, "courseSequence");
+        
         validator.ValidateParameterIsArrayOfSemesters(semesters, "semesters");
     }
 

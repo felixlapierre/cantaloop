@@ -47,6 +47,16 @@ function ValidatePropertyOfSemesterIsNumber(parameter, parameterName)
     }
 }
 
+function ValidateCourseIdsAreInCourseCatalog(list, catalog, parameterName)
+{
+    list.forEach(courseId => {
+        if(catalog[courseId] === undefined)
+        {
+            ThrowSchedulerInputFormatException(parameterName + " contains course ID " + courseId + " that is not in the course catalog.");
+        }
+    })
+}
+
 function ThrowSchedulerInputFormatException(message)
 {
     throw {
@@ -58,3 +68,4 @@ function ThrowSchedulerInputFormatException(message)
 module.exports = {};
 module.exports.ValidateParameterIsArrayOfCourseIds = ValidateParameterIsArrayOfCourseIds;
 module.exports.ValidateParameterIsArrayOfSemesters = ValidateParameterIsArrayOfSemesters;
+module.exports.ValidateCourseIdsAreInCourseCatalog = ValidateCourseIdsAreInCourseCatalog;

@@ -77,4 +77,14 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
 
         expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName")).to.throw("SchedulerInputFormatException");
     })
+
+    it('should produce an error when passed a semester with an season that isn\'t fall, winter or summer', () => {
+        //Arrange
+        var someSemesterWithBadSeason = someValidSemester;
+        someSemesterWithBadSeason.season = "spring";
+
+        var someSemesters = [someSemesterWithBadSeason];
+
+        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName")).to.throw("SchedulerInputFormatException");
+    })
 })
