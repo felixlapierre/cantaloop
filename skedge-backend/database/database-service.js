@@ -66,14 +66,12 @@ getCourseCatalog: function () {
 },
 
 getCoursesDescription: function () {
-  var resultToSend;
   let p1 = new Promise((resolve, reject) =>{
     courseDescriptionSchema.courseDescription.find({}, function(err, result){
         if(err){
             console.log("None")
         }else{
             //console.log(result);
-            resultToSend = result;
             resolve(result);
         }
     });
