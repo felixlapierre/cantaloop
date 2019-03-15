@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 //Eventually this will be replaced by something received from the backend
-var testJson = [
+const testJson = [
   {
     "year":"2019",
     "season":"fall",
