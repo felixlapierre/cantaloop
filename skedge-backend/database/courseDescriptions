@@ -39,7 +39,7 @@ let concordiaCourseID;
 let subject;
 let catalog;
 
-for (let i = 0; i <20; i++) {
+for (let i = 0; i <classes.length; i++) {
     subject = classes[i].substring(0, 4);
     catalog = classes[i].substring(5);
     console.log(subject);
@@ -136,14 +136,18 @@ function getPreAndCorequisite (courseCatalog) {
       }
       courseCatalog[element] = courseCatalog[element].replace(';', '')
       courseCatalog[element] = courseCatalog[element].replace(',', '')
+      courseCatalog[element] = courseCatalog[element].replace('.', '')
+      courseCatalog[element] = courseCatalog[element].replace('or', '')
       prereqObject.push(courseCatalog[element]);
     }
     else if (coreq==true && (courseCatalog[element].includes("SOEN") || courseCatalog[element].includes("COMP") || courseCatalog[element].includes("ENGR") || courseCatalog[element].includes("MATH") ||courseCatalog[element].includes("COEN") || courseCatalog[element].includes("ENCS"))){
-      courseCatalog[element] = courseCatalog[element].replace(';', '')
-      courseCatalog[element] = courseCatalog[element].replace(',', '')
       if (courseCatalog[element].search(/\d/) == -1){
         courseCatalog[element] = courseCatalog[element]+courseCatalog[element+1];
       }
+      courseCatalog[element] = courseCatalog[element].replace(';', '')
+      courseCatalog[element] = courseCatalog[element].replace(',', '')
+      courseCatalog[element] = courseCatalog[element].replace('.', '')
+      courseCatalog[element] = courseCatalog[element].replace('or', '')
       coreqObject.push(courseCatalog[element]);
     }
   }
@@ -172,6 +176,8 @@ function getPrerequisite (courseCatalog) {
       }
       courseCatalog[element] = courseCatalog[element].replace(';', '')
       courseCatalog[element] = courseCatalog[element].replace(',', '')
+      courseCatalog[element] = courseCatalog[element].replace('.', '')
+      courseCatalog[element] = courseCatalog[element].replace('or', '')
       prereqObject.push(courseCatalog[element]);
     }
   }
@@ -198,6 +204,8 @@ function getCorequisite (courseCatalog) {
       }
       courseCatalog[element] = courseCatalog[element].replace(';', '')
       courseCatalog[element] = courseCatalog[element].replace(',', '')
+      courseCatalog[element] = courseCatalog[element].replace('.', '')
+      courseCatalog[element] = courseCatalog[element].replace('or', '')
       coreqObject.push(courseCatalog[element]);
     }
   }
