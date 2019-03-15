@@ -44,7 +44,9 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
         var someSemesters = [someValidSemester];
         
         //Act & Assert
-        validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName");
+        validator.ValidateParameterIsArrayOfSemesters(someSemesters, "someSemesters");
+
+        //No exception is thrown
     })
     it('should produce an error when passed a semester with a non-number year', () => {
         //Arrange
@@ -54,7 +56,7 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
         var someSemesters = [someSemesterWithBadYear];
         
         //Act & Assert
-        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName")).to.throw("SchedulerInputFormatException");
+        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "someSemesters")).to.throw("SchedulerInputFormatException");
     })
 
     it('should produce an error when passed a semester with non-number credits', () => {
@@ -65,7 +67,7 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
         var someSemesters = [someSemesterWithBadCredits]
 
         //Act & Assert
-        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName")).to.throw("SchedulerInputFormatException");
+        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "someSemesters")).to.throw("SchedulerInputFormatException");
     })
 
     it('should produce an error when passed a semester with non-number numCourses', () => {
@@ -75,7 +77,8 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
 
         var someSemesters = [someSemesterWithBadNumCourses];
 
-        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName")).to.throw("SchedulerInputFormatException");
+        //Act & Assert
+        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "someSemesters")).to.throw("SchedulerInputFormatException");
     })
 
     it('should produce an error when passed a semester with an season that isn\'t fall, winter or summer', () => {
@@ -85,6 +88,36 @@ describe('ValidateParameterIsArrayOfSemesters', () => {
 
         var someSemesters = [someSemesterWithBadSeason];
 
-        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "parameterName")).to.throw("SchedulerInputFormatException");
+        //Act & Assert
+        expect(() => validator.ValidateParameterIsArrayOfSemesters(someSemesters, "someSemesters")).to.throw("SchedulerInputFormatException");
+    })
+})
+
+describe('ValidateCourseIdsAreInCourseCatalog', () => {
+    it('should produce no error when provided course IDs that are in the catalog', () => {
+        //Arrange
+        var someCatalog = {
+            "COMP248": {},
+            "COMP232": {},
+        }
+        var someCoursesInCatalog = ["COMP248", "COMP232"];
+
+        //Act & Assert
+        validator.ValidateCourseIdsAreInCourseCatalog(someCoursesInCatalog, someCatalog, "someCourses")
+
+        //No exception is thrown
+    })
+
+    it('should produce an error when provided course IDs that are not in the catalog', () => {
+        //Arrange
+        var someCatalog = {
+            "COMP248": {},
+            "COMP232": {},
+        }
+        var someCoursesNotInCatalog = ["SOEN228", "ENGR213"];
+
+        //Act & Assert
+        expect(() => validator.ValidateCourseIdsAreInCourseCatalog(someCoursesNotInCatalog, someCatalog, "someCoursesNotInCatalog"))
+            .to.throw("SchedulerInputFormatException");
     })
 })
