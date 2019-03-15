@@ -33,6 +33,7 @@ class Scheduler
     {
         validator.ValidateParameterIsArrayOfCourseIds(courseRecord, "courseRecord");
         validator.ValidateParameterIsArrayOfCourseIds(courseSequence, "courseSequence");
+        validator.ValidateParameterIsArrayOfSemesters(semesters, "semesters");
     }
 
     GetPlacements(courseRecord, courseSequence, semesters)
