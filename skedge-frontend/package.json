@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@devexpress/dx-react-core": "^1.10.4",
+    "@devexpress/dx-react-scheduler": "^1.10.4",
+    "@devexpress/dx-react-scheduler-material-ui": "^1.10.4",
+    "@material-ui/core": "^3.9.2",
     "axios": "^0.18.0",
+    "concurrently": "^4.0.1",
+    "install": "^0.12.2",
+    "npm": "^6.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
@@ -15,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently \" node ../skedge-backend/index.js\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": "react-app"
