@@ -1,24 +1,16 @@
 const mongoose = require('mongoose');
 
-var courseSchem = require('./schemas/courseSchema');
-var courseDescriptionSchema = require('./schemas/courseDescriptionSchema');
-var courseCatalogSchema = require('./schemas/courseCatalogSchema');
+var courseSchem = require('../schemas/courseSchema');
+var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
+var courseCatalogSchema = require('../schemas/courseCatalogSchema');
 
-class Database {
-    constructor() {
-        this._connect()
-    }
-
-    _connect() {
-        mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
-            .then(() => {
-                console.log('Database connection successful')
-            })
-            .catch(err => {
-                console.error('Database connection error')
-            })
-    }
-}
+mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
+    .then(() => {
+        console.log('Database connection successful')
+    })
+    .catch(err => {
+        console.error('Database connection error')
+    })
 
 function removeDuplicateCourses(myArray) {
     let result = [];
@@ -36,8 +28,6 @@ function removeDuplicateCourses(myArray) {
     }
     return result;
 }
-
-module.exports = new Database();
 
 module.exports = {
     getCourseCatalog: function () {
@@ -79,20 +69,6 @@ module.exports = {
         });
     },
 
-    getCourses: function (subject, catalog) {
-        let p1 = new Promise((resolve, reject) => {
-            courseSchem.courseSch.find({'subject': subject, 'catalog': catalog}
-                , 'subject catalog componentCode section'
-                , function (err, result) {
-                    if (err) {
-                        console.log("Error!")
-                    } else {
-                        console.log(result);
-                    }
-                });
-        });
-    },
-
     getLabs: function () {
         courseSchem.labSch.find({}, function (err, result) {
             if (err) {
@@ -101,18 +77,6 @@ module.exports = {
                 console.log(result);
             }
         });
-    },
-
-    getLabs: function (subject, catalog) {
-        courseSchem.labSch.find({'subject': subject, 'catalog': catalog}
-            , 'subject catalog componentCode section'
-            , function (err, result) {
-                if (err) {
-                    console.log("Error!")
-                } else {
-                    console.log(result);
-                }
-            });
     },
 
     getLectures: function () {
@@ -125,18 +89,6 @@ module.exports = {
         });
     },
 
-    getLectures: function (subject, catalog) {
-        courseSchem.lecSch.find({'subject': subject, 'catalog': catalog}
-            , 'subject catalog componentCode section'
-            , function (err, result) {
-                if (err) {
-                    console.log("Error!")
-                } else {
-                    console.log(result);
-                }
-            });
-    },
-
     getTutorials: function () {
         courseSchem.tutSch.find({}, function (err, result) {
             if (err) {
@@ -147,20 +99,8 @@ module.exports = {
         });
     },
 
-    getTutorials: function (subject, catalog) {
-        courseSchem.tutSch.find({'subject': subject, 'catalog': catalog}
-            , 'subject catalog componentCode section'
-            , function (err, result) {
-                if (err) {
-                    console.log("Error!")
-                } else {
-                    console.log(result);
-                }
-            });
-    },
-
-    insertOneInDatabase: function (objectJSON) {
-        mongoose.connection.collection('courses').insertOne(objectJSON, function (err, result) {
+    insertOneInDatabase: function (objectJSON, collectionName) {
+        mongoose.connection.collection(collectionName).insertOne(objectJSON, function (err, result) {
             if (err) {
                 console.log("Error, fail");
             } else {
