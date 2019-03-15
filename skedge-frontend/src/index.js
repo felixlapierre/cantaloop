@@ -4,7 +4,6 @@ import './styles/index.css';
 import 'semantic-ui-css/semantic.min.css';
 import LandingPage from './components/LandingPage';
 import ScheduleBuilderPage from './components/ScheduleBuilderPage';
-import TabContent from './components/TabContent';
 import UserRecordPage from './components/UserRecordPage';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from "react-router-dom";
