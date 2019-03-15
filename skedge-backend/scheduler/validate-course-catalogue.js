@@ -1,7 +1,8 @@
 function ValidateCourseCatalogue(courseCatalogue)
 {
     if (courseCatalogue === undefined)
-        ThrowCatalogueUndefinedException("Course catalogue is undefined")
+        ThrowCatalogueUndefinedException("Course catalogue is undefined");
+
     for (const courseID in courseCatalogue) {
         if (courseCatalogue.hasOwnProperty(courseID)) {
         ValidateCourse(courseCatalogue[courseID], courseID);
@@ -35,33 +36,38 @@ function ValidateCoursePropertyIsArray(parameter, parameterName, courseID)
 {
     if (!(parameter instanceof Array)) 
     {
-        ThrowCourseMissingPropertyException("Property "+ parameterName+" of "+courseID+" provided in Course Catalogue was not an array");
+        ThrowInvalidCoursePropertyException("Property "+ parameterName+" of "+courseID+" provided in Course Catalogue was not an array");
     }
 }
 function ValidateCoursePropertyIsNumber(parameter, parameterName, courseID)
 {
     if ( isNaN(parameter)) 
     {
-        ThrowCourseMissingPropertyException("Property "+ parameterName+" of "+courseID+" provided in Course Catalogue was not a number");
+        ThrowInvalidCoursePropertyException("Property "+ parameterName+" of "+courseID+" provided in Course Catalogue was not a number");
     }
 }
 function ValidateSectionList(sectionList, sectionSeason, courseID)
 {
     for(const entryNumber in sectionList){
-        if (!sectionList[entryNumber].hasOwnProperty('lecture')) 
-        {
-            ThrowCourseSectionMissingPropertyException("Property lecture of "+courseID+" "+ sectionSeason +" entry "+entryNumber+" not found" );
-        }
-        if (!sectionList[entryNumber].hasOwnProperty('tutorial')) 
-        {
-            ThrowCourseSectionMissingPropertyException("Property tutorial of "+courseID+" "+ sectionSeason +" entry "+entryNumber+" not found" );
-        }
-        if (!sectionList[entryNumber].hasOwnProperty('lab')) 
-        {
-            ThrowCourseSectionMissingPropertyException("Property lab of "+courseID+" "+ sectionSeason +" entry "+entryNumber+" not found" );
-        }
+        ValidateSection(sectionList[entryNumber], sectionSeason, courseID, entryNumber)
     } 
     
+}
+function ValidateSection(section, sectionSeason, courseID, entryNumber)
+{
+    if (!section.hasOwnProperty('lecture')) 
+        {
+            ThrowCourseSectionInvalidPropertyException("Property lecture of "+courseID+" "+ sectionSeason +" entry "+entryNumber+" not found" );
+        }
+        if (!section.hasOwnProperty('tutorial')) 
+        {
+            ThrowCourseSectionInvalidPropertyException("Property tutorial of "+courseID+" "+ sectionSeason +" entry "+entryNumber+" not found" );
+        }
+        if (!section.hasOwnProperty('lab')) 
+        {
+            ThrowCourseSectionInvalidPropertyException("Property lab of "+courseID+" "+ sectionSeason +" entry "+entryNumber+" not found" );
+        }
+            
 }
 function ThrowCatalogueUndefinedException(message)
 {
@@ -70,22 +76,22 @@ function ThrowCatalogueUndefinedException(message)
         message: "CatalogueUndefinedException: " + message
     }
 }
-function ThrowCourseMissingPropertyException(message)
+function ThrowInvalidCoursePropertyException(message)
 {
     throw {
-        name: "CourseMissingPropertyException",
-        message: "CourseMissingPropertyException: " + message
+        name: "InvalidCoursePropertyException",
+        message: "InvalidCoursePropertyException: " + message
     }
 }
-function ThrowCourseSectionMissingPropertyException(message)
+function ThrowCourseSectionInvalidPropertyException(message)
 {
     throw {
-        name: "CourseSectionMissingPropertyException",
-        message: "CourseSectionMissingPropertyException: " + message
+        name: "CourseSectionInvalidPropertyException",
+        message: "CourseSectionInvalidPropertyException: " + message
     }
 }
 
 module.exports = {};
 module.exports.ValidateCourseProperties = ValidateCourseProperties;
-module.exports.ValidateSectionList = ValidateSectionList;
+module.exports.ValidateSection = ValidateSection;
 module.exports.ValidateCourseCatalogue = ValidateCourseCatalogue;
