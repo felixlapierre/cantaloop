@@ -1,6 +1,7 @@
 function ValidateCourseCatalogue(courseCatalogue)
 {
-    
+    if (courseCatalogue === undefined)
+        ThrowCatalogueUndefinedException("Course catalogue is undefined")
     for (const courseID in courseCatalogue) {
         if (courseCatalogue.hasOwnProperty(courseID)) {
         ValidateCourse(courseCatalogue[courseID], courseID);
@@ -61,6 +62,13 @@ function ValidateSectionList(sectionList, sectionSeason, courseID)
         }
     } 
     
+}
+function ThrowCatalogueUndefinedException(message)
+{
+    throw {
+        name: "CatalogueUndefinedException",
+        message: "CatalogueUndefinedException: " + message
+    }
 }
 function ThrowCourseMissingPropertyException(message)
 {
