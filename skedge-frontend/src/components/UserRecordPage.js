@@ -5,59 +5,6 @@ import {Link} from 'react-router-dom';
 import CourseItems from './CourseItems.js';
 import axios from "axios"
 
-const courseOptions = [
-  {
-    key: 'COMP 232',
-    value: 'Math for CompSci',
-    text: 'Math for CompSci',
-  },
-  {
-    key: 'COMP 248',
-    value: 'OOP 1',
-    text: 'OOP 1'
-  },
-  {
-    key: 'ENGR 202',
-    value: 'Prof. Practice and Responsibility',
-    text: 'Prof. Practice and Responsibility'
-  },
-  {
-    key: 'ENGR 213',
-    value: 'ODE 1',
-    text: 'ODE 1'
-  },
-  {
-    key: 'ENGR 251',
-    value: 'Thermodynamics',
-    text: 'Thermodynamics'
-  },
-  {
-    key: 'COMP 249',
-    value: 'OOP 2',
-    text: 'OOP 2'
-  },
-  {
-    key: 'ENGR 233',
-    value: 'ODE 2',
-    text: 'ODE 2'
-  },
-  {
-    key: 'SOEN 228',
-    value: 'Hardware',
-    text: 'Hardware'
-  },
-  {
-    key: 'SOEN 287',
-    value: 'Web Programming',
-    text: 'Web Programming'
-  },
-  {
-    key: 'PHYS 252',
-    value: 'Waves and Optics',
-    text: 'Waves and Optics'
-  }
-]
-
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {
   constructor(props) {
@@ -65,7 +12,7 @@ class UserRecordPage extends Component {
     this.state = {
       recordItems : [],
       courseItems : [],
-      courseOption : [],
+      courseOptions : [],
       currentRecordItem: {text: '', key: ''},
     }
     this.handleRecordInput = this.handleRecordInput.bind(this);
@@ -78,12 +25,11 @@ class UserRecordPage extends Component {
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
   }
 
-    componentDidMount() {
-    let courseList;
-    axios.get('http://localhost:4200/courses/getNames')
+  componentDidMount() {
+    axios.get('/courses/getNames')
       .then(res => {
-        //courseList = this.formatCourseListForDropdown(res.body),
-        this.setState({ courseOption : res })
+        console.log(this.formatCourseListForDropdown(res.data));
+        this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
       }).catch(function (error) {
         console.log(error);
       })
@@ -91,17 +37,13 @@ class UserRecordPage extends Component {
 
   formatCourseListForDropdown(courseList) {
     var courseListArray = [];
-    for(var i in courseList) {
-      for (var j in courseList[i].value){
-        var element = {
-          id: courseList[i].key, 
-          name: j[0],
-          description: j[1],
-          text: j[0]
-        }
-        courseListArray.push(element);
-      } 
-    }
+    Object.keys(courseList).forEach( courseID => {
+      let optionEntry = {};
+      optionEntry.key = courseID;
+      optionEntry.value = courseList[courseID].name;
+      optionEntry.text = courseList[courseID].name;
+      courseListArray.push(optionEntry);
+    });
 
     return courseListArray;
   }
@@ -119,10 +61,6 @@ class UserRecordPage extends Component {
     this.setState({
       currentRecordItem: currentItem
     })
-
-    console.log(this.state.courseOption);
-    var courseList = this.formatCourseListForDropdown(this.state.courseOption);
-    console.log(courseList);
   }
 
   handleCourseInput(event, data) {
@@ -304,7 +242,7 @@ class UserRecordPage extends Component {
                         fluid
                         search
                         selection
-                        options = {courseOptions}
+                        options = {this.state.courseOptions}
                         onChange = {this.handleRecordInput}
                         />
                     </div>
@@ -320,7 +258,7 @@ class UserRecordPage extends Component {
                         fluid
                         search
                         selection
-                        options = {courseOptions}
+                        options = {this.state.courseOptions}
                         onChange = {this.handleCourseInput}
                         />
                     </div>
