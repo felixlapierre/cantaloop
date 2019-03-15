@@ -16,12 +16,17 @@ describe('createSchedules', () => {
                 "season": "fall",
                 "year": "2019",
                 "credits": 16,
-                "numberOfCourses": 5
+                "numCourses": 5
             }
         ]
 
         //Act
         var schedules = scheduler.GenerateSchedules(someEmptyCourseRecord, someEmptyCourseSequence, someSemesters);
+
+        //Assert
+        schedules.forEach(semester => {
+            expect(semester.schedules).to.be.empty;
+        });
     })
     it('should place a single class on its own in the first semester', () => {
         //Arrange
@@ -34,7 +39,7 @@ describe('createSchedules', () => {
                 "season":"fall",
                 "year":"2019",
                 "credits": 16,
-                "numberOfCourses": 5
+                "numCourses": 5
             }
         ]
 
