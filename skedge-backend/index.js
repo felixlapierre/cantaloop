@@ -40,11 +40,13 @@ app.get('/courses/getNames', (req, res) => {
     //Not sure if the method would take in an input??
 
 
-    var courseList = database_service.getCoursesDescription();
+    var p1 = database_service.getCoursesDescription();
+    p1.then((courseList) =>{
+        console.log(courseList);
+        res.json(courseList);
+    });
 
-    console.log(courseList);
 
-    res.json(courseList);
 }
 );
 
