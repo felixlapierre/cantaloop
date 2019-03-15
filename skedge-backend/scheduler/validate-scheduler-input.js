@@ -1,6 +1,6 @@
 function ValidateParameterIsArrayOfCourseIds(parameter, parameterName)
 {
-    var courseIdRegExp = /[a-zA-Z]{4}[0-9]{3}/;
+    var courseIdRegExp = /[a-zA-Z]{4} *[0-9]{3}/;
 
     if(!(parameter instanceof Array))
     {
