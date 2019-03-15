@@ -1,0 +1,34 @@
+let mongoose = require('mongoose');
+
+const courseClass = new mongoose.Schema(
+    {
+        time_start: String,
+        time_end: String,
+        days: String,
+    }
+);
+
+const section = new mongoose.Schema(
+    {
+        lecture: courseClass,
+        lab: courseClass,
+        tutorial: courseClass,
+    }
+);
+
+const courseCatalog = new mongoose.Schema(
+    {
+        courseId: {
+            prerequisites: Array(String),
+            corequisites: Array(String),
+            credits: String,
+            fall: Array(section),
+            winter: Array(section),
+            summer: Array(section)
+        }
+    }
+);
+
+module.exports = {
+    courseCatalog : mongoose.model('courseCatalog', courseCatalog)
+}

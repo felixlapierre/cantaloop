@@ -5,59 +5,6 @@ import {Link} from 'react-router-dom';
 import CourseItems from './CourseItems.js';
 import axios from "axios"
 
-const courseOptions = [
-  {
-    key: 'COMP 232',
-    value: 'Math for CompSci',
-    text: 'Math for CompSci',
-  },
-  {
-    key: 'COMP 248',
-    value: 'OOP 1',
-    text: 'OOP 1'
-  },
-  {
-    key: 'ENGR 202',
-    value: 'Prof. Practice and Responsibility',
-    text: 'Prof. Practice and Responsibility'
-  },
-  {
-    key: 'ENGR 213',
-    value: 'ODE 1',
-    text: 'ODE 1'
-  },
-  {
-    key: 'ENGR 251',
-    value: 'Thermodynamics',
-    text: 'Thermodynamics'
-  },
-  {
-    key: 'COMP 249',
-    value: 'OOP 2',
-    text: 'OOP 2'
-  },
-  {
-    key: 'ENGR 233',
-    value: 'ODE 2',
-    text: 'ODE 2'
-  },
-  {
-    key: 'SOEN 228',
-    value: 'Hardware',
-    text: 'Hardware'
-  },
-  {
-    key: 'SOEN 287',
-    value: 'Web Programming',
-    text: 'Web Programming'
-  },
-  {
-    key: 'PHYS 252',
-    value: 'Waves and Optics',
-    text: 'Waves and Optics'
-  }
-]
-
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {
   constructor(props) {
@@ -65,6 +12,7 @@ class UserRecordPage extends Component {
     this.state = {
       recordItems : [],
       courseItems : [],
+      courseOptions : [],
       currentRecordItem: {text: '', key: ''},
     }
     this.handleRecordInput = this.handleRecordInput.bind(this);
@@ -75,6 +23,29 @@ class UserRecordPage extends Component {
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('/courses/getNames')
+      .then(res => {
+        console.log(this.formatCourseListForDropdown(res.data));
+        this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
+      }).catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  formatCourseListForDropdown(courseList) {
+    var courseListArray = [];
+    Object.keys(courseList).forEach( courseID => {
+      let optionEntry = {};
+      optionEntry.key = courseID;
+      optionEntry.value = courseList[courseID].name;
+      optionEntry.text = courseList[courseID].name;
+      courseListArray.push(optionEntry);
+    });
+
+    return courseListArray;
   }
 
   handleRecordInput(event, data) {
@@ -271,7 +242,7 @@ class UserRecordPage extends Component {
                         fluid
                         search
                         selection
-                        options = {courseOptions}
+                        options = {this.state.courseOptions}
                         onChange = {this.handleRecordInput}
                         />
                     </div>
@@ -287,7 +258,7 @@ class UserRecordPage extends Component {
                         fluid
                         search
                         selection
-                        options = {courseOptions}
+                        options = {this.state.courseOptions}
                         onChange = {this.handleCourseInput}
                         />
                     </div>

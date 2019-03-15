@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 //import axios from 'axios';
-import {Button, Form} from 'semantic-ui-react';
+import {Button, Form, Grid, Segment} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 
 //LandingPage App class
@@ -47,16 +47,22 @@ class LandingPage extends Component {
   render() {
     return (
       <div id='landingPage'>
-        <h1>Skedge</h1>
-        <Form id='loginForm'>
-          <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' />
-          <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'/>
-          <Form.Group>
-            <Button onClick={this.handleLogin} id='loginButton'>Login</Button>
-            <Button onClick={this.handleRegister} id='registerButton'>Register</Button>
-          </Form.Group>
-          <Link to='/record'><Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button></Link>
-        </Form>
+        <div id='skedgeLogo'>Skedge</div>
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Form id='loginForm'>
+              <Segment>
+                <Form.Input fluid icon='user' iconPosition='left' placeholder='Username' />
+                <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password'/>
+                <Form.Group>
+                  <Button fluid onClick={this.handleLogin} id='loginButton'>Login</Button>
+                  <Button fluid onClick={this.handleRegister} id='registerButton'>Register</Button>
+                </Form.Group>
+                <Link to='/record'><Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button></Link>
+              </Segment>
+            </Form>
+          </Grid.Column>
+        </Grid>
       </div>
     );
   }
