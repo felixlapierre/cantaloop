@@ -7,48 +7,14 @@ class TabContent extends Component{
     constructor(props) {
         super(props);
     }
-    //Functions to create a dynamic schedule instead
-    // Monday()
-    // {
-    //     var classes=[];
-    //     this.props.scheduleComponents.schedules.forEach(element => {
-    //     var days = element.days;
-    //     if (days.contains("Mo")){
-    //         classes.push(days);} }
-    //     );
-    // }
-    // Tuesday()
-    // {
-    //     var classes=[];
-    //     this.props.scheduleGiven.forEach(element => {
-    //     var days = element.days;
-    //     if (days.contains("Tu")){
-    //         classes.push(days);} }
-    //     );
-    // }
-    // Wednesday()
-    // {
-
-    // }
-    // Thursday()
-    // {
-
-    // }
-    // Friday()
-    // {
-
-    // }
-  
-
-    
- //The below code generates a hardcoded schedule. Not the best approach.
+   
 render() {
         return (
          <Header as="h2" textAlign="center">   
          Here's your schedule for {this.props.scheduleComponents[0]}
            <br/>
            <br/>
-            <Grid centered columns={6}>                         
+            <Grid celled centered columns={6}>                         
              <Grid.Column className="meow">
               <h4> Time </h4>
               <Grid.Row className="meow">
