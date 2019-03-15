@@ -5,12 +5,16 @@ import '../styles/Schedule.css';
 class Schedule extends Component {
   constructor(props) {
     super(props);
+    this.desc = ""
+    for(var key in this.props.schedules){
+      this.desc += this.props.schedules[key] +", ";
+    }
   }
 
   render() {
     return (
       <div>
-        Schedule
+        {this.props.season}
       </div>
     );
   }
