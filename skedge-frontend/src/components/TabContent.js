@@ -133,7 +133,7 @@ render() {
                 <h4> Wednesday </h4>     
         <Grid.Row>            
                 <h6> ENGR 213 Lecture <br/> Section C-C (8:30 AM-10:00 AM)  </h6></Grid.Row>
-                <br/> <br/> <br/> 
+                <br/> <br/> 
                 <Grid.Row>                
                      <h6> SOEN 341 Lecture <br/> Section CC (10:15 AM-11:30 AM) </h6>    
                 </Grid.Row>
