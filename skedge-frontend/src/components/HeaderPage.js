@@ -18,7 +18,7 @@ class HeaderPage extends Component {
   render() {
     return (
       <div id='headerPage'>
-        <img id='pageHeaderLogo' alt='Logo' src={logo} width="50px" height="50px"/>
+        <img id='pageHeaderLogo' alt='Logo' src={logo} width="45px" height="45px"/>
         <div id='pageHeaderTitle'>Skedge</div>
         <Icon id='pageHeaderUserIcon' name='user' size='big' onClick={this.handleIconClick}/>
       </div>

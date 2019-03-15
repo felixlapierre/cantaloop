@@ -1,12 +1,6 @@
 #landingPage {
+  padding-top: 10rem;
   text-align:center;
-}
-
-#loginForm {
-  display:inline-block;
-  text-align:center;
-  padding: 1rem;
-  border: 2px solid;
 }
 
 #loginButton {
@@ -25,4 +19,11 @@
 
 #userNameBox {
   margin: 1rem 0 1rem 0;
+}
+
+#skedgeLogo {
+  padding-bottom: 2rem;
+  font-size: 40px;
+  font-family: impact, fantasy, monospace;
+  font-weight: bold;
 }
