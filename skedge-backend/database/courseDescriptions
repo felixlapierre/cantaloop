@@ -45,12 +45,12 @@ for (let i = 0; i <classes.length; i++) {
     console.log(subject);
     console.log(catalog);
 
-/*    courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
+    courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
     if(courseCatalog != undefined) {
         courseName = courseCatalog.title;
         console.log(courseCatalog);
         //putDataInDatabase(courseCatalog, 'courseCatalog');
-    }*/
+    }
 
 /*    if(courseCatalog != undefined) {
         concordiaCourseID = courseCatalog.ID;
@@ -91,4 +91,17 @@ function createJSONObject(courseID, name, description) {
                                 "\"description\":\"" + description +
                                 "\"}" +
             "}");
+}
+
+function createCatalogJSONObject(courseId, courseCredits, coursePrerequisites, courseCorequisites, fallSections, winterSections, summerSections) {
+    return JSON.parse("{\"" +
+                        courseId + "\": { " +
+        "\"prerequisites\":\"" + coursePrerequisites + "\"," +
+        "\"corequisites\":\"" + courseCorequisites + "\"," +
+        "\"credits\":\"" + courseCredits + "\"," +
+        "\"fall\":\"" + fallSections + "\"," +
+        "\"winter\":\"" + winterSections + "\"," +
+        "\"summer\":\"" + summerSections +
+        "\"}" +
+        "}");
 }

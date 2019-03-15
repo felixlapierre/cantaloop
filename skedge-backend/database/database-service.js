@@ -13,6 +13,7 @@ const db = mongoose.connection;
 
 var courseSchem= require('./courseSchem');
 var courseDescriptionSchema = require('./courseDescriptionSchema');
+var courseCatalogSchema = require('./courseCatalogSchema');
 
 
 class Database {
@@ -55,7 +56,7 @@ module.exports = new Database();
 
 module.exports = {
 getCourseCatalog: function () {
-  courseSchem.lecSch.find({} ,'subject catalog', function(err, result){
+  courseCatalogSchema.courseCatalog.find({}, function(err, result){
     if(err){
       console.log("None")
     }else{
@@ -63,8 +64,6 @@ getCourseCatalog: function () {
     }
   });
 },
-
-
 
 getCoursesDescription: function () {
     courseDescriptionSchema.courseDescription.find({}, function(err, result){
@@ -88,7 +87,6 @@ getCourses: function () {
 
 },
 
-
 getCourses: function(subject,catalog) {
   courseSchem.courseSch.find({'subject': subject, 'catalog': catalog}
   ,'subject catalog componentCode section'
@@ -102,9 +100,6 @@ getCourses: function(subject,catalog) {
 
 },
 
-// getCourses('ENGR','213');
-//<== This works but im not sure in what format we want to return the stuff
-
 getLabs: function () {
   courseSchem.labSch.find({} ,function(err, result){
     if(err){
@@ -115,7 +110,6 @@ getLabs: function () {
   });
 
 },
-
 
 getLabs: function (subject, catalog) {
   courseSchem.labSch.find({'subject': subject, 'catalog': catalog}
@@ -140,8 +134,6 @@ getLectures: function () {
   });
 
 },
-
-
 
 getLectures: function (subject, catalog) {
   courseSchem.lecSch.find({'subject': subject, 'catalog': catalog}
@@ -177,46 +169,6 @@ getTutorials: function (subject, catalog) {
       console.log(result);
     }
   });
-
-},
-
-getSections: function () {
-
-},
-
-getSections: function (subject, catalog) {
-
-},
-
-getCoPreRequisites:function () {
-
-},
-
-getCoPreRequisites: function (subject, catalog) {
-
-},
-
-getDescriptions: function () {
-
-},
-
-getDescriptions: function (subject, catalog) {
-
-},
-
-getUserRecord: function () {
-
-},
-
-putUserRecord: function () {
-
-},
-
-getUserSchedule: function () {
-
-},
-
-putUserSchedule: function () {
 
 }
 };
