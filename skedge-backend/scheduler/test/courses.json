@@ -60,6 +60,30 @@
             "credits": 3.5
         },
         "COMP249" : {
+            "fall": [
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"MoTu"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"We"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Fr"}
+                },
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"WeTr"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"Mo"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"We"}
+                }
+            ],
+            "winter": [
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"MoTu"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"We"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Fr"}
+                },
+                {
+                    "LEC":{"time_start":"12:00","time_end":"13:15","days":"WeTr"},
+                    "LAB":{"time_start":"13:00", "time_end":"15:00","days":"Mo"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"We"}
+                }
+            ],
             "prerequisites" : ["COMP248"],
             "corequisites" : [],
             "credits": 3.5
@@ -70,6 +94,30 @@
             "credits": 3
         },
         "COMP346" : {
+            "fall": [
+                {
+                    "LEC":{"time_start":"15:45","time_end":"20:15","days":"Mo"},
+                    "LAB":{"time_start":"13:00", "time_end":"13:45","days":"Mo"},
+                    "TUT":{"time_start":"12:45", "time_end":"13:50","days":"Th"}
+                },
+                {
+                    "LEC":{"time_start":"8:45","time_end":"12:15","days":"Tr"},
+                    "LAB":{"time_start":"14:00", "time_end":"15:00","days":"Tu"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Mo"}
+                }
+            ],
+            "winter": [
+                {
+                    "LEC":{"time_start":"15:45","time_end":"20:15","days":"Mo"},
+                    "LAB":{"time_start":"13:00", "time_end":"13:45","days":"Mo"},
+                    "TUT":{"time_start":"12:45", "time_end":"13:50","days":"Th"}
+                },
+                {
+                    "LEC":{"time_start":"8:45","time_end":"12:15","days":"Tr"},
+                    "LAB":{"time_start":"14:00", "time_end":"15:00","days":"Tu"},
+                    "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Mo"}
+                }
+            ],
             "prerequisites": ["COMP352", "SOEN228"],
             "corequisites" : [],
             "credits": 4
