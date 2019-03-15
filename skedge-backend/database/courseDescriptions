@@ -39,7 +39,7 @@ let concordiaCourseID;
 let subject;
 let catalog;
 
-for (let i = 0; i <classes.length; i++) {
+for (let i = 0; i <20; i++) {
     subject = classes[i].substring(0, 4);
     catalog = classes[i].substring(5);
     console.log(subject);
@@ -48,7 +48,11 @@ for (let i = 0; i <classes.length; i++) {
     courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
     if(courseCatalog != undefined) {
         courseName = courseCatalog.title;
-        console.log(courseCatalog);
+        // console.log(courseCatalog.prerequisites);
+        console.log("Prereq: ");
+        console.log(getPrerequisite(courseCatalog.prerequisites));
+        console.log("Coreq: ");
+        console.log(getCorequisite(courseCatalog.prerequisites));
         //putDataInDatabase(courseCatalog, 'courseCatalog');
     }
 
@@ -104,4 +108,98 @@ function createCatalogJSONObject(courseId, courseCredits, coursePrerequisites, c
         "\"summer\":\"" + summerSections +
         "\"}" +
         "}");
+}
+
+function getPreAndCorequisite (courseCatalog) {
+  courseCatalog = courseCatalog.split(" ");
+  var prereq = false;
+  var coreq =false;
+  var prereqObject = [];
+  var coreqObject = [];
+  var allreqObject = [];
+  for (var element = 0; element<courseCatalog.length; element++){
+    if(courseCatalog[element].includes("Prerequisite") || courseCatalog[element].includes("PREREQ")){
+      prereq = true;
+      coreq=false;
+    }
+    else if (courseCatalog[element].includes("Corequisite") || courseCatalog[element].includes("Co-requisite")) {
+      coreq=true;
+      prereq = false;
+    }
+    else if (courseCatalog[element].includes("Never")) {
+      prereq = false;
+      coreq=false;
+    }
+    else if (prereq==true && (courseCatalog[element].includes("SOEN") || courseCatalog[element].includes("COMP") || courseCatalog[element].includes("ENGR") || courseCatalog[element].includes("MATH") || courseCatalog[element].includes("COEN") || courseCatalog[element].includes("ENCS"))){
+      if (courseCatalog[element].search(/\d/) == -1){
+        courseCatalog[element] = courseCatalog[element]+courseCatalog[element+1];
+      }
+      courseCatalog[element] = courseCatalog[element].replace(';', '')
+      courseCatalog[element] = courseCatalog[element].replace(',', '')
+      prereqObject.push(courseCatalog[element]);
+    }
+    else if (coreq==true && (courseCatalog[element].includes("SOEN") || courseCatalog[element].includes("COMP") || courseCatalog[element].includes("ENGR") || courseCatalog[element].includes("MATH") ||courseCatalog[element].includes("COEN") || courseCatalog[element].includes("ENCS"))){
+      courseCatalog[element] = courseCatalog[element].replace(';', '')
+      courseCatalog[element] = courseCatalog[element].replace(',', '')
+      if (courseCatalog[element].search(/\d/) == -1){
+        courseCatalog[element] = courseCatalog[element]+courseCatalog[element+1];
+      }
+      coreqObject.push(courseCatalog[element]);
+    }
+  }
+
+  allreqObject = prereqObject.concat(coreqObject);
+  return allreqObject;
+}
+
+function getPrerequisite (courseCatalog) {
+  courseCatalog = courseCatalog.split(" ");
+  var prereq = false;
+  var prereqObject = [];
+  for (var element = 0; element<courseCatalog.length; element++){
+    if(courseCatalog[element].includes("Prerequisite") || courseCatalog[element].includes("PREREQ")){
+      prereq = true;
+    }
+    else if (courseCatalog[element].includes("Corequisite") || courseCatalog[element].includes("Co-requisite")) {
+      prereq = false;
+    }
+    else if (courseCatalog[element].includes("Never")) {
+      prereq = false;
+    }
+    else if (prereq==true && (courseCatalog[element].includes("SOEN") || courseCatalog[element].includes("COMP") || courseCatalog[element].includes("ENGR") || courseCatalog[element].includes("MATH") || courseCatalog[element].includes("COEN") || courseCatalog[element].includes("ENCS"))){
+      if (courseCatalog[element].search(/\d/) == -1){
+        courseCatalog[element] = courseCatalog[element]+courseCatalog[element+1];
+      }
+      courseCatalog[element] = courseCatalog[element].replace(';', '')
+      courseCatalog[element] = courseCatalog[element].replace(',', '')
+      prereqObject.push(courseCatalog[element]);
+    }
+  }
+  return prereqObject;
+}
+
+function getCorequisite (courseCatalog) {
+  courseCatalog = courseCatalog.split(" ");
+  var coreq =false;
+  var coreqObject = [];
+  for (var element = 0; element<courseCatalog.length; element++){
+    if(courseCatalog[element].includes("Prerequisite") || courseCatalog[element].includes("PREREQ")){
+      coreq=false;
+    }
+    else if (courseCatalog[element].includes("Corequisite") || courseCatalog[element].includes("Co-requisite")) {
+      coreq=true;
+    }
+    else if (courseCatalog[element].includes("Never")) {
+      coreq=false;
+    }
+    else if (coreq==true && (courseCatalog[element].includes("SOEN") || courseCatalog[element].includes("COMP") || courseCatalog[element].includes("ENGR") || courseCatalog[element].includes("MATH") ||courseCatalog[element].includes("COEN") || courseCatalog[element].includes("ENCS"))){
+      if (courseCatalog[element].search(/\d/) == -1){
+        courseCatalog[element] = courseCatalog[element]+courseCatalog[element+1];
+      }
+      courseCatalog[element] = courseCatalog[element].replace(';', '')
+      courseCatalog[element] = courseCatalog[element].replace(',', '')
+      coreqObject.push(courseCatalog[element]);
+    }
+  }
+  return coreqObject;
 }
