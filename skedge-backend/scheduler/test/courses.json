@@ -94,6 +94,16 @@
             "credits": 3
         },
         "COMP346" : {
+            "prerequisites": ["COMP352", "SOEN228"],
+            "corequisites" : [],
+            "credits": 4
+        },
+        "COMP352" : {
+            "prerequisites" : ["COMP249"],
+            "corequisites" : [],
+            "credits": 3
+        },
+        "SOEN287" : {
             "fall": [
                 {
                     "LEC":{"time_start":"15:45","time_end":"20:15","days":"Mo"},
@@ -118,16 +128,6 @@
                     "TUT":{"time_start":"8:45", "time_end":"9:50","days":"Mo"}
                 }
             ],
-            "prerequisites": ["COMP352", "SOEN228"],
-            "corequisites" : [],
-            "credits": 4
-        },
-        "COMP352" : {
-            "prerequisites" : ["COMP249"],
-            "corequisites" : [],
-            "credits": 3
-        },
-        "SOEN287" : {
             "prerequisites": ["COMP248"],
             "corequisites": [],
             "credits" : 3
