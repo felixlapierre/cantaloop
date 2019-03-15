@@ -65,6 +65,7 @@ class UserRecordPage extends Component {
     this.state = {
       recordItems : [],
       courseItems : [],
+      courseOption : [],
       currentRecordItem: {text: '', key: ''},
     }
     this.handleRecordInput = this.handleRecordInput.bind(this);
@@ -75,6 +76,34 @@ class UserRecordPage extends Component {
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
+  }
+
+    componentDidMount() {
+    let courseList;
+    axios.get('http://localhost:4200/courses/getNames')
+      .then(res => {
+        //courseList = this.formatCourseListForDropdown(res.body),
+        this.setState({ courseOption : res })
+      }).catch(function (error) {
+        console.log(error);
+      })
+  }
+
+  formatCourseListForDropdown(courseList) {
+    var courseListArray = [];
+    for(var i in courseList) {
+      for (var j in courseList[i].value){
+        var element = {
+          id: courseList[i].key, 
+          name: j[0],
+          description: j[1],
+          text: j[0]
+        }
+        courseListArray.push(element);
+      } 
+    }
+
+    return courseListArray;
   }
 
   handleRecordInput(event, data) {
@@ -90,6 +119,10 @@ class UserRecordPage extends Component {
     this.setState({
       currentRecordItem: currentItem
     })
+
+    console.log(this.state.courseOption);
+    var courseList = this.formatCourseListForDropdown(this.state.courseOption);
+    console.log(courseList);
   }
 
   handleCourseInput(event, data) {
