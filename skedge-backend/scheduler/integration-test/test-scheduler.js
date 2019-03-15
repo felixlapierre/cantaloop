@@ -22,6 +22,11 @@ describe('createSchedules', () => {
 
         //Act
         var schedules = scheduler.GenerateSchedules(someEmptyCourseRecord, someEmptyCourseSequence, someSemesters);
+
+        //Assert
+        schedules.forEach(semester => {
+            expect(semester.schedules).to.be.empty;
+        });
     })
     it('should place a single class on its own in the first semester', () => {
         //Arrange
