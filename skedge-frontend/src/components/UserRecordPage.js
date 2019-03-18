@@ -14,6 +14,7 @@ class UserRecordPage extends Component {
       courseItems : [],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
+      currentCourseItem: {text: '', key: ''}
     }
     this.handleRecordInput = this.handleRecordInput.bind(this);
     this.handleCourseInput = this.handleCourseInput.bind(this);
@@ -151,59 +152,59 @@ class UserRecordPage extends Component {
         "season": "fall",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2020,
         "season": "winter",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2020,
         "season": "fall",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2021,
         "season": "winter",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2021,
         "season": "fall",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2022,
         "season": "winter",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2022,
         "season": "fall",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       },
       {
         "year": 2023,
         "season": "winter",
         "credits": 20,
         "numCourses": 5,
-        "restrictions": [] 
+        "restrictions": []
       }
     ]
-    
+
     return {
       "courseRecord": recordArray,
       "courseSequence": courseSequenceArray,
