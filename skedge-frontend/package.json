@@ -22,9 +22,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "concurrently \" node ../skedge-backend/index.js\" \"npm run start\""
+    "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:4200",
   "eslintConfig": {
     "extends": "react-app"
   },
