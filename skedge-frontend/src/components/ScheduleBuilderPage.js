@@ -4,6 +4,8 @@ import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
 import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
+import Slider from 'react-slick';
+
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {
@@ -11,6 +13,7 @@ class ScheduleBuilderPage extends Component {
     super(props);
 
     this.state = {visible: false};
+    this.panes = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
   }
 
@@ -22,7 +25,6 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
-    this.panes = [];
     var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
@@ -38,9 +40,10 @@ class ScheduleBuilderPage extends Component {
       }
       this.panes.push({
         menuItem: yearKey,
-        render: () => <TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/>
-      })
+        render: () => <Tab.Pane><TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>
+      });
     }
+    console.log("panes: "+this.panes)
   }
 
   render() {
