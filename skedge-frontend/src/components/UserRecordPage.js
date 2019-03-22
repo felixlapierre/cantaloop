@@ -42,7 +42,7 @@ class UserRecordPage extends Component {
       let optionEntry = {};
       optionEntry.key = courseID;
       optionEntry.value = courseList[courseID].name;
-      optionEntry.text = courseList[courseID].name;
+      optionEntry.text = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       courseListArray.push(optionEntry);
     });
 
