@@ -49,7 +49,7 @@ class UserRecordPage extends Component {
     return courseListArray;
   }
 
-  handleRecordInput(event, data) {
+  handleRecordInput(data) {
     const itemText = data.value;
     var itemKey = "";
     for (var i in data.options){
@@ -64,7 +64,7 @@ class UserRecordPage extends Component {
     })
   }
 
-  handleCourseInput(event, data) {
+  handleCourseInput(data) {
     const itemText = data.value;
     var itemKey = "";
     for (var i in data.options){
