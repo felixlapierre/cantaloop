@@ -41,7 +41,7 @@ class UserRecordPage extends Component {
     Object.keys(courseList).forEach( courseID => {
       let optionEntry = {};
       optionEntry.key = courseID;
-      optionEntry.value = courseList[courseID].name;
+      optionEntry.value = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       optionEntry.text = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       courseListArray.push(optionEntry);
     });
@@ -49,7 +49,7 @@ class UserRecordPage extends Component {
     return courseListArray;
   }
 
-  handleRecordInput(data) {
+  handleRecordInput(event, data) {
     const itemText = data.value;
     var itemKey = "";
     for (var i in data.options){
@@ -64,7 +64,7 @@ class UserRecordPage extends Component {
     })
   }
 
-  handleCourseInput(data) {
+  handleCourseInput(event, data) {
     const itemText = data.value;
     var itemKey = "";
     for (var i in data.options){
