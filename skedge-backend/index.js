@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+
 const port = 4200;
 
-const database_service = require('./database/database-service');
+const endpoint_service = require('./database/services/endpoint-service');
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
 // Data for testing endpoint /generateSchedules
@@ -13,7 +14,7 @@ const generatedSchedules = require('./generatedSchedules');
 const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
 
-// const courseDescriptions = require('./courseDescriptions')
+// const courseDescriptions.js = require('./courseDescriptions.js')
 
 
  //////////////////////
@@ -42,7 +43,7 @@ app.get('/courses/getNames', (req, res) => {
     //Not sure if the method would take in an input??
 
 
-    database_service.getCoursesDescription()
+    endpoint_service.getCoursesDescription()
     .then((courseList) =>{
         courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
         res.json(courseList);
@@ -57,7 +58,7 @@ app.put('/prototype', (req, res) => {
     //console.log(req.body);
 
     // Sends course to database with name from json payload
-    var db_msg = database_service.writeCourseToDatabase(req.body.name);
+    var db_msg = endpoint_service.writeCourseToDatabase(req.body.name);
 
     // Appends message to json payload
     ret_obj = req.body;
