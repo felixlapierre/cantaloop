@@ -9,7 +9,6 @@ class Schedule extends Component {
     this.state= {
       pickedSchedule: 1
     };
-    console.log(this.props.schedules);
     this.handleNextSchedule = this.handleNextSchedule.bind(this);
     this.handlePreviousSchedule = this.handlePreviousSchedule.bind(this);
   }
@@ -34,7 +33,7 @@ class Schedule extends Component {
 
   render() {
     return (
-      <Grid>
+      <Grid padded>
         <Grid.Row centered>
           <Grid.Column width = {5} textAlign="center">
             <Header as="h2" textAlign="center">Shedule for {this.props.season.charAt(0).toUpperCase()}{this.props.season.substring(1, this.props.season.length)}</Header>
@@ -51,9 +50,9 @@ class Schedule extends Component {
             <Button onClick={this.handleNextSchedule} icon='arrow right'/>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
+        <Grid.Row centered>
           <Grid.Column>
-            <Segment>{JSON.stringify(this.props.schedules[this.state.pickedSchedule-1])}</Segment>
+            <Segment raised>{JSON.stringify(this.props.schedules[this.state.pickedSchedule-1])}</Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
