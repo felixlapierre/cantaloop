@@ -43,7 +43,6 @@ class ScheduleBuilderPage extends Component {
         render: () => <Tab.Pane><TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>
       });
     }
-    console.log("panes: "+this.panes)
   }
 
   render() {
