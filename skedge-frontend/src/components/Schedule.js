@@ -50,7 +50,11 @@ class Schedule extends Component {
         </Grid.Row>
         <Grid.Row centered>
           <Grid.Column>
-            <Segment raised>{JSON.stringify(this.props.schedules[this.state.pickedSchedule-1])}</Segment>
+            <Segment raised>
+              {/* The weekly scheudle should be in this segment */}
+              {/* example on how to access the classes for the schedule */}
+              {JSON.stringify(this.props.schedules[this.state.pickedSchedule-1])} 
+            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
