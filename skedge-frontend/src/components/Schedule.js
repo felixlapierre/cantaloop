@@ -42,7 +42,7 @@ class Schedule extends Component {
             <Button onClick={this.handlePreviousSchedule} icon='arrow left'/>
           </Grid.Column>
           <Grid.Column width = {2} textAlign="center">
-          <Header as="h3">{this.state.pickedSchedule} out of {this.props.schedules.length}</Header>
+            <Header as="h3">{this.state.pickedSchedule} out of {this.props.schedules.length}</Header>
           </Grid.Column>
           <Grid.Column width = {1} textAlign="center">
             <Button onClick={this.handleNextSchedule} icon='arrow right'/>
