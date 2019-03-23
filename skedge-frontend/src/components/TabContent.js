@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
-import { Tab, Button, Grid, Transition, Segment } from 'semantic-ui-react';
+import { Button, Grid } from 'semantic-ui-react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';

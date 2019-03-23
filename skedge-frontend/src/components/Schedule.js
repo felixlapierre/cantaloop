@@ -14,21 +14,19 @@ class Schedule extends Component {
   }
 
   handleNextSchedule(){
-    if(this.state.pickedSchedule == 3){
-      return;
+    if(this.state.pickedSchedule < 3){
+      this.setState({
+        pickedSchedule: this.state.pickedSchedule + 1,
+      });
     }
-    this.setState({
-      pickedSchedule: this.state.pickedSchedule + 1,
-    });
   }
 
   handlePreviousSchedule(){
-    if(this.state.pickedSchedule == 1){
-      return;
+    if(this.state.pickedSchedule > 1){
+      this.setState({
+        pickedSchedule: this.state.pickedSchedule - 1,
+      });
     }
-    this.setState({
-      pickedSchedule: this.state.pickedSchedule - 1,
-    });
   }
 
   render() {
