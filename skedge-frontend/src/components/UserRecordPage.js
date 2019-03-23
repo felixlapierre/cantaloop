@@ -3,6 +3,7 @@ import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import CourseItems from './CourseItems.js';
+import SemesterItems from './SemesterItems.js';
 import axios from "axios"
 
 //The page where the user can change its record etc.
@@ -226,16 +227,16 @@ class UserRecordPage extends Component {
   render() {
     return (
       <div className = "outer">
-        <h3 className = "welcome-title" >
-        <br/>
-          Hi! Welcome to Skedge
-          <br/>
-          <br/>
-        </h3>
+          <h3 className = "welcome-title" >
+              <br/>
+              Hi! Welcome to Skedge
+              <br/>
+              <br/>
+          </h3>
           <div className = "formDiv">
-                  <form id = "recordCcoursesDropdown">
+                <form id = "recordCcoursesDropdown">
                     <h5>
-                      What classes have you taken?
+                        What classes have you taken?
                     </h5>
                     <div className = "dropdown">
                         <Dropdown
@@ -248,8 +249,11 @@ class UserRecordPage extends Component {
                         />
                     </div>
                     <Button id = "button1" onClick = {this.addRecordItem}>Add Course</Button>
-                  </form>
-                  <form id = "wantedCoursesDropdown">
+                    <div id = "recordCourses">
+                        <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
+                    </div>
+                </form>
+                <form id = "wantedCoursesDropdown">
                     <h5>
                         What classes would you like to take?
                     </h5>
@@ -264,19 +268,21 @@ class UserRecordPage extends Component {
                         />
                     </div>
                     <Button id = "button2"  onClick = {this.addCourseItem}>Add Course</Button>
-                  </form>
-                  <div id = "recordCourses">
-                      <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem} />
-                  </div>
-                  <div id = "wantedCourses">
-                      <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem} />
-                  </div>
+                    <br/>
+                    <div id = "wantedCourses">
+                        <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
+                    </div>
+                </form>
+                <div id = "semestersObject">
+                <SemesterItems/>
+                </div>
             </div>
           <div>
+
+          </div>
           <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>
           Make My Schedule
           </Button></Link>
-          </div>
       </div>
     );
   }
