@@ -5,7 +5,6 @@ import 'semantic-ui-css/semantic.min.css';
 import LandingPage from './components/LandingPage';
 import ScheduleBuilderPage from './components/ScheduleBuilderPage';
 import UserRecordPage from './components/UserRecordPage';
-import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 //Eventually this will be replaced by something received from the backend
@@ -1017,8 +1016,3 @@ ReactDOM.render(
       <Route path="/record" component={UserRecordPage} />
     </div>
   </Router>, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();

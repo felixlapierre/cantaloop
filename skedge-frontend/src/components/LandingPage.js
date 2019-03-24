@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 //import axios from 'axios';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
+import {Link, Router} from 'react-router-dom';
 
 //LandingPage App class
 //Renders the landing page and login form
@@ -10,26 +10,9 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = { value: ''};
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(){
-    console.log("Hello");
-    /*console.log('Request Sending, ' + this.state.value);
-    axios.put('http://localhost:4200/prototype', {"name": this.state.value})
-    .then(res => {
-        this.setState({name: "works"});
-        console.log(res);
-        console.log(res.data);
-    });*/
   }
 
   handleLogin(event) {

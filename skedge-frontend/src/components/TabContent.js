@@ -6,7 +6,7 @@ class TabContent extends Component{
     constructor(props) {
         super(props);
     }
-   
+
 render() {
         return (
          <Header as="h2" textAlign="center">
