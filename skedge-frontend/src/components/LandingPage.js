@@ -9,7 +9,6 @@ import {Link, Router} from 'react-router-dom';
 class LandingPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: ''};
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
