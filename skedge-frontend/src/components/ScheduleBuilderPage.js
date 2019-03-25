@@ -14,6 +14,8 @@ class ScheduleBuilderPage extends Component {
 
     this.state = {visible: false};
     this.panes = [];
+
+    this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
   }
 
@@ -34,16 +36,19 @@ class ScheduleBuilderPage extends Component {
       years[year][season] = element.schedules;
     });
     for(var yearKey in years){
-      var scheduleComponents = [];
       for(var seasonKey in years[yearKey]){
-        scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+        this.scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
       }
       this.panes.push({
         menuItem: yearKey,
-        render: () => <Tab.Pane><TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>
+        render: () => this.paneRender()
       });
     }
     console.log("panes: "+this.panes)
+  }
+
+  paneRender(){
+    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
 
   render() {
@@ -68,11 +73,6 @@ class ScheduleBuilderPage extends Component {
             <Sidebar.Pusher>
               <Segment basic>
                 <Tab panes={this.panes} />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
               </Segment>
             </Sidebar.Pusher>
           </Sidebar.Pushable>

@@ -1,140 +1,63 @@
 import React, { Component } from 'react';
 import '../styles/Schedule.css';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid, Header, Button, Segment } from 'semantic-ui-react';
 
 //The actuall visual schedule, where all the classes will be shown.
 class Schedule extends Component {
   constructor(props) {
     super(props);
+    this.state= {
+      pickedSchedule: 1
+    };
+    this.handleNextSchedule = this.handleNextSchedule.bind(this);
+    this.handlePreviousSchedule = this.handlePreviousSchedule.bind(this);
+  }
+
+  handleNextSchedule(){
+    if(this.state.pickedSchedule < 3){
+      this.setState({
+        pickedSchedule: this.state.pickedSchedule + 1,
+      });
+    }
+  }
+
+  handlePreviousSchedule(){
+    if(this.state.pickedSchedule > 1){
+      this.setState({
+        pickedSchedule: this.state.pickedSchedule - 1,
+      });
+    }
   }
 
   render() {
     return (
-      <Header as="h2" textAlign="center">
-      Here's your schedule for {this.props.scheduleComponents}
-        <br/>
-        <br/>
-         <Grid centered columns={6}>
-          <Grid.Column className="meow">
-           <h4> Time </h4>
-           <Grid.Row className="meow">
-               <h6> 8:30 AM </h6>
-           </Grid.Row>
-           <Grid.Row className="meow">
-           <h6> 9:00 AM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 9:30 AM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 10:00 AM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 10:30 AM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 11:00 AM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 11:30 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 12:00 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 12:30 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 1:00 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 1:30 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 2:00 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 2:30 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 3:00 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 3:30 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 4:00 PM</h6>
-            </Grid.Row>
-            <Grid.Row className="meow">
-           <h6> 4:30 PM</h6>
-            </Grid.Row>
-
-         </Grid.Column>
-         <Grid.Column>
-             <h4> Monday </h4>
-             <Grid.Row>
-             <h6> COMP 346 Lecture  <br/> Section S (8:30 AM-10:00 AM) </h6>
-             </Grid.Row>
-             <br/> <br/> <br/>
-             <Grid.Row> <h6> SOEN 341 Lecture <br/> Section CC (10:15 AM-11:30 AM) </h6>
-             </Grid.Row>
-             <br/> <br/> <br/> <br/> <br/>
-             <Grid.Row> <h6> SOEN 228 Lab <br/> Section E (12:30 PM-2:30 PM) </h6>
-             </Grid.Row>
-
-         </Grid.Column>
-         <Grid.Column>
-             <h4> Tuesday </h4>
-            <br/>
-            <br/>
-            <br/>
-            <Grid.Row>
-            <h6> ENGR 233 Lecture <br/> Section DC (9:15 AM-10:30 AM) </h6>
-            </Grid.Row>
-            <br/> <br/> <br/>
-             <Grid.Row> <h6> SOEN 341 Tutorial <br/> Section CC-A (11:15 AM-12:30 PM) </h6></Grid.Row>
-
-         </Grid.Column>
-         <Grid.Column>
-             <h4> Wednesday </h4>
-     <Grid.Row>
-             <h6> ENGR 213 Lecture <br/> Section C-C (8:30 AM-10:00 AM)  </h6></Grid.Row>
-             <br/> <br/>
-             <Grid.Row>
-                  <h6> SOEN 341 Lecture <br/> Section CC (10:15 AM-11:30 AM) </h6>
-             </Grid.Row>
-             <br/> <br/>
-             <Grid.Row>
-             <h6> SOEN 228 Lecture <br/> Section E (11:45 AM-1:00 PM) </h6>
-             </Grid.Row>
-             <br/> <br/> <br/>
-             <Grid.Row>
-             <h6> COMP 346 Tutorial <br/> Section S-SA (1:30 PM-2:30 PM) </h6>
-             </Grid.Row>
-
-         </Grid.Column>
-         <Grid.Column>
-             <h4> Thursday </h4>
-             <br/>
-             <br/>
-             <br/>
-             <Grid.Row>
-                 <h6> ENGR 233 Lecture <br/> Section DC (9:15 AM-10:30 AM) </h6>
-             </Grid.Row>
-             <br/> <br/> <br/>
-             <Grid.Row> <h6> SOEN 341 Tutorial <br/> Section CC-A (11:15 AM-12:30 PM) </h6></Grid.Row>
-
-         </Grid.Column>
-         <Grid.Column>
-         <h4> Friday </h4>
-             <h6> ENGR 213 Lecture <br/> Section C-C (8:30 AM-10:00 AM) </h6>
-             <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
-             <Grid.Row>
-                  <h6> SOEN 228 Lecture <br/> Section E (11:45 AM-1:00 PM) </h6>
-             </Grid.Row>
-         </Grid.Column>
-       </Grid>
-       </Header>
+      <Grid padded>
+        <Grid.Row centered>
+          <Grid.Column width = {5} textAlign="center">
+            <Header as="h2" textAlign="center">Shedule for {this.props.season.charAt(0).toUpperCase()}{this.props.season.substring(1, this.props.season.length)}</Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered>
+          <Grid.Column width = {1} textAlign="center">
+            <Button onClick={this.handlePreviousSchedule} icon='arrow left'/>
+          </Grid.Column>
+          <Grid.Column width = {2} textAlign="center">
+            <Header as="h3">{this.state.pickedSchedule} out of {this.props.schedules.length}</Header>
+          </Grid.Column>
+          <Grid.Column width = {1} textAlign="center">
+            <Button onClick={this.handleNextSchedule} icon='arrow right'/>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row centered>
+          <Grid.Column>
+            <Segment raised>
+              {/* The weekly scheudle should be in this segment */}
+              {/* example on how to access the classes for the schedule */}
+              {JSON.stringify(this.props.schedules[this.state.pickedSchedule-1])} 
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }

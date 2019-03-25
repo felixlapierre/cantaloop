@@ -53,21 +53,6 @@ app.get('/courses/getNames', (req, res) => {
 }
 );
 
-// prototype endpoint
-app.put('/prototype', (req, res) => {
-    //console.log(req.body);
-
-    // Sends course to database with name from json payload
-    var db_msg = endpoint_service.writeCourseToDatabase(req.body.name);
-
-    // Appends message to json payload
-    ret_obj = req.body;
-    ret_obj.msg = db_msg;
-
-    // Responds with modified json payload
-    res.json(ret_obj);
-});
-
 app.post('/genSchedules', (req, res) => {
     // TESTING
 
@@ -87,6 +72,11 @@ app.post('/genSchedules', (req, res) => {
 
     //var generatedSchedules = scheduler.GenerateSchedules(courseRecord, courseSequence, semesters); // returns an array of schedules for each semester
     res.json(generatedSchedules);
+});
+
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../skedge-frontend/build/index.html'));
 });
 
 
