@@ -27,6 +27,7 @@ class UserRecordPage extends Component {
   }
 
   componentDidMount() {
+      console.log(window.sessionStorage.getItem('token'));
     axios.get('/courses/getNames')
       .then(res => {
         console.log(this.formatCourseListForDropdown(res.data));

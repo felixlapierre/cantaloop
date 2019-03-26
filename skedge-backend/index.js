@@ -13,6 +13,11 @@ const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 const generatedSchedules = require('./generatedSchedules');
 const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
+const User = require('./database/schemas/userSchema');
+const bcryptjs = require('bcryptjs');
+
+const jwt = require('jsonwebtoken');
+const checkAuth = require('./middleware/check-auth');
 
 // const courseDescriptions.js = require('./courseDescriptions.js')
 
@@ -35,7 +40,7 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
 
 // getName endpoint, it will return a json object containing a list of all courses
-app.get('/courses/getNames', (req, res) => {
+app.get('/courses/getNames', checkAuth ,(req, res) => {
 
     //Method has not been defined yet, but assuming that it will take the info directly from
     //MongoDB and it would return an array of all courses available with instances variable
@@ -89,6 +94,60 @@ app.post('/genSchedules', (req, res) => {
     res.json(generatedSchedules);
 });
 
+app.post('/signup', (req, res, next) => {
+    bcryptjs.hash(req.body.password, 10)
+        .then(hash => {
+            const user = new User({
+                username: req.body.username,
+                password: hash
+            });
+            user.save()
+                .then(result => {
+                    res.status(201).json({
+                        message: "User Created!",
+                        result: result
+                    });
+                })
+                .catch(error => {
+                    res.status(500).json({
+                        error: error
+                    });
+                });
+        });
+
+});
+
+
+app.post('/login', (req, res, next) => {
+    let fetchedUser;
+    User.findOne({username: req.body.username}).then(user => {
+        if(!user){
+            return res.status(401).json({
+                message: "Authorization failed!"
+            });
+        }
+        fetchedUser = user;
+        return bcryptjs.compare(req.body.password, user.password)
+    })
+        .then(result => {
+            if(!result){
+                return res.status(401).json({
+                    message: "Authorization failed!"
+                });
+            }
+            const token = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
+                "secret_this_should_be_longer",
+                {expiresIn: '1h'});
+            res.status(200).json({
+                token: token
+            });
+        })
+        .catch(error => {
+            return res.status(401).json({
+                message: "Authorization failed!"
+            });
+        });
+});
 
  ////////////////////
 // Express listener
