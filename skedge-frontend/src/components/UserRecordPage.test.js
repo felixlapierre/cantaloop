@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter} from "react-router-dom";
 import UserRecordPage from './UserRecordPage';
 
+import { configure, shallow, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+configure({ adapter: new Adapter() });
 
 describe('UserRecordPage', () => {
     it('renders without crashing', () => {
-      const div = document.createElement('div');
-      ReactDOM.render(<BrowserRouter>
-                        <UserRecordPage />
-                      </BrowserRouter>
-      , div);
-      ReactDOM.unmountComponentAtNode(div);
+      const wrapper = mount(<BrowserRouter>
+                              <UserRecordPage />
+                            </BrowserRouter>);
+      expect(wrapper.length).toBe(1);
     });
 });

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 //import axios from 'axios';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
-import {Link, Router} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 //LandingPage App class
 //Renders the landing page and login form

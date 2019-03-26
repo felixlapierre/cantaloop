@@ -4,19 +4,17 @@ import { BrowserRouter} from "react-router-dom";
 import LandingPage from './LandingPage';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
 
-import { configure, shallow } from 'enzyme';
+import { configure, shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
 describe('LandingPage', () => {
   it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<BrowserRouter>
-                      <LandingPage />
-                    </BrowserRouter>
-    , div);
-    ReactDOM.unmountComponentAtNode(div);
+    const wrapper = mount(<BrowserRouter>
+                            <LandingPage />
+                          </BrowserRouter>);
+    expect(wrapper.length).toBe(1);
   });
 
 
