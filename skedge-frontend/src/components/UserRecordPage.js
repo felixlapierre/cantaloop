@@ -41,8 +41,8 @@ class UserRecordPage extends Component {
     Object.keys(courseList).forEach( courseID => {
       let optionEntry = {};
       optionEntry.key = courseID;
-      optionEntry.value = courseList[courseID].name;
-      optionEntry.text = courseList[courseID].name;
+      optionEntry.value = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
+      optionEntry.text = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       courseListArray.push(optionEntry);
     });
 

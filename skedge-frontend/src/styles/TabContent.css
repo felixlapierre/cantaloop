@@ -1,11 +1,4 @@
-.meow{
-    font-size: 8 px;
-    text-align: center;
-    background-color: aquamarine;
-}
-h4{
-    text-align:center;
-}
-h6{
-    text-align: center;
+Button.SemesterButton{
+    height: 75%;
+    color: aliceblue;
 }
