@@ -280,7 +280,7 @@ class UserRecordPage extends Component {
           <div>
 
           </div>
-          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>
+          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.myCallback}>
           Make My Schedule
           </Button></Link>
       </div>

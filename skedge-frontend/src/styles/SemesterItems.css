@@ -21,3 +21,10 @@ ul.theList {
   background-color: plum;
   cursor: pointer;
 }
+
+.semesterObject {
+  background-color: pink;
+  border-style: solid;
+  border-color: red;
+  border-width: 1px;
+}
