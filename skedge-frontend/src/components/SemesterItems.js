@@ -17,6 +17,7 @@ class SemesterItems extends Component {
     this.handleAddSemester = this.handleAddSemester.bind(this);
     this.handleShareholderNameChange = this.handleShareholderNameChange.bind(this);
     this.handleRemoveShareholder = this.handleRemoveShareholder.bind(this);
+    this.handleSemesterNameChange = this.handleSemesterNameChange.bind(this);
     this.handleCheckState = this.handleCheckState.bind(this);
   }
 
@@ -26,11 +27,21 @@ class SemesterItems extends Component {
     console.log("before: " + this.state.semesters[index].year);
     var newSemesters = this.state.semesters;
     newSemesters[index].year = event.target.value;
-    console.log("after: " + this.state.semesters[index].year);
+    console.log("after: " + newSemesters[index].year);
     this.setState({
         semesters: newSemesters
     })
+  }
 
+  handleSemesterNameChange(index, event){
+    console.log("index: " + index);
+    console.log("event.target.value: " + event.target.value)
+    console.log("radio clicked, value of semesterName is " )
+    var newSemesters = this.state.semesters;
+  //  newSemesters[index].semesterName = value;
+    this.setState({
+      //semesters: newSemesters
+    })
   }
 
   handleRemoveShareholder(index) {
@@ -70,6 +81,7 @@ class SemesterItems extends Component {
       {this.state.semesters.map((semester, index) => (
           <div className="semesterObject" key={index}>
             <Input placeholder={`Year`}
+            value={semester.year}
             onChange={this.handleShareholderNameChange.bind(this, index)}
             label="Year"
             />
@@ -78,18 +90,24 @@ class SemesterItems extends Component {
             label='Winter'
             name={"group" + index.toString()}
             value='Winter'
+            checked={semester.semesterName === 'Winter'}
+            onChange={this.handleSemesterNameChange.bind(this, index)}
             />
             <br/>
             <Radio
             label='Fall'
             name={"group" + index.toString()}
             value='Fall'
+            checked={semester.semesterName === 'Fall'}
+            onChange={this.handleSemesterNameChange.bind(this, index)}
             />
             <br/>
             <Radio
             label='Summer'
             name={"group" + index.toString()}
             value='Summer'
+            checked={semester.semesterName === 'Summer'}
+            onChange={this.handleSemesterNameChange.bind(this, index)}
             />
             <br/>
             <Button type="button" onClick={this.handleRemoveShareholder.bind(this, index)}>
