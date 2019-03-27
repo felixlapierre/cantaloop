@@ -218,7 +218,7 @@ class UserRecordPage extends Component {
     console.log(coursesPayload.courseRecord);
     console.log(coursesPayload.courseSequence);
     console.log(coursesPayload.semesters);
-    axios.post('/genSchedules', coursesPayload).then(response => {
+    axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
     });

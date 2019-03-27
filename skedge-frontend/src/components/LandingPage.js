@@ -37,10 +37,15 @@ class LandingPage extends Component {
   }
 
   handleLogin(event) {
-      axios.post('/login', {username: this.state.username, password: this.state.password}).then(response => {
-          console.log(response.data.token);
-          window.sessionStorage.setItem( 'token' ,response.data.token);
-      });
+      axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
+          console.log(res.data.token);
+          window.sessionStorage.setItem( 'token', res.data.token);
+          // redirect to user record page
+
+      }).catch(function (error) {
+        console.log(error); // Display error messages
+        // Clear firleds
+      })
   }
 
   handleUsernameChange(event){
@@ -52,7 +57,7 @@ class LandingPage extends Component {
   }
 
   handleRegister(event) {
-    axios.post('/signup', {username: this.state.username, password: this.state.password}).then(response => {
+    axios.post('/users/register', {username: this.state.username, password: this.state.password}).then(response => {
         console.log('Received response' + response);
     });
   }
