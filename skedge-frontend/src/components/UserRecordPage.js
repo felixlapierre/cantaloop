@@ -216,6 +216,7 @@ class UserRecordPage extends Component {
     let coursesPayload = this.formatRecordAndCourseSequence();
     console.log(coursesPayload.courseRecord);
     console.log(coursesPayload.courseSequence);
+    window.sessionStorage.setItem('courseSequence', coursesPayload.courseSequence);
     console.log(coursesPayload.semesters);
     axios.post('/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");

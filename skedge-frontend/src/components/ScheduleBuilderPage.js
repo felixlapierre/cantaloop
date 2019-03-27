@@ -3,7 +3,8 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
+import CourseItems from './CourseItems.js';
+import { Icon, Menu, Grid, Segment, Sidebar, Tab, List } from 'semantic-ui-react';
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {
@@ -51,28 +52,42 @@ class ScheduleBuilderPage extends Component {
     return (
       <div>
         <HeaderPage />
-        <div>
-          <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
-          <Sidebar.Pushable as={Segment}>
-            <Sidebar
-              as={Menu}
-              animation='overlay'
-              icon='labeled'
-              inverted
-              onHide={this.handleSidebarHide}
-              vertical
-              visible={this.state.visible}
-            >
-              <Menu.Item as='a'>Hamburger</Menu.Item>
-            </Sidebar>
+        <Grid id='scheduleGrid'>
+          <Grid.Row id='scheduleGridRow'>
+            <Grid.Column width={16}>
+            <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row id='sidebarFullPage'>
+            <Grid.Column width={4}>
+              <Sidebar.Pushable as={Segment}>
+                <Sidebar
+                  as={Menu}
+                  animation='overlay'
+                  icon='labeled'
+                  inverted
+                  dimmed={'true'}
+                  onHide={this.handleSidebarHide}
+                  vertical
+                  visible={this.state.visible}
+                >
+                  <Menu.Item as='a'>Hamburger</Menu.Item>
+                </Sidebar>
 
-            <Sidebar.Pusher>
-              <Segment basic>
-                <Tab panes={this.panes} />
-              </Segment>
-            </Sidebar.Pusher>
-          </Sidebar.Pushable>
-        </div>
+                <Sidebar.Pusher>
+                  <List id='courseListOfSequence'>
+                   <List.Item>Apples</List.Item>
+                   <List.Item>Pears</List.Item>
+                   <List.Item>Oranges</List.Item>
+                  </List>
+                </Sidebar.Pusher>
+              </Sidebar.Pushable>
+            </Grid.Column>
+            <Grid.Column width={12}>
+              <Tab panes={this.panes} />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

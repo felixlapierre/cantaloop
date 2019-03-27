@@ -1,3 +1,21 @@
 #hamburgerButton:hover {
   cursor: pointer;
 }
+
+#courseListOfSequence {
+  display: inline-block;
+}
+
+#scheduleGrid {
+  margin-top: 0;
+  height: 100vh;
+}
+
+#sidebarFullPage {
+  min-height: 100vh;
+  padding: 0px !important;
+}
+
+#scheduleGridRow {
+  padding: 0px !important;
+}
