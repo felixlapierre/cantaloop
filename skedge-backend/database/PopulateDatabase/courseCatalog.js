@@ -1,30 +1,30 @@
-import databaseConstants from 'databaseConstants';
-
+// import databaseConstants from 'databaseConstants.js';
+const courseSchem = require('../schemas/courseSchema')
 let subject;
 let catalog;
 let courseName;
 let courseCatalog;
 
-for (let i = 0; i <databaseConstants.classes.length; i++) {
-    subject = databaseConstants.classes[i].substring(0, 4);
-    catalog = databaseConstants.classes[i].substring(5);
-    console.log(subject);
-    console.log(catalog);
+// for (let i = 0; i <databaseConstants.classes.length; i++) {
+//     subject = databaseConstants.classes[i].substring(0, 4);
+//     catalog = databaseConstants.classes[i].substring(5);
+//     console.log(subject);
+//     console.log(catalog);
 
-    courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
-    if(courseCatalog != undefined) {
-        courseName = courseCatalog.title;
-        console.log(
-            createCatalogJSONObject(subject+catalog,
-            courseCatalog.classUnit,
-            getPrerequisite(courseCatalog.prerequisites),
-            getCorequisite(courseCatalog.prerequisites),
-            [/*TODO: Add method that return array of section for FALL semester*/],
-            [/*TODO: Add method that return array of section for WINTER semester*/],
-            [/*TODO: Add method that return array of section for SUMMER semester*/]));
-        databaseConstants.database_service.insertOneInDatabase(courseCatalog, 'courseCatalog');
-    }
-}
+//     courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
+//     if(courseCatalog != undefined) {
+//         courseName = courseCatalog.title;
+//         console.log(
+//             createCatalogJSONObject(subject+catalog,
+//             courseCatalog.classUnit,
+//             getPrerequisite(courseCatalog.prerequisites),
+//             getCorequisite(courseCatalog.prerequisites),
+//             [/*TODO: Add method that return array of section for FALL semester*/],
+//             [/*TODO: Add method that return array of section for WINTER semester*/],
+//             [/*TODO: Add method that return array of section for SUMMER semester*/]));
+//         databaseConstants.database_service.insertOneInDatabase(courseCatalog, 'courseCatalog');
+//     }
+// }
 
 function callCourseCatalogAPI(subject, catalog) {
     databaseConstants.request.open("GET",  "https://opendata.concordia.ca/API/v1/course/catalog/filter/"
@@ -103,3 +103,170 @@ function getCorequisite (courseCatalog) {
 }
 
 /*TODO: Add sections generator implementation here*/
+
+function  makeTrios(lec,lab,tut){
+  var trio=null;
+  lec.forEach(lecElement => {
+    console.log(lecElement);
+    
+    // lab.forEach(labElement =>{
+    //   tut.forEach(tutElement => {
+    //     let p1 = new Promise((resolve,reject)=>{
+    //       trio = new sectionObj(lecElement, labElement, tutElement);
+    //     })
+    //     .then(console.log(trio));
+    //     resolve("Success");
+
+  
+
+        
+    //   });
+
+    // } )
+
+
+    
+  });
+
+
+  
+}
+
+function classObj (start, end, day) {
+  this.startTime = start;
+  this.endTime = end;
+  this.day = day;
+
+}
+
+function sectionObj (lec, lab, tut) {
+  this.lecture = lec;
+  this.lab = lab;
+  this.tutorial = tut;
+
+} 
+function filterForSections(myArray) {
+  let afterFilter = [];
+
+
+
+  myArray.forEach(element => {
+    let day = "";
+
+    startTime = element.classStartTime.substring(0, 5).replace('.', ':');
+    endTime = element.classEndTime.substring(0, 5).replace('.', ':');
+
+    if (element.modays == "Y") {
+      day += "Mo";
+    }
+    if (element.tuesdays == 'Y') {
+      day += "Tu";
+    }
+    if (element.wednesdays == 'Y') {
+      day += "We";
+    }
+    if (element.thursdays == 'Y') {
+      day += "Th";
+    }
+    if (element.fridays == 'Y') {
+      day += "Fr";
+    }
+
+    var cObj = new classObj(startTime, endTime, day);
+    afterFilter.push(cObj);
+
+
+  });
+
+
+  return afterFilter;
+  // var jsonFile = JSON.stringify(result);
+
+  // return jsonFile;//<= I get a 404 error =/,
+  // even when I have already convert it into a JSON object to send it to the server
+
+  // console.log(result);//<= when I put the console.log(result), it shows the correct array but I can't return it correctly??
+
+
+}
+
+module.exports={
+  // makeTrios( )
+
+ makeArrayCourses: function(subject, catalog) {
+
+    var tutorialArray;
+    var lecArray;
+    var labArray;
+
+    var secObj = new sectionObj('', '', '');
+
+    var x;
+
+    let p1 = new Promise((resolve, reject) => {
+      courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            x = filterForSections(result);
+
+            secObj.tutorial = x;
+            resolve("");
+          }
+        });
+    });
+
+    p1.then((successMessage) => {
+      console.log("");
+
+    });
+
+    let p2 = new Promise((resolve, reject) => {
+      courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            //return the object
+            x = filterForSections(result);
+            secObj.lecture = x;
+            resolve("Success2");
+
+          }
+        });
+    });
+    p2.then((successMessage) => {
+    });
+
+
+    let p3 = new Promise((resolve, reject) => {
+      courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            x = filterForSections(result);
+            secObj.lab = x;
+            resolve("Success3");
+          }
+        });
+    })
+    p3.then((successMessage) => {
+      console.log("reussi");
+      console.log(secObj);
+      // makeTrios(lecArray,labArray,tutorialArray);
+      return secObj;
+    });
+  }
+  //end of function
+
+
+   
+
+
+ 
+}

@@ -53,6 +53,25 @@ app.get('/courses/getNames', (req, res) => {
 }
 );
 
+app.get('/courses/catalogue', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from
+    //MongoDB and it would return an array of all courses available with instances variable
+    //such as Name, semester, nb of credits, timeslot etc.
+    //Not sure if the method would take in an input??
+
+
+    courseList = endpoint_service.getCourseCatalog()
+    
+    .then((courseList) =>{
+        courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
+        res.json(courseList);
+    });
+
+
+}
+);
+
 app.post('/genSchedules', (req, res) => {
     // TESTING
 

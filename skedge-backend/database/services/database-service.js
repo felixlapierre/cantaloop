@@ -4,6 +4,8 @@ var courseSchem = require('../schemas/courseSchema');
 var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 var courseCatalogSchema = require('../schemas/courseCatalogSchema');
 
+var testing = require('../PopulateDatabase/courseCatalog');
+
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
         console.log('Database connection successful')
@@ -31,16 +33,19 @@ function removeDuplicateCourses(myArray) {
 
 module.exports = {
     getCourseCatalog: function () {
-        let p1 = new Promise((resolve, reject) => {
-            courseCatalogSchema.courseCatalog.find({}, function (err, result) {
-                if (err) {
-                    console.log("None")
-                } else {
-                    console.log(result);
-                }
-            });
-        });
-        return p1;
+        console.log(testing.makeArrayCourses('ENGR','213'));
+        // let p1 = new Promise((resolve, reject) => {
+        //     courseCatalogSchema.courseCatalog.find({}, function (err, result) {
+        //         if (err) {
+        //             console.log("None")
+        //         } else {
+        //             console.log(result);
+        //             resolve(result);
+        //         }
+        //     });
+        // });
+        // return p1;
+        // testing.makeArrayCourses('ENGR','213');
     },
 
     getCoursesDescription: function () {
