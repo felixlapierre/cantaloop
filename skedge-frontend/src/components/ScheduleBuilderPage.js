@@ -52,7 +52,7 @@ class ScheduleBuilderPage extends Component {
       <div>
         <HeaderPage />
         <div>
-          <Icon name='bars' size='big' onClick={this.handleHamburgerButton} />
+          <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Menu}

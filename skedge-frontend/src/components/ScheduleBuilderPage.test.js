@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
-import 'semantic-ui-css/semantic.min.css';
-import LandingPage from './components/LandingPage';
-import ScheduleBuilderPage from './components/ScheduleBuilderPage';
-import UserRecordPage from './components/UserRecordPage';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
+import { configure, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import ScheduleBuilderPage from './ScheduleBuilderPage';
 
-//Eventually this will be replaced by something received from the backend
+configure({ adapter: new Adapter() });
+
 const testJson = [
   {
     "year":"2019",
@@ -1006,13 +1005,11 @@ const testJson = [
     ]
   },
 ];
-
-//Render the main component, which is called Skedge.
-ReactDOM.render(
-  <Router>
-    <div id='container'>
-      <Route exact path="/" component={LandingPage} />
-      <Route path="/schedule" render={(props) => <ScheduleBuilderPage scheduleGiven={testJson} />}/>
-      <Route path="/record" component={UserRecordPage} />
-    </div>
-  </Router>, document.getElementById('root'));
+describe('ScheduleBuilderPage', () => {
+    it('renders without crashing', () => {
+        const wrapper = mount(<BrowserRouter>
+                                <ScheduleBuilderPage scheduleGiven={testJson} />
+                              </BrowserRouter>);
+        expect(wrapper.length).toBe(1);
+    });
+});
