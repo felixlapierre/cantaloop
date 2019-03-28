@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import '../styles/HeaderPage.css';
 import logo from '../images/cantaloop.png';
 import { Icon, Popup, Menu } from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
-import { link } from 'fs';
 
 //The header of the page after a user logs in, will always be at the top of the page.
 class HeaderPage extends Component {
@@ -29,6 +27,28 @@ class HeaderPage extends Component {
     // //this.props.history.push(""); // Switch to landing page
     }
   }
+
+  logoutORlogin() // depends on whether you are logged in as a guest or not
+  {
+    if(window.sessionStorage.getItem('token') === null)
+    {
+      return (
+        <Menu.Item
+          name='Login'
+          //onClick={this.handleLogout}
+        />
+      );
+    }
+    else {
+      return (
+        <Menu.Item
+          name='Logout'
+          onClick={this.handleLogout}
+        />
+      );
+    }
+  }
+
   render() {
     const UserIconWithCaret = (
       <div id='pageHeaderUserIcon'>
@@ -43,10 +63,9 @@ class HeaderPage extends Component {
           name='My Record'
           onClick={this.handleRecordButtonClick}
         />
-        <Menu.Item
-          name='Logout'
-          onClick={this.handleLogout}
-        />
+
+        {this.logoutORlogin()}
+
       </Menu>
     )
 
