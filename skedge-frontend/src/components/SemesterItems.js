@@ -173,9 +173,9 @@ class SemesterItems extends Component {
             <Button id="button2" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
               Remove Semester
             </Button>
+            <br/>
           </div>
         ))}
-        <br/>
         <Button id="button1" onClick={this.handleAddSemester}>Add Semester</Button>
         </form>
     );

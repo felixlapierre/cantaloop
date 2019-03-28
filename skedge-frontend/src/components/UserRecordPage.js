@@ -223,6 +223,9 @@ class UserRecordPage extends Component {
                     </div>
                 </form>
                 <div id = "semestersObject">
+                <h5>
+                    Enter number of semesters and semester info
+                </h5>
                 <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
                 </div>
             </div>
