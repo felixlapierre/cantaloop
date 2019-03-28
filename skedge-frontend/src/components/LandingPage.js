@@ -10,26 +10,15 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      value: '',
       username: '',
       password: '',
       errorWhenLoggingIn: false
     }
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(){
-    console.log("Hello");
   }
 
   // TODO: ensure password is hashed before sending it to backend
