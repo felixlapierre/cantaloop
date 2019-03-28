@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
-import { Tab, Button, Grid, Transition, Segment } from 'semantic-ui-react';
+import { Button, Grid, Transition, Segment } from 'semantic-ui-react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
@@ -32,6 +32,9 @@ class TabContent extends Component{
 
     render() {
         return (
+            <div>     
+                <h1> This is your schedule for Fall </h1> 
+            <div>
             <Grid>
                 <Grid.Row columns={3} verticalAlign='middle' stretched>
                     <Grid.Column width={1} floated='right'>
@@ -55,6 +58,8 @@ class TabContent extends Component{
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
+            </div>
+            </div>
         );
     }
 }

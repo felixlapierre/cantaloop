@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
-import Schedule from './Schedule';
+import CourseInfo from './CourseInfo';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
 import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
 import Slider from 'react-slick';
+import WeeklySchedule from './WeeklySchedule';
 
 
 //The main page after a user logs in
@@ -36,11 +37,12 @@ class ScheduleBuilderPage extends Component {
     for(var yearKey in years){
       var scheduleComponents = [];
       for(var seasonKey in years[yearKey]){
-        scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+        scheduleComponents.push(<WeeklySchedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
       }
       this.panes.push({
         menuItem: yearKey,
-        render: () => <Tab.Pane><TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>
+        render: () => <Tab.Pane> <TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/>
+        </Tab.Pane>
       });
     }
     console.log("panes: "+this.panes)
