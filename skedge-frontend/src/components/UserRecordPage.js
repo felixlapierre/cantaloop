@@ -27,14 +27,19 @@ class UserRecordPage extends Component {
   }
 
   componentDidMount() {
-      console.log(window.sessionStorage.getItem('token'));
+      let header = {
+          'Authorization': "Bearer " + window.sessionStorage.getItem('token')
+      };
     axios.get('/courses/getNames')
       .then(res => {
         console.log(this.formatCourseListForDropdown(res.data));
         this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
       }).catch(function (error) {
         console.log(error);
-      })
+      });
+
+      axios.get('/secureEndpoint', {headers: header})
+          .then(res => console.log(JSON.stringify(res)));
   }
 
   formatCourseListForDropdown(courseList) {

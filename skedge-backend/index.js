@@ -39,8 +39,15 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
  ///////////////////
 // Express Enpoints
 
+app.get('/secureEndpoint', checkAuth, (req, res) => {
+    return res.status(200).json({
+        message: "Get Endpoint was able to access this message",
+        secure: "We secure AF BOOOOOOIIIIIIII"
+    });
+});
+
 // Returns a JSON object containing a list of all courses
-app.get('/courses/getNames', checkAuth, (req, res) => {
+app.get('/courses/getNames', (req, res) => {
     endpoint_service.getCoursesDescription()
     .then((courseList) =>{
         courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
