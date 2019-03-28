@@ -78,7 +78,7 @@ app.post('/users/register', (req, res, next) => {
                 username: req.body.username,
                 password: hash
             });
-            user.createUser()
+            createUser(user)
                 .then(result => {
                     res.status(201).json({
                         message: "User Created!",
