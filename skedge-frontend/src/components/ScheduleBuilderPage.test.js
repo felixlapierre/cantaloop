@@ -1,64 +1,68 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
-import 'semantic-ui-css/semantic.min.css';
-import LandingPage from './components/LandingPage';
-import ScheduleBuilderPage from './components/ScheduleBuilderPage';
-import UserRecordPage from './components/UserRecordPage';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter} from "react-router-dom";
+import { configure, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import ScheduleBuilderPage from './ScheduleBuilderPage';
 
-//Eventually this will be replaced by something received from the backend
+configure({ adapter: new Adapter() });
+
 const testJson = [
   {
     "year":"2019",
     "season":"fall",
-    "credits":15,
+    "credits":200,
     "schedules":[
       {
-        "COMP 346" : {
+        "courseId1" : {
           "lecture" : {
             "time_start":"8:45",
             "time_end":"10:00",
             "days":"TuTh"
           },
           "lab" :{
-            "time_start":"10:00",
-            "time_end":"11:00",
+            "time_start":"8:45",
+            "time_end":"10:00",
             "days":"TuTh"
           },
           "tutorial":{
-            "time_start":"11:15",
-            "time_end":"12:00",
+            "time_start":"8:45",
+            "time_end":"10:00",
             "days":"TuTh"
           }
         },
-        "SOEN 341" : {
+        "courseId2" : {
           "lecture" : {
             "time_start":"8:45",
             "time_end":"10:00",
-            "days":"MoFr"
+            "days":"TuTh"
           },
           "lab" :{
-            "time_start":"10:45",
-            "time_end":"12:00",
-            "days":"MoFr"
+            "time_start":"8:45",
+            "time_end":"10:00",
+            "days":"TuTh"
           },
           "tutorial":{
-            "time_start":"12:45",
-            "time_end":"2:00",
-            "days":"Fr"
+            "time_start":"8:45",
+            "time_end":"10:00",
+            "days":"TuTh"
           }
         },
-        "COMP 321" : {
+        "courseId3" : {
           "lecture" : {
             "time_start":"8:45",
-            "time_end":"12:30",
-            "days":"Fr"
+            "time_end":"10:00",
+            "days":"TuTh"
+          },
+          "lab" :{
+            "time_start":"8:45",
+            "time_end":"10:00",
+            "days":"TuTh"
           },
           "tutorial":{
-            "time_start":"2:25",
-            "time_end":"4:00",
-            "days":"Mo"
+            "time_start":"8:45",
+            "time_end":"10:00",
+            "days":"TuTh"
           }
         }
       },
@@ -1001,13 +1005,11 @@ const testJson = [
     ]
   },
 ];
-
-//Render the main component, which is called Skedge.
-ReactDOM.render(
-  <Router>
-    <div id='container'>
-      <Route exact path="/" component={LandingPage} />
-      <Route path="/schedule" render={(props) => <ScheduleBuilderPage scheduleGiven={testJson} />}/>
-      <Route path="/record" component={UserRecordPage} />
-    </div>
-  </Router>, document.getElementById('root'));
+describe('ScheduleBuilderPage', () => {
+    it('renders without crashing', () => {
+        const wrapper = mount(<BrowserRouter>
+                                <ScheduleBuilderPage scheduleGiven={testJson} />
+                              </BrowserRouter>);
+        expect(wrapper.length).toBe(1);
+    });
+});

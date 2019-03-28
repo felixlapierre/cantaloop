@@ -20,8 +20,6 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.8",
     "react-slick": "^0.23.2",
-    "react-week-calendar": "^0.1.2",
-    "semantic-ui-calendar": "0.0.8",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.85.0",
     "slick-carousel": "^1.8.1"
@@ -41,5 +39,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2"
+  }
 }
