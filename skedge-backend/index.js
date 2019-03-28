@@ -130,6 +130,11 @@ app.post('/users/logout', (req, res, next) => {
     // return success message
 })
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../skedge-frontend/build/index.html'));
+});
+
+
  ////////////////////
 // Express listener
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
