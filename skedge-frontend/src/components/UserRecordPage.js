@@ -13,6 +13,7 @@ class UserRecordPage extends Component {
     this.state = {
       recordItems : [],
       courseItems : [],
+      semesters : ["hellllllo"],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -30,7 +31,6 @@ class UserRecordPage extends Component {
   componentDidMount() {
     axios.get('/courses/getNames')
       .then(res => {
-        console.log(this.formatCourseListForDropdown(res.data));
         this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
       }).catch(function (error) {
         console.log(error);
@@ -136,92 +136,41 @@ class UserRecordPage extends Component {
     var courseSequenceArray = [];
     var recordItems = this.state.recordItems;
     var courseItems = this.state.courseItems;
+    var semesters = this.state.semesters;
     for(var i in recordItems){
       var courseCodeR = recordItems[i].key;
       var capitalizedCourseCodeR = courseCodeR.toUpperCase();
       recordArray.push(capitalizedCourseCodeR.replace(/\s/g, ''));
     }
-    for(var j in this.state.courseItems){
+    for(var j in courseItems){
       var courseCodeCS = courseItems[j].key;
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
 
-    let semesters = [
-      {
-        "year": 2019,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2020,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2020,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2021,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2021,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2022,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2022,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2023,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      }
-    ]
-
     return {
       "courseRecord": recordArray,
       "courseSequence": courseSequenceArray,
-      "semesters": semesters
+      "semesters" : semesters
     }
   }
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-    console.log(coursesPayload.courseRecord);
-    console.log(coursesPayload.courseSequence);
-    console.log(coursesPayload.semesters);
+    console.log("sending:")
+    console.log("courseRecord: " + coursesPayload.courseRecord);
+    console.log("course sequence: " + coursesPayload.courseSequence);
+    console.log("semesters: " + coursesPayload.semesters);
     axios.post('/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
     });
+  }
+
+  handleUpdateSemesters(_State){
+    this.setState({
+      semesters : _State.semesters
+    })
   }
 
   render() {
@@ -274,7 +223,7 @@ class UserRecordPage extends Component {
                     </div>
                 </form>
                 <div id = "semestersObject">
-                <SemesterItems/>
+                <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
                 </div>
             </div>
           <div>

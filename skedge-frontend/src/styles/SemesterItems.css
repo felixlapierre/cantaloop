@@ -23,8 +23,13 @@ ul.theList {
 }
 
 .semesterObject {
-  background-color: pink;
+  background-color: LightSkyBlue;
   border-style: solid;
-  border-color: red;
+  border-color: lavender;
   border-width: 1px;
+  border-radius: 5px;
+}
+
+#button1, #button2{
+  background-color: plum;
 }

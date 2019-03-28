@@ -7,11 +7,6 @@ class SemesterItems extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      year : "",
-      semester : "",
-      numCredits : "",
-      numCourses : "",
-      currentSemester : {year: "", semester: "", numCredits: "", numCourses: ""},
       semesters : []
     }
     this.handleAddSemester = this.handleAddSemester.bind(this);
@@ -19,71 +14,106 @@ class SemesterItems extends Component {
     this.handleSemesterSeasonChange = this.handleSemesterSeasonChange.bind(this);
     this.handleSemesterCreditsChange = this.handleSemesterCreditsChange.bind(this);
     this.handleRemoveSemester = this.handleRemoveSemester.bind(this);
-    this.handleCheckState = this.handleCheckState.bind(this);
+    this.findNextSemester = this.findNextSemester.bind(this);
+  }
+
+  updateSemesters() {
+      this.props.handleUpdateSemesters(this.state.semesters);
   }
 
   handleSemesterYearChange(index, event) {
     var newSemesters = this.state.semesters;
     newSemesters[index].year = event.target.value;
     this.setState({
-        semesters: newSemesters
-    })
+        semesters: newSemesters},
+        this.updateSemesters
+    )
+    console.log(this.props.semesters);
   }
 
   handleSemesterSeasonChange(index, event){
-    console.log("season change");
     var newSemesters = this.state.semesters;
     newSemesters[index].season = event.target.innerText;
     this.setState({
-      semesters: newSemesters
-    })
+      semesters: newSemesters},
+      this.updateSemesters
+    )
   }
 
   handleSemesterCreditsChange(index, event){
     var newSemesters = this.state.semesters;
     newSemesters[index].credits = event.target.value;
     this.setState({
-        semesters: newSemesters
-    })
+        semesters: newSemesters},
+        this.updateSemesters
+      )
   }
 
   handleSemesterNumCoursesChange(index, event) {
     var newSemesters = this.state.semesters;
     newSemesters[index].numCourses = event.target.value;
     this.setState({
-        semesters: newSemesters
-    })
+        semesters: newSemesters},
+        this.updateSemesters
+    )
   }
 
   handleRemoveSemester(index) {
-    console.log(index + " remove");
     var newSemesters = [];
     for(var i = 0; i < this.state.semesters.length; i++){
-      console.log("i = " + i + " and index = " + index + " and value = " + this.state.semesters[i]);
       if(i !== index){
         newSemesters.push(this.state.semesters[i])
       }
     }
-    console.log(newSemesters);
     this.setState ({
-      semesters: newSemesters
-    })
+      semesters: newSemesters},
+      this.updateSemesters
+    )
   }
-
 
   handleAddSemester(event){
     event.preventDefault();
-    console.log("add semester");
-    const newSemesters = this.state.semesters.concat([{ year: '2019', season: 'Fall', credits: '15', numCourses: '5', restrictions: []}])
+    var nextSemester = this.findNextSemester();
+    const newSemesters = this.state.semesters.concat([{ year: nextSemester.year, season: nextSemester.season, credits: '15', numCourses: '5', restrictions: []}])
     this.setState({
-      semesters: newSemesters
-    });
-    console.log(this.state.semesters);
+      semesters: newSemesters},
+      this.updateSemesters
+    );
   }
 
-  handleCheckState(event){
-    event.preventDefault();
-    console.log(this.state.semesters);
+  findNextSemester(){
+    var semesters = this.state.semesters
+    var newYear;
+    var newSeason;
+    if(semesters.length === 0){
+      return {
+        "year" : '2019',
+        "season" : 'Fall'
+      }
+    }
+    if(semesters[semesters.length-1].season === 'Fall'){
+       newYear = (Number(semesters[semesters.length-1].year) + 1).toString();
+    } else {
+       newYear = semesters[semesters.length-1].year
+    }
+    switch(semesters[semesters.length-1].season){
+      case 'Fall' :
+        newSeason = 'Winter';
+        break;
+      case 'Winter' :
+        newSeason = 'Fall';
+        break;
+      case 'Summer' :
+        newSeason = 'Fall'
+        break;
+      default :
+        newSeason = 'Fall'
+        break;
+    }
+    return{
+      "year" : newYear,
+      "season" : newSeason
+    }
   }
 
   render() {
@@ -139,17 +169,15 @@ class SemesterItems extends Component {
             label="Courses"
             />
             <br/>
-            <Button type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
-              -
+            <br/>
+            <Button id="button2" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
+              Remove Semester
             </Button>
           </div>
         ))}
-
-        <Button onClick={this.handleAddSemester}>Add Semester</Button>
         <br/>
-        <Button onClick={this.handleCheckState}>Check Semesters Object!</Button>
-
-      </form>
+        <Button id="button1" onClick={this.handleAddSemester}>Add Semester</Button>
+        </form>
     );
   }
 }
