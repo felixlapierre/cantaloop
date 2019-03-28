@@ -20,14 +20,15 @@ class HeaderPage extends Component {
   }
 
   handleLogout(){
-    window.sessionStorage.clear(); // Remove token from storage
-
+    if (window.confirm('Are you sure you wish to end your session?')) {
+      window.sessionStorage.clear();
+          
     // How to redirect??
     // this.props.router.push("record");
-    // //return <Link to='/' />
+    // return <Link to='/' />
     // //this.props.history.push(""); // Switch to landing page
+    }
   }
-
   render() {
     const UserIconWithCaret = (
       <div id='pageHeaderUserIcon'>
