@@ -61,12 +61,12 @@ app.get('/courses/catalogue', (req, res) => {
     //Not sure if the method would take in an input??
 
 
-    endpoint_service.getCourseCatalog()
+    endpoint_service.getCourseCatalog();
     
-    .then((courseList) =>{
-        // courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
-        res.json(courseList);
-    });
+    // .then((courseList) =>{
+    //     // courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
+    //     res.json(courseList);
+    // });
 
 
 }

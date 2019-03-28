@@ -104,89 +104,8 @@ function getCorequisite (courseCatalog) {
 
 /*TODO: Add sections generator implementation here*/
 
-function getSections(subject, catalog){
-    var tutorialArray;
-    var lecArray;
-    var labArray;
 
-    var secObj = new sectionObj('', '', '');
-
-    var x;
-    console.log("ici");
-
-    // if(String.prototype.valueOf(semester)=== "Fall" ){
-    //   var semesterCode = '/$2/';
-    //   console.log('Fall semester');
-    // }
-    // if(String.prototype.valueOf(semester) === "Winter"){
-    //   var semesterCode = '/$4/';
-    //   console.log('Winter semester');
-    // }
-
-    let p1 = new Promise((resolve, reject) => {
-      courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog}
-        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            // console.log(result);
-            console.log("balblabla");
-
-            x = filterForSections(result);
-
-            secObj.tutorial = x;
-            resolve("");
-          }
-        });
-    });
-    p1.then((successMessage) => {
-      console.log("");
-
-    });
-
-    let p2 = new Promise((resolve, reject) => {
-      courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
-        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            //return the object
-            x = filterForSections(result);
-            secObj.lecture = x;
-            resolve("Success2");
-
-          }
-        });
-    });
-    p2.then((successMessage) => {
-    });
-
-
-    let p3 = new Promise((resolve, reject) => {
-      courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
-        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            x = filterForSections(result);
-            secObj.lab = x;
-            resolve("Success3");
-          }
-        });
-    })
-    p3.then((successMessage) => {
-      console.log("reussi");
-      console.log(secObj);
-      // makeTrios(lecArray,labArray,tutorialArray);
-    });
-
-
-
-}
-getSections('ENGR','213');
+// getSections('ENGR','213');
 
 
 
@@ -296,6 +215,75 @@ function filterForSections(myArray) {
 }
 
 module.exports={
+  getSections: function(subject, catalog){
+
+    var tutorialArray;
+    var lecArray;
+    var labArray;
+    var secObj = new sectionObj('', '', '');
+    var x;
+    console.log("first in");
+  
+  
+    let p1 = new Promise((resolve, reject) => {
+      courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            x = filterForSections(result);
+  
+            secObj.tutorial = x;
+            resolve("sucess1");
+          }
+        });
+    });
+  
+    p1.then((successMessage) => {
+      console.log("");
+  
+    });
+  
+    let p2 = new Promise((resolve, reject) => {
+      courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            //return the object
+            x = filterForSections(result);
+            secObj.lecture = x;
+            resolve("Success2");
+  
+          }
+        });
+    });
+    p2.then((successMessage) => {
+    });
+  
+  
+    let p3 = new Promise((resolve, reject) => {
+      courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            x = filterForSections(result);
+            secObj.lab = x;
+            resolve("Success3");
+          }
+        });
+    })
+    p3.then((successMessage) => {
+      console.log("reussi");
+      console.log(secObj);
+      return secObj;
+    });
+  }
+  
  
 
 
