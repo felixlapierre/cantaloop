@@ -41,7 +41,6 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
 // Returns a JSON object containing a list of all courses
 app.get('/courses/getNames', checkAuth, (req, res) => {
-
     endpoint_service.getCoursesDescription()
     .then((courseList) =>{
         courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
@@ -124,16 +123,6 @@ app.post('/users/login', (req, res, next) => {
             });
         });
 });
-
-app.post('/users/logout', (req, res, next) => {
-    // remove token from session storage
-    // return success message
-})
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../skedge-frontend/build/index.html'));
-});
-
 
  ////////////////////
 // Express listener

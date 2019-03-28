@@ -29,8 +29,6 @@ class LandingPage extends Component {
           this.props.history.push("record"); // Switch to the user record page
           this.setState({errorWhenLoggingIn: false})
       }).catch(error => {
-        console.log("goes here yooo");
-        console.log(error);
         // Reset fields
         this.setState({
           value: '',
