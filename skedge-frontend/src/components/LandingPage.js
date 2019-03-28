@@ -9,9 +9,12 @@ import {Link} from 'react-router-dom';
 class LandingPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: ''};
-    this.state = {username: ''};
-    this.state = {password: ''};
+    this.state = { 
+      value: '',
+      username: '',
+      password: '',
+      errorWhenLoggingIn: false
+    }
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,24 +30,25 @@ class LandingPage extends Component {
 
   handleSubmit(){
     console.log("Hello");
-    /*console.log('Request Sending, ' + this.state.value);
-    axios.put('http://localhost:4200/prototype', {"name": this.state.value})
-    .then(res => {
-        this.setState({name: "works"});
-        console.log(res);
-        console.log(res.data);
-    });*/
   }
 
+  // TODO: ensure password is hashed before sending it to backend
   handleLogin(event) {
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
           console.log(res.data.token);
           window.sessionStorage.setItem( 'token', res.data.token);
-          // redirect to user record page
+          this.props.history.push("record");
+          this.setState({errorWhenLoggingIn: false})
 
       }).catch(function (error) {
-        console.log(error); // Display error messages
-        // Clear firleds
+        console.log(error);
+        // Reset fields
+        this.setState({
+          value: '',
+          username: '',
+          password: '',
+          errorWhenLoggingIn: true
+        })
       })
   }
 
@@ -66,6 +70,18 @@ class LandingPage extends Component {
     console.log("Guest");
   }
 
+  // Display error messages
+  renderErrorMessage() {
+    if(this.state.errorWhenLoggingIn == true) { 
+      return (
+        <p id='errorMessage'>Wrong username or password</p>
+      )
+    }
+    else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div id='landingPage'>
@@ -85,7 +101,9 @@ class LandingPage extends Component {
                   <Button fluid onClick={this.handleRegister} id='registerButton'>Register</Button>
                 </Form.Group>
                 <Link to='/record'><Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button></Link>
+                {this.renderErrorMessage()}
               </Segment>
+              
             </Form>
           </Grid.Column>
         </Grid>
