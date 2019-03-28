@@ -104,6 +104,92 @@ function getCorequisite (courseCatalog) {
 
 /*TODO: Add sections generator implementation here*/
 
+function getSections(subject, catalog){
+    var tutorialArray;
+    var lecArray;
+    var labArray;
+
+    var secObj = new sectionObj('', '', '');
+
+    var x;
+    console.log("ici");
+
+    // if(String.prototype.valueOf(semester)=== "Fall" ){
+    //   var semesterCode = '/$2/';
+    //   console.log('Fall semester');
+    // }
+    // if(String.prototype.valueOf(semester) === "Winter"){
+    //   var semesterCode = '/$4/';
+    //   console.log('Winter semester');
+    // }
+
+    let p1 = new Promise((resolve, reject) => {
+      courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog}
+        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            // console.log(result);
+            console.log("balblabla");
+
+            x = filterForSections(result);
+
+            secObj.tutorial = x;
+            resolve("");
+          }
+        });
+    });
+    p1.then((successMessage) => {
+      console.log("");
+
+    });
+
+    let p2 = new Promise((resolve, reject) => {
+      courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            //return the object
+            x = filterForSections(result);
+            secObj.lecture = x;
+            resolve("Success2");
+
+          }
+        });
+    });
+    p2.then((successMessage) => {
+    });
+
+
+    let p3 = new Promise((resolve, reject) => {
+      courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            x = filterForSections(result);
+            secObj.lab = x;
+            resolve("Success3");
+          }
+        });
+    })
+    p3.then((successMessage) => {
+      console.log("reussi");
+      console.log(secObj);
+      // makeTrios(lecArray,labArray,tutorialArray);
+    });
+
+
+
+}
+getSections('ENGR','213');
+
+
+
 function  makeTrios(lec,lab,tut){
   var trio=null;
   arrayTrios = [];
@@ -143,10 +229,6 @@ function  makeTrios(lec,lab,tut){
       }
     }
   }
- 
-  
-
-
 
   }
 
@@ -154,38 +236,7 @@ function  makeTrios(lec,lab,tut){
 
   
 }
-makeTrios([ { startTime: '11:45', endTime: '13:00', day: 'MoWe' },
-        { startTime: '08:45', endTime: '10:00', day: 'WeFr' },
-        { startTime: '10:15', endTime: '11:30', day: 'Tu' },
-        { startTime: '11:45', endTime: '13:00', day: 'WeFr' },
-        { startTime: '08:45', endTime: '10:00', day: 'WeFr' },
-        { startTime: '10:15', endTime: '11:30', day: 'Tu' },
-        { startTime: '17:45', endTime: '20:15', day: 'Fr' },
-        { startTime: '14:45', endTime: '16:00', day: 'Tu' },
-        { startTime: '14:45', endTime: '16:00', day: 'Tu' },
-        { startTime: '14:45', endTime: '16:00', day: 'Tu' },
-        { startTime: '14:45', endTime: '16:00', day: 'WeFr' } ],[], [ { startTime: '13:15', endTime: '14:55', day: 'Fr' },
-        { startTime: '13:15', endTime: '14:55', day: 'Fr' },
-        { startTime: '08:20', endTime: '10:00', day: 'Mo' },
-        { startTime: '08:20', endTime: '10:00', day: 'Mo' },
-        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
-        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
-        { startTime: '14:15', endTime: '15:55', day: 'Fr' },
-        { startTime: '14:15', endTime: '15:55', day: 'Mo' },
-        { startTime: '13:45', endTime: '15:25', day: '' },
-        { startTime: '08:20', endTime: '10:00', day: 'Mo' },
-        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
-        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
-        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
-        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
-        { startTime: '18:00', endTime: '19:40', day: 'Mo' },
-        { startTime: '17:45', endTime: '19:25', day: 'Fr' },
-        { startTime: '16:10', endTime: '17:50', day: 'Mo' },
-        { startTime: '17:45', endTime: '19:25', day: 'Fr' },
-        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
-        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
-        { startTime: '16:10', endTime: '17:50', day: 'Fr' },
-        {startTime: '18:00', endTime: '19:40', day: 'Mo' } ] );
+
 
 function classObj (start, end, day) {
   this.startTime = start;
@@ -203,9 +254,9 @@ function sectionObj (lec, lab, tut) {
 function filterForSections(myArray) {
   let afterFilter = [];
 
-
-
   myArray.forEach(element => {
+
+    // if(element.termCode.){
     let day = "";
 
     startTime = (element.classStartTime.substring(0, 5).replace('.', ':'));
@@ -229,6 +280,7 @@ function filterForSections(myArray) {
 
     var cObj = new classObj(startTime, endTime, day);
     afterFilter.push(cObj);
+  // }
 
 
   });
@@ -244,46 +296,23 @@ function filterForSections(myArray) {
 }
 
 module.exports={
-  makeTrios: function(lec,lab,tut){
-    arraySection = [];
-    var trio=null;
-    lec.forEach(lecElement => {
-      // console.log(lecElement); //this works in console
+ 
 
 
-      // return JSON.stringify(lecElement);
 
-      // lab.forEach(labElement =>{
-      //   // console.log(labElement);
-      //   var pLab = labElement;
 
-      //   tut.forEach(tutElement => {
-      //     var pTut = tutElement;
-      //     let p1 = new Promise((resolve,reject)=>{
-      //       console.log('lec is ' + lecElement + 'lab is ' + lacElement + 'tut is ' + tutElement);
-  
-  
-      //       trio = new sectionObj(pLec, pLab, pTut);
-      //       // arraySection.push(trio);
-      //       // console.log(trio.tutElement);
-      //       // console.log(trio.lecture);
-      //     })
-      //     p1.then( arraySection.push(trio));
-      //     resolve("Success");
-  
-    
-  
-          
-        });
-  
-      // } )
-  
-  
-      
-    // });
-  
-      
-    }
+
+   
+
+
+ 
+}
+
+
+
+
+
+
 
 
 //  makeArrayCourses: function(subject, catalog) {
@@ -362,4 +391,4 @@ module.exports={
 
 
  
-}
+// }
