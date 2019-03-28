@@ -33,7 +33,44 @@ function removeDuplicateCourses(myArray) {
 
 module.exports = {
     getCourseCatalog: function () {
-        console.log(testing.makeArrayCourses('ENGR','213'));
+        // console.log(testing.makeArrayCourses('ENGR','213'));
+
+        let p1 = new Promise((resolve, reject) => {
+            testing.makeTrios([ { startTime: '11:45', endTime: '13:00', day: 'MoWe' },
+        { startTime: '08:45', endTime: '10:00', day: 'WeFr' },
+        { startTime: '10:15', endTime: '11:30', day: 'Tu' },
+        { startTime: '11:45', endTime: '13:00', day: 'WeFr' },
+        { startTime: '08:45', endTime: '10:00', day: 'WeFr' },
+        { startTime: '10:15', endTime: '11:30', day: 'Tu' },
+        { startTime: '17:45', endTime: '20:15', day: 'Fr' },
+        { startTime: '14:45', endTime: '16:00', day: 'Tu' },
+        { startTime: '14:45', endTime: '16:00', day: 'Tu' },
+        { startTime: '14:45', endTime: '16:00', day: 'Tu' },
+        { startTime: '14:45', endTime: '16:00', day: 'WeFr' } ],[], [ { startTime: '13:15', endTime: '14:55', day: 'Fr' },
+        { startTime: '13:15', endTime: '14:55', day: 'Fr' },
+        { startTime: '08:20', endTime: '10:00', day: 'Mo' },
+        { startTime: '08:20', endTime: '10:00', day: 'Mo' },
+        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
+        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
+        { startTime: '14:15', endTime: '15:55', day: 'Fr' },
+        { startTime: '14:15', endTime: '15:55', day: 'Mo' },
+        { startTime: '13:45', endTime: '15:25', day: '' },
+        { startTime: '08:20', endTime: '10:00', day: 'Mo' },
+        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
+        { startTime: '13:15', endTime: '14:55', day: 'Mo' },
+        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
+        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
+        { startTime: '18:00', endTime: '19:40', day: 'Mo' },
+        { startTime: '17:45', endTime: '19:25', day: 'Fr' },
+        { startTime: '16:10', endTime: '17:50', day: 'Mo' },
+        { startTime: '17:45', endTime: '19:25', day: 'Fr' },
+        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
+        { startTime: '15:45', endTime: '17:25', day: 'Fr' },
+        { startTime: '16:10', endTime: '17:50', day: 'Fr' },
+        {startTime: '18:00', endTime: '19:40', day: 'Mo' } ] )
+        resolve(console.log("worked?"));
+    })
+        return p1;
         // let p1 = new Promise((resolve, reject) => {
         //     courseCatalogSchema.courseCatalog.find({}, function (err, result) {
         //         if (err) {
@@ -49,7 +86,7 @@ module.exports = {
     },
 
     getCoursesDescription: function () {
-        let p1 = new Promise((resolve, reject) => {
+        let p1 = new Promise4((resolve, reject) => {
             courseDescriptionSchema.courseDescription.find({}, function (err, result) {
                 if (err) {
                     console.log("None")
