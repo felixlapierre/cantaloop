@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 //import axios from 'axios';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
 
 //LandingPage App class
 //Renders the landing page and login form
@@ -24,6 +23,7 @@ class LandingPage extends Component {
 
   handleLoginGuest(event) {
     console.log("Guest");
+    this.props.history.push('/record')
   }
 
   render() {
@@ -40,7 +40,7 @@ class LandingPage extends Component {
                   <Button fluid onClick={this.handleLogin} id='loginButton'>Login</Button>
                   <Button fluid onClick={this.handleRegister} id='registerButton'>Register</Button>
                 </Form.Group>
-                <Link to='/record'><Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button></Link>
+                <Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button>
               </Segment>
             </Form>
           </Grid.Column>

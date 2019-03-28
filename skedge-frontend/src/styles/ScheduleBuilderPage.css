@@ -13,9 +13,17 @@
 
 #sidebarFullPage {
   min-height: 100vh;
-  padding: 0px !important;
+  padding: 0.2rem !important;
 }
 
 #scheduleGridRow {
-  padding: 0px !important;
+  padding: 0.2rem !important;
+}
+
+#dropdownCourses {
+  width: 100%;
+}
+
+.pusher {
+  padding: 1rem;
 }

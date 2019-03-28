@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
 import CourseItems from './CourseItems.js';
 import axios from "axios"
 
@@ -216,12 +215,14 @@ class UserRecordPage extends Component {
     let coursesPayload = this.formatRecordAndCourseSequence();
     console.log(coursesPayload.courseRecord);
     console.log(coursesPayload.courseSequence);
-    window.sessionStorage.setItem('courseSequence', coursesPayload.courseSequence);
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
     console.log(coursesPayload.semesters);
     axios.post('/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
+      this.props.history.push('/schedule');
     });
+
   }
 
   render() {
@@ -274,9 +275,7 @@ class UserRecordPage extends Component {
                   </div>
             </div>
           <div>
-          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>
-          Make My Schedule
-          </Button></Link>
+          <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
           </div>
       </div>
     );

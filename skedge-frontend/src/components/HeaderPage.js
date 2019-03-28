@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/HeaderPage.css';
 import logo from '../images/cantaloop.png';
 import { Icon, Popup, Menu } from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 //The header of the page after a user logs in, will always be at the top of the page.
 class HeaderPage extends Component {
@@ -16,10 +16,13 @@ class HeaderPage extends Component {
 
   handleRecordButtonClick(){
     console.log("Record");
+    this.props.history.push('/record')
   }
 
   handleLogout(){
     console.log("Logout");
+    window.sessionStorage.clear();
+    this.props.history.push('/');
   }
 
   render() {
@@ -32,10 +35,10 @@ class HeaderPage extends Component {
 
     const MenuForPopup = (
       <Menu vertical>
-        <Link to='/record'><Menu.Item
+        <Menu.Item
           name='My Record'
           onClick={this.handleRecordButtonClick}
-        /></Link>
+        />
         <Menu.Item
           name='Logout'
           onClick={this.handleLogout}
@@ -53,4 +56,4 @@ class HeaderPage extends Component {
   }
 }
 
-export default HeaderPage;
+export default withRouter(HeaderPage);

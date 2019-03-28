@@ -3,15 +3,16 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import CourseItems from './CourseItems.js';
-import { Icon, Menu, Grid, Segment, Sidebar, Tab, List } from 'semantic-ui-react';
+import { Icon, Menu, Dropdown, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {visible: false};
+    this.state = {visible: false,
+                  currentClasses:[]
+                  };
     this.panes = [];
     this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
@@ -25,6 +26,8 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
+    this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
+
     var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
@@ -60,7 +63,7 @@ class ScheduleBuilderPage extends Component {
           </Grid.Row>
           <Grid.Row id='sidebarFullPage'>
             <Grid.Column width={4}>
-              <Sidebar.Pushable as={Segment}>
+              <Sidebar.Pushable  as={Segment}>
                 <Sidebar
                   as={Menu}
                   animation='overlay'
@@ -70,16 +73,20 @@ class ScheduleBuilderPage extends Component {
                   onHide={this.handleSidebarHide}
                   vertical
                   visible={this.state.visible}
+                  width= 'thin'
                 >
                   <Menu.Item as='a'>Hamburger</Menu.Item>
                 </Sidebar>
 
-                <Sidebar.Pusher>
-                  <List id='courseListOfSequence'>
-                   <List.Item>Apples</List.Item>
-                   <List.Item>Pears</List.Item>
-                   <List.Item>Oranges</List.Item>
-                  </List>
+                <Sidebar.Pusher >
+                  <Dropdown
+                      placeholder = 'Search Course'
+                      fluid
+                      search
+                      selection
+                      options = {this.state.currentClasses}
+                      id='dropdownCourses'
+                  />
                 </Sidebar.Pusher>
               </Sidebar.Pushable>
             </Grid.Column>
