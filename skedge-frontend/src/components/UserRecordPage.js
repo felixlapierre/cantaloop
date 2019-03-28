@@ -13,7 +13,7 @@ class UserRecordPage extends Component {
     this.state = {
       recordItems : [],
       courseItems : [],
-      semesters : ["hellllllo"],
+      semesters : [],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -151,7 +151,7 @@ class UserRecordPage extends Component {
     return {
       "courseRecord": recordArray,
       "courseSequence": courseSequenceArray,
-      "semesters" : semesters
+      "semesters": semesters
     }
   }
 
