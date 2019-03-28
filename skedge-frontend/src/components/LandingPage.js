@@ -28,8 +28,8 @@ class LandingPage extends Component {
           window.sessionStorage.setItem( 'token', res.data.token);
           this.props.history.push("record"); // Switch to the user record page
           this.setState({errorWhenLoggingIn: false})
-
-      }).catch(function (error) {
+      }).catch(error => {
+        console.log("goes here yooo");
         console.log(error);
         // Reset fields
         this.setState({
@@ -61,7 +61,7 @@ class LandingPage extends Component {
 
   // Display error messages
   renderErrorMessage() {
-    if(this.state.errorWhenLoggingIn == true) { 
+    if(this.state.errorWhenLoggingIn === true) { 
       return (
         <p id='errorMessage'>Wrong username or password</p>
       )
