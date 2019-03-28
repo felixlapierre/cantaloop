@@ -11,6 +11,8 @@ class ScheduleBuilderPage extends Component {
     super(props);
 
     this.state = {visible: false};
+    this.panes = [];
+    this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
   }
 
@@ -22,7 +24,6 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
-    this.panes = [];
     var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
@@ -32,15 +33,18 @@ class ScheduleBuilderPage extends Component {
       years[year][season] = element.schedules;
     });
     for(var yearKey in years){
-      var scheduleComponents = [];
       for(var seasonKey in years[yearKey]){
-        scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+        this.scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
       }
       this.panes.push({
         menuItem: yearKey,
-        render: () => <TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/>
-      })
+        render: () => this.paneRender()
+      });
     }
+  }
+
+  paneRender(){
+    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
 
   render() {
@@ -48,7 +52,7 @@ class ScheduleBuilderPage extends Component {
       <div>
         <HeaderPage />
         <div>
-          <Icon name='bars' size='big' onClick={this.handleHamburgerButton} />
+          <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
           <Sidebar.Pushable as={Segment}>
             <Sidebar
               as={Menu}
@@ -65,11 +69,6 @@ class ScheduleBuilderPage extends Component {
             <Sidebar.Pusher>
               <Segment basic>
                 <Tab panes={this.panes} />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
               </Segment>
             </Sidebar.Pusher>
           </Sidebar.Pushable>
