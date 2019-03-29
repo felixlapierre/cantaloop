@@ -1,0 +1,25 @@
+{
+  "name": "cantaloop",
+  "version": "1.0.0",
+  "description": "Use this thingy to run the frontend and backend",
+  "main": "\"\"",
+  "scripts": {
+    "start": "concurrently \"node ./skedge-backend/index.js\" \"npm run start --prefix skedge-frontend\"",
+    "install": "npm i recursive-install && npm-recursive-install --skip-root",
+    "test": "concurrently \"npm run test --prefix skedge-backend\" \"npm run test --prefix skedge-frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felixlapierre1/cantaloop.git"
+  },
+  "author": "jonnyz123",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felixlapierre1/cantaloop/issues"
+  },
+  "homepage": "https://github.com/felixlapierre1/cantaloop#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "recursive-install": "^1.4.0"
+  }
+}
