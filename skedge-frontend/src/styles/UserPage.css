@@ -1,15 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
 body{
     background-color: lavender;
 }
 
 .welcome-title {
   text-align: center;
+  font-family: sans-serif;
+  display: inline;
+}
+
+.skedge {
   font-family: 'Lobster', sans-serif;
+  display: inline;
 }
 
 h5 {
   text-align: center;
-  font-family: 'Lobster', sans-serif;
+  font-family: sans-serif;
 }
 
 .outer {
