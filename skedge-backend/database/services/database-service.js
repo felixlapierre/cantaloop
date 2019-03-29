@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var courseSchem = require('../schemas/courseSchema');
 var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 var courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const userSchema = require ('../schemas/userSchema')
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -135,27 +136,27 @@ module.exports = {
       })
     },
 
-    // checkUserCredential: function (objectJSON) {
-    //     userSchema.users.find(
-    //       {
-    //         username: objectJSON.username;
-    //       },
-    //       function (err, result) {
-    //         if (err) {
-    //           console.log("User not found");
-    //         } else {
-    //           userSchema.users.find(
-    //           {
-    //             password: objectJSON.passsword
-    //           },
-    //           function (err, result) {
-    //             if (err) {
-    //               console.log("Password does not match");
-    //             } else {
-    //               console.log ("Login successful");
-    //             }
-    //           })
-    //         }
-    //       })
-    // }
+    checkUserCredential: function (objectJSON) {
+        userSchema.users.find(
+          {
+            username: objectJSON.username
+          },
+          function (err, result) {
+            if (err) {
+              console.log("User not found");
+            } else {
+              userSchema.users.find(
+              {
+                password: objectJSON.passsword
+              },
+              function (err, result) {
+                if (err) {
+                  console.log("Password does not match");
+                } else {
+                  console.log ("Login successful");
+                }
+              })
+            }
+          })
+    }
 };
