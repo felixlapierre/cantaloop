@@ -17,6 +17,7 @@ class ScheduleBuilderPage extends Component {
     this.panes = [];
     this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
+    this.handleDimmedPusher = this.handleDimmedPusher.bind(this);
     this.listItemClicked = this.listItemClicked.bind(this);
   }
 
@@ -24,6 +25,14 @@ class ScheduleBuilderPage extends Component {
       this.setState((state) => {
         return {visible: !this.state.visible};
       });
+  }
+
+  handleDimmedPusher(){
+    if(this.state.visible){
+      this.setState((state) => {
+        return {visible: !this.state.visible};
+      });
+    }
   }
 
 
@@ -88,7 +97,7 @@ class ScheduleBuilderPage extends Component {
             <Menu.Item as='a'>Hamburger</Menu.Item>
           </Sidebar>
 
-          <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleHamburgerButton}>
+          <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
             <Grid id='scheduleGrid' padded>
               <Grid.Row id='scheduleGridRow'>
                 <Grid.Column width={16}>

@@ -120,7 +120,7 @@ class SemesterItems extends Component {
     return (
       <form>
       {this.state.semesters.map((semester, index) => (
-          <div className="semesterObject" key={index}>
+            <div className="semesterObject" key={index}>
             <Radio
             label='Fall'
             name={"group" + index.toString()}
@@ -173,6 +173,7 @@ class SemesterItems extends Component {
             <Button id="button2" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
               Remove Semester
             </Button>
+            <br/>
           </div>
         ))}
         <Button id="button1" onClick={this.handleAddSemester}>Add Semester</Button>
