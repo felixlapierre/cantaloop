@@ -100,33 +100,62 @@ module.exports = {
     },
 
     insertOneInDatabase: function (objectJSON, collectionName) {
+      return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertOne(objectJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                console.log(err);
             } else {
                 console.log("Successfully added into database!");
             }
         })
+      })
     },
 
     insertManyInDatabase: function (objectJSON, collectionName) {
+      return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertMany(objectJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                console.log(err);
             } else {
                 console.log("Successfully added into database!");
             }
         })
+      })
     },
 
-    createUser: function (objectJSON) {
-        mongoose.connection.collection(users).insertOne(objectJSON, function (err, result) {
+    createUser: function (objectJS) {
+      return new Promise((resolve, reject) => {
+        mongoose.connection.collection("users").insertOne(objectJS, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
-    }
+      })
+    },
 
+    // checkUserCredential: function (objectJSON) {
+    //     userSchema.users.find(
+    //       {
+    //         username: objectJSON.username;
+    //       },
+    //       function (err, result) {
+    //         if (err) {
+    //           console.log("User not found");
+    //         } else {
+    //           userSchema.users.find(
+    //           {
+    //             password: objectJSON.passsword
+    //           },
+    //           function (err, result) {
+    //             if (err) {
+    //               console.log("Password does not match");
+    //             } else {
+    //               console.log ("Login successful");
+    //             }
+    //           })
+    //         }
+    //       })
+    // }
 };

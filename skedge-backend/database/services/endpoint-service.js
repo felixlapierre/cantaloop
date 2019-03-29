@@ -9,7 +9,11 @@ module.exports = {
         return database_services.getCourseCatalog();
     },
 
-    createUser: function () {
-      return database_services.createUser();
+    createUser: function (objectJS) {
+      return database_services.createUser(objectJS);
+    },
+
+    checkUserCredential: function (objectJSON) {
+      return database_services.userLogin(objectJSON)
     }
 };
