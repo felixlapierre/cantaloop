@@ -19,9 +19,9 @@ let courseCatalog;
 //             courseCatalog.classUnit,
 //             getPrerequisite(courseCatalog.prerequisites),
 //             getCorequisite(courseCatalog.prerequisites),
-//             [/*TODO: Add method that return array of section for FALL semester*/],
-//             [/*TODO: Add method that return array of section for WINTER semester*/],
-//             [/*TODO: Add method that return array of section for SUMMER semester*/]));
+//             getSections(course, catalog,'fall'),
+//             getSections(course,catalog,'winter'),
+//             getSections(course,catalog,'summer')));
 //         databaseConstants.database_service.insertOneInDatabase(courseCatalog, 'courseCatalog');
 //     }
 // }
@@ -105,12 +105,11 @@ function getCorequisite (courseCatalog) {
 /*TODO: Add sections generator implementation here*/
 
 
-// getSections('ENGR','213');
 
 
 
 function  makeTrios(lec,lab,tut){
-  var trio=null;
+  let trio=null;
   arrayTrios = [];
   for (i=0;i<lec.length;i++){
 
@@ -153,7 +152,6 @@ function  makeTrios(lec,lab,tut){
 
   return arrayTrios;
 
-  
 }
 
 
@@ -161,6 +159,11 @@ function classObj (start, end, day) {
   this.startTime = start;
   this.endTime = end;
   this.day = day;
+  return this;
+
+//  return JSON.parse(" { \"startTime\":\"" + start + "\"," +
+//                                 "\", endTime\":\"" + end + 
+//                                 "\", day\":\"" + day +  "\" }")
 
 }
 
@@ -168,14 +171,30 @@ function sectionObj (lec, lab, tut) {
   this.lecture = lec;
   this.lab = lab;
   this.tutorial = tut;
+  return this;
 
+  // return JSON.parse("{ \"lecture\":\"" + lec + "\"," +
+  //                               "\"lab\":\"" + lab + "\"tutorial\":\"" + tut +
+  //                               "\"}")
 } 
-function filterForSections(myArray) {
+function filterForSections(myArray,semester) {
+  let semRegex;
   let afterFilter = [];
+
+  if(semester.startsWith('fall')){
+    semRegex = 2;
+    // console.log(semRegex);
+  }
+  if(semester.startsWith('winter')){
+    semRegex = 4;
+  }
+  if(semester.startsWith('summer')){
+    console.log("this is summer and works");
+  }
 
   myArray.forEach(element => {
 
-    // if(element.termCode.){
+    if(element.termCode.endsWith(semRegex.toString())){
     let day = "";
 
     startTime = (element.classStartTime.substring(0, 5).replace('.', ':'));
@@ -199,133 +218,106 @@ function filterForSections(myArray) {
 
     var cObj = new classObj(startTime, endTime, day);
     afterFilter.push(cObj);
-  // }
-
+  }
 
   });
-  return (afterFilter);
-  // var jsonFile = JSON.stringify(result);
-
-  // return jsonFile;//<= I get a 404 error =/,
-  // even when I have already convert it into a JSON object to send it to the server
-
-  // console.log(result);//<= when I put the console.log(result), it shows the correct array but I can't return it correctly??
-
-
+  return (afterFilter);//We see it in the terminal but idk why it is not a proper JSON object?
 }
+
+let tutorialArray=[];
+let lecArray=[];
+let labArray=[];
+
+function findTutorial(subject,catalog,semester){
+  courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            tutorialArray= filterForSections(result,semester);
+           
+            // console.log(tutorialArray);//<= this works 
+            // Promise.resolve(tutorialArray);//<= why is it undefined!?!??!
+            return (tutorialArray);
+          }
+        });//end of first block
+}
+
+function findLab(subject,catalog,semester){
+ 
+  courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
+, 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+, function (err, result) {
+  if (err) {
+    console.log("Error!")
+  } else {
+    // console.log("result is : " + result.length);
+    if(result.length == 0){
+      labArray = [];
+    }
+    else{
+      console.log("not supposed to reach here");
+      labArray = filterForSections(result,semester);
+    }
+    return (labArray);//print pas<== return undefined
+
+}})}
+
+function findLec(subject,catalog,semester){
+  new Promise(function(resolve,reject){
+    courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
+  , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+  , function (err, result) {
+    if (err) {
+      console.log("Error!")
+    } else {
+      resolve(result);
+ 
+
+    }
+  });
+
+  }
+  ).then(function(result){
+    lecArray = filterForSections(result,semester);
+    // console.log(lecArray);
+    return(lecArray);
+  })
+  
+}
+
+// function makeCourseCatalog(subject,catalog,semester){
+//   Promise.all([findLec(subject,catalog,semester), findTutorial(subject,catalog,semester), findLab(subject,catalog,semester)])
+// .then(([result1, result2, result3]) => { 
+//   makeTrios(result1,result2,result3)
+//  })
+// .catch(e => console.log("Failed promises" ))
+
+// }//<== Failed promises
+
+
+function makeCourseCatalog(subject,catalog,semester){
+  findLec(subject,catalog,semester).then(re1=>{//<= findLec returns undefined...
+    findTutorial(subject,catalog,semester).then(re2=>{
+      findLab(subject,catalog,semester).then(re3=>{
+        makeTrios(re1,re2,re3);
+      })
+    })
+  })
+}
+
 
 module.exports={
-  getSections: function(subject, catalog){
-
-    var tutorialArray=[];
-    var lecArray=[];
-    var labArray=[];
-    // var secObj = new sectionObj('', '', '');
-    var x;
-    console.log("first in");
-  
-  
-    let p1 = new Promise((resolve, reject) => {
-      courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog }
-        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            tutorialArray= filterForSections(result);
-  
-            // tutorialArray= x;
-            // console.log(tutorialArray);
-            // tutorialArray=x;
-            resolve("sucess1");
-          }
-        });
-        courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
-        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            labArray = filterForSections(result);
-            // console.log(tutorialArray);
-            // labArray = x;
-            // labArray.push(x);
-            resolve("Success3");
-          }
-        });
-
-        courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
-        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            //return the object
-            lecArray = filterForSections(result);
-            // lecArray = x;
-            // console.log(lecArray);
-            // lecArray.push(x);
-            resolve("Success2");
-            return lecArray;
-  
-          }
-        });
+  getSections: function(subject, catalog,semester){
+      makeCourseCatalog(subject,catalog,'fall');
 
 
-    });
-  
-    // p1.then((successMessage) => {
-    //   console.log("");
-  
-    // });
-  
-    // let p2 = new Promise((resolve, reject) => {
-    //   courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
-    //     , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-    //     , function (err, result) {
-    //       if (err) {
-    //         console.log("Error!")
-    //       } else {
-    //         //return the object
-    //         x = filterForSections(result);
-    //         lecArray = x;
-    //         // console.log(lecArray);
-    //         // lecArray.push(x);
-    //         resolve("Success2");
-  
-    //       }
-    //     });
-    // });
-    // p2.then((successMessage) => {
-    // });
+      }
+    }
+ 
   
   
-    // let p3 = new Promise((resolve, reject) => {
-    //   courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
-    //     , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-    //     , function (err, result) {
-    //       if (err) {
-    //         console.log("Error!")
-    //       } else {
-    //         x = filterForSections(result);
-    //         labArray = x;
-    //         // labArray.push(x);
-    //         resolve("Success3");
-    //       }
-    //     });
-    // })
-    console.log(lecArray);
-
-    p1.then(
-      console.log("lalalal"+ lecArray)
-
-      // console.log(tutorialArray)
-    
-      // makeTrios(lecArray,labArray,tutorialArray)
-      // return p1;
-      // return secObj;
-    );
-  }
   
  
 
@@ -337,89 +329,15 @@ module.exports={
 
 
  
-}
 
 
 
 
 
 
-
-
-//  makeArrayCourses: function(subject, catalog) {
-
-//     var tutorialArray;
-//     var lecArray;
-//     var labArray;
-
-//     var secObj = new sectionObj('', '', '');
-
-//     var x;
-
-//     let p1 = new Promise((resolve, reject) => {
-//       courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog }
-//         , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-//         , function (err, result) {
-//           if (err) {
-//             console.log("Error!")
-//           } else {
-
-//             x = filterForSections(result);
-
-//             secObj.tutorial = x;
-//             resolve("");
-//           }
-//         });
-//     });
-//     p1.then((successMessage) => {
-//       console.log("");
-
-//     });
-
-//     let p2 = new Promise((resolve, reject) => {
-//       courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
-//         , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-//         , function (err, result) {
-//           if (err) {
-//             console.log("Error!")
-//           } else {
-//             //return the object
-//             x = filterForSections(result);
-//             secObj.lecture = x;
-//             resolve("Success2");
-
-//           }
-//         });
-//     });
-//     p2.then((successMessage) => {
-//     });
-
-
-//     let p3 = new Promise((resolve, reject) => {
-//       courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
-//         , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-//         , function (err, result) {
-//           if (err) {
-//             console.log("Error!")
-//           } else {
-//             x = filterForSections(result);
-//             secObj.lab = x;
-//             resolve("Success3");
-//           }
-//         });
-//     })
-//     p3.then((successMessage) => {
-//       console.log("reussi");
-//       console.log(secObj);
-//       // makeTrios(lecArray,labArray,tutorialArray);
-//       return secObj;
-//     });
-//   }
-  //end of function
 
 
    
 
 
  
-// }

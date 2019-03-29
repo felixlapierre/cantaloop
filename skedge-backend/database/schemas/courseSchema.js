@@ -1,6 +1,7 @@
 let mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
+    termCode: String,
     session: String,
     subject: String,
     catalog: String,
