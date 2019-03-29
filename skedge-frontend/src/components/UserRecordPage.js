@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
 import CourseItems from './CourseItems.js';
 import SemesterItems from './SemesterItems.js';
-import axios from "axios"
+import axios from "axios";
 
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {
@@ -167,10 +166,14 @@ class UserRecordPage extends Component {
     console.log("courseRecord: " + coursesPayload.courseRecord);
     console.log("course sequence: " + coursesPayload.courseSequence);
     console.log("semesters: " + coursesPayload.semesters);
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
+    var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
+      that.props.history.push('/schedule');
     });
+
   }
 
   handleUpdateSemesters(_State){
@@ -236,11 +239,8 @@ class UserRecordPage extends Component {
                 </div>
             </div>
           <div>
-
           </div>
-          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.myCallback}>
-          Make My Schedule
-          </Button></Link>
+          <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
     );
   }
