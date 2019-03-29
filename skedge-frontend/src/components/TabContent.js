@@ -25,7 +25,7 @@ class TabContent extends Component{
     handleBack(){
         this.slider.slickPrev();
     }
-    
+
     handleNext(){
         this.slider.slickNext();
     }

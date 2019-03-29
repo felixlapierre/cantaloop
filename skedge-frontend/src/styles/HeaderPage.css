@@ -21,3 +21,11 @@
   float: right;
   padding-top: 0.7rem;
 }
+
+#pageHeaderUserIcon:hover {
+  cursor: pointer;
+}
+
+#popupMenu {
+  padding: 0rem;
+}

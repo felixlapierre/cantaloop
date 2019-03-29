@@ -29,12 +29,18 @@ class UserRecordPage extends Component {
   }
 
   componentDidMount() {
+      let header = {
+          'Authorization': "Bearer " + window.sessionStorage.getItem('token')
+      };
     axios.get('/courses/getNames')
       .then(res => {
         this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
       }).catch(function (error) {
         console.log(error);
-      })
+      });
+
+      axios.get('/secureEndpoint', {headers: header})
+          .then(res => console.log(JSON.stringify(res)));
   }
 
   formatCourseListForDropdown(courseList) {
@@ -161,7 +167,7 @@ class UserRecordPage extends Component {
     console.log("courseRecord: " + coursesPayload.courseRecord);
     console.log("course sequence: " + coursesPayload.courseSequence);
     console.log("semesters: " + coursesPayload.semesters);
-    axios.post('/genSchedules', coursesPayload).then(response => {
+    axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
     });
