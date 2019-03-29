@@ -52,7 +52,7 @@ class ScheduleBuilderPage extends Component {
   listItemClicked(event){
     console.log(event);
     var temp = this.state.currentClasses.filter(function(ele){
-             return ele != event;
+             return ele !== event;
     });
     this.setState({currentClasses: temp});
     axios.post('/genSchedules', this.state.currentClasses).then(response => {

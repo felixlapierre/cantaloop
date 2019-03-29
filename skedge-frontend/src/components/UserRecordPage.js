@@ -238,16 +238,8 @@ class UserRecordPage extends Component {
                 </div>
             </div>
           <div>
-<<<<<<< HEAD
-          <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
           </div>
-=======
-
-          </div>
-          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.myCallback}>
-          Make My Schedule
-          </Button></Link>
->>>>>>> 4897a76084e76f616fac5c1d4535d6e6a11afc53
+          <Button id = "goToScheduleBuilder" onClick = {this.myCallback}>Make My Schedule</Button>
       </div>
     );
   }
