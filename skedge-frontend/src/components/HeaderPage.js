@@ -20,9 +20,35 @@ class HeaderPage extends Component {
   }
 
   handleLogout(){
-    console.log("Logout");
-    window.sessionStorage.clear();
-    this.props.history.push('/');
+    if (window.confirm('Are you sure you wish to end your session?')) {
+      window.sessionStorage.clear();
+
+    // How to redirect??
+    // this.props.router.push("record");
+    // return <Link to='/' />
+    // //this.props.history.push(""); // Switch to landing page
+    }
+  }
+
+  logoutORlogin() // depends on whether you are logged in as a guest or not
+  {
+    if(window.sessionStorage.getItem('token') === null)
+    {
+      return (
+        <Menu.Item
+          name='Login'
+          //onClick={this.handleLogout}
+        />
+      );
+    }
+    else {
+      return (
+        <Menu.Item
+          name='Logout'
+          onClick={this.handleLogout}
+        />
+      );
+    }
   }
 
   render() {
@@ -39,10 +65,9 @@ class HeaderPage extends Component {
           name='My Record'
           onClick={this.handleRecordButtonClick}
         />
-        <Menu.Item
-          name='Logout'
-          onClick={this.handleLogout}
-        />
+
+        {this.logoutORlogin()}
+
       </Menu>
     )
 

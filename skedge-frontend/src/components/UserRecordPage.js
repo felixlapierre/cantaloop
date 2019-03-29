@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import CourseItems from './CourseItems.js';
+import SemesterItems from './SemesterItems.js';
 import axios from "axios";
 
 //The page where the user can change its record etc.
@@ -11,6 +12,7 @@ class UserRecordPage extends Component {
     this.state = {
       recordItems : [],
       courseItems : [],
+      semesters : [],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -26,13 +28,18 @@ class UserRecordPage extends Component {
   }
 
   componentDidMount() {
+      let header = {
+          'Authorization': "Bearer " + window.sessionStorage.getItem('token')
+      };
     axios.get('/courses/getNames')
       .then(res => {
-        console.log(this.formatCourseListForDropdown(res.data));
         this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
       }).catch(function (error) {
         console.log(error);
-      })
+      });
+
+      axios.get('/secureEndpoint', {headers: header})
+          .then(res => console.log(JSON.stringify(res)));
   }
 
   formatCourseListForDropdown(courseList) {
@@ -134,75 +141,17 @@ class UserRecordPage extends Component {
     var courseSequenceArray = [];
     var recordItems = this.state.recordItems;
     var courseItems = this.state.courseItems;
+    var semesters = this.state.semesters;
     for(var i in recordItems){
       var courseCodeR = recordItems[i].key;
       var capitalizedCourseCodeR = courseCodeR.toUpperCase();
       recordArray.push(capitalizedCourseCodeR.replace(/\s/g, ''));
     }
-    for(var j in this.state.courseItems){
+    for(var j in courseItems){
       var courseCodeCS = courseItems[j].key;
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
-
-    let semesters = [
-      {
-        "year": 2019,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2020,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2020,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2021,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2021,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2022,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2022,
-        "season": "fall",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      },
-      {
-        "year": 2023,
-        "season": "winter",
-        "credits": 20,
-        "numCourses": 5,
-        "restrictions": []
-      }
-    ]
 
     return {
       "courseRecord": recordArray,
@@ -213,11 +162,12 @@ class UserRecordPage extends Component {
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-    console.log(coursesPayload.courseRecord);
-    console.log(coursesPayload.courseSequence);
+    console.log("sending:")
+    console.log("courseRecord: " + coursesPayload.courseRecord);
+    console.log("course sequence: " + coursesPayload.courseSequence);
+    console.log("semesters: " + coursesPayload.semesters);
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
-    console.log(coursesPayload.semesters);
-    axios.post('/genSchedules', coursesPayload).then(response => {
+    axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
       this.props.history.push('/schedule');
@@ -225,19 +175,25 @@ class UserRecordPage extends Component {
 
   }
 
+  handleUpdateSemesters(_State){
+    this.setState({
+      semesters : _State.semesters
+    })
+  }
+
   render() {
     return (
       <div className = "outer">
-        <h3 className = "welcome-title" >
-        <br/>
-          Hi! Welcome to Skedge
-          <br/>
-          <br/>
-        </h3>
+          <h3 className = "welcome-title" >
+              <br/>
+              Hi! Welcome to Skedge
+              <br/>
+              <br/>
+          </h3>
           <div className = "formDiv">
-                  <form id = "recordCcoursesDropdown">
+                <form id = "recordCcoursesDropdown">
                     <h5>
-                      What classes have you taken?
+                        What classes have you taken?
                     </h5>
                     <div className = "dropdown">
                         <Dropdown
@@ -250,8 +206,11 @@ class UserRecordPage extends Component {
                         />
                     </div>
                     <Button id = "button1" onClick = {this.addRecordItem}>Add Course</Button>
-                  </form>
-                  <form id = "wantedCoursesDropdown">
+                    <div id = "recordCourses">
+                        <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
+                    </div>
+                </form>
+                <form id = "wantedCoursesDropdown">
                     <h5>
                         What classes would you like to take?
                     </h5>
@@ -266,17 +225,29 @@ class UserRecordPage extends Component {
                         />
                     </div>
                     <Button id = "button2"  onClick = {this.addCourseItem}>Add Course</Button>
-                  </form>
-                  <div id = "recordCourses">
-                      <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem} />
-                  </div>
-                  <div id = "wantedCourses">
-                      <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem} />
-                  </div>
+                    <br/>
+                    <div id = "wantedCourses">
+                        <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
+                    </div>
+                </form>
+                <div id = "semestersObject">
+                <h5>
+                    Enter number of semesters and semester info
+                </h5>
+                <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
+                </div>
             </div>
           <div>
+<<<<<<< HEAD
           <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
           </div>
+=======
+
+          </div>
+          <Link to='/schedule'><Button id = "goToScheduleBuilder" onClick = {this.myCallback}>
+          Make My Schedule
+          </Button></Link>
+>>>>>>> 4897a76084e76f616fac5c1d4535d6e6a11afc53
       </div>
     );
   }

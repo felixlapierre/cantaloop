@@ -13,7 +13,7 @@ h5 {
 }
 
 .outer {
-    width: 800px;
+    width: 1050px;
     height: 560px;
     margin: auto;
     padding: 10px;
@@ -23,33 +23,42 @@ h5 {
 .formDiv {
     width: 100%;
     height: 420px;
+    float: left;
+    display: flex;
 }
 
 #recordCcoursesDropdown {
    width: 350px;
-   height: 100px;
-   float: left;
+   height: 100%;
+   flex: 3;
 }
 
 #wantedCoursesDropdown {
   width: 350px;
-  height: 100px;
-  float: right;
+  height: 100%;
+  flex: 3;
 }
 
 
 #recordCourses {
-   width: 300px;
+   width: 350px;
    height: 300px;
    overflow-y:auto;
    float: left;
 }
 
  #wantedCourses {
-   width: 300px;
+   width: 350px;
    height: 300px;
    overflow-y:auto;
    float: right;
+}
+
+#semestersObject{
+  width: 350px;
+  height: 100%;
+  overflow-y:auto;
+  flex: 3;
 }
 
 #goToScheduleBuilder {

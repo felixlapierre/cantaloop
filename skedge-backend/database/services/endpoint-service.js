@@ -7,5 +7,9 @@ module.exports = {
 
     getCourseCatalog: function () {
         return database_services.getCourseCatalog();
+    },
+
+    createUser: function () {
+      return database_services.createUser();
     }
 };
