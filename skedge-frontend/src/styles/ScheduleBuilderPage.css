@@ -8,12 +8,13 @@
 
 #scheduleGrid {
   margin-top: 0;
-  height: 100vh;
+  height: 50vh;
 }
 
 #sidebarFullPage {
-  min-height: 100vh;
+  min-height: 50vh;
   padding: 0.2rem !important;
+  padding-left: 0.4rem !important;
 }
 
 #scheduleGridRow {
@@ -22,8 +23,18 @@
 
 #dropdownCourses {
   width: 100%;
+  margin-bottom: 1rem;
 }
 
+#coursesTaking {
+  height: 50vh;
+  overflow-y:auto;
+  float: left;
+}
+
+.child-list-item{
+  cursor: pointer;
+}
 .pusher {
-  padding: 1rem;
+  padding: 1.5rem;
 }

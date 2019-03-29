@@ -3,7 +3,8 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import { Icon, Menu, Dropdown, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+import { Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+import axios from "axios";
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {
@@ -16,14 +17,15 @@ class ScheduleBuilderPage extends Component {
     this.panes = [];
     this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
+    this.listItemClicked = this.listItemClicked.bind(this);
   }
 
   handleHamburgerButton(){
       this.setState((state) => {
         return {visible: !this.state.visible};
       });
-    console.log(this.state.visible);
   }
+
 
   componentWillMount(){
     this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
@@ -47,11 +49,27 @@ class ScheduleBuilderPage extends Component {
     }
   }
 
+  listItemClicked(event){
+    console.log(event);
+    var temp = this.state.currentClasses.filter(function(ele){
+             return ele != event;
+    });
+    this.setState({currentClasses: temp});
+    axios.post('/genSchedules', this.state.currentClasses).then(response => {
+      console.log("Received: ");
+      console.log(response.data);
+    });
+  }
+
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
 
   render() {
+    const Children = this.state.currentClasses.map((child) =>
+          <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}>{child.text}</List.Item>);
+
+
     return (
       <div>
         <HeaderPage />
@@ -87,6 +105,11 @@ class ScheduleBuilderPage extends Component {
                       options = {this.state.currentClasses}
                       id='dropdownCourses'
                   />
+                  <div id='coursesTaking'>
+                    <List divided relaxed>
+                      {Children}
+                    </List>
+                  </div>
                 </Sidebar.Pusher>
               </Sidebar.Pushable>
             </Grid.Column>
