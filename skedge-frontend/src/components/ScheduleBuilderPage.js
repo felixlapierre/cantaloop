@@ -73,30 +73,30 @@ class ScheduleBuilderPage extends Component {
     return (
       <div>
         <HeaderPage />
-        <Grid id='scheduleGrid'>
-          <Grid.Row id='scheduleGridRow'>
-            <Grid.Column width={16}>
-            <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row id='sidebarFullPage'>
-            <Grid.Column width={4}>
-              <Sidebar.Pushable  as={Segment}>
-                <Sidebar
-                  as={Menu}
-                  animation='overlay'
-                  icon='labeled'
-                  inverted
-                  dimmed={'true'}
-                  onHide={this.handleSidebarHide}
-                  vertical
-                  visible={this.state.visible}
-                  width= 'thin'
-                >
-                  <Menu.Item as='a'>Hamburger</Menu.Item>
-                </Sidebar>
+        <Sidebar.Pushable>
+          <Sidebar
+            as={Menu}
+            animation='overlay'
+            icon='labeled'
+            inverted
+            dimmed={'true'}
+            onHide={this.handleSidebarHide}
+            vertical
+            visible={this.state.visible}
+            width= 'thin'
+          >
+            <Menu.Item as='a'>Hamburger</Menu.Item>
+          </Sidebar>
 
-                <Sidebar.Pusher >
+          <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleHamburgerButton}>
+            <Grid id='scheduleGrid' padded>
+              <Grid.Row id='scheduleGridRow'>
+                <Grid.Column width={16}>
+                <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
+                </Grid.Column>
+              </Grid.Row>
+              <Grid.Row id='sidebarFullPage'>
+                <Grid.Column width={4}>
                   <Dropdown
                       placeholder = 'Search Course'
                       fluid
@@ -110,14 +110,16 @@ class ScheduleBuilderPage extends Component {
                       {Children}
                     </List>
                   </div>
-                </Sidebar.Pusher>
-              </Sidebar.Pushable>
-            </Grid.Column>
-            <Grid.Column width={12}>
-              <Tab panes={this.panes} />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+                </Grid.Column>
+                <Grid.Column width={12}>
+                  <Tab panes={this.panes} />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
+          </Sidebar.Pusher>
+        </Sidebar.Pushable>
+
+
       </div>
     );
   }

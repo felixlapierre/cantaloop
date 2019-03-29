@@ -25,7 +25,7 @@ class LandingPage extends Component {
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
           console.log(res.data.token);
           window.sessionStorage.setItem( 'token', res.data.token);
-          this.props.history.push("record"); // Switch to the user record page
+          this.props.history.push("/record"); // Switch to the user record page
           this.setState({errorWhenLoggingIn: false})
       }).catch(error => {
         // Reset fields
@@ -49,6 +49,7 @@ class LandingPage extends Component {
   handleRegister(event) {
     axios.post('/users/register', {username: this.state.username, password: this.state.password}).then(response => {
         console.log('Received response' + response);
+        this.props.history.push("/record"); // Switch to the user record page
     });
   }
 

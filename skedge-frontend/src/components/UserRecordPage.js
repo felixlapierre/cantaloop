@@ -167,10 +167,11 @@ class UserRecordPage extends Component {
     console.log("course sequence: " + coursesPayload.courseSequence);
     console.log("semesters: " + coursesPayload.semesters);
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
+    var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
-      this.props.history.push('/schedule');
+      that.props.history.push('/schedule');
     });
 
   }
@@ -239,7 +240,7 @@ class UserRecordPage extends Component {
             </div>
           <div>
           </div>
-          <Button id = "goToScheduleBuilder" onClick = {this.myCallback}>Make My Schedule</Button>
+          <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
     );
   }

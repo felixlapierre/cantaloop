@@ -12,6 +12,7 @@ class HeaderPage extends Component {
 
     this.handleRecordButtonClick = this.handleRecordButtonClick.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleRecordButtonClick(){
@@ -22,12 +23,12 @@ class HeaderPage extends Component {
   handleLogout(){
     if (window.confirm('Are you sure you wish to end your session?')) {
       window.sessionStorage.clear();
-
-    // How to redirect??
-    // this.props.router.push("record");
-    // return <Link to='/' />
-    // //this.props.history.push(""); // Switch to landing page
+      this.props.history.push("/"); // Switch to landing page
     }
+  }
+
+  handleLogin(){
+      this.props.history.push("/"); // Switch to landing page
   }
 
   logoutORlogin() // depends on whether you are logged in as a guest or not
@@ -37,7 +38,7 @@ class HeaderPage extends Component {
       return (
         <Menu.Item
           name='Login'
-          //onClick={this.handleLogout}
+          onClick={this.handleLogin}
         />
       );
     }

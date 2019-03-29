@@ -8,11 +8,10 @@
 
 #scheduleGrid {
   margin-top: 0;
-  height: 50vh;
 }
 
 #sidebarFullPage {
-  min-height: 50vh;
+  min-height: 90vh;
   padding: 0.2rem !important;
   padding-left: 0.4rem !important;
 }
@@ -34,7 +33,4 @@
 
 .child-list-item{
   cursor: pointer;
-}
-.pusher {
-  padding: 1.5rem;
 }
