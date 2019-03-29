@@ -217,10 +217,10 @@ function filterForSections(myArray) {
 module.exports={
   getSections: function(subject, catalog){
 
-    var tutorialArray;
-    var lecArray;
-    var labArray;
-    var secObj = new sectionObj('', '', '');
+    var tutorialArray=[];
+    var lecArray=[];
+    var labArray=[];
+    // var secObj = new sectionObj('', '', '');
     var x;
     console.log("first in");
   
@@ -232,56 +232,99 @@ module.exports={
           if (err) {
             console.log("Error!")
           } else {
-            x = filterForSections(result);
+            tutorialArray= filterForSections(result);
   
-            secObj.tutorial = x;
+            // tutorialArray= x;
+            // console.log(tutorialArray);
+            // tutorialArray=x;
             resolve("sucess1");
           }
         });
-    });
-  
-    p1.then((successMessage) => {
-      console.log("");
-  
-    });
-  
-    let p2 = new Promise((resolve, reject) => {
-      courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
+        courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
+        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+        , function (err, result) {
+          if (err) {
+            console.log("Error!")
+          } else {
+            labArray = filterForSections(result);
+            // console.log(tutorialArray);
+            // labArray = x;
+            // labArray.push(x);
+            resolve("Success3");
+          }
+        });
+
+        courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
         , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
         , function (err, result) {
           if (err) {
             console.log("Error!")
           } else {
             //return the object
-            x = filterForSections(result);
-            secObj.lecture = x;
+            lecArray = filterForSections(result);
+            // lecArray = x;
+            // console.log(lecArray);
+            // lecArray.push(x);
             resolve("Success2");
+            return lecArray;
   
           }
         });
-    });
-    p2.then((successMessage) => {
+
+
     });
   
+    // p1.then((successMessage) => {
+    //   console.log("");
   
-    let p3 = new Promise((resolve, reject) => {
-      courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
-        , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-        , function (err, result) {
-          if (err) {
-            console.log("Error!")
-          } else {
-            x = filterForSections(result);
-            secObj.lab = x;
-            resolve("Success3");
-          }
-        });
-    })
-    p3.then((successMessage) => {
-      console.log("reussi");
-      console.log(secObj);
-      return secObj;
-    });
+    // });
+  
+    // let p2 = new Promise((resolve, reject) => {
+    //   courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog }
+    //     , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+    //     , function (err, result) {
+    //       if (err) {
+    //         console.log("Error!")
+    //       } else {
+    //         //return the object
+    //         x = filterForSections(result);
+    //         lecArray = x;
+    //         // console.log(lecArray);
+    //         // lecArray.push(x);
+    //         resolve("Success2");
+  
+    //       }
+    //     });
+    // });
+    // p2.then((successMessage) => {
+    // });
+  
+  
+    // let p3 = new Promise((resolve, reject) => {
+    //   courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
+    //     , 'section classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
+    //     , function (err, result) {
+    //       if (err) {
+    //         console.log("Error!")
+    //       } else {
+    //         x = filterForSections(result);
+    //         labArray = x;
+    //         // labArray.push(x);
+    //         resolve("Success3");
+    //       }
+    //     });
+    // })
+    console.log(lecArray);
+
+    p1.then(
+      console.log("lalalal"+ lecArray)
+
+      // console.log(tutorialArray)
+    
+      // makeTrios(lecArray,labArray,tutorialArray)
+      // return p1;
+      // return secObj;
+    );
   }
   
  
