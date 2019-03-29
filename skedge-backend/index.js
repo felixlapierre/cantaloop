@@ -39,6 +39,9 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
  ///////////////////
 // Express Enpoints
 
+
+// This is an example of basic use of the "checkAuth" middleware
+
 app.get('/secureEndpoint', checkAuth, (req, res) => {
     return res.status(200).json({
         message: "Get Endpoint was able to access this message",
@@ -47,7 +50,7 @@ app.get('/secureEndpoint', checkAuth, (req, res) => {
 });
 
 // Returns a JSON object containing a list of all courses
-app.get('/courses/getNames', (req, res) => {
+app.get('/courses', (req, res) => {
     endpoint_service.getCoursesDescription()
     .then((courseList) =>{
         courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
@@ -56,7 +59,7 @@ app.get('/courses/getNames', (req, res) => {
 });
 
 // Returns a list of possible schedules for each semester
-app.post('/builder/genSchedules', (req, res) => {
+app.post('/builder', (req, res) => {
     // TESTING
 
     // Empty input
