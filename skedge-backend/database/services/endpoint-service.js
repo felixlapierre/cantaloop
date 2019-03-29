@@ -6,6 +6,8 @@ module.exports = {
     },
 
     getCourseCatalog: function () {
-        return database_services.getCourseCatalog();
+
+       return database_services.getCourseCatalog();
+       
     }
 };

@@ -43,11 +43,11 @@ app.get('/courses/getNames', (req, res) => {
     //Not sure if the method would take in an input??
 
 
-    endpoint_service.getCoursesDescription()
-    .then((courseList) =>{
-        courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
-        res.json(courseList);
-    });
+    // endpoint_service.getCoursesDescription()
+    // .then((courseList) =>{
+    //     courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
+    //     res.json(courseList);
+    // });
 
 
 }
@@ -61,12 +61,11 @@ app.get('/courses/catalogue', (req, res) => {
     //Not sure if the method would take in an input??
 
 
-    courseList = endpoint_service.getCourseCatalog();
-    
-    // .then((courseList) =>{
+    endpoint_service.getCourseCatalog()
+    .then((courseList) =>{
         // courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
         res.json(courseList);
-    // });
+    });
 
 
 }
