@@ -3,7 +3,7 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import { Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
 import axios from "axios";
 
 //The main page after a user logs in
@@ -76,7 +76,7 @@ class ScheduleBuilderPage extends Component {
 
   render() {
     const Children = this.state.currentClasses.map((child) =>
-          <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}>{child.text}</List.Item>);
+          <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button>{child.text}</Button></List.Item>);
 
 
     return (

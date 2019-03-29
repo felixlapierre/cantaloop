@@ -34,3 +34,7 @@
 .child-list-item{
   cursor: pointer;
 }
+
+.child-list-item: hover{
+  background-color: lightblue !important;
+}
