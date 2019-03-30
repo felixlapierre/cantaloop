@@ -6,7 +6,6 @@ let courseName;
 let courseInfo;
 
 async function main() {
-    var catalog = {};
     for (let i = 0; i < databaseConstants.classes.length; i++) {
         courseSubject = databaseConstants.classes[i].substring(0, 4);
         courseCode = databaseConstants.classes[i].substring(5);
@@ -30,10 +29,9 @@ async function main() {
                 sectionWinter,
                 sectionSummer);
 
-            catalog[courseSubject + courseCode] = catalogEntry[courseSubject + courseCode];
+            databaseConstants.database_service.insertOneInDatabase(catalogEntry, 'courseCatalog');
         }
     }
-    databaseConstants.database_service.insertOneInDatabase(catalog, 'courseCatalog');
 }
 main();//This run the function to put into the MongoDB
 
