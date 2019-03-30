@@ -32,7 +32,7 @@
 */
 const overlaps = require('./overlaps.js');
 
-function evaluateFitness(semester)
+function evaluateFitness(semester, restriction)
 {
     var genome = Object.keys(semester);
     var fitness = 1440;
