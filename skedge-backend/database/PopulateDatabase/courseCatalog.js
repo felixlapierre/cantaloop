@@ -215,68 +215,34 @@ function filterForSections(myArray, semester) {
     return (afterFilter);//We see it in the terminal but idk why it is not a proper JSON object?
 }
 
+function findClass(subject, catalog, semester, schema)
+{
+    return new Promise((resolve, reject) => {
+        const courseProjectionString = 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays';
+        schema.find({ 'subject': subject, 'catalog': catalog }, courseProjectionString, (err, result) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve(filterForSections(result, semester));
+            }
+        });
+    });
+}
 
-let tutorialArray = [];
-let lecArray = [];
-let labArray = [];
-
-function findTutorial(subject, catalog, semester) {
-    return new Promise(function (resolve, reject) {
-        courseSchem.tutSch.find({ 'subject': subject, 'catalog': catalog }
-            , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-            , function (err, result) {
-                if (err) {
-                    reject(err);
-                } else {
-                    tutorialArray = filterForSections(result, semester);
-
-
-                    resolve(tutorialArray);
-                }
-            });
-    }
-
-    )
+async function findTutorial(subject, catalog, semester) {
+    return findClass(subject, catalog, semester, courseSchem.tutSch);
 }
 
 function findLab(subject, catalog, semester) {
-
-    return new Promise(function (resolve, reject) {
-        courseSchem.labSch.find({ 'subject': subject, 'catalog': catalog }
-            , 'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays'
-            , function (err, result) {
-                if (err) {
-                    reject(err);
-                } else {
-                    if (result.length == 0) {
-                        labArray = [];
-                    }
-                    else {
-                        labArray = filterForSections(result, semester);
-                    }
-                    // console.log(tutorialArray);//this does not work
-                    resolve(labArray);//print pas<== return undefined
-
-                }
-            })
-    })
+    return findClass(subject, catalog, semester, courseSchem.labSch);
 }
 
 function findLec(subject, catalog, semester) {
-    return new Promise(function (resolve, reject) {
-        courseSchem.lecSch.find({ 'subject': subject, 'catalog': catalog },
-            'section termCode classStartTime classEndTime modays tuesdays wednesdays thursdays fridays',
-            function (err, result) {
-                if (err) {
-                    reject(err);
-                } else {
-                    lecArray = filterForSections(result, semester);
-                    // console.log(lecArray);
-                    resolve(lecArray);
-                }
-            });
-    });
-
+    return findClass(subject, catalog, semester, courseSchem.lecSch);
 }
 
 async function getSections(subject, courseCode, semester) {
@@ -289,7 +255,7 @@ async function getSections(subject, courseCode, semester) {
     }
     catch(ex)
     {
-        console.log(ex.message);
+        console.log(ex.message + "\n" + ex.stack);
     }
 
 }
