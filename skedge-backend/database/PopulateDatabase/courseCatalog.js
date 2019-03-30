@@ -6,7 +6,7 @@ let courseName;
 let courseInfo;
 
 async function main() {
-    //Add a database entry for each course in the course catalog
+    var catalog = {};
     for (let i = 0; i < databaseConstants.classes.length; i++) {
         courseSubject = databaseConstants.classes[i].substring(0, 4);
         courseCode = databaseConstants.classes[i].substring(5);
@@ -29,10 +29,11 @@ async function main() {
                 sectionFall,
                 sectionWinter,
                 sectionSummer);
-                
-            databaseConstants.database_service.insertOneInDatabase(catalogEntry, 'courseCatalog');
+
+            catalog[courseSubject + courseCode] = catalogEntry[courseSubject + courseCode];
         }
     }
+    databaseConstants.database_service.insertOneInDatabase(catalog, 'courseCatalog');
 }
 main();//This run the function to put into the MongoDB
 
@@ -124,7 +125,7 @@ function makeTrios(lectures, labs, tutorials) {
             if(tutorials.length == 0)
             {
                 //No lectures or tutorials
-                arrayTrios.push(new section(lectures[i], "", ""));
+                arrayTrios.push(new section(lecture, "", ""));
             }
             else
             {
@@ -281,8 +282,16 @@ function findLec(subject, catalog, semester) {
 }
 
 async function getSections(subject, courseCode, semester) {
-    var lectures = await findLec(subject, courseCode, semester);
-    var tutorials = await findTutorial(subject, courseCode, semester);
-    var labs = await findLab(subject, courseCode, semester);
-    return trios = await makeTrios(lectures, labs, tutorials);
+    try
+    {
+        var lectures = await findLec(subject, courseCode, semester);
+        var tutorials = await findTutorial(subject, courseCode, semester);
+        var labs = await findLab(subject, courseCode, semester);
+        return trios = await makeTrios(lectures, labs, tutorials);
+    }
+    catch(ex)
+    {
+        console.log(ex.message);
+    }
+
 }
