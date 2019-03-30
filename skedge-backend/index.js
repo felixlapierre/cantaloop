@@ -10,6 +10,7 @@ const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
+const rsa_encryption = require('./web_api_utilities/decrypt-rsa');
 
 // Data for testing endpoint /generateSchedules
 //const generatedSchedules = require('./generatedSchedules');
@@ -27,7 +28,17 @@ const checkAuth = require('./middleware/check-auth');
  //////////////////////
 // Express Middlewares
 
-// Using CORS to allow local host to be the client and server.
+// Using CORS to allow getting public key from pastebin.
+var whitelist = ['http://localhost:4200','http://localhost:3000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 app.use(cors());
 // Using bodyParser.json() to automatically parse the body of
 // incoming requests.
@@ -45,7 +56,7 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 app.get('/secureEndpoint', checkAuth, (req, res) => {
     return res.status(200).json({
         message: "Get Endpoint was able to access this message",
-        secure: "We secure AF BOOOOOOIIIIIIII"
+        secure: "This endpoint works and has no profanity."
     });
 });
 
@@ -81,6 +92,7 @@ app.post('/builder', (req, res) => {
 });
 
 app.post('/users/register', (req, res, next) => {
+    req.body = rsa_encryption.decryptStringWithRsaPrivateKey(req.body);
     bcryptjs.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -104,6 +116,10 @@ app.post('/users/register', (req, res, next) => {
 
 
 app.post('/users/login', (req, res, next) => {
+    console.log(req.body);
+    let encrypted_username = req.body.username_rsa;
+    console.log("------------------------------------------------------\n\n\n\n\n\n\n\n\n\n\n\n"+encrypted_username);
+    console.log(rsa_encryption.decryptStringWithRsaPrivateKey(encrypted_username)+"\n\n\n\n\n\n\n\n\n\n\n\n\n------------------------------------------------------------------------------");
     let fetchedUser;
     User.findOne({username: req.body.username}).then(user => {
         if(!user){
@@ -123,6 +139,7 @@ app.post('/users/login', (req, res, next) => {
             const token = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
                 "secret_this_should_be_longer",
                 {expiresIn: '1h'});
+            
             res.status(200).json({
                 token: token
             });
