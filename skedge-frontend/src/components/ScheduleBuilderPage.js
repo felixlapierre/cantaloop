@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
-import CourseInfo from './CourseInfo';
 import HeaderPage from './HeaderPage.js';
+import Schedule from './Schedule.js';
 import TabContent from './TabContent.js';
 import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
 import Slider from 'react-slick';
-import WeeklySchedule from './WeeklySchedule';
 
 
 //The main page after a user logs in

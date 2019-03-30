@@ -16,17 +16,18 @@ const testJson = [
     "schedules":[
       {
         "COMP 346" : {
-          "lecture" : {
+         
+            "lecture": {
             "time_start":"8:45",
             "time_end":"10:00",
             "days":"TuTh"
           },
-          "lab" :{
+            "lab" :{
             "time_start":"10:00",
             "time_end":"11:00",
             "days":"TuTh"
           },
-          "tutorial":{
+            "tutorial":{
             "time_start":"11:15",
             "time_end":"12:00",
             "days":"TuTh"
@@ -35,20 +36,21 @@ const testJson = [
         "SOEN 341" : {
           "lecture" : {
             "time_start":"8:45",
-            "time_end":"10:00",
-            "days":"MoFr"
-          },
-          "lab" :{
-            "time_start":"10:45",
-            "time_end":"12:00",
-            "days":"MoFr"
+            "time_end":"12:30",
+            "days":"Fr"
           },
           "tutorial":{
-            "time_start":"12:45",
-            "time_end":"2:00",
-            "days":"Fr"
+            "time_start":"2:25",
+            "time_end":"4:00",
+            "days":"Mo"
+          },
+          "lab":{
+            "time_start":"12:30",
+            "time_end": "2:20",
+            "days": "We"
           }
         },
+        
         "COMP 321" : {
           "lecture" : {
             "time_start":"8:45",
@@ -61,6 +63,7 @@ const testJson = [
             "days":"Mo"
           }
         }
+      
       },
       {
         "courseId1" : {
