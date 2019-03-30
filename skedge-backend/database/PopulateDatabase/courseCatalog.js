@@ -29,7 +29,7 @@ async function main() {
                 sectionFall,
                 sectionWinter,
                 sectionSummer);
-
+                
             databaseConstants.database_service.insertOneInDatabase(catalogEntry, 'courseCatalog');
         }
     }
@@ -45,15 +45,16 @@ function callCourseCatalogAPI(subject, catalog) {
 }
 
 function createCatalogJSONObject(courseId, courseCredits, coursePrerequisites, courseCorequisites, fallSections, winterSections, summerSections) {
-    return JSON.parse("{\"" +
-        courseId + "\": { " +
-        "\"prerequisites\":" + JSON.stringify(coursePrerequisites) + "," +
-        "\"corequisites\":" + JSON.stringify(courseCorequisites) + "," +
-        "\"credits\":" + parseInt(courseCredits) + "," +
-        "\"fall\":" + JSON.stringify(fallSections) + "," +
-        "\"winter\":" + JSON.stringify(winterSections) + "," +
-        "\"summer\":" + JSON.stringify(summerSections) + "}" +
-        "}");
+    var obj = {};
+    obj[courseId] = {
+        "prerequisites": coursePrerequisites,
+        "corequisites": courseCorequisites,
+        "credits": courseCredits,
+        "fall": fallSections,
+        "winter": winterSections,
+        "summer": summerSections
+    }
+    return obj;
 }
 
 function getPrerequisite(courseCatalog) {
@@ -114,50 +115,46 @@ function getCorequisite(courseCatalog) {
 
 /*TODO: Add sections generator implementation here*/
 
-function makeTrios(lec, lab, tut) {
-    let trio = null;
+function makeTrios(lectures, labs, tutorials) {
     arrayTrios = [];
 
-    for (i = 0; i < lec.length; i++) {
-
-        if (lab.length == 0 && tut.length == 0) {
-            trio = new sectionObj(lec[i], "", "");
-            arrayTrios.push(trio);
-        }
-
-        if (lab.length == 0 && tut.length > 0) {
-
-            for (x = 0; x < tut.length; x++) {
-
-                trio = new sectionObj(lec[i], "", tut[x]);
-                arrayTrios.push(trio);
-
+    lectures.forEach(lecture => {
+        if(labs.length == 0)
+        {
+            if(tutorials.length == 0)
+            {
+                //No lectures or tutorials
+                arrayTrios.push(new section(lectures[i], "", ""));
             }
-
-        }
-
-        if (tut.length == 0 && lab.length > 0) {
-            for (y = 0; y < lab.length; y++) {
-                trio = new sectionObj(lec[i], lab[y], null);
-                arrayTrios.push(trio);
+            else
+            {
+                //No labs, but there are tutorials
+                tutorials.forEach(tutorial => {
+                    arrayTrios.push(new section(lecture, "", tutorial));
+                })
             }
         }
-
-        if (lab.length > 0 && tut.length > 0) {
-            for (y = 0; y < lab.length; y++) {
-
-                for (x = 0; x < tut.length; x++) {
-
-                    trio = new sectionObj(lec[i], lab[y], tut[x]);
-                    arrayTrios.push(trio);
-
-                }
+        else
+        {
+            if(tutorials.length == 0)
+            {
+                //No tutorials, but there are labs
+                labs.forEach(lab => {
+                    arrayTrios.push(new section(lecture, lab, ""));
+                })
+            }
+            else
+            {
+                //There are labs and tutorials
+                labs.forEach(lab => {
+                    tutorials.forEach(tutorial => {
+                        arrayTrios.push(new section(lecture, lab, tutorial));
+                    })
+                })
             }
         }
-    }
-
-    return JSON.parse(JSON.stringify(arrayTrios));
-
+    })
+    return arrayTrios;
 }
 
 
@@ -165,24 +162,14 @@ function classObj(start, end, day) {
     this.startTime = start;
     this.endTime = end;
     this.day = day;
-
-
-    //  return JSON.parse(" { \"startTime\":\"" + start + "\"," +
-    //                                 "\", endTime\":\"" + end + 
-    //                                 "\", day\":\"" + day +  "\" }")
-
 }
 
-function sectionObj(lec, lab, tut) {
+function section(lec, lab, tut) {
     this.lecture = lec;
     this.lab = lab;
     this.tutorial = tut;
-
-
-    // return JSON.parse("{ \"lecture\":\"" + lec + "\"," +
-    //                               "\"lab\":\"" + lab + "\"tutorial\":\"" + tut +
-    //                               "\"}")
 }
+
 function filterForSections(myArray, semester) {
     let semRegex;
     let afterFilter = [];
@@ -293,12 +280,9 @@ function findLec(subject, catalog, semester) {
 
 }
 
-
 async function getSections(subject, courseCode, semester) {
     var lectures = await findLec(subject, courseCode, semester);
     var tutorials = await findTutorial(subject, courseCode, semester);
     var labs = await findLab(subject, courseCode, semester);
-
     return trios = await makeTrios(lectures, labs, tutorials);
 }
-
