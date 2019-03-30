@@ -7,6 +7,7 @@ import WeeklySchedule from './WeeklySchedule';
 class Schedule extends Component {
   constructor(props) {
     super(props);
+<<<<<<< HEAD
     this.state= {
       pickedSchedule: 1
     };
@@ -27,11 +28,17 @@ class Schedule extends Component {
       this.setState({
         pickedSchedule: this.state.pickedSchedule - 1,
       });
+=======
+    this.desc = ""
+    for(var key in this.props.schedules){
+      this.desc += this.props.schedules[key] +", ";
+>>>>>>> fc1d9e23b568f53f1bcaf1a1a2a7d1c2f83e6299
     }
   }
 
   render() {
     return (
+<<<<<<< HEAD
       <Grid padded>
         <Grid.Row centered>
           <Grid.Column width = {5} textAlign="center">
@@ -60,6 +67,11 @@ class Schedule extends Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
+=======
+      <div>
+        {this.props.season}
+      </div>
+>>>>>>> fc1d9e23b568f53f1bcaf1a1a2a7d1c2f83e6299
     );
   }
 }

@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
+import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
+<<<<<<< HEAD
 import Schedule from './Schedule.js';
+=======
+>>>>>>> fc1d9e23b568f53f1bcaf1a1a2a7d1c2f83e6299
 import TabContent from './TabContent.js';
 import { Icon, Menu, Segment, Sidebar, Tab } from 'semantic-ui-react';
 import Slider from 'react-slick';
@@ -26,6 +30,10 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
+<<<<<<< HEAD
+=======
+    this.panes = [];
+>>>>>>> fc1d9e23b568f53f1bcaf1a1a2a7d1c2f83e6299
     var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
@@ -35,6 +43,7 @@ class ScheduleBuilderPage extends Component {
       years[year][season] = element.schedules;
     });
     for(var yearKey in years){
+<<<<<<< HEAD
       for(var seasonKey in years[yearKey]){
         this.scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
       }
@@ -48,6 +57,17 @@ class ScheduleBuilderPage extends Component {
 
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
+=======
+      var scheduleComponents = [];
+      for(var seasonKey in years[yearKey]){
+        scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+      }
+      this.panes.push({
+        menuItem: yearKey,
+        render: () => <TabContent scheduleComponents={scheduleComponents} scheduleGiven={this.props.scheduleGiven}/>
+      })
+    }
+>>>>>>> fc1d9e23b568f53f1bcaf1a1a2a7d1c2f83e6299
   }
 
   render() {
@@ -72,6 +92,14 @@ class ScheduleBuilderPage extends Component {
             <Sidebar.Pusher>
               <Segment basic>
                 <Tab panes={this.panes} />
+<<<<<<< HEAD
+=======
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+>>>>>>> fc1d9e23b568f53f1bcaf1a1a2a7d1c2f83e6299
               </Segment>
             </Sidebar.Pusher>
           </Sidebar.Pushable>

@@ -6,7 +6,7 @@ class WeeklySchedule extends Component {
   super(props); 
   this.state=
   {
-    courses:this.props.courses
+    courses:this.props
   };
 }
 
