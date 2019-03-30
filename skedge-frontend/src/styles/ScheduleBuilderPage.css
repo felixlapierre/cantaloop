@@ -35,6 +35,10 @@
   cursor: pointer;
 }
 
-.child-list-item: hover{
-  background-color: lightblue !important;
+#courseListColumn {
+  text-align: center;
+}
+
+.buttonCourseList {
+  width: 90%;
 }
