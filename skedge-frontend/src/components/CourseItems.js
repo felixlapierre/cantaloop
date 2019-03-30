@@ -17,8 +17,8 @@ class CourseItems extends Component {
   }
 
   render() {
-    const selectedCourses = this.props.entries
-    const listOfCourses = selectedCourses.map(this.createTasks)
+    const selectedCourses = this.props.entries;
+    const listOfCourses = selectedCourses.map(this.createTasks);
 
     return (<ul className="theList">{listOfCourses}</ul>
     );

@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 import axios from 'axios';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
 
 //LandingPage App class
 //Renders the landing page and login form
 class LandingPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       username: '',
       password: '',
       errorWhenLoggingIn: false
@@ -26,7 +25,7 @@ class LandingPage extends Component {
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
           console.log(res.data.token);
           window.sessionStorage.setItem( 'token', res.data.token);
-          this.props.history.push("record"); // Switch to the user record page
+          this.props.history.push("/record"); // Switch to the user record page
           this.setState({errorWhenLoggingIn: false})
       }).catch(error => {
         // Reset fields
@@ -50,16 +49,30 @@ class LandingPage extends Component {
   handleRegister(event) {
     axios.post('/users/register', {username: this.state.username, password: this.state.password}).then(response => {
         console.log('Received response' + response);
+        this.props.history.push("/record"); // Switch to the user record page
     });
   }
 
   handleLoginGuest(event) {
     console.log("Guest");
+    this.props.history.push('/record')
   }
 
   // Display error messages
   renderErrorMessage() {
-    if(this.state.errorWhenLoggingIn === true) { 
+    if(this.state.errorWhenLoggingIn === true) {
+      return (
+        <p id='errorMessage'>Wrong username or password</p>
+      )
+    }
+    else {
+      return null;
+    }
+  }
+
+  // Display error messages
+  renderErrorMessage() {
+    if(this.state.errorWhenLoggingIn === true) {
       return (
         <p id='errorMessage'>Wrong username or password</p>
       )
@@ -87,10 +100,10 @@ class LandingPage extends Component {
                   <Button fluid onClick={this.handleLogin} id='loginButton'>Login</Button>
                   <Button fluid onClick={this.handleRegister} id='registerButton'>Register</Button>
                 </Form.Group>
-                <Link to='/record'><Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button></Link>
+                <Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button>
                 {this.renderErrorMessage()}
               </Segment>
-              
+
             </Form>
           </Grid.Column>
         </Grid>
