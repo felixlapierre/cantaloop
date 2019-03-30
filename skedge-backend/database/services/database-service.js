@@ -143,7 +143,7 @@ module.exports = {
           },
           function (err, result) {
             if (err) {
-              console.log("User not found");
+              console.log(err);
             } else {
               userSchema.users.find(
               {
@@ -151,7 +151,7 @@ module.exports = {
               },
               function (err, result) {
                 if (err) {
-                  console.log("Password does not match");
+                  console.log(err);
                 } else {
                   console.log ("Login successful");
                 }
