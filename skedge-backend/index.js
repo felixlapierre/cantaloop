@@ -8,15 +8,17 @@ const port = 4200;
 
 
 const endpoint_service = require('./database/services/endpoint-service');
+const Scheduler = require('./scheduler/scheduler');
+var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
-// Data for testing endpoint /generateSchedules
-const generatedSchedules = require('./generatedSchedules');
-const infoForScheduleGenerator = require('./infoForScheduleGenerator');
 
 
-// const courseDescriptions.js = require('./courseDescriptions.js')
+const User = require('./database/schemas/userSchema');
+const bcryptjs = require('bcryptjs');
 
+const jwt = require('jsonwebtoken');
+const checkAuth = require('./middleware/check-auth');
 
  //////////////////////
 // Express Middlewares
@@ -33,26 +35,23 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
  ///////////////////
 // Express Enpoints
 
+app.get('/secureEndpoint', checkAuth, (req, res) => {
+    return res.status(200).json({
+        message: "Get Endpoint was able to access this message",
+        secure: "We secure AF BOOOOOOIIIIIIII"
+    });
+});
 
-
-// getName endpoint, it will return a json object containing a list of all courses
+// Returns a JSON object containing a list of all courses
 app.get('/courses/getNames', (req, res) => {
-
-    //Method has not been defined yet, but assuming that it will take the info directly from
-    //MongoDB and it would return an array of all courses available with instances variable
-    //such as Name, semester, nb of credits, timeslot etc.
-    //Not sure if the method would take in an input??
-
-
     endpoint_service.getCoursesDescription()
     .then((courseList) =>{
         courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
         res.json(courseList);
     });
+});
 
 
-}
-);
 
 app.get('/courses/catalogue', (req, res) => {
 
@@ -66,11 +65,11 @@ app.get('/courses/catalogue', (req, res) => {
         res.json(courseList);
     });
 
+});
 
-}
-);
 
-app.post('/genSchedules', (req, res) => {
+// Returns a list of possible schedules for each semester
+app.post('/builder/genSchedules', (req, res) => {
     // TESTING
 
     // Empty input
@@ -87,15 +86,63 @@ app.post('/genSchedules', (req, res) => {
     var courseSequence = req.body.courseSequence;
     var semesters = req.body.semesters;
 
-    //var generatedSchedules = scheduler.GenerateSchedules(courseRecord, courseSequence, semesters); // returns an array of schedules for each semester
+    var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
     res.json(generatedSchedules);
 });
 
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../skedge-frontend/build/index.html'));
+app.post('/users/register', (req, res, next) => {
+    bcryptjs.hash(req.body.password, 10)
+        .then(hash => {
+            const user = new User({
+                username: req.body.username,
+                password: hash
+            });
+            createUser(user)
+                .then(result => {
+                    res.status(201).json({
+                        message: "User Created!",
+                        result: result
+                    });
+                })
+                .catch(error => {
+                    res.status(500).json({
+                        error: error
+                    });
+                });
+        });
 });
 
+
+app.post('/users/login', (req, res, next) => {
+    let fetchedUser;
+    User.findOne({username: req.body.username}).then(user => {
+        if(!user){
+            return res.status(401).json({
+                message: "Authorization failed!"
+            });
+        }
+        fetchedUser = user;
+        return bcryptjs.compare(req.body.password, user.password)
+    })
+        .then(result => {
+            if(!result){
+                return res.status(401).json({
+                    message: "Authorization failed!"
+                });
+            }
+            const token = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
+                "secret_this_should_be_longer",
+                {expiresIn: '1h'});
+            res.status(200).json({
+                token: token
+            });
+        })
+        .catch(error => {
+            return res.status(401).json({
+                message: "Authorization failed!"
+            });
+        });
+});
 
  ////////////////////
 // Express listener

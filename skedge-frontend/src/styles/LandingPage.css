@@ -27,3 +27,7 @@
   font-family: impact, fantasy, monospace;
   font-weight: bold;
 }
+
+#errorMessage {
+  color: red;
+}

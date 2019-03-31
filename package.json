@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/felixlapierre1/cantaloop#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "recursive-install": "^1.4.0"
   }
 }

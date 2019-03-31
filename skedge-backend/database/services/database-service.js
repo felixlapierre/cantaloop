@@ -120,6 +120,16 @@ module.exports = {
                 console.log("Successfully added into database!");
             }
         })
+    },
+
+    createUser: function (objectJSON) {
+        mongoose.connection.collection(users).insertOne(objectJSON, function (err, result) {
+            if (err) {
+                console.log("Error, fail");
+            } else {
+                console.log("Successfully added into database!");
+            }
+        })
     }
 
 };
