@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-var courseSchem = require('../schemas/courseSchema');
-var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
-var courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const courseSchem = require('../schemas/courseSchema');
+const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
+const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -31,25 +31,26 @@ function removeDuplicateCourses(myArray) {
 
 module.exports = {
     getCourseCatalog: function () {
-        let p1 = new Promise((resolve, reject) => {
-            courseCatalogSchema.courseCatalog.find({}, function (err, result) {
-                if (err) {
-                    console.log("None")
-                } else {
-                    console.log(result);
-                }
-            });
-        });
-        return p1;
+      
+       let p1 = new Promise ( (resolve,reject)=>{
+           courseCatalogSchema.courseCatalog.find({}, function(err, result){
+               if(err){
+                   return err;
+               }else{
+                   resolve(result);
+               }
+           });
+        
+        });  
+        return (p1);
     },
 
     getCoursesDescription: function () {
         let p1 = new Promise((resolve, reject) => {
-            courseDescriptionSchema.courseDescription.find({}, function (err, result) {
+            courseDescriptionSchema.courseDescription.find({ }, function (err, result) {
                 if (err) {
                     console.log("None")
                 } else {
-                    console.log(result);
                     resolve(result);
                 }
             });
