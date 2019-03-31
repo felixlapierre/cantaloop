@@ -37,7 +37,6 @@ module.exports = {
                if(err){
                    return err;
                }else{
-                   console.log(result);
                    resolve(result);
                }
            });
@@ -52,7 +51,6 @@ module.exports = {
                 if (err) {
                     console.log("None")
                 } else {
-                    console.log(result);
                     resolve(result);
                 }
             });
