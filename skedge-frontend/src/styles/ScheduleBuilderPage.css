@@ -34,3 +34,11 @@
 .child-list-item{
   cursor: pointer;
 }
+
+#courseListColumn {
+  text-align: center;
+}
+
+.buttonCourseList {
+  width: 90%;
+}
