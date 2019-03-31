@@ -196,7 +196,7 @@ class UserRecordPage extends Component {
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-  
+
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
     window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
     window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
@@ -219,10 +219,12 @@ class UserRecordPage extends Component {
       <div className = "outer">
           <h3 className = "welcome-title" >
               <br/>
-              Hi! Welcome to <h2 className="skedge">Skedge</h2>
-              <br/>
-              <br/>
+              Hi! Welcome to
           </h3>
+          <h2 className="skedge"> Skedge</h2>
+              <br/>
+              <br/>
+
           <div className = "formDiv">
                 <form id = "recordCcoursesDropdown">
                     <h5>
