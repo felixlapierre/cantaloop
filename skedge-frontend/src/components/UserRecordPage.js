@@ -197,12 +197,13 @@ class UserRecordPage extends Component {
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
 
-    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(coursesPayload.courseSequence));
     window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
     window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
+      console.log(response.data);
       that.props.history.push('/schedule');
     });
 
