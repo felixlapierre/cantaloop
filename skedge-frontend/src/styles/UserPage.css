@@ -1,15 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster|Raleway');
+
 body{
     background-color: lavender;
 }
 
 .welcome-title {
   text-align: center;
+  display: inline;
+  font-family: 'Raleway', sans-serif;
+}
+
+.skedge {
   font-family: 'Lobster', sans-serif;
+  display: inline;
 }
 
 h5 {
   text-align: center;
-  font-family: 'Lobster', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .outer {
@@ -64,10 +72,14 @@ h5 {
 #goToScheduleBuilder {
   margin: 0 auto;
   background-color: plum;
+  font-family: 'Raleway', sans-serif;
+
 }
 
 #button1, #button2{
   background-color: plum;
+  font-family: 'Raleway', sans-serif;
+
 }
 
 .dropdown{
