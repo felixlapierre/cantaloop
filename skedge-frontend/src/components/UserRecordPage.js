@@ -175,8 +175,9 @@ class UserRecordPage extends Component {
       var validSemesterObject = true;
       for (var i in coursesPayload.semesters){
         if(coursesPayload.semesters[i].year === '' ||
-            coursesPayload.semesters[i].numCourses === '0' ||
-            coursesPayload.semesters[i].credits === '0') {
+            Number(coursesPayload.semesters[i].numCourses) < 2019 ||
+            coursesPayload.semesters[i].numCourses === '' ||
+            coursesPayload.semesters[i].credits === '') {
           validSemesterObject = false;
           break;
         }
@@ -196,7 +197,9 @@ class UserRecordPage extends Component {
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-
+    if(this.validateSubmission(coursesPayload) === false){
+      return;
+    }
     window.sessionStorage.setItem('courseSequence', JSON.stringify(coursesPayload.courseSequence));
     window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
     window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
