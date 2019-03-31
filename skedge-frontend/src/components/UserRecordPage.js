@@ -164,37 +164,39 @@ class UserRecordPage extends Component {
   validateSubmission(coursesPayload){
     var errorString = '';
     var problem = false;
-    if(coursesPayload.courseSequence.length == 0){
+    if(coursesPayload.courseSequence.length === 0){
       errorString += "Add Courses to Course Sequence\n";
       problem = true;
     }
-    if(coursesPayload.semesters.length == 0){
+    if(coursesPayload.semesters.length === 0){
       errorString += "Add Semesters\n";
       problem = true;
-    }
-    var validSemesterObject = true;
-    for (var i in coursesPayload.semesters){
-      if(coursesPayload.semesters[i].year === '' ||
-          coursesPayload.semesters[i].numCourses === '0' ||
-          coursesPayload.semesters[i].credits === '0') {
-        validSemesterObject = false;
-        break;
+    } /*else {
+      var validSemesterObject = true;
+      for (var i in coursesPayload.semesters){
+        if(coursesPayload.semesters[i].year === '' ||
+            coursesPayload.semesters[i].numCourses === '0' ||
+            coursesPayload.semesters[i].credits === '0') {
+          validSemesterObject = false;
+          break;
+        }
       }
     }
-    if(!validSemesterObject) {
+    if(validSemesterObject === false) {
       errorString += "Enter valid Semesters\n";
       problem = true;
-    }
+    } */
     if(problem){
-      alert(errorString)
+      alert(errorString);
+      return false;
     }
+    return true;
+
   }
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-    if(!this.validateSubmission(coursesPayload)){
-      return;
-    }
+  
     console.log("sending:")
     console.log("courseRecord: " + coursesPayload.courseRecord);
     console.log("course sequence: " + coursesPayload.courseSequence);
