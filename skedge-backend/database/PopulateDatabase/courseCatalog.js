@@ -29,11 +29,11 @@ async function main() {
                 sectionWinter,
                 sectionSummer);
 
-            databaseConstants.database_service.insertOneInDatabase(catalogEntry, 'courseCatalog');
+            databaseConstants.database_service.insertOneInDatabase(catalogEntry, 'courseCatalogs');
         }
     }
 }
-main();//This run the function to put into the MongoDB
+// main();//This run the function to put into the MongoDB
 
 
 function callCourseCatalogAPI(subject, catalog) {

@@ -4,9 +4,6 @@ const courseSchem = require('../schemas/courseSchema');
 const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 
-
-var testing = require('../PopulateDatabase/courseCatalog');
-
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
         console.log('Database connection successful')
@@ -36,22 +33,22 @@ module.exports = {
     getCourseCatalog: function () {
       
        let p1 = new Promise ( (resolve,reject)=>{
-           courseCatalogSchema.find({}, function(err, result){
+           courseCatalogSchema.courseCatalog.find({}, function(err, result){
                if(err){
                    return err;
                }else{
+                   console.log(result);
                    resolve(result);
                }
-           })
-        }
-       );  
-  
-        return p1;
+           });
+        
+        });  
+        return (p1);
     },
 
     getCoursesDescription: function () {
-        let p1 = new Promise4((resolve, reject) => {
-            courseDescriptionSchema.courseDescription.find({}, function (err, result) {
+        let p1 = new Promise((resolve, reject) => {
+            courseDescriptionSchema.courseDescription.find({ }, function (err, result) {
                 if (err) {
                     console.log("None")
                 } else {
