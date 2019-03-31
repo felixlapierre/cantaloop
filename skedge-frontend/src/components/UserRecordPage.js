@@ -175,7 +175,6 @@ class UserRecordPage extends Component {
       var validSemesterObject = true;
       for (var i in coursesPayload.semesters){
         if(coursesPayload.semesters[i].year === '' ||
-            Number(coursesPayload.semesters[i].numCourses) < 2019 ||
             coursesPayload.semesters[i].numCourses === '' ||
             coursesPayload.semesters[i].credits === '') {
           validSemesterObject = false;
