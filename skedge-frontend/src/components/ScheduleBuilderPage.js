@@ -24,10 +24,7 @@ class ScheduleBuilderPage extends Component {
     this.listItemClicked = this.listItemClicked.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
-<<<<<<< HEAD
-=======
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
->>>>>>> dcd3335b2cea9b80a0cc270587655d0293c68958
   }
 
   handleHamburgerButton(){
@@ -43,10 +40,6 @@ class ScheduleBuilderPage extends Component {
       });
     }
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> dcd3335b2cea9b80a0cc270587655d0293c68958
 
   componentWillMount(){
     this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
@@ -77,10 +70,6 @@ class ScheduleBuilderPage extends Component {
     var temp = this.state.currentClasses.filter(function(ele){
              return ele !== event;
     });
-<<<<<<< HEAD
-    this.setState({currentClasses: temp});
-    console.log(this.state.currentClasses);
-=======
     this.setState({currentClasses: temp}, ()=>{
       this.regenerateSchedule();
     });
@@ -116,7 +105,6 @@ class ScheduleBuilderPage extends Component {
   }
 
   regenerateSchedule(){
->>>>>>> dcd3335b2cea9b80a0cc270587655d0293c68958
     let dataToSend = {"courseRecord": this.state.courseRecord,
                       "courseSequence": this.state.currentClasses,
                       "semesters": this.state.semesters};
