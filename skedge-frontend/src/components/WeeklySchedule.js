@@ -1,16 +1,33 @@
 import React, {Component} from 'react';
+import CourseInfo from './CourseInfo'
+import './CourseInfo.css'
 
 class WeeklySchedule extends Component
 {
     constructor(props)
     {
         super(props);
+        this.courseInfos = [];
+        for(var courseId in this.props.schedule){
+          for(var classType in this.props.schedule[courseId])
+          {
+              <CourseInfo 
+                course={courseId}
+                type={classType}
+                startTime={this.props.schedule[courseId][classType.time_start]}
+                endTime={this.props.schedule[courseId][classType].time_end}
+                day={this.props.schedule[courseId][classType].days}
+              />
+
+        this.courseInfos.push(
+        <CourseInfo/> )
+          }
+          };
     }
     render()
     {
         return (
             <div className='myCourses'>
-              {section}
               <div className='timetable'>
               <section className='timeWrapper'>
                 <div>8:30</div>
@@ -42,21 +59,10 @@ class WeeklySchedule extends Component
                   <p className='thursday'>THURSDAY</p>
                   <p className='friday'>FRIDAY</p>
                 </section>
-              {this.prop.schedule.map(course => 
-                <TableData 
-                  CourseId={course}
-                  {course.map(type => 
-                    type={type} 
-                    {type.map (times => 
-                     StartTime={times.time_start}
-                     endTime={times.time_end}
-                     day={times.days}
-                        )}
-                    )}
-                />
-              )} 
+                <CourseInfo> {this.courseInfos} </CourseInfo>
             </div>          
           </div>
         )
     }
-} export default WeeklySchedule
+} 
+export default WeeklySchedule;

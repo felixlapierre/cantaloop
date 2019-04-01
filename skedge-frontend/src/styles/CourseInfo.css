@@ -1,0 +1,289 @@
+
+  .myCourses {
+    margin-left: 10px;
+  }
+  
+  .titleStyle {
+    color: #2c2e33;
+    font-variant: small-caps;
+    width: 1100px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  
+  .timetable {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 50px repeat(5, 200px);
+    grid-template-rows: repeat(20, 50px);
+  }
+  
+  .titleWrapper {
+    display: grid;
+    grid-column: 1 / 7;
+    grid-gap: 10px;
+    grid-template-columns: 50px repeat(5, 200px);
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+    justify-items: center;
+  }
+  
+  .timeWrapper {
+    display: grid;
+    grid-row: 2 / 21;
+    grid-gap: 10px;
+    grid-template-rows: repeat(20, 50px);
+  }
+  .timeWrapper div:nth-of-type(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  .timeWrapper div:nth-of-type(2) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+  .timeWrapper div:nth-of-type(3) {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+  .timeWrapper div:nth-of-type(4) {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+  }
+  .timeWrapper div:nth-of-type(5) {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+  }
+  .timeWrapper div:nth-of-type(6) {
+    grid-column: 1 / 2;
+    grid-row: 6 / 7;
+  }
+  .timeWrapper div:nth-of-type(7) {
+    grid-column: 1 / 2;
+    grid-row: 7 / 8;
+  }
+  .timeWrapper div:nth-of-type(8) {
+    grid-column: 1 / 2;
+    grid-row: 8 / 9;
+  }
+  .timeWrapper div:nth-of-type(9) {
+    grid-column: 1 / 2;
+    grid-row: 9 / 10;
+  }
+  .timeWrapper div:nth-of-type(10) {
+    grid-column: 1 / 2;
+    grid-row: 10 / 11;
+  }
+  .timeWrapper div:nth-of-type(11) {
+    grid-column: 1 / 2;
+    grid-row: 11 / 12;
+  }
+  .timeWrapper div:nth-of-type(12) {
+    grid-column: 1 / 2;
+    grid-row: 12 / 13;
+  }
+  .timeWrapper div:nth-of-type(13) {
+    grid-column: 1 / 2;
+    grid-row: 13 / 14;
+  }
+  .timeWrapper div:nth-of-type(14) {
+    grid-column: 1 / 2;
+    grid-row: 14 / 15;
+  }
+  .timeWrapper div:nth-of-type(15) {
+    grid-column: 1 / 2;
+    grid-row: 15 / 16;
+  }
+  .timeWrapper div:nth-of-type(16) {
+    grid-column: 1 / 2;
+    grid-row: 16 / 17;
+  }
+  .timeWrapper div:nth-of-type(17) {
+    grid-column: 1 / 2;
+    grid-row: 17 / 18;
+  }
+  .timeWrapper div:nth-of-type(18) {
+    grid-column: 1 / 2;
+    grid-row: 18 / 19;
+  }
+  .timeWrapper div:nth-of-type(19) {
+    grid-column: 1 / 2;
+    grid-row: 19 / 20;
+  }
+  .timeWrapper div:nth-of-type(20) {
+    grid-column: 1 / 2;
+    grid-row: 20 / 21;
+  }
+  
+  .timeColumn {
+    grid-column: 1 / 2;
+  }
+  
+  .monday {
+    grid-column: 2 / 3;
+  }
+  
+  .tuesday {
+    grid-column: 3 / 4;
+  }
+  
+  .wednesday {
+    grid-column: 4 / 5;
+  }
+  
+  .thursday {
+    grid-column: 5 / 6;
+  }
+  
+  .friday {
+    grid-column: 6 / 7;
+  }
+  
+  /* start times */
+  
+  .eightThirty {
+    grid-row-start: 2;
+  }
+  
+  .nineOclock {
+    grid-row-start: 3; 
+  }
+  
+  .nineThirty {
+    grid-row-start: 4; 
+  }
+  
+  .tenOclock {
+    grid-row-start: 5; 
+  }
+  
+  .tenThirty {
+    grid-row-start: 6;
+  }
+  
+  .elevenOclock {
+    grid-row-start: 7;
+  }
+  
+  .elevenThirty {
+    grid-row-start: 8;
+  }
+  
+  .twelveOclock {
+    grid-row-start: 9;
+  }
+  
+  .twelveThirty {
+    grid-row-start: 10;
+  }
+  
+  .oneOclock {
+    grid-row-start: 11;
+  }
+  
+  .oneThirty {
+    grid-row-start: 12;
+  }
+  
+  .twoOclock {
+    grid-row-start: 13;
+  }
+  
+  .twoThirty {
+    grid-row-start: 14;
+  }
+  
+  .threeOclock {
+    grid-row-start: 15;
+  }
+  
+  .threeThirty {
+    grid-row-start: 16;
+  }
+  
+  .fourOclock {
+    grid-row-start: 17;
+  }
+  
+  .fourThirty {
+    grid-row-start: 18;
+  }
+  
+  .fiveOclock {
+    grid-row-start: 19;
+  }
+  
+  /* end times */
+  
+  .endNineThirty {
+    grid-row-end: 4; 
+  }
+  
+  .endTenOclock {
+    grid-row-end: 5; 
+  }
+  
+  .endTenThirty {
+    grid-row-end: 6;
+  }
+  
+  .endElevenOclock {
+    grid-row-end: 7;
+  }
+  
+  .endElevenThirty {
+    grid-row-end: 8;
+  }
+  
+  .endTwelveOclock {
+    grid-row-end: 9;
+  }
+  
+  .endTwelveThirty {
+    grid-row-end: 10;
+  }
+  
+  .endOneOclock {
+    grid-row-end: 11;
+  }
+  
+  .endOneThirty {
+    grid-row-end: 12;
+  }
+  
+  .endTwoOclock {
+    grid-row-end: 13;
+  }
+  
+  .endTwoThirty {
+    grid-row-end: 14;
+  }
+  
+  .endThreeOclock {
+    grid-row-end: 15;
+  }
+  
+  .endThreeThirty {
+    grid-row-end: 16;
+  }
+  
+  .endFourOclock {
+    grid-row-end: 17;
+  }
+  
+  .endFourThirty {
+    grid-row-end: 18;
+  }
+  
+  .endFiveOclock {
+    grid-row-end: 19;
+  }
+  
+  .endFiveThirty {
+    grid-row-end: 20;
+  }
+  
+  .endSixOclock {
+    grid-row-end: 21;
+  }
