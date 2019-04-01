@@ -3,6 +3,9 @@ import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import CourseItems from './CourseItems.js';
 import SemesterItems from './SemesterItems.js';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import axios from "axios";
 
 //The page where the user can change its record etc.
@@ -17,6 +20,14 @@ class UserRecordPage extends Component {
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
     }
+    this.settings = {
+        arrows: false,
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
     this.handleRecordInput = this.handleRecordInput.bind(this);
     this.handleCourseInput = this.handleCourseInput.bind(this);
     this.addRecordItem = this.addRecordItem.bind(this);
@@ -26,6 +37,8 @@ class UserRecordPage extends Component {
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   componentDidMount() {
@@ -41,6 +54,14 @@ class UserRecordPage extends Component {
 
       axios.get('/secureEndpoint', {headers: header})
           .then(res => console.log(JSON.stringify(res)));
+  }
+
+  handleBack(){
+      this.slider.slickPrev();
+  }
+
+  handleNext(){
+      this.slider.slickNext();
   }
 
   formatCourseListForDropdown(courseList) {
@@ -226,8 +247,8 @@ class UserRecordPage extends Component {
           <h2 className="skedge"> Skedge</h2>
               <br/>
               <br/>
-
-          <div className = "formDiv">
+          <Slider ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
+          <div className = "record">
                 <form id = "recordCcoursesDropdown">
                     <h5>
                         What classes have you taken?
@@ -247,6 +268,8 @@ class UserRecordPage extends Component {
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
                 </form>
+          </div>
+          <div className="courseSequence">
                 <form id = "wantedCoursesDropdown">
                     <h5>
                         What classes would you like to take?
@@ -267,13 +290,18 @@ class UserRecordPage extends Component {
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
                 </form>
-                <div id = "semestersObject">
+          </div>
+          <div id = "semestersObject">
                 <h5>
                     Enter number of semesters and semester info
                 </h5>
-                <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
+                <div className="semesterList">
+                  <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
                 </div>
-            </div>
+          </div>
+          </Slider>
+          <Button id = "goNext" onClick = {this.handleNext}>Next</Button>
+          <Button id = "goBack" onClick = {this.handleBack}>Back</Button>
           <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
     );
