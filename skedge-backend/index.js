@@ -6,23 +6,19 @@ const app = express();
 
 const port = 4200;
 
+
 const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
-// Data for testing endpoint /generateSchedules
-//const generatedSchedules = require('./generatedSchedules');
-//const infoForScheduleGenerator = require('./infoForScheduleGenerator');
+
 
 const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 const checkAuth = require('./middleware/check-auth');
-
-// const courseDescriptions.js = require('./courseDescriptions.js')
-
 
  //////////////////////
 // Express Middlewares
@@ -54,6 +50,23 @@ app.get('/courses/getNames', (req, res) => {
         res.json(courseList);
     });
 });
+
+
+
+app.get('/courses/catalogue', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from
+    //MongoDB and it would return an array of all courses available with instances variable
+    //such as Name, semester, nb of credits, timeslot etc.
+
+
+    endpoint_service.getCourseCatalog()
+    .then((courseList) =>{
+        res.json(courseList);
+    });
+
+});
+
 
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {

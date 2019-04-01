@@ -3,7 +3,11 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
+<<<<<<< HEAD
 import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+=======
+import { Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+>>>>>>> 336658e2b7037a9a99637108cf6353036401166d
 import axios from "axios";
 
 //The main page after a user logs in
@@ -12,18 +16,26 @@ class ScheduleBuilderPage extends Component {
     super(props);
 
     this.state = {visible: false,
+<<<<<<< HEAD
                   allClasses:[],
                   currentClasses:[],
                   semesters:[],
                   courseRecord:[]
+=======
+                  currentClasses:[]
+>>>>>>> 336658e2b7037a9a99637108cf6353036401166d
                   };
     this.panes = [];
     this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
+<<<<<<< HEAD
     this.handleDimmedPusher = this.handleDimmedPusher.bind(this);
     this.listItemClicked = this.listItemClicked.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
+=======
+    this.listItemClicked = this.listItemClicked.bind(this);
+>>>>>>> 336658e2b7037a9a99637108cf6353036401166d
   }
 
   handleHamburgerButton(){
@@ -32,6 +44,7 @@ class ScheduleBuilderPage extends Component {
       });
   }
 
+<<<<<<< HEAD
   handleDimmedPusher(){
     if(this.state.visible){
       this.setState((state) => {
@@ -46,6 +59,11 @@ class ScheduleBuilderPage extends Component {
     this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
     this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
     this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
+=======
+
+  componentWillMount(){
+    this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
+>>>>>>> 336658e2b7037a9a99637108cf6353036401166d
 
     var years = {};
     this.props.scheduleGiven.forEach(element => {

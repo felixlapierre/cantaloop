@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 
+
 const courseClass = new mongoose.Schema(
     {
         time_start: String,
@@ -30,5 +31,6 @@ const courseCatalog = new mongoose.Schema(
 );
 
 module.exports = {
-    courseCatalog : mongoose.model('courseCatalog', courseCatalog)
+    courseCatalog : mongoose.model('Model', courseCatalog, 'courseCatalogs'),
+
 }
