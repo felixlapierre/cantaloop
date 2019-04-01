@@ -14,12 +14,13 @@ class WeeklySchedule extends Component
           { 
             this.courseInfos.push(
               <CourseInfo 
+                key={courseId+classType}
                 course={courseId}
                 type={classType}
-                startTime={this.props.schedule[courseId][classType.time_start]}
+                startTime={this.props.schedule[courseId][classType].time_start}
                 endTime={this.props.schedule[courseId][classType].time_end}
                 day={this.props.schedule[courseId][classType].days}
-              />)
+              />);
           }
         } 
     }
@@ -58,7 +59,7 @@ class WeeklySchedule extends Component
                   <p className='thursday'>THURSDAY</p>
                   <p className='friday'>FRIDAY</p>
                 </section>
-                <CourseInfo> {this.courseInfos} </CourseInfo>
+                {this.courseInfos}
             </div>          
           </div>
         )

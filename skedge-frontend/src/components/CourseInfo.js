@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './CourseInfo.css'
 
-const CourseInfo = (props) => {
-
-  const convertDay = (day) => {
+class CourseInfo extends Component {
+  constructor(props){
+    super(props);
+    this.convertDay = this.convertDay.bind(this);
+    this.convertStartTime = this.convertStartTime.bind(this);
+    this.convertEndTime = this.convertEndTime.bind(this);
+  }
+  
+  convertDay(day){
     if (day==='M') return("monday");
     else if (day === 'Tu') return("tuesday");
     else if (day === 'W') return("wednesday");
@@ -12,8 +18,8 @@ const CourseInfo = (props) => {
     else return null;
   }
 
-  const convertStartTime = (start_time) => {
-    if ((start_time === "8:00")||) return ("eightOclock");
+  convertStartTime(start_time){
+    if (start_time === "8:00") return ("eightOclock");
     else if (start_time === "8:30") return("eightThirty");
     else if (start_time === "9:00") return("nineOclock");
     else if (start_time === "9:30") return("nineThirty");
@@ -35,9 +41,9 @@ const CourseInfo = (props) => {
     else if (start_time === "5:30") return("fiveThirty");
     else if (start_time === "6:00") return("sixOclock");
     else return null;
-  } 
+  }
 
-  const convertEndTime = (end_time) => {
+  convertEndTime(end_time){
     if (end_time === "8:20AM") return("endEightThirty");
     else if (end_time === "08:50AM") return("endNineOclock");
     else if (end_time === "09:20AM") return("endNineThirty");
@@ -58,19 +64,21 @@ const CourseInfo = (props) => {
     else if (end_time === "04:50PM") return("endFiveOclock");
     else if (end_time === "05:20PM") return("endFiveThirty");
     else if (end_time === "05:50PM") return("endSixOclock");
-  } 
-      return (
-            <p
-              className={`tableElement ${convertDay(props.day)}
-              ${convertStartTime(props.startTime)} 
-              ${convertEndTime(props.endTime)}`}
-            >
-              {props.course}<br/> 
-              {props.startTime}  {props.endTime} <br/>
-              {props.type} <br/>
-            </p>
-          )
-    }
+  }
 
+  render(){
+    return(
+      <p
+        className={`tableElement ${this.convertDay(this.props.day)}
+        ${this.convertStartTime(this.props.startTime)} 
+        ${this.convertEndTime(this.props.endTime)}`}
+      >
+      {this.props.course}<br/> 
+      {this.props.startTime}  {this.props.endTime} <br/>
+      {this.props.type} <br/>
+    </p>
+    );
+  }
+}
 
 export default CourseInfo;
