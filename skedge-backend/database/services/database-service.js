@@ -128,6 +128,31 @@ module.exports = {
                 console.log("Successfully added into database!");
             }
         })
+    },
+
+    saveSchedule: function(objectJSON,userID){
+        var studentID = 'studentID';
+        objectJSON[studentID]= userID;
+        mongoose.connection.collection(userSchedule).insertOne(finalSchedToBeSaved, function(err,result){
+            if(err){
+                return err;
+            }else{
+                console.log("Successfully added into database!");
+            }
+        })
+
+
+    },
+
+    retrieveAllSchedule: function(userID){
+        mongoose.connection.collection(userSchedule).find({'studentID':userID}, function(err, result){
+            if(err){
+                return err;
+            }else{
+                return result;
+            }
+        })
+
     }
 
 };

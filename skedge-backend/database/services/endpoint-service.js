@@ -11,5 +11,11 @@ module.exports = {
 
     createUser: function () {
       return database_services.createUser();
+    },
+
+    saveSchedule: function(){
+        return database_services.saveSchedule();
     }
+
+
 };
