@@ -94,7 +94,7 @@ class UserRecordPage extends Component {
          recordItems: items,
          currentRecordItem: { text: '', key: '' },
        })
-   }
+    }
   }
 
   addCourseItem(event) {
@@ -162,15 +162,12 @@ class UserRecordPage extends Component {
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-    console.log("sending:")
-    console.log("courseRecord: " + coursesPayload.courseRecord);
-    console.log("course sequence: " + coursesPayload.courseSequence);
-    console.log("semesters: " + coursesPayload.semesters);
-    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+    window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+    window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+    window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
-      console.log("Received: ");
-      console.log(response.data);
       that.props.history.push('/schedule');
     });
 
