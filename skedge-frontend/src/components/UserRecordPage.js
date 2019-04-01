@@ -162,7 +162,7 @@ class UserRecordPage extends Component {
 
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
-    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseOptions));
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
     window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
     window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));

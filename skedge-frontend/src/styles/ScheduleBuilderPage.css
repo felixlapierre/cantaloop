@@ -27,8 +27,6 @@
 
 #coursesTaking {
   height: 50vh;
-  overflow-y:auto;
-  float: left;
 }
 
 .child-list-item{
