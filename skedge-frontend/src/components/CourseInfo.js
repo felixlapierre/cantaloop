@@ -59,7 +59,7 @@ const CourseInfo = (props) => {
     else if (end_time === "05:50PM") return("endSixOclock");
   } 
       return (
-            <p style={tableDataMainStyle} 
+            <p
               className={`tableElement ${convertDay(props.day)}
               ${convertStartTime(props.startTime)} 
               ${convertEndTime(props.endTime)}`}

@@ -8,21 +8,20 @@ class WeeklySchedule extends Component
     {
         super(props);
         this.courseInfos = [];
-        for(var courseId in this.props.schedule){
+        for(var courseId in this.props.schedule)
+        {
           for(var classType in this.props.schedule[courseId])
-          {
+          { 
+            this.courseInfos.push(
               <CourseInfo 
                 course={courseId}
                 type={classType}
                 startTime={this.props.schedule[courseId][classType.time_start]}
                 endTime={this.props.schedule[courseId][classType].time_end}
                 day={this.props.schedule[courseId][classType].days}
-              />
-
-        this.courseInfos.push(
-        <CourseInfo/> )
+              />)
           }
-          };
+        } 
     }
     render()
     {
