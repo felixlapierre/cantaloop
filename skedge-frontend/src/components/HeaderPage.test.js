@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter} from "react-router-dom";
 import HeaderPage from './HeaderPage';
 import { Icon, Popup, Menu, MenuItem } from 'semantic-ui-react';
 
@@ -11,8 +12,11 @@ configure({ adapter: new Adapter() });
 describe('HeaderPage', () => {
 
     it('renders without crashing', () => {
-      const wrapper = mount(<HeaderPage />);
+      const wrapper = mount(<BrowserRouter>
+                              <HeaderPage />
+                            </BrowserRouter>);
       expect(wrapper.length).toBe(1);
+      wrapper.unmount();
     });
 
     it('Renders logo, Skedge and the user icon', () => {
@@ -47,6 +51,8 @@ describe('HeaderPage', () => {
       const recordButton = wrapper.find('MenuItem');
       recordButton.at(0).simulate('click');
       expect(HandleRecordButtonClick).toHaveBeenCalled();
+
+      wrapper.unmount();
     });
 
     it('Clicks on logout choice from the popup menu', () => {
@@ -60,5 +66,7 @@ describe('HeaderPage', () => {
       const logoutButton = wrapper.find('MenuItem');
       logoutButton.at(1).simulate('click');
       expect(HandleLogout).toHaveBeenCalled();
+
+      wrapper.unmount();
     });
 });
