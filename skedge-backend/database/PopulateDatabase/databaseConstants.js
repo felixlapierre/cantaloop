@@ -14,4 +14,13 @@ const classes = ["SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SO
     "ENGR 243", "ENGR 251", "ENGR 361", "ENGR 201", "ENGR 202", "ENGR 213", "ENGR 411", "ENGR 371", "ENGR 391",
     "ENGR 301", "MECH 221", "PHYS 252", "PHYS 284", "PHYS 385", "AERO 480", "AERO 482"];
 
-export default {userName, passWord, request, database_service, classes};
+module.exports ={
+    XMLHttpRequest,
+    userName,
+    passWord,
+    request,
+    database_service,
+    classes
+
+    
+}

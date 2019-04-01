@@ -32,25 +32,26 @@ function removeDuplicateCourses(myArray) {
 
 module.exports = {
     getCourseCatalog: function () {
-        let p1 = new Promise((resolve, reject) => {
-            courseCatalogSchema.courseCatalog.find({}, function (err, result) {
-                if (err) {
-                    console.log("None")
-                } else {
-                    console.log(result);
-                }
-            });
+
+       let p1 = new Promise ( (resolve,reject)=>{
+           courseCatalogSchema.courseCatalog.find({}, function(err, result){
+               if(err){
+                   return err;
+               }else{
+                   resolve(result);
+               }
+           });
+
         });
-        return p1;
+        return (p1);
     },
 
     getCoursesDescription: function () {
         let p1 = new Promise((resolve, reject) => {
-            courseDescriptionSchema.courseDescription.find({}, function (err, result) {
+            courseDescriptionSchema.courseDescription.find({ }, function (err, result) {
                 if (err) {
                     console.log("None")
                 } else {
-                    console.log(result);
                     resolve(result);
                 }
             });
@@ -104,9 +105,9 @@ module.exports = {
       return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertOne(objectJSON, function (err, result) {
             if (err) {
-                console.log(err);
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
       })
@@ -116,15 +117,15 @@ module.exports = {
       return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertMany(objectJSON, function (err, result) {
             if (err) {
-                console.log(err);
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
       })
     },
 
-    createUser: function (objectJS) {
+    createUser: function (userJSON) {
       return new Promise((resolve, reject) => {
         mongoose.connection.collection("users").insertOne(objectJS, function (err, result) {
             if (err) {
@@ -136,27 +137,15 @@ module.exports = {
       })
     },
 
-    checkUserCredential: function (objectJSON) {
-        userSchema.users.find(
-          {
-            username: objectJSON.username
-          },
-          function (err, result) {
+    checkUserCredential: function (userJSON) {
+      return new Promise((resolve, reject) => {
+        userSchema.users.findOne({username: userJSON.username},function (err, result) {
             if (err) {
-              console.log(err);
+              reject(err);
             } else {
-              userSchema.users.find(
-              {
-                password: objectJSON.passsword
-              },
-              function (err, result) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  console.log ("Login successful");
-                }
-              })
+              resolve (userJSON);
             }
           })
+      })
     }
 };

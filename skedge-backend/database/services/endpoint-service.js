@@ -9,11 +9,11 @@ module.exports = {
         return database_services.getCourseCatalog();
     },
 
-    createUser: function (objectJS) {
-      return database_services.createUser(objectJS);
+    createUser: function (userJSON) {
+      return database_services.createUser(userJSON);
     },
 
-    checkUserCredential: function (objectJSON) {
-      return database_services.userLogin(objectJSON)
+    checkUserCredential: function (userJSON) {
+      return database_services.checkUserCredential(userJSON)
     }
 };
