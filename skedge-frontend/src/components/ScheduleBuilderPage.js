@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
-import Schedule from './Schedule';
+import Schedule from './Schedule.js';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
 import { Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
