@@ -25,6 +25,7 @@ class UserRecordPage extends Component {
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
+    this.validateSubmission = this.validateSubmission.bind(this);
   }
 
   componentDidMount() {
@@ -160,8 +161,44 @@ class UserRecordPage extends Component {
     }
   }
 
+  validateSubmission(coursesPayload){
+    var errorString = '';
+    var problem = false;
+    if(coursesPayload.courseSequence.length === 0){
+      errorString += "Add Courses to Course Sequence\n";
+      problem = true;
+    }
+    if(coursesPayload.semesters.length === 0){
+      errorString += "Add Semesters\n";
+      problem = true;
+    } else {
+      var validSemesterObject = true;
+      for (var i in coursesPayload.semesters){
+        if(coursesPayload.semesters[i].year === '' ||
+            coursesPayload.semesters[i].numCourses === '' ||
+            coursesPayload.semesters[i].credits === '') {
+          validSemesterObject = false;
+          break;
+        }
+      }
+    }
+    if(validSemesterObject === false) {
+      errorString += "Enter valid Semesters\n";
+      problem = true;
+    }
+    if(problem){
+      alert(errorString);
+      return false;
+    }
+    return true;
+
+  }
+
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
+    if(this.validateSubmission(coursesPayload) === false){
+      return;
+    }
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
     window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
     window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
@@ -184,10 +221,12 @@ class UserRecordPage extends Component {
       <div className = "outer">
           <h3 className = "welcome-title" >
               <br/>
-              Hi! Welcome to Skedge
-              <br/>
-              <br/>
+              Hi! Welcome to
           </h3>
+          <h2 className="skedge"> Skedge</h2>
+              <br/>
+              <br/>
+
           <div className = "formDiv">
                 <form id = "recordCcoursesDropdown">
                     <h5>
@@ -235,8 +274,6 @@ class UserRecordPage extends Component {
                 <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
                 </div>
             </div>
-          <div>
-          </div>
           <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
     );

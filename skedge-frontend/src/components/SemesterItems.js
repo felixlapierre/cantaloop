@@ -28,7 +28,6 @@ class SemesterItems extends Component {
         semesters: newSemesters},
         this.updateSemesters
     )
-    console.log(this.props.semesters);
   }
 
   handleSemesterSeasonChange(index, event){
