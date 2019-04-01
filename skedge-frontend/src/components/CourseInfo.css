@@ -3,14 +3,6 @@
     margin-left: 10px;
   }
   
-  .titleStyle {
-    color: #2c2e33;
-    font-variant: small-caps;
-    width: 1100px;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
   
   .timetable {
     display: grid;
@@ -22,10 +14,9 @@
   .titleWrapper {
     display: grid;
     grid-column: 1 / 7;
-    grid-gap: 10px;
-    grid-template-columns: 50px repeat(5, 200px);
+    grid-gap: 20px;
+    grid-template-columns: 25px repeat(5, 100px);
     margin-bottom: 10px;
-    border-bottom: 1px solid black;
     justify-items: center;
   }
   

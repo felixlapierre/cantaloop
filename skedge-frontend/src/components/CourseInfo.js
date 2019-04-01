@@ -4,7 +4,7 @@ import './CourseInfo.css'
 const CourseInfo = (props) => {
 
   const convertDay = (day) => {
-    if (day === 'M') return("monday");
+    if (day==='M') return("monday");
     else if (day === 'Tu') return("tuesday");
     else if (day === 'W') return("wednesday");
     else if (day === 'Th') return("thursday");
@@ -13,26 +13,27 @@ const CourseInfo = (props) => {
   }
 
   const convertStartTime = (start_time) => {
-    if (start_time === "08:30AM") return("eightThirty");
-    else if (start_time === "09:00AM") return("nineOclock");
-    else if (start_time === "09:30AM") return("nineThirty");
-    else if (start_time === "10:00AM") return("tenOclock");
-    else if (start_time === "10:30AM") return("tenThirty");
-    else if (start_time === "11:00AM") return("elevenOclock");
-    else if (start_time === "11:30AM") return("elevenThirty");
-    else if (start_time === "12:00PM") return("twelveOclock");
-    else if (start_time === "12:30PM") return("twelveThirty");
-    else if (start_time === "01:00PM") return("oneOclock");
-    else if (start_time === "01:30PM") return("oneThirty");
-    else if (start_time === "02:00PM") return("twoOclock");
-    else if (start_time === "02:30PM") return("twoThirty");
-    else if (start_time === "03:00PM") return("threeOclock");
-    else if (start_time === "03:30PM") return("threeThirty");
-    else if (start_time === "04:00PM") return("fourOclock");
-    else if (start_time === "04:30PM") return("fourThirty");
-    else if (start_time === "05:00PM") return("fiveOclock");
-    else if (start_time === "05:30PM") return("fiveThirty");
-    else if (start_time === "06:00PM") return("sixOclock");
+    if ((start_time === "8:00")||) return ("eightOclock");
+    else if (start_time === "8:30") return("eightThirty");
+    else if (start_time === "9:00") return("nineOclock");
+    else if (start_time === "9:30") return("nineThirty");
+    else if (start_time === "10:00") return("tenOclock");
+    else if (start_time === "10:30") return("tenThirty");
+    else if (start_time === "11:00") return("elevenOclock");
+    else if (start_time === "11:30") return("elevenThirty");
+    else if (start_time === "12:00") return("twelveOclock");
+    else if (start_time === "12:30") return("twelveThirty");
+    else if (start_time === "1:00") return("oneOclock");
+    else if (start_time === "1:30") return("oneThirty");
+    else if (start_time === "2:00") return("twoOclock");
+    else if (start_time === "2:30") return("twoThirty");
+    else if (start_time === "3:00") return("threeOclock");
+    else if (start_time === "3:30") return("threeThirty");
+    else if (start_time === "4:00") return("fourOclock");
+    else if (start_time === "4:30") return("fourThirty");
+    else if (start_time === "5:00") return("fiveOclock");
+    else if (start_time === "5:30") return("fiveThirty");
+    else if (start_time === "6:00") return("sixOclock");
     else return null;
   } 
 
@@ -65,7 +66,7 @@ const CourseInfo = (props) => {
               ${convertEndTime(props.endTime)}`}
             >
               {props.course}<br/> 
-              {props.startTime} to {props.endTime} <br/>
+              {props.startTime}  {props.endTime} <br/>
               {props.type} <br/>
             </p>
           )
