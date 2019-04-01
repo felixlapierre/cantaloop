@@ -50,6 +50,10 @@ class WeeklySchedule extends Component
                 <div>5:00</div>
                 <div>5:30</div>
                 <div>6:00</div>
+                <div>7:00</div>
+                <div>7:30</div>
+                <div>8:00</div>
+                <div>8:30</div>
               </section>
                 <section className='titleWrapper'>
                   <p className='timeColumn'>TIME</p>

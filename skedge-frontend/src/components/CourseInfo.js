@@ -10,11 +10,11 @@ class CourseInfo extends Component {
   }
   
   convertDay(day){
-    if (day==='M') return("monday");
+    if (day==='Mo') return("monday");
     else if (day === 'Tu') return("tuesday");
-    else if (day === 'W') return("wednesday");
+    else if (day === 'We') return("wednesday");
     else if (day === 'Th') return("thursday");
-    else if (day === 'F') return("friday");
+    else if (day === 'Fr') return("friday");
     else return null;
   }
 
@@ -74,7 +74,7 @@ class CourseInfo extends Component {
         ${this.convertEndTime(this.props.endTime)}`}
       >
       {this.props.course}<br/> 
-      {this.props.startTime}  {this.props.endTime} <br/>
+      {this.props.startTime} - {this.props.endTime} <br/>
       {this.props.type} <br/>
     </p>
     );

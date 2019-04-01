@@ -1,28 +1,42 @@
 
   .myCourses {
-    margin-left: 10px;
+    margin-left: 5px;
   }
   
   
   .timetable {
     display: grid;
-    grid-gap: 10px;
-    grid-template-columns: 50px repeat(5, 200px);
+    grid-gap: 15px;
+    grid-template-columns: 50px repeat(5, 150px);
     grid-template-rows: repeat(20, 50px);
   }
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .tableElement {
+    text-align:center;
+    height: 63px;
+    border: 2px solid black;
+    padding: 4px;
+  }
+
   
   .titleWrapper {
     display: grid;
     grid-column: 1 / 7;
     grid-gap: 20px;
-    grid-template-columns: 25px repeat(5, 100px);
+    grid-template-columns: 25px repeat(5, 150px);
+    border-bottom: 1px solid black;
     margin-bottom: 10px;
     justify-items: center;
   }
   
   .timeWrapper {
     display: grid;
-    grid-row: 2 / 21;
+    grid-row: 2 / 27;
     grid-gap: 10px;
     grid-template-rows: repeat(20, 50px);
   }
@@ -106,6 +120,31 @@
     grid-column: 1 / 2;
     grid-row: 20 / 21;
   }
+  .timeWrapper div:nth-of-type(21) {
+    grid-column: 1 / 2;
+    grid-row: 21 / 22;
+  }
+  .timeWrapper div:nth-of-type(22) {
+    grid-column: 1 / 2;
+    grid-row: 22 / 23;
+  }
+  .timeWrapper div:nth-of-type(23) {
+    grid-column: 1 / 2;
+    grid-row: 23 / 24;
+  }
+  .timeWrapper div:nth-of-type(24) {
+    grid-column: 1 / 2;
+    grid-row: 24 / 25;
+  }
+  .timeWrapper div:nth-of-type(25) {
+    grid-column: 1 / 2;
+    grid-row: 25 / 26;
+  }
+  .timeWrapper div:nth-of-type(26) {
+    grid-column: 1 / 2;
+    grid-row: 26 / 27;
+  }
+
   
   .timeColumn {
     grid-column: 1 / 2;
