@@ -35,7 +35,7 @@ class Schedule extends Component {
       <Grid padded>
         <Grid.Row centered>
           <Grid.Column width = {5} textAlign="center">
-            <Header as="h2" textAlign="center">Shedule for {this.props.season.charAt(0).toUpperCase()}{this.props.season.substring(1, this.props.season.length)}</Header>
+            <Header as="h2" textAlign="center">Schedule for {this.props.season.charAt(0).toUpperCase()}{this.props.season.substring(1, this.props.season.length)}</Header>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row centered>
@@ -58,6 +58,9 @@ class Schedule extends Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
+      <div>
+        {this.props.season}
+      </div>
     );
   }
 }

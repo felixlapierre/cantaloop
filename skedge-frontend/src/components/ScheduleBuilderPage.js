@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule.js';
 import HeaderPage from './HeaderPage.js';
+import Schedule from './Schedule.js';
 import TabContent from './TabContent.js';
 import { Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
 import axios from "axios";
@@ -47,6 +48,7 @@ class ScheduleBuilderPage extends Component {
         render: () => this.paneRender()
       });
     }
+    console.log("panes: "+this.panes)
   }
 
   listItemClicked(event){
@@ -118,8 +120,13 @@ class ScheduleBuilderPage extends Component {
             </Grid>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-
-
+            <Sidebar.Pusher>
+              <Segment basic>
+                <Tab panes={this.panes} />
+              </Segment>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+        </div>
       </div>
     );
   }
