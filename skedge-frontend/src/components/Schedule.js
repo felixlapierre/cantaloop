@@ -58,9 +58,6 @@ class Schedule extends Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <div>
-        {this.props.season}
-      </div>
     );
   }
 }
