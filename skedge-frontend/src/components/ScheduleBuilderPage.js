@@ -24,6 +24,10 @@ class ScheduleBuilderPage extends Component {
     this.listItemClicked = this.listItemClicked.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
+<<<<<<< HEAD
+=======
+    this.regenerateSchedule = this.regenerateSchedule.bind(this);
+>>>>>>> dcd3335b2cea9b80a0cc270587655d0293c68958
   }
 
   handleHamburgerButton(){
@@ -39,7 +43,10 @@ class ScheduleBuilderPage extends Component {
       });
     }
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> dcd3335b2cea9b80a0cc270587655d0293c68958
 
   componentWillMount(){
     this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
@@ -67,18 +74,58 @@ class ScheduleBuilderPage extends Component {
   }
 
   listItemClicked(event){
-    console.log(event);
     var temp = this.state.currentClasses.filter(function(ele){
              return ele !== event;
     });
+<<<<<<< HEAD
     this.setState({currentClasses: temp});
     console.log(this.state.currentClasses);
+=======
+    this.setState({currentClasses: temp}, ()=>{
+      this.regenerateSchedule();
+    });
+  }
+
+  handleDropdownChange(event, data){
+    const itemText = data.value;
+    var itemKey = "";
+    for (var i in data.options){
+      if(data.options[i].text === itemText){
+        itemKey = data.options[i].key;
+      }
+    }
+    const currentItem = { text: itemText, key: itemKey };
+
+    if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
+      const items = [...this.state.currentClasses, currentItem];
+      this.setState({
+         currentClasses: items
+      }, ()=>{
+        this.regenerateSchedule();
+      });
+    }
+  }
+
+  arrayItemsContainsItem(array, keyValuePair){
+    for(var i in array){
+      if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  regenerateSchedule(){
+>>>>>>> dcd3335b2cea9b80a0cc270587655d0293c68958
     let dataToSend = {"courseRecord": this.state.courseRecord,
                       "courseSequence": this.state.currentClasses,
                       "semesters": this.state.semesters};
     axios.post('/builder/genSchedules', dataToSend).then(response => {
       console.log("Received: ");
       console.log(response.data);
+    })
+    .catch(error => {
+      console.log('error', error)
     });
   }
 
@@ -147,7 +194,6 @@ class ScheduleBuilderPage extends Component {
                 <Grid.Column width={4} id='courseListColumn'>
                   <Dropdown
                       placeholder = 'Search Course'
-                      fluid
                       search
                       selection
                       options = {this.state.allClasses}
