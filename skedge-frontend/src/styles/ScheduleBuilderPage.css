@@ -27,10 +27,16 @@
 
 #coursesTaking {
   height: 50vh;
-  overflow-y:auto;
-  float: left;
 }
 
 .child-list-item{
   cursor: pointer;
+}
+
+#courseListColumn {
+  text-align: center;
+}
+
+.buttonCourseList {
+  width: 90%;
 }
