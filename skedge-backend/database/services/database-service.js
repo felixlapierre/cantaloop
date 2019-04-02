@@ -147,5 +147,11 @@ module.exports = {
             }
           })
       })
+    },
+
+    deleteSchedule: function (userJSON) {
+      return new Promise ((resolve, reject) => {
+        
+      })
     }
 };
