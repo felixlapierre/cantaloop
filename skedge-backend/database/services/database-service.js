@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 var courseSchem = require('../schemas/courseSchema');
 var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 var courseCatalogSchema = require('../schemas/courseCatalogSchema');
-const userSchema = require ('../schemas/userSchema')
+const userSchema = require ('../schemas/userSchema');
+const userRecordShema = require ('../schemas/userRecordSequenceSchema');
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -149,9 +150,9 @@ module.exports = {
       })
     },
 
-    deleteSchedule: function (userJSON) {
+    deleteSchedule: function (userSchedule) {
       return new Promise ((resolve, reject) => {
-        
+
       })
     }
 };

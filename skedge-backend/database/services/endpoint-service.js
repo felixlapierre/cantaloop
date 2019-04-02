@@ -23,5 +23,9 @@ module.exports = {
 
     saveUserRecord: function(userRecord){
       return database_services.getUserRecord(userRecord);
+    },
+
+    deleteSchedule:  function (userSchedule) {
+      return database_services.deleteSchedule(userSchedule);
     }
 };
