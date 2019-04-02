@@ -119,18 +119,6 @@ class ScheduleBuilderPage extends Component {
     });
   }
 
-<<<<<<< HEAD
-  arrayItemsContainsItem(array, keyValuePair){
-    for(var i in array){
-      if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
-        return true;
-      }
-    }
-    return false;
-  }
-
-=======
->>>>>>> 78c96f12ede5b7aca97a633d24e8c54fb58eeb44
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
@@ -138,7 +126,6 @@ class ScheduleBuilderPage extends Component {
   render() {
     const Children = this.state.currentClasses.map((child) =>
           <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
-
 
     return (
       <div>
