@@ -73,6 +73,7 @@ class ScheduleBuilderPage extends Component {
     this.setState({currentClasses: temp}, ()=>{
       this.regenerateSchedule();
     });
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.currentClasses));
   }
 
   handleDropdownChange(event, data){
@@ -87,6 +88,7 @@ class ScheduleBuilderPage extends Component {
 
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
       const items = [...this.state.currentClasses, currentItem];
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(items));
       this.setState({
          currentClasses: items
       }, ()=>{
