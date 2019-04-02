@@ -1,13 +1,13 @@
 .semesterObject {
-  background-color: LightSkyBlue;
+  background-color: SkyBlue;
   border-style: solid;
   border-color: lavender;
   border-width: 1px;
   border-radius: 5px;
 }
 
-#button1, #button2{
-  background-color: plum;
+#addSemesterButton, #removeSemesterButton{
+  background-color: pink;
 }
 
 .semesterObject {
