@@ -247,9 +247,10 @@ class UserRecordPage extends Component {
           <h2 className="skedge"> Skedge</h2>
               <br/>
               <br/>
-          <Slider ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
-          <div className = "record">
-                <form id = "recordCcoursesDropdown">
+          <Slider class="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
+          <div  class="slick">
+              <div className="backgroundDiv">
+                <form id = "recordCoursesDropdownAndItems">
                     <h5>
                         What classes have you taken?
                     </h5>
@@ -263,14 +264,16 @@ class UserRecordPage extends Component {
                         onChange = {this.handleRecordInput}
                         />
                     </div>
-                    <Button id = "button1" onClick = {this.addRecordItem}>Add Course</Button>
-                    <div id = "recordCourses">
+                    <Button id = "addRecordItemButton" onClick = {this.addRecordItem}>Add Course</Button>
+                    <div id = "recordCourseItems">
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
                 </form>
+              </div>
           </div>
-          <div className="courseSequence">
-                <form id = "wantedCoursesDropdown">
+          <div  class="slick">
+              <div className="backgroundDiv">
+                <form id = "wantedCoursesDropdownAndItems">
                     <h5>
                         What classes would you like to take?
                     </h5>
@@ -284,24 +287,31 @@ class UserRecordPage extends Component {
                         onChange = {this.handleCourseInput}
                         />
                     </div>
-                    <Button id = "button2"  onClick = {this.addCourseItem}>Add Course</Button>
-                    <br/>
+                    <Button id = "addCourseItemButton"  onClick = {this.addCourseItem}>Add Course</Button>
                     <div id = "wantedCourses">
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
                 </form>
+              </div>
           </div>
-          <div id = "semestersObject">
-                <h5>
-                    Enter number of semesters and semester info
-                </h5>
-                <div className="semesterList">
-                  <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
+          <div  class="slick">
+              <div className="backgroundDiv">
+                <div className="semestersList">
+                    <h5>
+                        Enter number of semesters and semester info
+                    </h5>
+                    <div className="semesterList">
+                      <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
+                    </div>
                 </div>
+              </div>
           </div>
           </Slider>
-          <Button id = "goNext" onClick = {this.handleNext}>Next</Button>
+          <br/>
           <Button id = "goBack" onClick = {this.handleBack}>Back</Button>
+          <Button id = "goNext" onClick = {this.handleNext}>Next</Button>
+          <br/>
+          <br/>
           <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
     );

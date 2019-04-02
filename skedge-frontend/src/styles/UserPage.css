@@ -28,21 +28,19 @@ h5 {
     text-align: center;
 }
 
-#recordCcoursesDropdown {
+#recordCoursesDropdownAndItems {
    width: 350px;
    height: 100%;
+   margin: auto;
 }
 
-#wantedCoursesDropdown {
+#wantedCoursesDropdownAndItems {
   width: 350px;
   height: 100%;
+  margin: auto;
 }
 
-.record{
-
-}
-
-#recordCourses {
+#recordCourseItems {
    width: 350px;
    height: 300px;
    overflow-y:auto;
@@ -56,25 +54,41 @@ h5 {
    float: right;
 }
 
-#semestersObject{
-  width: 350px;
-  height: 100%;
-  overflow-y:auto;
-  flex: 3;
-}
-
 #goToScheduleBuilder {
   margin: 0 auto;
-  background-color: plum;
+  background-color: pink;
   font-family: 'Raleway', sans-serif;
-
 }
 
-#button1, #button2{
-  background-color: plum;
+#addCourseItemButton, #addRecordItemButton {
+  background-color: pink;
   font-family: 'Raleway', sans-serif;
-
 }
+
+#goBack, #goNext {
+ background-color: SkyBlue;
+ font-family: 'Raleway', sans-serif;
+}
+
+.semestersList {
+  width: 350px;
+  height: 400px;
+  margin: auto;
+  overflow-y: auto;
+}
+
+.backgroundDiv{
+  width: 450px;
+  height: 405px;
+  background-color: white;
+  border-color: darkGrey;
+  border-width: medium;
+  border-style: groove;
+  margin:auto;
+}
+
+.slick:focus {
+border: none; outline:none !important; }
 
 .dropdown{
   float: left;
