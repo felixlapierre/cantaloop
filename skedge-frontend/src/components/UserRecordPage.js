@@ -9,12 +9,8 @@ import axios from "axios";
 class UserRecordPage extends Component {
   constructor(props) {
     super(props);
-      console.log("1. complete session storage upon loading the page: ");
-      console.log(sessionStorage);
-      console.log("2. courseSequence upon loading the page: ");
-      console.log(window.sessionStorage.getItem('courseSequence'));
-      if(sessionStorage.length === 0){
-        window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
+      if(sessionStorage.length === 0){ //you are coming in fresh, instantiate the session
+        window.sessionStorage.setItem('courseSequence', JSON.stringify([]));  //storage for courseRecord, courseSequence and semesters
         window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
         window.sessionStorage.setItem('semesters', JSON.stringify([]));
       }
