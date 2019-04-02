@@ -7,6 +7,7 @@ module.exports = function (req, res, next) {
             console.log(req.body);
             req.body = JSON.parse(decrypt(req.body.encrypted_data).toString());
             console.log(req.body);
+            
         }
     } 
     catch (error) {
