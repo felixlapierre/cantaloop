@@ -3,7 +3,7 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab, Divider, Label} from 'semantic-ui-react';
 import axios from "axios";
 
 //The main page after a user logs in
@@ -25,6 +25,7 @@ class ScheduleBuilderPage extends Component {
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
+    this.courseSequenceItem = this.courseSequenceItem.bind(this);
   }
 
   handleHamburgerButton(){
@@ -148,9 +149,24 @@ class ScheduleBuilderPage extends Component {
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
 
+  courseSequenceItem(name){
+    return(
+      <Grid> 
+        <Grid.Column width={9}>
+          <Menu.Item as='a'>{name}</Menu.Item>
+        </Grid.Column>
+        <Grid.Column width={3} textAlign="center">
+          <Button size='mini'></Button>
+        </Grid.Column>
+        <Grid.Column width={3} textAlign="center">
+          <Button size='mini'></Button>
+        </Grid.Column>
+      </Grid>);
+  }
+
   render() {
-    const Children = this.state.currentClasses.map((child) =>
-          <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
+    // const Children = this.state.currentClasses.map((child) =>
+    //       <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
 
 
     return (
@@ -166,9 +182,25 @@ class ScheduleBuilderPage extends Component {
             onHide={this.handleSidebarHide}
             vertical
             visible={this.state.visible}
-            width= 'thin'
+            width= 'wide'
           >
-            <Menu.Item as='a'>Hamburger</Menu.Item>
+            <Menu.Menu>
+              <Menu.Item as='a'>space</Menu.Item>
+              <Menu.Item as='a'>space</Menu.Item>
+              <Menu.Item as='a'>space</Menu.Item>
+            </Menu.Menu>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <Menu.Menu>
+              <Menu.Header as='a'>Previously Saved</Menu.Header>
+              {this.courseSequenceItem("name")}
+              {this.courseSequenceItem("name")}
+              {this.courseSequenceItem("name")}
+            </Menu.Menu>
           </Sidebar>
 
           <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
@@ -190,7 +222,7 @@ class ScheduleBuilderPage extends Component {
                   />
                   <div id='coursesTaking'>
                     <List divided relaxed>
-                      {Children}
+                      {/* {Children} */}
                     </List>
                   </div>
                 </Grid.Column>
