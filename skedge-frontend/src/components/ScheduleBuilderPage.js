@@ -135,15 +135,6 @@ class ScheduleBuilderPage extends Component {
     }
   }
 
-  arrayItemsContainsItem(array, keyValuePair){
-    for(var i in array){
-      if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
-        return true;
-      }
-    }
-    return false;
-  }
-
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
