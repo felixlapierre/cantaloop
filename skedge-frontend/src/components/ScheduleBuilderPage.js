@@ -25,6 +25,11 @@ class ScheduleBuilderPage extends Component {
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
+
+    // For authentication
+    this.header = {
+      'Authorization': "Bearer " + window.sessionStorage.getItem('token')
+    };
   }
 
   handleHamburgerButton(){
@@ -39,6 +44,19 @@ class ScheduleBuilderPage extends Component {
         return {visible: !this.state.visible};
       });
     }
+  }
+
+  componentDidMount() {
+    axios.get('/get/courseRecAndSeq', {headers: this.header})
+      .then(res => {
+        this.setState({ 
+          currentClasses: res.data.courseSequence,
+          courseRecord: res.data.courseRecord,
+          semesters: res.data.semesters
+        })
+      }).catch(function (error) {
+        console.log(error);
+      });
   }
 
   componentWillMount(){
@@ -105,15 +123,23 @@ class ScheduleBuilderPage extends Component {
   }
 
   regenerateSchedule(){
-    let dataToSend = {"courseRecord": this.state.courseRecord,
-                      "courseSequence": this.state.currentClasses,
-                      "semesters": this.state.semesters};
-    axios.post('/builder/genSchedules', dataToSend).then(response => {
+    let coursesPayload = {"courseRecord": this.state.courseRecord,
+                          "courseSequence": this.state.currentClasses,
+                          "semesters": this.state.semesters};
+    axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
     })
     .catch(error => {
       console.log('error', error)
+    });
+
+    // When coursePayload has properly been saved in the database, we can update the sessions storage
+    axios.post('/save/courseRecAndSeq', coursesPayload, {headers: this.header}).then(res => {
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+      window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+      window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.allClasses)); // TODO: need to update it
     });
   }
 

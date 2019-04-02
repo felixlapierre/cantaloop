@@ -26,12 +26,16 @@ class UserRecordPage extends Component {
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
+
+    this.header = {
+      'Authorization': "Bearer " + window.sessionStorage.getItem('token')
+    };
   }
 
   componentDidMount() {
-      let header = {
-          'Authorization': "Bearer " + window.sessionStorage.getItem('token')
-      };
+      // let header = {
+      //     'Authorization': "Bearer " + window.sessionStorage.getItem('token')
+      // };
     axios.get('/courses/getNames')
       .then(res => {
         this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
@@ -39,8 +43,8 @@ class UserRecordPage extends Component {
         console.log(error);
       });
 
-      axios.get('/secureEndpoint', {headers: header})
-          .then(res => console.log(JSON.stringify(res)));
+      // axios.get('/secureEndpoint', {headers: header})
+      //     .then(res => console.log(JSON.stringify(res)));
   }
 
   formatCourseListForDropdown(courseList) {
@@ -199,13 +203,17 @@ class UserRecordPage extends Component {
     if(this.validateSubmission(coursesPayload) === false){
       return;
     }
-    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
-    window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
-    window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
-    window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
       that.props.history.push('/schedule');
+    });
+
+    // When coursePayload has properly been saved in the database, we can update the sessions storage
+    axios.post('/save/courseRecAndSeq', coursesPayload, {headers: this.header}).then(res => {
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+      window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+      window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions)); // TODO: need to update it
     });
 
   }

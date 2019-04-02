@@ -6,17 +6,17 @@ const app = express();
 
 const port = 4200;
 
-
+// Services
 const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
+const CourseDescription = require('./database/schemas/courseDescriptionSchema');
 
-
+// User authentication
 const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 const checkAuth = require('./middleware/check-auth');
 
@@ -51,14 +51,11 @@ app.get('/courses/getNames', (req, res) => {
     });
 });
 
-
-
 app.get('/courses/catalogue', (req, res) => {
 
     //Method has not been defined yet, but assuming that it will take the info directly from
     //MongoDB and it would return an array of all courses available with instances variable
     //such as Name, semester, nb of credits, timeslot etc.
-
 
     endpoint_service.getCourseCatalog()
     .then((courseList) =>{
@@ -82,13 +79,13 @@ app.post('/builder/genSchedules', (req, res) => {
     // credits should be a number, any restrictions for credits (bond de .5 seulements)????
     // numCourses should be an integer
 
-    let courseRecord = req.body.courseRecord;
-    let courseSequence = req.body.courseSequence;
-    let semesters = req.body.semesters;
+    let courseRecordIDArr = req.body.courseRecord;
+    let courseSequenceIDArr = req.body.courseSequence;
+    let semestersArr = req.body.semesters;
 
     let generatedSchedules;
     try {
-        generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+        generatedSchedules = scheduler_service.GenerateSchedules(courseRecorIDdArr, courseSequenceIDArr, semestersArr);
     } catch (error) {
         let theError =
         "-----------------------------------------------------------------\n\nSchedule Builder Error:\n\n"+
@@ -154,6 +151,40 @@ app.post('/users/login', (req, res, next) => {
             });
         });
 });
+
+// The following endpoints are secure endpoints
+app.post('/save/courseRecAndSeq', checkAuth, (req, res, next) => {
+    let courseRecordIDArr = req.body.courseRecord;
+    let courseSequenceIDArr = req.body.courseSequence;
+    let semestersArr = req.body.semesters;
+
+    // What exactly am I sending to the database? Do I have to create an array of courseDescription schema?
+    endpoint_service.saveCourseRecAndSeq(courseRecordIDArr, courseSequenceIDArr)
+    .then(result => {
+        res.status(201).json({
+            message: "Course record and course sequence are saved in the database!",
+        });
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: error
+        });
+    });
+})
+
+// "If there’s nothing, don’t crash." --> That should be ensured by the database?
+app.get('/get/courseRecAndSeq', checkAuth, (req, res, next) => {
+    endpoint_service.getCourseRecAndSeq()
+    .then((courseRecAndSeqList) => {
+        courseRecAndSeqList = db_response_cleanup.cleanGetCoursesDescription(courseRecAndSeqList);
+        res.json(courseRecAndSeqList);
+    })
+    .catch(error => {
+        res.status(500).json({
+            error: error
+        });
+    });
+})
 
  ////////////////////
 // Express listener
