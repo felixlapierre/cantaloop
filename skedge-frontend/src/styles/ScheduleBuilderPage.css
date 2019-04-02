@@ -1,0 +1,42 @@
+#hamburgerButton:hover {
+  cursor: pointer;
+}
+
+#courseListOfSequence {
+  display: inline-block;
+}
+
+#scheduleGrid {
+  margin-top: 0;
+}
+
+#sidebarFullPage {
+  min-height: 90vh;
+  padding: 0.2rem !important;
+  padding-left: 0.4rem !important;
+}
+
+#scheduleGridRow {
+  padding: 0.2rem !important;
+}
+
+#dropdownCourses {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+#coursesTaking {
+  height: 50vh;
+}
+
+.child-list-item{
+  cursor: pointer;
+}
+
+#courseListColumn {
+  text-align: center;
+}
+
+.buttonCourseList {
+  width: 90%;
+}

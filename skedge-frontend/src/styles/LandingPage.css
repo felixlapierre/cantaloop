@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster|Raleway');
+
 #landingPage {
   padding-top: 10rem;
   text-align:center;
@@ -6,15 +8,18 @@
 #loginButton {
   float: left;
   margin: 1rem;
+  font-family: 'Raleway', impact;
 }
 
 #registerButton {
   float: right;
   margin: 1rem;
+  font-family: 'Raleway', impact;
 }
 
 #loginButtonGuest {
   width: 100%;
+  font-family: 'Raleway', impact;
 }
 
 #userNameBox {
@@ -24,6 +29,10 @@
 #skedgeLogo {
   padding-bottom: 2rem;
   font-size: 40px;
-  font-family: impact, fantasy, monospace;
+  font-family: 'Lobster', impact, fantasy, monospace;
   font-weight: bold;
+}
+
+#errorMessage {
+  color: red;
 }

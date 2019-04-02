@@ -16,9 +16,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.6",
+    "mongoose-unique-validator": "^2.0.2",
     "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {

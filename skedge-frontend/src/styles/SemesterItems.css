@@ -1,0 +1,15 @@
+.semesterObject {
+  background-color: SkyBlue;
+  border-style: solid;
+  border-color: lavender;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+#addSemesterButton, #removeSemesterButton{
+  background-color: pink;
+}
+
+.semesterObject {
+  padding: 10px;
+}

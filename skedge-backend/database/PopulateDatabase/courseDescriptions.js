@@ -3,24 +3,7 @@ const userName = "144";
 const passWord = "d4a992f7c25f4fb53ec1de9f0222a83d";
 const request = new XMLHttpRequest();
 
-const mongoose = require('mongoose');
-
-class Database {
-    constructor() {
-        this._connect()
-    }
-    _connect() {
-        mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
-            .then(() => {
-                console.log('Database connection successful')
-            })
-            .catch(err => {
-                console.error('Database connection error')
-            })
-    }
-}
-
-module.exports = new Database();
+const database_service = require('../services/database-service');
 
 const classes = ["SOEN 422", "SOEN 423", "SOEN 448", "SOEN 491", "SOEN 387", "SOEN 487", "SOEN 228", "SOEN 287",
     "SOEN 321", "SOEN 331", "SOEN 341", "SOEN 342", "SOEN 343", "SOEN 344", "SOEN 345", "SOEN 357", "SOEN 384",
@@ -46,19 +29,15 @@ for (let i = 0; i <classes.length; i++) {
     console.log(catalog);
 
     courseCatalog = JSON.parse(callCourseCatalogAPI(subject, catalog))[0];
+
     if(courseCatalog != undefined) {
         courseName = courseCatalog.title;
-        console.log(courseCatalog);
-        //putDataInDatabase(courseCatalog, 'courseCatalog');
-    }
-
-/*    if(courseCatalog != undefined) {
         concordiaCourseID = courseCatalog.ID;
         course = JSON.parse(callCourseDescriptionAPI(concordiaCourseID));
         courseDescription = course[0].description.replace(/(\r\n|\n|\r)/gm, "").replace("?", "");
         console.log(createJSONObject(subject+catalog, courseName, courseDescription));
-        putDataInDatabase(createJSONObject(subject+catalog, courseName, courseDescription), 'descriptions');
-    }*/
+        //database_service.insertOneInDatabase(createJSONObject(subject+catalog, courseName, courseDescription), 'descriptions');
+    }
 }
 
 function callCourseCatalogAPI(subject, catalog) {
@@ -75,33 +54,10 @@ function callCourseDescriptionAPI(ID) {
     return request.responseText;
 }
 
-function putDataInDatabase(objectJSON, collectionName) {
-    mongoose.connection.collection(collectionName).insertOne(objectJSON, function (err, result) {
-        if (err) {
-            console.log("Error, fail");
-        } else {
-            console.log("Successfully added into database!");
-        }
-    })
-}
-
 function createJSONObject(courseID, name, description) {
     return JSON.parse("{\"" +
                 courseID + "\": { \"name\":\"" + name + "\"," +
                                 "\"description\":\"" + description +
                                 "\"}" +
             "}");
-}
-
-function createCatalogJSONObject(courseId, courseCredits, coursePrerequisites, courseCorequisites, fallSections, winterSections, summerSections) {
-    return JSON.parse("{\"" +
-                        courseId + "\": { " +
-        "\"prerequisites\":\"" + coursePrerequisites + "\"," +
-        "\"corequisites\":\"" + courseCorequisites + "\"," +
-        "\"credits\":\"" + courseCredits + "\"," +
-        "\"fall\":\"" + fallSections + "\"," +
-        "\"winter\":\"" + winterSections + "\"," +
-        "\"summer\":\"" + summerSections +
-        "\"}" +
-        "}");
 }

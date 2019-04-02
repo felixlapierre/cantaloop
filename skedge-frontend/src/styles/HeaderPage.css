@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster|Raleway');
+
 #headerPage {
   border-bottom: 1px solid;
   padding: 0.5rem 1rem 0.5rem 1rem;
   text-align: center;
-  margin-bottom: 5px;
 }
 
 #pageHeaderLogo {
@@ -12,7 +13,7 @@
 #pageHeaderTitle {
   display: inline-block;
   font-size: 40px;
-  font-family: impact, fantasy, monospace;
+  font-family: 'Lobster', impact, fantasy, monospace;
   font-weight: bold;
   padding-top: 1rem;
 }
@@ -20,4 +21,12 @@
 #pageHeaderUserIcon {
   float: right;
   padding-top: 0.7rem;
+}
+
+#pageHeaderUserIcon:hover {
+  cursor: pointer;
+}
+
+#popupMenu {
+  padding: 0rem;
 }
