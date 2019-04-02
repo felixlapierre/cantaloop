@@ -27,5 +27,11 @@ module.exports = {
 
     deleteSchedule:  function (userSchedule) {
       return database_services.deleteSchedule(userSchedule);
+    },
+
+    saveSchedule: function(){
+        return database_services.saveSchedule();
     }
+
+
 };

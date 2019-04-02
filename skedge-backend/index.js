@@ -67,6 +67,21 @@ app.get('/courses/catalogue', (req, res) => {
 
 });
 
+//This is just for testing purposes
+app.get('/testing/saveSchedule', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from
+    //MongoDB and it would return an array of all courses available with instances variable
+    //such as Name, semester, nb of credits, timeslot etc.
+
+
+    endpoint_service.saveSchedule()
+    .then((courseList) =>{
+        res.json(courseList);
+    });
+
+});
+
 
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {
