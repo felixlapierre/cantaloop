@@ -2,12 +2,11 @@ const decrypt = require("../web_api_utilities/rsa-encryption").decryptStringWith
 
 module.exports = function (req, res, next) {
     try {
-        if(req.method == "POST")
+        if(req.method == "POST" && req.body != undefined)
         {
-            console.log(req.body);
-            req.body = JSON.parse(decrypt(req.body.encrypted_data).toString());
-            console.log(req.body);
-            
+            decryptedBodyString = decrypt(req.body.encrypted_data).toString();
+            req.body = JSON.parse(decryptedBodyString);
+
         }
     } 
     catch (error) {

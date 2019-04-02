@@ -204,6 +204,8 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
+    console.log("SENDING:");
+    console.log(coursesPayload);
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
       that.props.history.push('/schedule');
     });
