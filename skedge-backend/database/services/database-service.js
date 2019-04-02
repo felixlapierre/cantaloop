@@ -127,7 +127,7 @@ module.exports = {
 
     createUser: function (userJSON) {
       return new Promise((resolve, reject) => {
-        mongoose.connection.collection("users").insertOne(objectJS, function (err, result) {
+        mongoose.connection.collection("users").insertOne(userJSON, function (err, result) {
             if (err) {
                 reject(err);
             } else {
