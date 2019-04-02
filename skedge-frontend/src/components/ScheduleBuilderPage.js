@@ -3,7 +3,7 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+import { Button, Icon, Menu, Dropdown, List, Grid, Sidebar, Tab} from 'semantic-ui-react';
 import axios from "axios";
 
 //The main page after a user logs in
@@ -119,6 +119,7 @@ class ScheduleBuilderPage extends Component {
     });
   }
 
+<<<<<<< HEAD
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -128,6 +129,8 @@ class ScheduleBuilderPage extends Component {
     return false;
   }
 
+=======
+>>>>>>> 78c96f12ede5b7aca97a633d24e8c54fb58eeb44
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }

@@ -58,7 +58,10 @@ class UserRecordPage extends Component {
         console.log(error);
       });
       axios.get('/secureEndpoint', {headers: header})
-          .then(res => console.log(JSON.stringify(res)));
+          .then(res => console.log(JSON.stringify(res)))
+          .catch(function(error){
+            //just do nothing, returns promise resolved with undefined
+          })
   }
 
   handleBack(){
@@ -257,7 +260,7 @@ class UserRecordPage extends Component {
           <Slider className="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
           <div  className="slick">
               <div className="backgroundDiv">
-                <form id = "recordCoursesDropdownAndItems">
+                <div id = "recordCoursesDropdownAndItems">
                     <h5>
                         What classes have you taken?
                     </h5>
@@ -275,12 +278,12 @@ class UserRecordPage extends Component {
                     <div id = "recordCourseItems">
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
-                </form>
+                </div>
               </div>
           </div>
           <div  className="slick">
               <div className="backgroundDiv">
-                <form id = "wantedCoursesDropdownAndItems">
+                <div id = "wantedCoursesDropdownAndItems">
                     <h5>
                         What classes would you like to take?
                     </h5>
@@ -298,7 +301,7 @@ class UserRecordPage extends Component {
                     <div id = "wantedCourses">
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
-                </form>
+                </div>
               </div>
           </div>
           <div  className="slick">

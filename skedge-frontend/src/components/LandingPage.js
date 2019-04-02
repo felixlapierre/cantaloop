@@ -74,18 +74,6 @@ class LandingPage extends Component {
     }
   }
 
-  // Display error messages
-  renderErrorMessage() {
-    if(this.state.errorWhenLoggingIn === true) {
-      return (
-        <p id='errorMessage'>Wrong username or password</p>
-      )
-    }
-    else {
-      return null;
-    }
-  }
-
   render() {
     return (
       <div id='landingPage'>
