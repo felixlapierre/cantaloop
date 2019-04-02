@@ -154,15 +154,28 @@ app.post('/users/login', (req, res, next) => {
 
 // The following endpoints are secure endpoints
 app.post('/save/courseRecAndSeq', checkAuth, (req, res, next) => {
-    let courseRecordIDArr = req.body.courseRecord;
-    let courseSequenceIDArr = req.body.courseSequence;
-    let semestersArr = req.body.semesters;
+    let userId;
+    try {
+        // How to get the userId from the token
+        const token = req.headers.authorization.split(" ")[1];
+        jwt.verify(token, "secret_this_should_be_longer")
+    } catch (error) {
+        res.status(401).json({
+            message: "No user found!"
+        });
+    }
 
-    // What exactly am I sending to the database? Do I have to create an array of courseDescription schema?
-    endpoint_service.saveCourseRecAndSeq(courseRecordIDArr, courseSequenceIDArr)
+    const userRecAndSeq = mongoose.userRecordSequenceSchema({
+        courseRecord: req.body.courseRecord,
+        courseSequence: req.body.courseSequence,
+        semesters: req.body.semesters,
+        creator: userId
+    });
+
+    endpoint_service.saveCourseRecAndSeq(userRecAndSeq)
     .then(result => {
         res.status(201).json({
-            message: "Course record and course sequence are saved in the database!",
+            message: "Course record, course sequence and semesters are saved in the database!",
         });
     })
     .catch(error => {
