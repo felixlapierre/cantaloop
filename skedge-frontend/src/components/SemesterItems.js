@@ -117,7 +117,7 @@ class SemesterItems extends Component {
 
   render() {
     return (
-      <form>
+      <div>
       {this.state.semesters.map((semester, index) => (
             <div className="semesterObject" key={index}>
             <Radio
@@ -176,7 +176,7 @@ class SemesterItems extends Component {
           </div>
         ))}
         <Button id="addSemesterButton" onClick={this.handleAddSemester}>Add Semester</Button>
-        </form>
+        </div>
     );
   }
 }
