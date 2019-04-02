@@ -134,6 +134,7 @@ class ScheduleBuilderPage extends Component {
       this.setState({
          currentClasses: items
       })
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.currentClasses));
     }
   }
 

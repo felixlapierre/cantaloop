@@ -257,8 +257,8 @@ class UserRecordPage extends Component {
           <h2 className="skedge"> Skedge</h2>
               <br/>
               <br/>
-          <Slider class="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
-          <div  class="slick">
+          <Slider className="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
+          <div  className="slick">
               <div className="backgroundDiv">
                 <form id = "recordCoursesDropdownAndItems">
                     <h5>
@@ -281,7 +281,7 @@ class UserRecordPage extends Component {
                 </form>
               </div>
           </div>
-          <div  class="slick">
+          <div  className="slick">
               <div className="backgroundDiv">
                 <form id = "wantedCoursesDropdownAndItems">
                     <h5>
@@ -304,7 +304,7 @@ class UserRecordPage extends Component {
                 </form>
               </div>
           </div>
-          <div  class="slick">
+          <div  className="slick">
               <div className="backgroundDiv">
                 <div className="semestersList">
                     <h5>
