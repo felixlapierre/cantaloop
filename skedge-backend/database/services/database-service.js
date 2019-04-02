@@ -147,5 +147,9 @@ module.exports = {
             }
           })
       })
+    },
+
+    disconnect: function() {
+        return mongoose.disconnect();
     }
 };
