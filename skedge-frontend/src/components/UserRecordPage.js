@@ -3,7 +3,7 @@ import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import CourseItems from './CourseItems.js';
 import SemesterItems from './SemesterItems.js';
-import axios from "axios";
+import { axios_secure as axios } from '../services/AxiosEncrypted';
 
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {

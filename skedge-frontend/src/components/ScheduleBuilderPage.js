@@ -4,7 +4,7 @@ import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
 import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
-import axios from "axios";
+import { axios_secure as axios } from '../services/AxiosEncrypted';
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {
