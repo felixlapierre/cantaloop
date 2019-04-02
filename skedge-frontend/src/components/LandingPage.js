@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/LandingPage.css';
-import axios from 'axios';
+import { axios_secure as axios } from '../services/AxiosEncrypted';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
-import { publicEncrypt } from 'crypto';
 
 //LandingPage App class
 //Renders the landing page and login form
@@ -20,10 +19,10 @@ class LandingPage extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
-    
-    axios.get('https://cors.io/?https://pastebin.com/raw/Dz7ng2pk')
+
+    // Save server's public key to session storage
+    axios.get('https://cors.io/?https://pastebin.com/raw/8FH01qXk')
     .then(res => {
-      this.setState({ rsaPublicKey: res.data});
       window.sessionStorage.setItem( 'rsa_pubKey', res.data);
     }).catch(function (error) {
       console.log(error);

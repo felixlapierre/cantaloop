@@ -11,7 +11,7 @@ const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
-const rsa_encryption = require('./web_api_utilities/decrypt-rsa');
+const rsa_encryption = require('./web_api_utilities/rsa-encryption');
 
 
 
@@ -19,7 +19,8 @@ const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
-const checkAuth = require('./middleware/check-auth');
+const checkAuth = require('./middlewares/check-auth');
+const decrypt_req = require('./middlewares/decrypt-requests');
 
  //////////////////////
 // Express Middlewares
@@ -35,10 +36,12 @@ var corsOptions = {
     }
   }
 }
+
 app.use(cors());
 // Using bodyParser.json() to automatically parse the body of
 // incoming requests.
 app.use(bodyParser.json());
+app.use(decrypt_req);
 // Using express.static to serve the React frontend at root.
 app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
@@ -83,7 +86,7 @@ app.get('/courses/catalogue', (req, res) => {
 
 
 // Returns a list of possible schedules for each semester
-app.post('/builder', (req, res) => {
+app.post('/builder/genSchedules', (req, res) => {
     // TESTING
 
     // Empty input
@@ -104,11 +107,8 @@ app.post('/builder', (req, res) => {
     try {
         generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
     } catch (error) {
-        let theError =
-        "-----------------------------------------------------------------\n\nSchedule Builder Error:\n\n"+
-        error+
-        "\n\n-----------------------------------------------------------------";
-        console.log("");
+        let theError = "Schedule Builder Error:"+error+"\n\n";
+        console.log(theError);
         generatedSchedules = {"error":"The Schedule Builder failed."};
     }
     

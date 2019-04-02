@@ -3,7 +3,7 @@ var path = require("path");
 var fs = require("fs");
 
 var encryptStringWithRsaPublicKey = function(toEncrypt) {
-    // public key is hosted at https://pastebin.com/raw/Dz7ng2pk
+    // public key is also hosted at https://pastebin.com/raw/Dz7ng2pk
     var absolutePath = path.resolve("../skegde-test-key-pair.pub");
     var publicKey = fs.readFileSync(absolutePath, "utf8");
     var buffer = Buffer.from(toEncrypt);
@@ -12,7 +12,13 @@ var encryptStringWithRsaPublicKey = function(toEncrypt) {
 };
 
 var decryptStringWithRsaPrivateKey = function(toDecrypt) {
-    var absolutePath = path.resolve("./skedge-backend/skegde-test-key-pair");
+    let absolutePath;
+    if (process.cwd().slice(-9) == "cantaloop")
+    {
+        absolutePath = path.resolve("./skedge-backend/skegde-test-key-pair");
+    } else {
+        absolutePath = path.resolve("skegde-test-key-pair");
+    }
     var privateKey = fs.readFileSync(absolutePath, "utf8");
     var buffer = Buffer.from(toDecrypt, "base64");
     var decrypted = crypto.privateDecrypt(privateKey, buffer);
