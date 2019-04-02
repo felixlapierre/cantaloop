@@ -11,9 +11,6 @@ import axios from "axios";
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {
   constructor(props) {
-    console.log("---------USRRECRDPAG---------");
-    console.log(sessionStorage);
-    console.log("------------------");
     super(props);
       if(sessionStorage.length === 0){ //you are coming in fresh, instantiate the session
         window.sessionStorage.setItem('courseSequence', JSON.stringify([]));  //storage for courseRecord, courseSequence and semesters

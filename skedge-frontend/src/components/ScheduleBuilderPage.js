@@ -119,25 +119,6 @@ class ScheduleBuilderPage extends Component {
     });
   }
 
-  handleDropdownChange(event, data){
-    const itemText = data.value;
-    var itemKey = "";
-    for (var i in data.options){
-      if(data.options[i].text === itemText){
-        itemKey = data.options[i].key;
-      }
-    }
-    const currentItem = { text: itemText, key: itemKey };
-
-    if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
-      const items = [...this.state.currentClasses, currentItem]
-      this.setState({
-         currentClasses: items
-      })
-      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.currentClasses));
-    }
-  }
-
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
