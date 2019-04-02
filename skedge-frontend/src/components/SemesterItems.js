@@ -17,6 +17,13 @@ class SemesterItems extends Component {
     this.findNextSemester = this.findNextSemester.bind(this);
   }
 
+  componentWillMount(){
+    const givenSemesters = this.props.semesters;
+    this.setState({
+      semesters: givenSemesters
+    })
+  }
+
   updateSemesters() {
       this.props.handleUpdateSemesters(this.state.semesters);
   }

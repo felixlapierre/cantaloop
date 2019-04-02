@@ -20,6 +20,17 @@ class LandingPage extends Component {
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
   }
 
+  componentDidMount(){
+    console.log("-----------------------------")
+    console.log(sessionStorage);
+    console.log("-----------------------------")
+    sessionStorage.clear();
+    console.log(sessionStorage);
+    console.log("-----------------------------")
+
+
+  }
+
   // TODO: ensure password is hashed before sending it to backend
   handleLogin(event) {
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {

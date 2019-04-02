@@ -9,10 +9,20 @@ import axios from "axios";
 class UserRecordPage extends Component {
   constructor(props) {
     super(props);
+      console.log("1. complete session storage upon loading the page: ");
+      console.log(sessionStorage);
+      console.log("2. courseSequence upon loading the page: ");
+      console.log(window.sessionStorage.getItem('courseSequence'));
+      if(sessionStorage.length === 0){
+        window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
+        window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
+        window.sessionStorage.setItem('semesters', JSON.stringify([]));
+      }
+
     this.state = {
-      recordItems : [],
-      courseItems : [],
-      semesters : [],
+      recordItems : JSON.parse(window.sessionStorage.getItem('courseRecord')),
+      courseItems : JSON.parse(window.sessionStorage.getItem('courseSequence')),
+      semesters : JSON.parse(window.sessionStorage.getItem('semesters')),
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -91,6 +101,7 @@ class UserRecordPage extends Component {
     const currentItem = this.state.currentRecordItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
       this.setState({
          recordItems: items,
          currentRecordItem: { text: '', key: '' },
@@ -103,6 +114,7 @@ class UserRecordPage extends Component {
     const currentItem = this.state.currentCourseItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
          courseItems: items,
          currentCourseItem: { text: '', key: '' },
@@ -200,8 +212,8 @@ class UserRecordPage extends Component {
       return;
     }
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
-    window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
-    window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+    window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
+    window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
