@@ -55,7 +55,7 @@ class UserRecordPage extends Component {
           .then(res => console.log(JSON.stringify(res)))
           .catch(function(error){
             //just do nothing, returns promise resolved with undefined
-          }) 
+          })
   }
 
   handleBack(){
@@ -249,8 +249,8 @@ class UserRecordPage extends Component {
           <h2 className="skedge"> Skedge</h2>
               <br/>
               <br/>
-          <Slider class="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
-          <div  class="slick">
+          <Slider className="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
+          <div  className="slick">
               <div className="backgroundDiv">
                 <div id = "recordCoursesDropdownAndItems">
                     <h5>
@@ -273,7 +273,7 @@ class UserRecordPage extends Component {
                 </div>
               </div>
           </div>
-          <div  class="slick">
+          <div  className="slick">
               <div className="backgroundDiv">
                 <div id = "wantedCoursesDropdownAndItems">
                     <h5>
@@ -296,7 +296,7 @@ class UserRecordPage extends Component {
                 </div>
               </div>
           </div>
-          <div  class="slick">
+          <div  className="slick">
               <div className="backgroundDiv">
                 <div className="semestersList">
                     <h5>
