@@ -3,6 +3,9 @@ import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import CourseItems from './CourseItems.js';
 import SemesterItems from './SemesterItems.js';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import axios from "axios";
 
 //The page where the user can change its record etc.
@@ -10,13 +13,21 @@ class UserRecordPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recordItems : [],
-      courseItems : [],
-      semesters : [],
+      recordItems : JSON.parse(window.sessionStorage.getItem('courseRecord')),
+      courseItems : JSON.parse(window.sessionStorage.getItem('courseSequence')),
+      semesters : JSON.parse(window.sessionStorage.getItem('semesters')),
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
     }
+    this.settings = {
+        arrows: false,
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
     this.handleRecordInput = this.handleRecordInput.bind(this);
     this.handleCourseInput = this.handleCourseInput.bind(this);
     this.addRecordItem = this.addRecordItem.bind(this);
@@ -25,6 +36,9 @@ class UserRecordPage extends Component {
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
+    this.validateSubmission = this.validateSubmission.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+    this.handleNext = this.handleNext.bind(this);
   }
 
   componentDidMount() {
@@ -37,9 +51,19 @@ class UserRecordPage extends Component {
       }).catch(function (error) {
         console.log(error);
       });
-
       axios.get('/secureEndpoint', {headers: header})
-          .then(res => console.log(JSON.stringify(res)));
+          .then(res => console.log(JSON.stringify(res)))
+          .catch(function(error){
+            //just do nothing, returns promise resolved with undefined
+          })
+  }
+
+  handleBack(){
+      this.slider.slickPrev();
+  }
+
+  handleNext(){
+      this.slider.slickNext();
   }
 
   formatCourseListForDropdown(courseList) {
@@ -90,6 +114,7 @@ class UserRecordPage extends Component {
     const currentItem = this.state.currentRecordItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
       this.setState({
          recordItems: items,
          currentRecordItem: { text: '', key: '' },
@@ -102,6 +127,7 @@ class UserRecordPage extends Component {
     const currentItem = this.state.currentCourseItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
          courseItems: items,
          currentCourseItem: { text: '', key: '' },
@@ -160,11 +186,47 @@ class UserRecordPage extends Component {
     }
   }
 
+  validateSubmission(coursesPayload){
+    var errorString = '';
+    var problem = false;
+    if(coursesPayload.courseSequence.length === 0){
+      errorString += "Add Courses to Course Sequence\n";
+      problem = true;
+    }
+    if(coursesPayload.semesters.length === 0){
+      errorString += "Add Semesters\n";
+      problem = true;
+    } else {
+      var validSemesterObject = true;
+      for (var i in coursesPayload.semesters){
+        if(coursesPayload.semesters[i].year === '' ||
+            coursesPayload.semesters[i].numCourses === '' ||
+            coursesPayload.semesters[i].credits === '') {
+          validSemesterObject = false;
+          break;
+        }
+      }
+    }
+    if(validSemesterObject === false) {
+      errorString += "Enter valid Semesters\n";
+      problem = true;
+    }
+    if(problem){
+      alert(errorString);
+      return false;
+    }
+    return true;
+
+  }
+
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
+    if(this.validateSubmission(coursesPayload) === false){
+      return;
+    }
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
-    window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
-    window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+    window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
+    window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
@@ -184,12 +246,15 @@ class UserRecordPage extends Component {
       <div className = "outer">
           <h3 className = "welcome-title" >
               <br/>
-              Hi! Welcome to Skedge
-              <br/>
-              <br/>
+              Hi! Welcome to
           </h3>
-          <div className = "formDiv">
-                <form id = "recordCcoursesDropdown">
+          <h2 className="skedge"> Skedge</h2>
+              <br/>
+              <br/>
+          <Slider className="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
+          <div  className="slick">
+              <div className="backgroundDiv">
+                <div id = "recordCoursesDropdownAndItems">
                     <h5>
                         What classes have you taken?
                     </h5>
@@ -203,12 +268,16 @@ class UserRecordPage extends Component {
                         onChange = {this.handleRecordInput}
                         />
                     </div>
-                    <Button id = "button1" onClick = {this.addRecordItem}>Add Course</Button>
-                    <div id = "recordCourses">
+                    <Button id = "addRecordItemButton" onClick = {this.addRecordItem}>Add Course</Button>
+                    <div id = "recordCourseItems">
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
-                </form>
-                <form id = "wantedCoursesDropdown">
+                </div>
+              </div>
+          </div>
+          <div  className="slick">
+              <div className="backgroundDiv">
+                <div id = "wantedCoursesDropdownAndItems">
                     <h5>
                         What classes would you like to take?
                     </h5>
@@ -222,21 +291,31 @@ class UserRecordPage extends Component {
                         onChange = {this.handleCourseInput}
                         />
                     </div>
-                    <Button id = "button2"  onClick = {this.addCourseItem}>Add Course</Button>
-                    <br/>
+                    <Button id = "addCourseItemButton"  onClick = {this.addCourseItem}>Add Course</Button>
                     <div id = "wantedCourses">
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
-                </form>
-                <div id = "semestersObject">
-                <h5>
-                    Enter number of semesters and semester info
-                </h5>
-                <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
                 </div>
-            </div>
-          <div>
+              </div>
           </div>
+          <div  className="slick">
+              <div className="backgroundDiv">
+                <div className="semestersList">
+                    <h5>
+                        Enter number of semesters and semester info
+                    </h5>
+                    <div className="semesterList">
+                      <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
+                    </div>
+                </div>
+              </div>
+          </div>
+          </Slider>
+          <br/>
+          <Button id = "goBack" onClick = {this.handleBack}>Back</Button>
+          <Button id = "goNext" onClick = {this.handleNext}>Next</Button>
+          <br/>
+          <br/>
           <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
     );

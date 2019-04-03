@@ -1,11 +1,18 @@
 var databaseConstants = require('../PopulateDatabase/databaseConstants');
 const courseSchem = require('../schemas/courseSchema')
+const courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const Section = courseCatalogSchema.section;
+const Class = courseCatalogSchema.class;
+
 let courseSubject;
 let courseCode;
 let courseName;
 let courseInfo;
 
 async function main() {
+    //Clear the collection
+    await databaseConstants.database_service.clearCourseCatalog();
+    
     for (let i = 0; i < databaseConstants.classes.length; i++) {
         courseSubject = databaseConstants.classes[i].substring(0, 4);
         courseCode = databaseConstants.classes[i].substring(5);
@@ -29,12 +36,13 @@ async function main() {
                 sectionWinter,
                 sectionSummer);
 
-            databaseConstants.database_service.insertOneInDatabase(catalogEntry, 'courseCatalogs');
+            catalogEntry.save((err, entry) => {
+                if(err) {console.log(err + err.stack)}
+                else {console.log("Added " + catalogEntry.courseId + " to database.")}
+            });
         }
     }
 }
-// main();//This run the function to put into the MongoDB
-
 
 function callCourseCatalogAPI(subject, catalog) {
     databaseConstants.request.open("GET", "https://opendata.concordia.ca/API/v1/course/catalog/filter/"
@@ -44,16 +52,16 @@ function callCourseCatalogAPI(subject, catalog) {
 }
 
 function createCatalogJSONObject(courseId, courseCredits, coursePrerequisites, courseCorequisites, fallSections, winterSections, summerSections) {
-    var obj = {};
-    obj[courseId] = {
+    
+    return new courseCatalogSchema.courseCatalog ({
+        "courseId": courseId,
         "prerequisites": coursePrerequisites,
         "corequisites": courseCorequisites,
         "credits": courseCredits,
         "fall": fallSections,
         "winter": winterSections,
         "summer": summerSections
-    }
-    return obj;
+    });
 }
 
 function getPrerequisite(courseCatalog) {
@@ -114,6 +122,12 @@ function getCorequisite(courseCatalog) {
 
 /*TODO: Add sections generator implementation here*/
 
+const emptyClass = new Class({
+    time_start: "00:00",
+    time_end: "00:00",
+    days: "N/A"
+})
+
 function makeTrios(lectures, labs, tutorials) {
     arrayTrios = [];
 
@@ -123,13 +137,13 @@ function makeTrios(lectures, labs, tutorials) {
             if(tutorials.length == 0)
             {
                 //No lectures or tutorials
-                arrayTrios.push(new section(lecture, "", ""));
+                arrayTrios.push(new Section({"lecture": lecture, "lab": emptyClass, "tutorial": emptyClass}));
             }
             else
             {
                 //No labs, but there are tutorials
                 tutorials.forEach(tutorial => {
-                    arrayTrios.push(new section(lecture, "", tutorial));
+                    arrayTrios.push(new Section({"lecture": lecture, "lab": emptyClass, "tutorial": tutorial}));
                 })
             }
         }
@@ -139,7 +153,7 @@ function makeTrios(lectures, labs, tutorials) {
             {
                 //No tutorials, but there are labs
                 labs.forEach(lab => {
-                    arrayTrios.push(new section(lecture, lab, ""));
+                    arrayTrios.push(new Section({"lecture": lecture, "lab": lab, "tutorial": emptyClass}));
                 })
             }
             else
@@ -147,26 +161,13 @@ function makeTrios(lectures, labs, tutorials) {
                 //There are labs and tutorials
                 labs.forEach(lab => {
                     tutorials.forEach(tutorial => {
-                        arrayTrios.push(new section(lecture, lab, tutorial));
+                        arrayTrios.push(new Section({"lecture": lecture, "lab": lab, "tutorial": tutorial}));
                     })
                 })
             }
         }
     })
     return arrayTrios;
-}
-
-
-function classObj(start, end, day) {
-    this.startTime = start;
-    this.endTime = end;
-    this.day = day;
-}
-
-function section(lec, lab, tut) {
-    this.lecture = lec;
-    this.lab = lab;
-    this.tutorial = tut;
 }
 
 function filterForSections(myArray, semester) {
@@ -207,10 +208,12 @@ function filterForSections(myArray, semester) {
                 day += "Fr";
             }
 
-            var cObj = new classObj(startTime, endTime, day);
-            afterFilter.push(cObj);
+            afterFilter.push(new Class({
+                "time_start": startTime,
+                "time_end": endTime,
+                "days": day
+            }));
         }
-
     });
     return (afterFilter);//We see it in the terminal but idk why it is not a proper JSON object?
 }
@@ -259,3 +262,13 @@ async function getSections(subject, courseCode, semester) {
     }
 
 }
+
+//Invoke the script then exit the process
+main()
+.then(() => {
+    process.exit(0);
+})
+.catch((err) => {
+    console.log("Failed to populate database: " + err.message());
+    process.exit(1);
+})
