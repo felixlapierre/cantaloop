@@ -27,6 +27,12 @@ class ScheduleBuilderPage extends Component {
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
   }
 
+  componentWillUnmount(){
+    console.log("-----------");
+    console.log(sessionStorage);
+    console.log("-----------");
+  }
+
   handleHamburgerButton(){
       this.setState((state) => {
         return {visible: !this.state.visible};
@@ -70,10 +76,10 @@ class ScheduleBuilderPage extends Component {
     var temp = this.state.currentClasses.filter(function(ele){
              return ele !== event;
     });
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(temp));
     this.setState({currentClasses: temp}, ()=>{
       this.regenerateSchedule();
     });
-    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.currentClasses));
   }
 
   handleDropdownChange(event, data){
