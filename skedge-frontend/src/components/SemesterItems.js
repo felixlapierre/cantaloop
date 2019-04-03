@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { Button, Input, Radio } from 'semantic-ui-react';
 import '../styles/SemesterItems.css';
 
+const Season = {
+    Fall: "fall",
+    Winter: "winter",
+    Summer: "summer"
+}
+
 //blob that has a name and class code
 class SemesterItems extends Component {
   constructor(props) {
@@ -94,26 +100,22 @@ class SemesterItems extends Component {
     if(semesters.length === 0){
       return {
         "year" : '2019',
-        "season" : 'Fall'
+        "season" : Season.Fall
       }
     }
-    if(semesters[semesters.length-1].season === 'Fall'){
+    if(semesters[semesters.length-1].season === Season.Fall){
        newYear = (Number(semesters[semesters.length-1].year) + 1).toString();
     } else {
        newYear = semesters[semesters.length-1].year
     }
     switch(semesters[semesters.length-1].season){
-      case 'Fall' :
-        newSeason = 'Winter';
+      case Season.Fall :
+        newSeason = Season.Winter;
         break;
-      case 'Winter' :
-        newSeason = 'Fall';
-        break;
-      case 'Summer' :
-        newSeason = 'Fall'
-        break;
+      case Season.Winter :
+      case Season.Summer :
       default :
-        newSeason = 'Fall'
+        newSeason = Season.Fall;
         break;
     }
     return{
@@ -131,7 +133,7 @@ class SemesterItems extends Component {
             label='Fall'
             name={"group" + index.toString()}
             value='Fall'
-            checked={semester.season === 'Fall'}
+            checked={semester.season === Season.Fall}
             onChange={this.handleSemesterSeasonChange.bind(this, index)}
             />
             <br/>
@@ -139,7 +141,7 @@ class SemesterItems extends Component {
             label='Winter'
             name={"group" + index.toString()}
             value='Winter'
-            checked={semester.season === 'Winter'}
+            checked={semester.season === Season.Winter}
             onChange={this.handleSemesterSeasonChange.bind(this, index)}
             />
             <br/>
@@ -147,7 +149,7 @@ class SemesterItems extends Component {
             label='Summer'
             name={"group" + index.toString()}
             value='Summer'
-            checked={semester.season === 'Summer'}
+            checked={semester.season === Season.Summer}
             onChange={this.handleSemesterSeasonChange.bind(this, index)}
             />
             <br/>
