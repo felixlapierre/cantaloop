@@ -12,12 +12,6 @@ import axios from "axios";
 class UserRecordPage extends Component {
   constructor(props) {
     super(props);
-      if(sessionStorage.length === 0){ //you are coming in fresh, instantiate the session
-        window.sessionStorage.setItem('courseSequence', JSON.stringify([]));  //storage for courseRecord, courseSequence and semesters
-        window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
-        window.sessionStorage.setItem('semesters', JSON.stringify([]));
-      }
-
     this.state = {
       recordItems : JSON.parse(window.sessionStorage.getItem('courseRecord')),
       courseItems : JSON.parse(window.sessionStorage.getItem('courseSequence')),
