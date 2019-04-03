@@ -55,7 +55,7 @@ class UserRecordPage extends Component {
       console.log(error);
     });
 
-    console.log("Sending GET request to secure endpoint!!!");
+    console.log("Sending POST request to secure endpoint!!!");
     axios.post('test/secureEndpoint', {authToken: this.state.authToken})
     .then(res => {
       console.log('Response from secureEndpoint:');
