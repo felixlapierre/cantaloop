@@ -66,55 +66,45 @@ const testJson = [
       
       },
       {
-        "courseId1" : {
+        "COMP 352" : {
           "lecture" : {
             "time_start":"8:45",
             "time_end":"10:00",
-            "days":"TuTh"
+            "days":"Tu"
           },
           "lab" :{
-            "time_start":"8:45",
-            "time_end":"10:00",
-            "days":"TuTh"
+            "time_start":"10:45",
+            "time_end":"12:00",
+            "days":"Tu"
           },
           "tutorial":{
-            "time_start":"8:45",
-            "time_end":"10:00",
-            "days":"TuTh"
+            "time_start":"10:30",
+            "time_end":"12:00",
+            "days":"Th"
           }
         },
-        "courseId2" : {
+        "ENGR 202" : {
           "lecture" : {
             "time_start":"8:45",
             "time_end":"10:00",
-            "days":"TuTh"
-          },
-          "lab" :{
-            "time_start":"8:45",
-            "time_end":"10:00",
-            "days":"TuTh"
-          },
-          "tutorial":{
-            "time_start":"8:45",
-            "time_end":"10:00",
-            "days":"TuTh"
+            "days":"Mo"
           }
         },
-        "courseId3" : {
+        "ENGR 391" : {
           "lecture" : {
             "time_start":"8:45",
             "time_end":"10:00",
-            "days":"TuTh"
+            "days":"Fr"
           },
           "lab" :{
             "time_start":"8:45",
             "time_end":"10:00",
-            "days":"TuTh"
+            "days":"We"
           },
           "tutorial":{
-            "time_start":"8:45",
-            "time_end":"10:00",
-            "days":"TuTh"
+            "time_start":"4:00",
+            "time_end":"6:00",
+            "days":"We"
           }
         }
       },

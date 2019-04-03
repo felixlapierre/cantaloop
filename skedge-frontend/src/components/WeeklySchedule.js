@@ -30,6 +30,7 @@ class WeeklySchedule extends Component
             <div className='myCourses'>
               <div className='timetable'>
               <section className='timeWrapper'>
+              <div> 8:00 </div>
                 <div>8:30</div>
                 <div>9:00</div>
                 <div>9:30</div>

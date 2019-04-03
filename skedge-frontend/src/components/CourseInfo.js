@@ -10,12 +10,26 @@ class CourseInfo extends Component {
   }
   
   convertDay(day){
-    if (day==='Mo') return("monday");
-    else if (day === 'Tu') return("tuesday");
-    else if (day === 'We') return("wednesday");
-    else if (day === 'Th') return("thursday");
-    else if (day === 'Fr') return("friday");
-    else return null;
+      if (day.length==2)
+      {
+           if (day==='Mo') return("monday");
+           else if (day === 'Tu') return("tuesday");
+           else if (day === 'We') return("wednesday");
+           else if (day === 'Th') return("thursday");
+           else if (day === 'Fr') return("friday");
+           else return null;
+      }
+      if (day.length==4)
+      {
+          var firstDay=day.substring(0,1)
+          if (firstDay==='Mo') return("monday");
+            else if (firstDay === 'Tu') return("tuesday");
+           else if (firstDay === 'We') return("wednesday");
+           else if (firstDay === 'Th') return("thursday");
+           else if (firstDay === 'Fr') return("friday");
+           else return null;
+      }
+   
   }
 
   convertStartTime(start_time){
