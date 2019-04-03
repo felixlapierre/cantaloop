@@ -13,8 +13,9 @@ const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
 //Setup scheduler
 const Scheduler = require('./scheduler/scheduler');
-var catalog = endpoint_service.getCourseCatalog();
-var scheduler_service = new Scheduler(catalog);
+var scheduler_service = null;
+endpoint_service.getCourseCatalog()
+.then((catalog) => scheduler_service = new Scheduler(catalog));
 
 //User management and authentication
 const User = require('./database/schemas/userSchema');
@@ -54,6 +55,11 @@ app.get('/courses/getNames', (req, res) => {
 
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {
+    if(scheduler_service === null)
+    {
+        res.status(500).send("Please try again later");
+        return;
+    }
     let courseRecord = req.body.courseRecord;
     let courseSequence = req.body.courseSequence;
     let semesters = req.body.semesters;
