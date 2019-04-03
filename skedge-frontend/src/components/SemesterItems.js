@@ -45,7 +45,7 @@ class SemesterItems extends Component {
 
   handleSemesterSeasonChange(index, event){
     var newSemesters = this.state.semesters;
-    newSemesters[index].season = event.target.innerText;
+    newSemesters[index].season = event.target.innerText.toLowerCase();
     this.setState({
       semesters: newSemesters},
       this.updateSemesters
@@ -132,7 +132,7 @@ class SemesterItems extends Component {
             <Radio
             label='Fall'
             name={"group" + index.toString()}
-            value='Fall'
+            value={Season.Fall}
             checked={semester.season === Season.Fall}
             onChange={this.handleSemesterSeasonChange.bind(this, index)}
             />
@@ -140,7 +140,7 @@ class SemesterItems extends Component {
             <Radio
             label='Winter'
             name={"group" + index.toString()}
-            value='Winter'
+            value={Season.Winter}
             checked={semester.season === Season.Winter}
             onChange={this.handleSemesterSeasonChange.bind(this, index)}
             />
@@ -148,7 +148,7 @@ class SemesterItems extends Component {
             <Radio
             label='Summer'
             name={"group" + index.toString()}
-            value='Summer'
+            value={Season.Summer}
             checked={semester.season === Season.Summer}
             onChange={this.handleSemesterSeasonChange.bind(this, index)}
             />
