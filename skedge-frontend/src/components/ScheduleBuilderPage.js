@@ -12,7 +12,7 @@ class ScheduleBuilderPage extends Component {
     super(props);
     
     this.state = {
-      authToken : this.props.location.authToken,
+      //authToken : props.location.authToken,
       visible: false,
       allClasses:[],
       currentClasses:[],
@@ -48,7 +48,7 @@ class ScheduleBuilderPage extends Component {
     this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
     this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
     this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
-    
+
     var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
