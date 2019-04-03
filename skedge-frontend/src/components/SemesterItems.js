@@ -17,6 +17,13 @@ class SemesterItems extends Component {
     this.findNextSemester = this.findNextSemester.bind(this);
   }
 
+  componentWillMount(){
+    const givenSemesters = this.props.semesters;
+    this.setState({
+      semesters: givenSemesters
+    })
+  }
+
   updateSemesters() {
       this.props.handleUpdateSemesters(this.state.semesters);
   }
@@ -117,7 +124,7 @@ class SemesterItems extends Component {
 
   render() {
     return (
-      <form>
+      <div>
       {this.state.semesters.map((semester, index) => (
             <div className="semesterObject" key={index}>
             <Radio
@@ -169,14 +176,14 @@ class SemesterItems extends Component {
             />
             <br/>
             <br/>
-            <Button id="button2" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
+            <Button id="removeSemesterButton" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
               Remove Semester
             </Button>
             <br/>
           </div>
         ))}
-        <Button id="button1" onClick={this.handleAddSemester}>Add Semester</Button>
-        </form>
+        <Button id="addSemesterButton" onClick={this.handleAddSemester}>Add Semester</Button>
+        </div>
     );
   }
 }

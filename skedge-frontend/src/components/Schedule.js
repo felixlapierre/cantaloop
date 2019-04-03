@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../styles/Schedule.css';
+import WeeklySchedule from './WeeklySchedule.js'
 import { Grid, Header, Button, Segment } from 'semantic-ui-react';
 
 //The actuall visual schedule, where all the classes will be shown.
@@ -34,7 +35,7 @@ class Schedule extends Component {
       <Grid padded>
         <Grid.Row centered>
           <Grid.Column width = {5} textAlign="center">
-            <Header as="h2" textAlign="center">Shedule for {this.props.season.charAt(0).toUpperCase()}{this.props.season.substring(1, this.props.season.length)}</Header>
+            <Header as="h2" textAlign="center">Schedule for {this.props.season.charAt(0).toUpperCase()}{this.props.season.substring(1, this.props.season.length)}</Header>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row centered>
@@ -51,10 +52,9 @@ class Schedule extends Component {
         <Grid.Row centered>
           <Grid.Column>
             <Segment raised>
-              {/* The weekly scheudle should be in this segment */}
+              <WeeklySchedule schedule={this.props.schedules[this.state.pickedSchedule-1]}/>
               {/* example on how to access the classes for the schedule */}
-              {JSON.stringify(this.props.schedules[this.state.pickedSchedule-1])} 
-            </Segment>
+]            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>

@@ -30,6 +30,20 @@ function removeDuplicateCourses(myArray) {
     return result;
 }
 
+function formatCourseCatalog(entries)
+{
+    var catalog = {};
+    entries.forEach(entry => {
+        var id = entry.courseId;
+        if(id != undefined)
+        {
+            catalog[id] = entry;
+            delete catalog[id].courseId;
+        }
+    })
+    return catalog;
+}
+
 module.exports = {
     getCourseCatalog: function () {
 
@@ -38,7 +52,7 @@ module.exports = {
                if(err){
                    return err;
                }else{
-                   resolve(result);
+                   resolve(formatCourseCatalog(result));
                }
            });
 
@@ -147,5 +161,21 @@ module.exports = {
             }
           })
       })
+    },
+
+    clearCourseCatalog: function() {
+        return new Promise((resolve, reject) => {
+            mongoose.connection.collection("courseCatalogs").deleteMany({}, function(err, result) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            })
+        })
+    },
+
+    disconnect: function() {
+        return mongoose.disconnect();
     }
 };

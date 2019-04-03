@@ -14,6 +14,14 @@ module.exports = {
     },
 
     checkUserCredential: function (userJSON) {
-      return database_services.checkUserCredential(userJSON)
+      return database_services.checkUserCredential(userJSON);
+    },
+
+    getUserRecord: function(userId){
+      return database_services.saveUserRecord(userId);
+    },
+
+    saveUserRecord: function(userRecord){
+      return database_services.getUserRecord(userRecord);
     }
 };
