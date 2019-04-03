@@ -23,7 +23,7 @@ function assignCourseRanks(courseList, courseCatalog)
 function addRankToPrerequisitesAndCorequisites(courseId, courseMap, courseRanks)
 {
     if(!courseMap.hasOwnProperty(courseId))
-        throw new Exception("Course in course list was not found in course map");
+        throw new Error("Course in course list was not found in course map: " + courseId);
     
     var prerequisites = courseMap[courseId].prerequisites;
     var corequisites = courseMap[courseId].corequisites;
@@ -42,8 +42,11 @@ function addRankToAllInRecursively(listOfCoursesToRankUp, courseMap, courseRanks
     for(var i = 0; i < listOfCoursesToRankUp.length; i++)
     {
         var courseId = listOfCoursesToRankUp[i];
-        RankUp(courseId, courseRanks);        
-        addRankToPrerequisitesAndCorequisites(courseId, courseMap, courseRanks);
+        if(!CourseExcluded(courseId))
+        {
+            RankUp(courseId, courseRanks);
+            addRankToPrerequisitesAndCorequisites(courseId, courseMap, courseRanks);
+        }
     }
 }
 
@@ -70,6 +73,11 @@ function toSortedArray(courseRanks)
     });
 
     return sorted;
+}
+
+function CourseExcluded(courseId)
+{
+    return courseId.match(/(MATH|PHYS)/);
 }
 
 module.exports = assignCourseRanks;
