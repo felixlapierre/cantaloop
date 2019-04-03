@@ -9,7 +9,7 @@
 
 function overlaps(class1, class2)
 {
-    if ( class1.days.length <= 3 || class2.days.length <= 3) {// "TBD"
+    if ( class1.days.length == 3 || class2.days.length == 3) {// "TBD"
         return 0;
     }
 

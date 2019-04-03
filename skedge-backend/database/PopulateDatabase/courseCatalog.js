@@ -125,7 +125,7 @@ function getCorequisite(courseCatalog) {
 const emptyClass = new Class({
     time_start: "00:00",
     time_end: "00:00",
-    days: ""
+    days: "N/A"
 })
 
 function makeTrios(lectures, labs, tutorials) {
