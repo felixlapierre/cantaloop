@@ -52,7 +52,7 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
 // This is an example of basic use of the "checkAuth" middleware
 
-app.get('/test/secureEndpoint', checkAuth, (req, res) => {
+app.post('/test/secureEndpoint', checkAuth, (req, res) => {
     return res.status(200).json({
         message: "Get Endpoint was able to access this message",
         secure: "This endpoint works and has no profanity."
@@ -176,4 +176,4 @@ app.post('/users/login', (req, res, next) => {
 
  ////////////////////
 // Express listener
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Skedge listening on port ${port}!`));
