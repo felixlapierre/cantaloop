@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var Scheduler = require('./../scheduler');
-var db = require('./../../database/services/database-service');
+//var db = require('./../../database/services/database-service');
 
 //Skip flaky test that requires database connection
 //until it can be isolated from the rest of the tests
