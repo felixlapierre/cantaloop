@@ -20,6 +20,10 @@ class LandingPage extends Component {
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
   }
 
+  componentDidMount(){
+    window.sessionStorage.clear();
+  }
+  
   // TODO: ensure password is hashed before sending it to backend
   handleLogin(event) {
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
@@ -56,18 +60,6 @@ class LandingPage extends Component {
   handleLoginGuest(event) {
     console.log("Guest");
     this.props.history.push('/record')
-  }
-
-  // Display error messages
-  renderErrorMessage() {
-    if(this.state.errorWhenLoggingIn === true) {
-      return (
-        <p id='errorMessage'>Wrong username or password</p>
-      )
-    }
-    else {
-      return null;
-    }
   }
 
   // Display error messages
