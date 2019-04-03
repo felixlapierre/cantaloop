@@ -21,9 +21,11 @@ class LandingPage extends Component {
   }
 
   componentDidMount(){
-    window.sessionStorage.clear();
+    window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
+    window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
+    window.sessionStorage.setItem('semesters', JSON.stringify([]));
   }
-  
+
   // TODO: ensure password is hashed before sending it to backend
   handleLogin(event) {
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
