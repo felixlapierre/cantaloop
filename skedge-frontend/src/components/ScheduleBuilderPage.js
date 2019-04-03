@@ -27,12 +27,6 @@ class ScheduleBuilderPage extends Component {
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
   }
 
-  componentWillUnmount(){
-    console.log("-----------");
-    console.log(sessionStorage);
-    console.log("-----------");
-  }
-
   handleHamburgerButton(){
       this.setState((state) => {
         return {visible: !this.state.visible};
