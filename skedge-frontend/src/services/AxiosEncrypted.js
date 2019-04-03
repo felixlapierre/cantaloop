@@ -12,6 +12,7 @@ axios_secure.interceptors.request.use(function (config) {
     // console.log("SENDING:");
     // console.log(config.data);
   }
+  
   return config;
 }, function (error) {
   console.log(error);
