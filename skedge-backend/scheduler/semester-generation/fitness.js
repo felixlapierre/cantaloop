@@ -34,28 +34,15 @@ const overlaps = require('./overlaps.js');
 
 function evaluateFitness(semester, restriction)
 {
-    var genome = Object.keys(semester);
-    var fitness = 1440;
+    var fitness = 1440 
+    
 
-    for (let i = 0; i < genome.length; i++) {
-        for (let j = (i + 1); j < genome.length; j++) {
-
-            // semester[genome[i]] = { "LEC": stuff, "TUT": stuff, "LAB": stuff };
-            for (const key in semester[genome[i]]) {
-                if (semester[genome[i]].hasOwnProperty(key)) {
-
-                    for (const key2 in semester[genome[j]]) {
-
-                        if (semester[genome[j]].hasOwnProperty(key2)) {
-                            fitness = fitness - overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
-                        }
-                    }
-                }
-            }
-        }
-    }
     return fitness;
 }
+
+
+
+
 
 /**
  * assigns a rank to all individuals of a generation
@@ -63,10 +50,11 @@ function evaluateFitness(semester, restriction)
  * 
  * @param {*} generation 
  */
-function rankGeneration(generation){
+function rankGeneration(generation, fitnessFunction){
+
     for (const key in generation) {
         if (generation.hasOwnProperty(key)) {
-            generation[key].fitness = evaluateFitness(generation[key].semester);
+            generation[key].fitness = fitnessFunction.evaluateFitness(generation[key].semester);
         }
     }
 }
