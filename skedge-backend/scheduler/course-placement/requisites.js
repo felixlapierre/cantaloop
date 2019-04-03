@@ -33,14 +33,17 @@ class Requisites
     CoursesAreFulfilledPrerequisites(listOfCourses)
     {
         return listOfCourses.every(courseId => {
-            return this.IsCourseComplete(courseId);
+            return this.IsCourseIgnored(courseId)
+                || this.IsCourseComplete(courseId);
         });
     }
 
     CoursesAreFulfilledCorequisites(listOfCourses)
     {
         return listOfCourses.every(courseId => {
-            return this.IsCourseComplete(courseId) || this.IsCourseInProgress(courseId);
+            return this.IsCourseIgnored(courseId)
+                || this.IsCourseComplete(courseId)
+                || this.IsCourseInProgress(courseId);
         });
     }
 
@@ -52,6 +55,11 @@ class Requisites
     IsCourseInProgress(courseId)
     {
         return this.status[courseId] === Status.InProgress;
+    }
+
+    IsCourseIgnored(courseId)
+    {
+        return courseId.match(/(MATH|PHYS)/);
     }
 
     SetCourseInProgress(courseId)
