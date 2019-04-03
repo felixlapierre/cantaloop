@@ -125,7 +125,7 @@ module.exports = {
       })
     },
 
-    createUser: function (userJSON) {
+    createUser: function (userJSON) {   
       return new Promise((resolve, reject) => {
         mongoose.connection.collection("users").insertOne(userJSON, function (err, result) {
             if (err) {
@@ -134,8 +134,9 @@ module.exports = {
                 resolve("Successfully added into database!");
             }
         })
-<<<<<<< HEAD
+        })
     },
+    
 
     saveSchedule: function(objectJSON,userID){
         var studentID = 'studentID';
@@ -160,11 +161,8 @@ module.exports = {
             }
         })
 
-    }
-=======
-      })
     },
->>>>>>> 7169abbb15f41cff3efc7b00904381d82e85077c
+     
 
     checkUserCredential: function (userJSON) {
       return new Promise((resolve, reject) => {

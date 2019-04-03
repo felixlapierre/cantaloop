@@ -32,5 +32,7 @@ const courseCatalog = new mongoose.Schema(
 
 module.exports = {
     courseCatalog : mongoose.model('Model', courseCatalog, 'courseCatalogs'),
+    sectionSchema: mongoose.model('section', section),
+    courseClassSchema: mongoose.model('courseClass', courseClass)
 
 }

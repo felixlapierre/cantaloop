@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+let courseSection = require('./courseCatalogSchema');
 
 
 const scheduleSchema = new mongoose.Schema({
@@ -7,7 +8,9 @@ const scheduleSchema = new mongoose.Schema({
             year : Number,
             season:String,
             credits: Number,
-            Schedules: Array(section)
+            Schedules: Array(courseSection.sectionSchema),
+            creator: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
+
 
     
 })
