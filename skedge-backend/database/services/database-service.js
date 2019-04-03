@@ -30,6 +30,20 @@ function removeDuplicateCourses(myArray) {
     return result;
 }
 
+function formatCourseCatalog(entries)
+{
+    var catalog = {};
+    entries.forEach(entry => {
+        var id = entry.courseId;
+        if(id != undefined)
+        {
+            catalog[id] = entry;
+            delete catalog[id].courseId;
+        }
+    })
+    return catalog;
+}
+
 module.exports = {
     getCourseCatalog: function () {
 
@@ -38,7 +52,7 @@ module.exports = {
                if(err){
                    return err;
                }else{
-                   resolve(result);
+                   resolve(formatCourseCatalog(result));
                }
            });
 
