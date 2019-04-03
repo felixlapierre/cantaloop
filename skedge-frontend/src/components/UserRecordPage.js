@@ -237,7 +237,7 @@ class UserRecordPage extends Component {
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
       this.props.history.push({
         pathname: '/schedule',
-        authToken: authToken
+        authToken: this.state.authToken
       }); 
     });
     
