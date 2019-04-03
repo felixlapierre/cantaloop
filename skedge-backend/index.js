@@ -97,11 +97,22 @@ app.post('/builder/genSchedules', (req, res) => {
     // credits should be a number, any restrictions for credits (bond de .5 seulements)????
     // numCourses should be an integer
 
-    var courseRecord = req.body.courseRecord;
-    var courseSequence = req.body.courseSequence;
-    var semesters = req.body.semesters;
+    let courseRecord = req.body.courseRecord;
+    let courseSequence = req.body.courseSequence;
+    let semesters = req.body.semesters;
 
-    var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+    let generatedSchedules;
+    try {
+        generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+    } catch (error) {
+        let theError =
+        "-----------------------------------------------------------------\n\nSchedule Builder Error:\n\n"+
+        error+
+        "\n\n-----------------------------------------------------------------";
+        console.log("");
+        generatedSchedules = {"error":"The Schedule Builder failed."};
+    }
+    
     res.json(generatedSchedules);
 });
 
@@ -112,7 +123,7 @@ app.post('/users/register', (req, res, next) => {
                 username: req.body.username,
                 password: hash
             });
-            createUser(user)
+            endpoint_service.createUser(user)
                 .then(result => {
                     res.status(201).json({
                         message: "User Created!",

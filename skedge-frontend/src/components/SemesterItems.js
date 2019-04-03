@@ -28,7 +28,6 @@ class SemesterItems extends Component {
         semesters: newSemesters},
         this.updateSemesters
     )
-    console.log(this.props.semesters);
   }
 
   handleSemesterSeasonChange(index, event){
@@ -170,13 +169,13 @@ class SemesterItems extends Component {
             />
             <br/>
             <br/>
-            <Button id="button2" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
+            <Button id="removeSemesterButton" type="button" onClick={this.handleRemoveSemester.bind(this, index)}>
               Remove Semester
             </Button>
             <br/>
           </div>
         ))}
-        <Button id="button1" onClick={this.handleAddSemester}>Add Semester</Button>
+        <Button id="addSemesterButton" onClick={this.handleAddSemester}>Add Semester</Button>
         </form>
     );
   }

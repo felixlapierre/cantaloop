@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
-const courseSchem = require('../schemas/courseSchema');
-const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
-const courseCatalogSchema = require('../schemas/courseCatalogSchema');
+var courseSchem = require('../schemas/courseSchema');
+var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
+var courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const userSchema = require ('../schemas/userSchema')
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -31,7 +32,7 @@ function removeDuplicateCourses(myArray) {
 
 module.exports = {
     getCourseCatalog: function () {
-      
+
        let p1 = new Promise ( (resolve,reject)=>{
            courseCatalogSchema.courseCatalog.find({}, function(err, result){
                if(err){
@@ -40,8 +41,8 @@ module.exports = {
                    resolve(result);
                }
            });
-        
-        });  
+
+        });
         return (p1);
     },
 
@@ -101,33 +102,39 @@ module.exports = {
     },
 
     insertOneInDatabase: function (objectJSON, collectionName) {
+      return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertOne(objectJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
+      })
     },
 
     insertManyInDatabase: function (objectJSON, collectionName) {
+      return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertMany(objectJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
+      })
     },
 
-    createUser: function (objectJSON) {
-        mongoose.connection.collection(users).insertOne(objectJSON, function (err, result) {
+    createUser: function (userJSON) {
+      return new Promise((resolve, reject) => {
+        mongoose.connection.collection("users").insertOne(userJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
+<<<<<<< HEAD
     },
 
     saveSchedule: function(objectJSON,userID){
@@ -154,5 +161,20 @@ module.exports = {
         })
 
     }
+=======
+      })
+    },
+>>>>>>> 7169abbb15f41cff3efc7b00904381d82e85077c
 
+    checkUserCredential: function (userJSON) {
+      return new Promise((resolve, reject) => {
+        userSchema.users.findOne({username: userJSON.username},function (err, result) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve (userJSON);
+            }
+          })
+      })
+    }
 };
