@@ -3,16 +3,7 @@ const courseSchem = require('../schemas/courseSchema')
 const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 const Section = courseCatalogSchema.section;
 const Class = courseCatalogSchema.class;
-function classObj(start, end, days) {
-    this.time_start = start;
-    this.time_end = end;
-    this.days = days;
-}
-function section(lecture, lab, tutorial) {
-    this.lecture = lecture,
-    this.lab = lab,
-    this.tutorial = tutorial
-}
+
 let courseSubject;
 let courseCode;
 let courseName;
