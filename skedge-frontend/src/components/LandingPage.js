@@ -3,6 +3,8 @@ import '../styles/LandingPage.css';
 import { axios_secure as axios } from '../services/AxiosEncrypted';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
 
+const jwt = require('jsonwebtoken');
+
 //LandingPage App class
 //Renders the landing page and login form
 class LandingPage extends Component {
@@ -31,12 +33,27 @@ class LandingPage extends Component {
   
   // TODO: ensure password is hashed before sending it to backend
   handleLogin(event) {
+
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
-          console.log(res.data.token);
-          window.sessionStorage.setItem( 'token', res.data.token);
-          this.props.history.push("/record"); // Switch to the user record page
-          this.setState({errorWhenLoggingIn: false})
+          // Verify that the wrapper token was sent from the server using user password.
+          let wrapperToken;
+          try {
+            wrapperToken = jwt.verify(res.data.token, this.state.password);
+          } catch (error) {
+            console.log(error)
+            alert("Login unsuccessful. Could not verify server signature.");
+          }
+          // Save authToken to memory (NOT TO SESSION STORAGE)
+          let authToken = wrapperToken.authToken;
+
+          this.setState({errorWhenLoggingIn: false});
+          // Switch to user record page and pass the authToken in the state (NOT USING SESSION STORAGE)
+          this.props.history.push({
+            pathname: '/record',
+            authToken: authToken
+          }); 
       }).catch(error => {
+        console.log(error);
         // Reset fields
         this.setState({
           value: '',
@@ -56,9 +73,10 @@ class LandingPage extends Component {
   }
   
   handleRegister(event) {
-    axios.post('/users/register', {username: this.state.username, password: this.state.password}).then(response => {
+    axios.post('/users/register', {username: this.state.username, password: this.state.password})
+    .then(response => {
         console.log('Received response' + response);
-        this.props.history.push("/record"); // Switch to the user record page
+        alert("Thank you for registering.\nPlease login to confirm your account.");
     });
   }
   

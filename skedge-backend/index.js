@@ -52,12 +52,13 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
 // This is an example of basic use of the "checkAuth" middleware
 
-app.get('/secureEndpoint', checkAuth, (req, res) => {
+app.get('/test/secureEndpoint', checkAuth, (req, res) => {
     return res.status(200).json({
         message: "Get Endpoint was able to access this message",
         secure: "This endpoint works and has no profanity."
     });
 });
+
 
 // Returns a JSON object containing a list of all courses
 app.get('/courses', (req, res) => {
@@ -116,7 +117,6 @@ app.post('/builder/genSchedules', (req, res) => {
 });
 
 app.post('/users/register', (req, res, next) => {
-    req.body = rsa_encryption.decryptStringWithRsaPrivateKey(req.body);
     bcryptjs.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -131,6 +131,7 @@ app.post('/users/register', (req, res, next) => {
                     });
                 })
                 .catch(error => {
+                    console.log(error);
                     res.status(500).json({
                         error: error
                     });
@@ -140,16 +141,13 @@ app.post('/users/register', (req, res, next) => {
 
 
 app.post('/users/login', (req, res, next) => {
-    console.log(req.body);
-    let encrypted_username = req.body.username_rsa;
-    console.log("------------------------------------------------------\n\n\n\n\n\n\n\n\n\n\n\n"+encrypted_username);
-    console.log(rsa_encryption.decryptStringWithRsaPrivateKey(encrypted_username)+"\n\n\n\n\n\n\n\n\n\n\n\n\n------------------------------------------------------------------------------");
     let fetchedUser;
     User.findOne({username: req.body.username}).then(user => {
         if(!user){
-            return res.status(401).json({
-                message: "Authorization failed!"
-            });
+            throw Error("User does not exist in database");
+            // return res.status(401).json({
+            //     message: "Authorization failed!"
+            // });
         }
         fetchedUser = user;
         return bcryptjs.compare(req.body.password, user.password)
@@ -160,15 +158,16 @@ app.post('/users/login', (req, res, next) => {
                     message: "Authorization failed!"
                 });
             }
-            const token = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
-                "secret_this_should_be_longer",
+            const authToken = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
+                rsa_encryption.getRsaPrivateKey(), // Using private key as the HMAC key cuz why not
                 {expiresIn: '1h'});
-            
+            const wrapperToken = jwt.sign({authToken: authToken}, req.body.password);
             res.status(200).json({
-                token: token
+                token: wrapperToken
             });
         })
         .catch(error => {
+            console.log(error);
             return res.status(401).json({
                 message: "Authorization failed!"
             });

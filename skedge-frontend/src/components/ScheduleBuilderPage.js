@@ -10,13 +10,15 @@ import { axios_secure as axios } from '../services/AxiosEncrypted';
 class ScheduleBuilderPage extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {visible: false,
-                  allClasses:[],
-                  currentClasses:[],
-                  semesters:[],
-                  courseRecord:[]
-                  };
+    
+    this.state = {
+      authToken : this.props.location.authToken,
+      visible: false,
+      allClasses:[],
+      currentClasses:[],
+      semesters:[],
+      courseRecord:[]
+    };
     this.panes = [];
     this.scheduleComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
@@ -26,13 +28,13 @@ class ScheduleBuilderPage extends Component {
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
   }
-
+  
   handleHamburgerButton(){
-      this.setState((state) => {
-        return {visible: !this.state.visible};
-      });
+    this.setState((state) => {
+      return {visible: !this.state.visible};
+    });
   }
-
+  
   handleDimmedPusher(){
     if(this.state.visible){
       this.setState((state) => {
@@ -40,19 +42,19 @@ class ScheduleBuilderPage extends Component {
       });
     }
   }
-
+  
   componentWillMount(){
     this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
     this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
     this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
     this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
-
+    
     var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
       var season = element.season;
       if(years[year] === undefined)
-        years[year] = {};
+      years[year] = {};
       years[year][season] = element.schedules;
     });
     for(var yearKey in years){
@@ -65,16 +67,16 @@ class ScheduleBuilderPage extends Component {
       });
     }
   }
-
+  
   listItemClicked(event){
     var temp = this.state.currentClasses.filter(function(ele){
-             return ele !== event;
+      return ele !== event;
     });
     this.setState({currentClasses: temp}, ()=>{
       this.regenerateSchedule();
     });
   }
-
+  
   handleDropdownChange(event, data){
     const itemText = data.value;
     var itemKey = "";
@@ -84,17 +86,17 @@ class ScheduleBuilderPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-
+    
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
       const items = [...this.state.currentClasses, currentItem];
       this.setState({
-         currentClasses: items
+        currentClasses: items
       }, ()=>{
         this.regenerateSchedule();
       });
     }
   }
-
+  
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -103,11 +105,11 @@ class ScheduleBuilderPage extends Component {
     }
     return false;
   }
-
+  
   regenerateSchedule(){
     let dataToSend = {"courseRecord": this.state.courseRecord,
-                      "courseSequence": this.state.currentClasses,
-                      "semesters": this.state.semesters};
+    "courseSequence": this.state.currentClasses,
+    "semesters": this.state.semesters};
     axios.post('/builder/genSchedules', dataToSend).then(response => {
       console.log("Received: ");
       console.log(response.data);
@@ -116,7 +118,7 @@ class ScheduleBuilderPage extends Component {
       console.log('error', error)
     });
   }
-
+  
   handleDropdownChange(event, data){
     const itemText = data.value;
     var itemKey = "";
@@ -126,15 +128,15 @@ class ScheduleBuilderPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-
+    
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
       const items = [...this.state.currentClasses, currentItem]
       this.setState({
-         currentClasses: items
+        currentClasses: items
       })
     }
   }
-
+  
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -143,69 +145,70 @@ class ScheduleBuilderPage extends Component {
     }
     return false;
   }
-
+  
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
-
+  
   render() {
     const Children = this.state.currentClasses.map((child) =>
-          <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
-
-
+    <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
+    
+    
     return (
       <div>
-        <HeaderPage />
-        <Sidebar.Pushable>
-          <Sidebar
-            as={Menu}
-            animation='overlay'
-            icon='labeled'
-            inverted
-            dimmed={'true'}
-            onHide={this.handleSidebarHide}
-            vertical
-            visible={this.state.visible}
-            width= 'thin'
-          >
-            <Menu.Item as='a'>Hamburger</Menu.Item>
-          </Sidebar>
-
-          <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
-            <Grid id='scheduleGrid' padded>
-              <Grid.Row id='scheduleGridRow'>
-                <Grid.Column width={16}>
-                <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
-                </Grid.Column>
-              </Grid.Row>
-              <Grid.Row id='sidebarFullPage'>
-                <Grid.Column width={4} id='courseListColumn'>
-                  <Dropdown
-                      placeholder = 'Search Course'
-                      search
-                      selection
-                      options = {this.state.allClasses}
-                      onChange={this.handleDropdownChange}
-                      id='dropdownCourses'
-                  />
-                  <div id='coursesTaking'>
-                    <List divided relaxed>
-                      {Children}
-                    </List>
-                  </div>
-                </Grid.Column>
-                <Grid.Column width={12}>
-                  <Tab panes={this.panes} />
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
-
-
+      <HeaderPage />
+      <Sidebar.Pushable>
+      <Sidebar
+      as={Menu}
+      animation='overlay'
+      icon='labeled'
+      inverted
+      dimmed={'true'}
+      onHide={this.handleSidebarHide}
+      vertical
+      visible={this.state.visible}
+      width= 'thin'
+      >
+      <Menu.Item as='a'>Hamburger</Menu.Item>
+      </Sidebar>
+      
+      <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
+      <Grid id='scheduleGrid' padded>
+      <Grid.Row id='scheduleGridRow'>
+      <Grid.Column width={16}>
+      <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
+      </Grid.Column>
+      </Grid.Row>
+      <Grid.Row id='sidebarFullPage'>
+      <Grid.Column width={4} id='courseListColumn'>
+      <Dropdown
+      placeholder = 'Search Course'
+      search
+      selection
+      options = {this.state.allClasses}
+      onChange={this.handleDropdownChange}
+      id='dropdownCourses'
+      />
+      <div id='coursesTaking'>
+      <List divided relaxed>
+      {Children}
+      </List>
       </div>
-    );
+      </Grid.Column>
+      <Grid.Column width={12}>
+      <Tab panes={this.panes} />
+      </Grid.Column>
+      </Grid.Row>
+      </Grid>
+      </Sidebar.Pusher>
+      </Sidebar.Pushable>
+      
+      
+      </div>
+      );
+    }
   }
-}
-
-export default ScheduleBuilderPage;
+  
+  export default ScheduleBuilderPage;
+  

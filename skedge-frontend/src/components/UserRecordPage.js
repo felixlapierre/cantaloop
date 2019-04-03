@@ -10,12 +10,13 @@ class UserRecordPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      authToken : this.props.location.authToken,
       recordItems : [],
       courseItems : [],
       semesters : [],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
-      currentCourseItem: {text: '', key: ''}
+      currentCourseItem: {text: '', key: ''},
     }
     this.handleRecordInput = this.handleRecordInput.bind(this);
     this.handleCourseInput = this.handleCourseInput.bind(this);
@@ -27,22 +28,27 @@ class UserRecordPage extends Component {
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
   }
-
+  
   componentDidMount() {
-      let header = {
-          'Authorization': "Bearer " + window.sessionStorage.getItem('token')
-      };
-    axios.get('/courses')
-      .then(res => {
-        this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
-      }).catch(function (error) {
-        console.log(error);
-      });
-      
-      axios.get('/secureEndpoint', {headers: header})
-          .then(res => console.log(JSON.stringify(res)));
-  }
 
+    let header = {
+      'Authorization': "Bearer " + this.state.authToken
+    };
+    axios.get('/courses')
+    .then(res => {
+      this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+    console.log("Sending GET request to secure endpoint!!!");
+    axios.get('test/secureEndpoint', {headers: header})
+    .then(res => {
+      console.log('Response from secureEndpoint:')
+      console.log(JSON.stringify(res.data))
+    });
+  }
+  
   formatCourseListForDropdown(courseList) {
     var courseListArray = [];
     Object.keys(courseList).forEach( courseID => {
@@ -52,10 +58,10 @@ class UserRecordPage extends Component {
       optionEntry.text = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       courseListArray.push(optionEntry);
     });
-
+    
     return courseListArray;
   }
-
+  
   handleRecordInput(event, data) {
     const itemText = data.value;
     var itemKey = "";
@@ -65,12 +71,12 @@ class UserRecordPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-
+    
     this.setState({
       currentRecordItem: currentItem
     })
   }
-
+  
   handleCourseInput(event, data) {
     const itemText = data.value;
     var itemKey = "";
@@ -80,36 +86,36 @@ class UserRecordPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-
+    
     this.setState({
       currentCourseItem: currentItem
     })
   }
-
+  
   addRecordItem(event) {
     event.preventDefault();
     const currentItem = this.state.currentRecordItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
       this.setState({
-         recordItems: items,
-         currentRecordItem: { text: '', key: '' },
-       })
+        recordItems: items,
+        currentRecordItem: { text: '', key: '' },
+      })
     }
   }
-
+  
   addCourseItem(event) {
     event.preventDefault();
     const currentItem = this.state.currentCourseItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
       this.setState({
-         courseItems: items,
-         currentCourseItem: { text: '', key: '' },
-       })
-   }
+        courseItems: items,
+        currentCourseItem: { text: '', key: '' },
+      })
+    }
   }
-
+  
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -118,7 +124,7 @@ class UserRecordPage extends Component {
     }
     return false;
   }
-
+  
   deleteRecordItem(key){
     const filteredItems = this.state.recordItems.filter(item => {
       return item.key !== key
@@ -127,7 +133,7 @@ class UserRecordPage extends Component {
       recordItems: filteredItems
     })
   }
-
+  
   deleteCourseItem(key){
     const filteredItems = this.state.courseItems.filter(item => {
       return item.key !== key
@@ -136,7 +142,7 @@ class UserRecordPage extends Component {
       courseItems: filteredItems
     })
   }
-
+  
   formatRecordAndCourseSequence(){
     var recordArray = [];
     var courseSequenceArray = [];
@@ -153,14 +159,14 @@ class UserRecordPage extends Component {
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
-
+    
     return {
       "courseRecord": recordArray,
       "courseSequence": courseSequenceArray,
       "semesters": semesters
     }
   }
-
+  
   validateSubmission(coursesPayload){
     var errorString = '';
     var problem = false;
@@ -175,8 +181,8 @@ class UserRecordPage extends Component {
       var validSemesterObject = true;
       for (var i in coursesPayload.semesters){
         if(coursesPayload.semesters[i].year === '' ||
-            coursesPayload.semesters[i].numCourses === '' ||
-            coursesPayload.semesters[i].credits === '') {
+        coursesPayload.semesters[i].numCourses === '' ||
+        coursesPayload.semesters[i].credits === '') {
           validSemesterObject = false;
           break;
         }
@@ -191,9 +197,9 @@ class UserRecordPage extends Component {
       return false;
     }
     return true;
-
+    
   }
-
+  
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
     if(this.validateSubmission(coursesPayload) === false){
@@ -207,79 +213,83 @@ class UserRecordPage extends Component {
     console.log("SENDING:");
     console.log(coursesPayload);
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
-      that.props.history.push('/schedule');
+      this.props.history.push({
+        pathname: '/schedule',
+        authToken: authToken
+      }); 
     });
-
+    
   }
-
+  
   handleUpdateSemesters(_State){
     this.setState({
       semesters : _State.semesters
     })
   }
-
+  
   render() {
     return (
       <div className = "outer">
-          <h3 className = "welcome-title" >
-              <br/>
-              Hi! Welcome to
-          </h3>
-          <h2 className="skedge"> Skedge</h2>
-              <br/>
-              <br/>
-
-          <div className = "formDiv">
-                <form id = "recordCcoursesDropdown">
-                    <h5>
-                        What classes have you taken?
-                    </h5>
-                    <div className = "dropdown">
-                        <Dropdown
-                        placeholder = 'Select Course'
-                        fluid
-                        search
-                        selection
-                        options = {this.state.courseOptions}
-                        onChange = {this.handleRecordInput}
-                        />
-                    </div>
-                    <Button id = "button1" onClick = {this.addRecordItem}>Add Course</Button>
-                    <div id = "recordCourses">
-                        <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
-                    </div>
-                </form>
-                <form id = "wantedCoursesDropdown">
-                    <h5>
-                        What classes would you like to take?
-                    </h5>
-                    <div className = "dropdown">
-                        <Dropdown
-                        placeholder = 'Select Course'
-                        fluid
-                        search
-                        selection
-                        options = {this.state.courseOptions}
-                        onChange = {this.handleCourseInput}
-                        />
-                    </div>
-                    <Button id = "button2"  onClick = {this.addCourseItem}>Add Course</Button>
-                    <br/>
-                    <div id = "wantedCourses">
-                        <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
-                    </div>
-                </form>
-                <div id = "semestersObject">
-                <h5>
-                    Enter number of semesters and semester info
-                </h5>
-                <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
-                </div>
-            </div>
-          <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
+      <h3 className = "welcome-title" >
+      <br/>
+      Hi! Welcome to
+      </h3>
+      <h2 className="skedge"> Skedge</h2>
+      <br/>
+      <br/>
+      
+      <div className = "formDiv">
+      <form id = "recordCcoursesDropdown">
+      <h5>
+      What classes have you taken?
+      </h5>
+      <div className = "dropdown">
+      <Dropdown
+      placeholder = 'Select Course'
+      fluid
+      search
+      selection
+      options = {this.state.courseOptions}
+      onChange = {this.handleRecordInput}
+      />
       </div>
-    );
+      <Button id = "button1" onClick = {this.addRecordItem}>Add Course</Button>
+      <div id = "recordCourses">
+      <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
+      </div>
+      </form>
+      <form id = "wantedCoursesDropdown">
+      <h5>
+      What classes would you like to take?
+      </h5>
+      <div className = "dropdown">
+      <Dropdown
+      placeholder = 'Select Course'
+      fluid
+      search
+      selection
+      options = {this.state.courseOptions}
+      onChange = {this.handleCourseInput}
+      />
+      </div>
+      <Button id = "button2"  onClick = {this.addCourseItem}>Add Course</Button>
+      <br/>
+      <div id = "wantedCourses">
+      <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
+      </div>
+      </form>
+      <div id = "semestersObject">
+      <h5>
+      Enter number of semesters and semester info
+      </h5>
+      <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
+      </div>
+      </div>
+      <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
+      </div>
+      );
+    }
   }
-}
-
-export default UserRecordPage;
+  
+  export default UserRecordPage;
+  
