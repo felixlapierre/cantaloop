@@ -18,17 +18,18 @@ const section = new mongoose.Schema(
 
 const courseCatalog = new mongoose.Schema(
     {
-        courseId: {
-            prerequisites: Array(String),
-            corequisites: Array(String),
-            credits: String,
-            fall: Array(section),
-            winter: Array(section),
-            summer: Array(section)
-        }
+        courseId: String,
+        prerequisites: Array(String),
+        corequisites: Array(String),
+        credits: String,
+        fall: Array(section),
+        winter: Array(section),
+        summer: Array(section)
     }
 );
 
 module.exports = {
-    courseCatalog : mongoose.model('courseCatalog', courseCatalog)
+    courseCatalog : mongoose.model('courseCatalog', courseCatalog, 'courseCatalogs'),
+    section: mongoose.model('section', section, 'section'),
+    class: mongoose.model('class', courseClass, 'courseClass')
 }

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var courseSchem = require('../schemas/courseSchema');
 var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 var courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const userSchema = require ('../schemas/userSchema')
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -29,27 +30,42 @@ function removeDuplicateCourses(myArray) {
     return result;
 }
 
+function formatCourseCatalog(entries)
+{
+    var catalog = {};
+    entries.forEach(entry => {
+        var id = entry.courseId;
+        if(id != undefined)
+        {
+            catalog[id] = entry;
+            delete catalog[id].courseId;
+        }
+    })
+    return catalog;
+}
+
 module.exports = {
     getCourseCatalog: function () {
-        let p1 = new Promise((resolve, reject) => {
-            courseCatalogSchema.courseCatalog.find({}, function (err, result) {
-                if (err) {
-                    console.log("None")
-                } else {
-                    console.log(result);
-                }
-            });
+
+       let p1 = new Promise ( (resolve,reject)=>{
+           courseCatalogSchema.courseCatalog.find({}, function(err, result){
+               if(err){
+                   return err;
+               }else{
+                   resolve(formatCourseCatalog(result));
+               }
+           });
+
         });
-        return p1;
+        return (p1);
     },
 
     getCoursesDescription: function () {
         let p1 = new Promise((resolve, reject) => {
-            courseDescriptionSchema.courseDescription.find({}, function (err, result) {
+            courseDescriptionSchema.courseDescription.find({ }, function (err, result) {
                 if (err) {
                     console.log("None")
                 } else {
-                    console.log(result);
                     resolve(result);
                 }
             });
@@ -100,33 +116,66 @@ module.exports = {
     },
 
     insertOneInDatabase: function (objectJSON, collectionName) {
+      return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertOne(objectJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
         })
+      })
     },
 
     insertManyInDatabase: function (objectJSON, collectionName) {
+      return new Promise ((resolve, reject) => {
         mongoose.connection.collection(collectionName).insertMany(objectJSON, function (err, result) {
             if (err) {
-                console.log("Error, fail");
+                reject(err);
             } else {
-                console.log("Successfully added into database!");
+                resolve("Successfully added into database!");
             }
+        })
+      })
+    },
+
+    createUser: function (userJSON) {
+      return new Promise((resolve, reject) => {
+        mongoose.connection.collection("users").insertOne(userJSON, function (err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve("Successfully added into database!");
+            }
+        })
+      })
+    },
+
+    checkUserCredential: function (userJSON) {
+      return new Promise((resolve, reject) => {
+        userSchema.users.findOne({username: userJSON.username},function (err, result) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve (userJSON);
+            }
+          })
+      })
+    },
+
+    clearCourseCatalog: function() {
+        return new Promise((resolve, reject) => {
+            mongoose.connection.collection("courseCatalogs").deleteMany({}, function(err, result) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            })
         })
     },
 
-    createUser: function (objectJSON) {
-        mongoose.connection.collection(users).insertOne(objectJSON, function (err, result) {
-            if (err) {
-                console.log("Error, fail");
-            } else {
-                console.log("Successfully added into database!");
-            }
-        })
+    disconnect: function() {
+        return mongoose.disconnect();
     }
-
 };

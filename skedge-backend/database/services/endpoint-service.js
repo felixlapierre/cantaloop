@@ -9,7 +9,19 @@ module.exports = {
         return database_services.getCourseCatalog();
     },
 
-    createUser: function () {
-      return database_services.createUser();
+    createUser: function (userJSON) {
+      return database_services.createUser(userJSON);
+    },
+
+    checkUserCredential: function (userJSON) {
+      return database_services.checkUserCredential(userJSON);
+    },
+
+    getUserRecord: function(userId){
+      return database_services.saveUserRecord(userId);
+    },
+
+    saveUserRecord: function(userRecord){
+      return database_services.getUserRecord(userRecord);
     }
 };

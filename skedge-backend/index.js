@@ -6,23 +6,19 @@ const app = express();
 
 const port = 4200;
 
+
 const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
-// Data for testing endpoint /generateSchedules
-//const generatedSchedules = require('./generatedSchedules');
-//const infoForScheduleGenerator = require('./infoForScheduleGenerator');
+
 
 const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 const checkAuth = require('./middleware/check-auth');
-
-// const courseDescriptions.js = require('./courseDescriptions.js')
-
 
  //////////////////////
 // Express Middlewares
@@ -55,6 +51,23 @@ app.get('/courses/getNames', (req, res) => {
     });
 });
 
+
+
+app.get('/courses/catalogue', (req, res) => {
+
+    //Method has not been defined yet, but assuming that it will take the info directly from
+    //MongoDB and it would return an array of all courses available with instances variable
+    //such as Name, semester, nb of credits, timeslot etc.
+
+
+    endpoint_service.getCourseCatalog()
+    .then((courseList) =>{
+        res.json(courseList);
+    });
+
+});
+
+
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {
     // TESTING
@@ -69,11 +82,22 @@ app.post('/builder/genSchedules', (req, res) => {
     // credits should be a number, any restrictions for credits (bond de .5 seulements)????
     // numCourses should be an integer
 
-    var courseRecord = req.body.courseRecord;
-    var courseSequence = req.body.courseSequence;
-    var semesters = req.body.semesters;
+    let courseRecord = req.body.courseRecord;
+    let courseSequence = req.body.courseSequence;
+    let semesters = req.body.semesters;
 
-    var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+    let generatedSchedules;
+    try {
+        generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+    } catch (error) {
+        let theError =
+        "-----------------------------------------------------------------\n\nSchedule Builder Error:\n\n"+
+        error+
+        "\n\n-----------------------------------------------------------------";
+        console.log("");
+        generatedSchedules = {"error":"The Schedule Builder failed."};
+    }
+    
     res.json(generatedSchedules);
 });
 
@@ -84,7 +108,7 @@ app.post('/users/register', (req, res, next) => {
                 username: req.body.username,
                 password: hash
             });
-            createUser(user)
+            endpoint_service.createUser(user)
                 .then(result => {
                     res.status(201).json({
                         message: "User Created!",
