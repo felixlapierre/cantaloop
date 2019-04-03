@@ -112,7 +112,7 @@ app.post('/builder/genSchedules', (req, res) => {
         console.log("");
         generatedSchedules = {"error":"The Schedule Builder failed."};
     }
-    
+
     res.json(generatedSchedules);
 });
 

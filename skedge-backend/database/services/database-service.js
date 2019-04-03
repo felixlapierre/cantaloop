@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-var courseSchem = require('../schemas/courseSchema');
-var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
-var courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const courseSchem = require('../schemas/courseSchema');
+const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
+const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 const userSchema = require ('../schemas/userSchema');
-const userRecordShema = require ('../schemas/userRecordSequenceSchema');
+const userRecordSchema = require ('../schemas/userRecordSequenceSchema');
+// const scheduleSchema = require ('../schemas/scheduleSchema');
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -150,9 +151,14 @@ module.exports = {
       })
     },
 
+    // TODO: Argument taken will most likely token instead of JSON object
     deleteSchedule: function (userSchedule) {
-      return new Promise ((resolve, reject) => {
-
+      mongoose.connection.collection("userSchedule").deleteOne({studentID: userSchedule.studentID}, function (err,result) {
+        if (err) {
+          return err;
+        } else {
+          console.log("Schedule removed from database.");
+        }
       })
     },
 
@@ -166,8 +172,6 @@ module.exports = {
                 console.log("Successfully added into database!");
             }
         })
-
-
     },
 
     retrieveAllSchedule: function(userID){
