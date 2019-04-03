@@ -10,6 +10,9 @@ let courseName;
 let courseInfo;
 
 async function main() {
+    //Clear the collection
+    await databaseConstants.database_service.clearCourseCatalog();
+    
     for (let i = 0; i < databaseConstants.classes.length; i++) {
         courseSubject = databaseConstants.classes[i].substring(0, 4);
         courseCode = databaseConstants.classes[i].substring(5);
@@ -40,8 +43,6 @@ async function main() {
         }
     }
 }
-main();//This run the function to put into the MongoDB
-
 
 function callCourseCatalogAPI(subject, catalog) {
     databaseConstants.request.open("GET", "https://opendata.concordia.ca/API/v1/course/catalog/filter/"
@@ -261,3 +262,13 @@ async function getSections(subject, courseCode, semester) {
     }
 
 }
+
+//Invoke the script then exit the process
+main()
+.then(() => {
+    process.exit(0);
+})
+.catch((err) => {
+    console.log("Failed to populate database: " + err.message());
+    process.exit(1);
+})

@@ -163,6 +163,18 @@ module.exports = {
       })
     },
 
+    clearCourseCatalog: function() {
+        return new Promise((resolve, reject) => {
+            mongoose.connection.collection("courseCatalogs").deleteMany({}, function(err, result) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            })
+        })
+    },
+
     disconnect: function() {
         return mongoose.disconnect();
     }
