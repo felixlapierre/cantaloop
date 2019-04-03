@@ -1,22 +1,24 @@
+//Server setup
 const express = require('express')
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
-const app = express();
 
+const app = express();
 const port = 4200;
 
-
+//Database setup
 const endpoint_service = require('./database/services/endpoint-service');
-const Scheduler = require('./scheduler/scheduler');
-var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
+//Setup scheduler
+const Scheduler = require('./scheduler/scheduler');
+var catalog = endpoint_service.getCourseCatalog();
+var scheduler_service = new Scheduler(catalog);
 
-
+//User management and authentication
 const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 const checkAuth = require('./middleware/check-auth');
 
@@ -31,9 +33,8 @@ app.use(bodyParser.json());
 // Using express.static to serve the React frontend at root.
 app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
-
  ///////////////////
-// Express Enpoints
+// Express Endpoints
 
 app.get('/secureEndpoint', checkAuth, (req, res) => {
     return res.status(200).json({
@@ -51,54 +52,19 @@ app.get('/courses/getNames', (req, res) => {
     });
 });
 
-
-
-app.get('/courses/catalogue', (req, res) => {
-
-    //Method has not been defined yet, but assuming that it will take the info directly from
-    //MongoDB and it would return an array of all courses available with instances variable
-    //such as Name, semester, nb of credits, timeslot etc.
-
-
-    endpoint_service.getCourseCatalog()
-    .then((courseList) =>{
-        res.json(courseList);
-    });
-
-});
-
-
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {
-    // TESTING
-
-    // Empty input
-    // Missing information (semesters array is empty, etc.)
-    // CourseRecord must be an array of strings (valid if matches with one of the courses in the database)
-    // CourseSequence must be an array of valid strings (valid if matches with one of the courses in the database)
-    // In Semesters,
-    // year should be a number and it should be >= 2019
-    // season should be either "Fall", "Winter" or "Summer"
-    // credits should be a number, any restrictions for credits (bond de .5 seulements)????
-    // numCourses should be an integer
-
     let courseRecord = req.body.courseRecord;
     let courseSequence = req.body.courseSequence;
     let semesters = req.body.semesters;
 
-    let generatedSchedules;
     try {
-        generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+        var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+        res.json(generatedSchedules);
     } catch (error) {
-        let theError =
-        "-----------------------------------------------------------------\n\nSchedule Builder Error:\n\n"+
-        error+
-        "\n\n-----------------------------------------------------------------";
-        console.log("");
-        generatedSchedules = {"error":"The Schedule Builder failed."};
+        console.log("An error occured in the scheduler: " + error.message);
+        res.status(500).send("An error occured when trying to build the scheduler.");
     }
-    
-    res.json(generatedSchedules);
 });
 
 app.post('/users/register', (req, res, next) => {
@@ -122,7 +88,6 @@ app.post('/users/register', (req, res, next) => {
                 });
         });
 });
-
 
 app.post('/users/login', (req, res, next) => {
     let fetchedUser;
