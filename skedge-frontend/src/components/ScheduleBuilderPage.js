@@ -70,10 +70,10 @@ class ScheduleBuilderPage extends Component {
     var temp = this.state.currentClasses.filter(function(ele){
              return ele !== event;
     });
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(temp));
     this.setState({currentClasses: temp}, ()=>{
       this.regenerateSchedule();
     });
-    window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.currentClasses));
   }
 
   handleDropdownChange(event, data){
