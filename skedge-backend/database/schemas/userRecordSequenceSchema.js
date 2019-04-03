@@ -7,4 +7,4 @@ const userRecordSequenceSchema = mongoose.Schema({
     creator: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
 });
 
-module.exports = mongoose.model("userRecord", userRecordSequence);
+module.exports = mongoose.model("userRecord", userRecordSequenceSchema);

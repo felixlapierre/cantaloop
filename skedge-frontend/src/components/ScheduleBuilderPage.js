@@ -3,7 +3,7 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
-import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab} from 'semantic-ui-react';
+import { Button, Icon, Menu, Dropdown, List, Grid, Sidebar, Tab} from 'semantic-ui-react';
 import axios from "axios";
 
 //The main page after a user logs in
@@ -70,6 +70,7 @@ class ScheduleBuilderPage extends Component {
     var temp = this.state.currentClasses.filter(function(ele){
              return ele !== event;
     });
+    window.sessionStorage.setItem('courseSequence', JSON.stringify(temp));
     this.setState({currentClasses: temp}, ()=>{
       this.regenerateSchedule();
     });
@@ -87,6 +88,7 @@ class ScheduleBuilderPage extends Component {
 
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
       const items = [...this.state.currentClasses, currentItem];
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(items));
       this.setState({
          currentClasses: items
       }, ()=>{
@@ -117,33 +119,6 @@ class ScheduleBuilderPage extends Component {
     });
   }
 
-  handleDropdownChange(event, data){
-    const itemText = data.value;
-    var itemKey = "";
-    for (var i in data.options){
-      if(data.options[i].text === itemText){
-        itemKey = data.options[i].key;
-      }
-    }
-    const currentItem = { text: itemText, key: itemKey };
-
-    if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
-      const items = [...this.state.currentClasses, currentItem]
-      this.setState({
-         currentClasses: items
-      })
-    }
-  }
-
-  arrayItemsContainsItem(array, keyValuePair){
-    for(var i in array){
-      if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
-        return true;
-      }
-    }
-    return false;
-  }
-
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
   }
@@ -151,7 +126,6 @@ class ScheduleBuilderPage extends Component {
   render() {
     const Children = this.state.currentClasses.map((child) =>
           <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
-
 
     return (
       <div>
