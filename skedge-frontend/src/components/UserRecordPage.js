@@ -20,7 +20,7 @@ class UserRecordPage extends Component {
       semesters : [],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
-      currentCourseItem: {text: '', key: ''},
+      currentCourseItem: {text: '', key: ''}
     }
     this.settings = {
         arrows: false,

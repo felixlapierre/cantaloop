@@ -8,9 +8,8 @@ module.exports = function (req, res, next) {
             console.log(req.body.encrypted_data);
             decryptedBodyString = decrypt(req.body.encrypted_data).toString();
             req.body = JSON.parse(decryptedBodyString);
-            console.log("---------------------------------------------------------\nDecrypted above data:")
+            console.log("---------------------------------------------------------\nDecrypted above data:");
             console.log(req.body);
-
         }
     } 
     catch (error) {

@@ -145,9 +145,6 @@ app.post('/users/login', (req, res, next) => {
     User.findOne({username: req.body.username}).then(user => {
         if(!user){
             throw Error("User does not exist in database");
-            // return res.status(401).json({
-            //     message: "Authorization failed!"
-            // });
         }
         fetchedUser = user;
         return bcryptjs.compare(req.body.password, user.password)
@@ -159,7 +156,7 @@ app.post('/users/login', (req, res, next) => {
                 });
             }
             const authToken = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
-                rsa_encryption.getRsaPrivateKey(), // Using private key as the HMAC key cuz why not
+                rsa_encryption.getRsaPrivateKey(), // Arbitrarily using private key as the HMAC key
                 {expiresIn: '1h'});
             const wrapperToken = jwt.sign({authToken: authToken}, req.body.password);
             res.status(200).json({
