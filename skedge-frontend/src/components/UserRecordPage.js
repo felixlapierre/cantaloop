@@ -13,9 +13,9 @@ class UserRecordPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      recordItems : JSON.parse(window.sessionStorage.getItem('courseRecord')),
-      courseItems : JSON.parse(window.sessionStorage.getItem('courseSequence')),
-      semesters : JSON.parse(window.sessionStorage.getItem('semesters')),
+      recordItems : [],
+      courseItems : [],
+      semesters : [],
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -42,6 +42,13 @@ class UserRecordPage extends Component {
   }
 
   componentDidMount() {
+      const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
+      const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
+      const semestersSessionStorage = ((JSON.parse(window.sessionStorage.getItem('semesters')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('semesters')));
+      this.setState({recordItems: courseRecordSessionStorage});
+      this.setState({courseItems: courseSequenceSessionStorage});
+      this.setState({semesters: semestersSessionStorage});
+
       let header = {
           'Authorization': "Bearer " + window.sessionStorage.getItem('token')
       };

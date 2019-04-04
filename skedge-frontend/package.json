@@ -10,6 +10,7 @@
     "axios": "^0.18.0",
     "concurrently": "^4.0.1",
     "install": "^0.12.2",
+    "jest-localstorage-mock": "^2.4.0",
     "npm": "^6.9.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

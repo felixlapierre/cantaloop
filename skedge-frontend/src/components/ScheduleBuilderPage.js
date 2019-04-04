@@ -42,10 +42,14 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
-    this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
-    this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
-    this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
-    this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
+    const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
+    const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
+    const semestersSessionStorage = ((JSON.parse(window.sessionStorage.getItem('semesters')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('semesters')));
+    const courseOptionsSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseOptions')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseOptions')));
+    this.setState({currentClasses: courseSequenceSessionStorage});
+    this.setState({courseRecord: courseRecordSessionStorage});
+    this.setState({semesters: semestersSessionStorage});
+    this.setState({allClasses: courseOptionsSessionStorage});
 
     var years = {};
     this.props.scheduleGiven.forEach(element => {

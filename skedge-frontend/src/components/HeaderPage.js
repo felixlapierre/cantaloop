@@ -9,15 +9,13 @@ class HeaderPage extends Component {
   constructor(props) {
     super(props);
 
-
     this.handleRecordButtonClick = this.handleRecordButtonClick.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleRecordButtonClick(){
-    console.log("Record");
-    this.props.history.push('/record')
+    this.props.history.push('/record');
   }
 
   handleLogout(){
