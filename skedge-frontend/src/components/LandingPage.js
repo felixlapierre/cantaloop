@@ -23,7 +23,7 @@ class LandingPage extends Component {
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
 
     // Save server's public key to session storage
-    axios.get('https://cors.io/?https://pastebin.com/raw/8FH01qXk')
+  axios.get('https://cors.io/?https://pastebin.com/raw/8FH01qXk')
     .then(res => {
       window.sessionStorage.setItem( 'rsa_pubKey', res.data);
     }).catch(function (error) {
@@ -31,6 +31,12 @@ class LandingPage extends Component {
     });
   }
   
+  componentDidMount(){
+    window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
+    window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
+    window.sessionStorage.setItem('semesters', JSON.stringify([]));
+  }
+
   // TODO: ensure password is hashed before sending it to backend
   handleLogin(event) {
 
@@ -97,21 +103,9 @@ class LandingPage extends Component {
     }
   }
 
-  // Display error messages
-  renderErrorMessage() {
-    if(this.state.errorWhenLoggingIn === true) {
-      return (
-        <p id='errorMessage'>Wrong username or password</p>
-        )
-      }
-      else {
-        return null;
-      }
-    }
-    
-    render() {
-      return (
-        <div id='landingPage'>
+  render() {
+    return (
+      <div id='landingPage'>
         <div id='skedgeLogo'>Skedge</div>
         <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column style={{ maxWidth: 450 }}>

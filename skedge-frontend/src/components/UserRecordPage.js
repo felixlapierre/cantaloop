@@ -15,9 +15,9 @@ class UserRecordPage extends Component {
     super(props);
     this.state = {
       authToken : this.props.location.authToken,
-      recordItems : [],
-      courseItems : [],
-      semesters : [],
+      recordItems : JSON.parse(window.sessionStorage.getItem('courseRecord')),
+      courseItems : JSON.parse(window.sessionStorage.getItem('courseSequence')),
+      semesters : JSON.parse(window.sessionStorage.getItem('semesters')),
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -45,9 +45,6 @@ class UserRecordPage extends Component {
   
   componentDidMount() {
 
-    let header = {
-      'Authorization': "Bearer " + this.state.authToken
-    };
     axios.get('/courses')
     .then(res => {
       this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
@@ -119,6 +116,7 @@ class UserRecordPage extends Component {
     const currentItem = this.state.currentRecordItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
       this.setState({
         recordItems: items,
         currentRecordItem: { text: '', key: '' },
@@ -131,6 +129,7 @@ class UserRecordPage extends Component {
     const currentItem = this.state.currentCourseItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
         courseItems: items,
         currentCourseItem: { text: '', key: '' },
@@ -228,8 +227,8 @@ class UserRecordPage extends Component {
       return;
     }
     window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
-    window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
-    window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+    window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
+    window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
     console.log("SENDING:");
@@ -259,10 +258,10 @@ class UserRecordPage extends Component {
           <h2 className="skedge"> Skedge</h2>
               <br/>
               <br/>
-          <Slider class="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
-          <div  class="slick">
+          <Slider className="slick" ref={(sliderInstanceRP) => { this.slider = sliderInstanceRP; }} {...this.settings}>
+          <div  className="slick">
               <div className="backgroundDiv">
-                <form id = "recordCoursesDropdownAndItems">
+                <div id = "recordCoursesDropdownAndItems">
                     <h5>
                         What classes have you taken?
                     </h5>
@@ -280,12 +279,12 @@ class UserRecordPage extends Component {
                     <div id = "recordCourseItems">
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
-                </form>
+                </div>
               </div>
           </div>
-          <div  class="slick">
+          <div  className="slick">
               <div className="backgroundDiv">
-                <form id = "wantedCoursesDropdownAndItems">
+                <div id = "wantedCoursesDropdownAndItems">
                     <h5>
                         What classes would you like to take?
                     </h5>
@@ -303,10 +302,10 @@ class UserRecordPage extends Component {
                     <div id = "wantedCourses">
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
-                </form>
+                </div>
               </div>
           </div>
-          <div  class="slick">
+          <div  className="slick">
               <div className="backgroundDiv">
                 <div className="semestersList">
                     <h5>
