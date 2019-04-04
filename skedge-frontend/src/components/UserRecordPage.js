@@ -3,19 +3,22 @@ import '../styles/UserPage.css';
 import { Dropdown, Button } from 'semantic-ui-react';
 import CourseItems from './CourseItems.js';
 import SemesterItems from './SemesterItems.js';
+import { axios_secure as axios } from '../services/AxiosEncrypted';
+
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import axios from "axios";
 
 //The page where the user can change its record etc.
 class UserRecordPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+
       recordItems : [],
       courseItems : [],
       semesters : [],
+      authToken : this.props.location.authToken,
       courseOptions : [],
       currentRecordItem: {text: '', key: ''},
       currentCourseItem: {text: '', key: ''}
@@ -40,7 +43,7 @@ class UserRecordPage extends Component {
     this.handleBack = this.handleBack.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
-
+  
   componentDidMount() {
       const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
       const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
@@ -64,7 +67,21 @@ class UserRecordPage extends Component {
             //just do nothing, returns promise resolved with undefined
           })
   }
+    axios.get('/courses')
+    .then(res => {
+      this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
+    }).catch(function (error) {
+      console.log(error);
+    });
 
+    console.log("Sending POST request to secure endpoint!!!");
+    axios.post('test/secureEndpoint', {authToken: this.state.authToken})
+    .then(res => {
+      console.log('Response from secureEndpoint:');
+      console.log(JSON.stringify(res.data));
+    });
+  }
+  
   handleBack(){
       this.slider.slickPrev();
   }
@@ -82,10 +99,10 @@ class UserRecordPage extends Component {
       optionEntry.text = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       courseListArray.push(optionEntry);
     });
-
+    
     return courseListArray;
   }
-
+  
   handleRecordInput(event, data) {
     const itemText = data.value;
     var itemKey = "";
@@ -95,12 +112,12 @@ class UserRecordPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-
+    
     this.setState({
       currentRecordItem: currentItem
     })
   }
-
+  
   handleCourseInput(event, data) {
     const itemText = data.value;
     var itemKey = "";
@@ -110,12 +127,12 @@ class UserRecordPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-
+    
     this.setState({
       currentCourseItem: currentItem
     })
   }
-
+  
   addRecordItem(event) {
     event.preventDefault();
     const currentItem = this.state.currentRecordItem;
@@ -123,12 +140,12 @@ class UserRecordPage extends Component {
       const items = [...this.state.recordItems, currentItem]
       window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
       this.setState({
-         recordItems: items,
-         currentRecordItem: { text: '', key: '' },
-       })
+        recordItems: items,
+        currentRecordItem: { text: '', key: '' },
+      })
     }
   }
-
+  
   addCourseItem(event) {
     event.preventDefault();
     const currentItem = this.state.currentCourseItem;
@@ -136,12 +153,12 @@ class UserRecordPage extends Component {
       const items = [...this.state.courseItems, currentItem]
       window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
-         courseItems: items,
-         currentCourseItem: { text: '', key: '' },
-       })
-   }
+        courseItems: items,
+        currentCourseItem: { text: '', key: '' },
+      })
+    }
   }
-
+  
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -150,7 +167,7 @@ class UserRecordPage extends Component {
     }
     return false;
   }
-
+  
   deleteRecordItem(key){
     const filteredItems = this.state.recordItems.filter(item => {
       return item.key !== key
@@ -159,7 +176,7 @@ class UserRecordPage extends Component {
       recordItems: filteredItems
     })
   }
-
+  
   deleteCourseItem(key){
     const filteredItems = this.state.courseItems.filter(item => {
       return item.key !== key
@@ -168,7 +185,7 @@ class UserRecordPage extends Component {
       courseItems: filteredItems
     })
   }
-
+  
   formatRecordAndCourseSequence(){
     var recordArray = [];
     var courseSequenceArray = [];
@@ -185,14 +202,14 @@ class UserRecordPage extends Component {
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
-
+    
     return {
       "courseRecord": recordArray,
       "courseSequence": courseSequenceArray,
       "semesters": semesters
     }
   }
-
+  
   validateSubmission(coursesPayload){
     var errorString = '';
     var problem = false;
@@ -207,8 +224,8 @@ class UserRecordPage extends Component {
       var validSemesterObject = true;
       for (var i in coursesPayload.semesters){
         if(coursesPayload.semesters[i].year === '' ||
-            coursesPayload.semesters[i].numCourses === '' ||
-            coursesPayload.semesters[i].credits === '') {
+        coursesPayload.semesters[i].numCourses === '' ||
+        coursesPayload.semesters[i].credits === '') {
           validSemesterObject = false;
           break;
         }
@@ -223,9 +240,9 @@ class UserRecordPage extends Component {
       return false;
     }
     return true;
-
+    
   }
-
+  
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
     if(this.validateSubmission(coursesPayload) === false){
@@ -236,18 +253,23 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     var that = this;
+    console.log("SENDING:");
+    console.log(coursesPayload);
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
-      that.props.history.push('/schedule');
+      this.props.history.push({
+        pathname: '/schedule',
+        authToken: this.state.authToken
+      }); 
     });
-
+    
   }
-
+  
   handleUpdateSemesters(_State){
     this.setState({
       semesters : _State.semesters
     })
   }
-
+  
   render() {
     return (
       <div className = "outer">
@@ -325,8 +347,9 @@ class UserRecordPage extends Component {
           <br/>
           <Button id = "goToScheduleBuilder" onClick = {this.handleCourseSubmission}>Make My Schedule</Button>
       </div>
-    );
+      );
+    }
   }
-}
-
-export default UserRecordPage;
+  
+  export default UserRecordPage;
+  

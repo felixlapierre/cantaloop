@@ -11,6 +11,7 @@ const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
+const rsa_encryption = require('./web_api_utilities/rsa-encryption');
 
 
 
@@ -18,16 +19,29 @@ const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
-const checkAuth = require('./middleware/check-auth');
+const checkAuth = require('./middlewares/check-auth');
+const decrypt_req = require('./middlewares/decrypt-requests');
 
  //////////////////////
 // Express Middlewares
 
-// Using CORS to allow local host to be the client and server.
+// Using CORS to allow getting public key from pastebin.
+var whitelist = ['http://localhost:4200','http://localhost:3000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
 app.use(cors());
 // Using bodyParser.json() to automatically parse the body of
 // incoming requests.
 app.use(bodyParser.json());
+app.use(decrypt_req);
 // Using express.static to serve the React frontend at root.
 app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
@@ -35,15 +49,19 @@ app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
  ///////////////////
 // Express Enpoints
 
-app.get('/secureEndpoint', checkAuth, (req, res) => {
+
+// This is an example of basic use of the "checkAuth" middleware
+
+app.post('/test/secureEndpoint', checkAuth, (req, res) => {
     return res.status(200).json({
         message: "Get Endpoint was able to access this message",
-        secure: "We secure AF BOOOOOOIIIIIIII"
+        secure: "This endpoint works and has no profanity."
     });
 });
 
+
 // Returns a JSON object containing a list of all courses
-app.get('/courses/getNames', (req, res) => {
+app.get('/courses', (req, res) => {
     endpoint_service.getCoursesDescription()
     .then((courseList) =>{
         courseList = db_response_cleanup.cleanGetCoursesDescription(courseList);
@@ -90,11 +108,8 @@ app.post('/builder/genSchedules', (req, res) => {
     try {
         generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
     } catch (error) {
-        let theError =
-        "-----------------------------------------------------------------\n\nSchedule Builder Error:\n\n"+
-        error+
-        "\n\n-----------------------------------------------------------------";
-        console.log("");
+        let theError = "Schedule Builder Error:"+error+"\n\n";
+        console.log(theError);
         generatedSchedules = {"error":"The Schedule Builder failed."};
     }
     
@@ -116,6 +131,7 @@ app.post('/users/register', (req, res, next) => {
                     });
                 })
                 .catch(error => {
+                    console.log(error);
                     res.status(500).json({
                         error: error
                     });
@@ -128,9 +144,7 @@ app.post('/users/login', (req, res, next) => {
     let fetchedUser;
     User.findOne({username: req.body.username}).then(user => {
         if(!user){
-            return res.status(401).json({
-                message: "Authorization failed!"
-            });
+            throw Error("User does not exist in database");
         }
         fetchedUser = user;
         return bcryptjs.compare(req.body.password, user.password)
@@ -141,14 +155,16 @@ app.post('/users/login', (req, res, next) => {
                     message: "Authorization failed!"
                 });
             }
-            const token = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
-                "secret_this_should_be_longer",
+            const authToken = jwt.sign({username: fetchedUser.username, userId: fetchedUser._id},
+                rsa_encryption.getRsaPrivateKey(), // Arbitrarily using private key as the HMAC key
                 {expiresIn: '1h'});
+            const wrapperToken = jwt.sign({authToken: authToken}, req.body.password);
             res.status(200).json({
-                token: token
+                token: wrapperToken
             });
         })
         .catch(error => {
+            console.log(error);
             return res.status(401).json({
                 message: "Authorization failed!"
             });
@@ -157,4 +173,4 @@ app.post('/users/login', (req, res, next) => {
 
  ////////////////////
 // Express listener
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`Skedge listening on port ${port}!`));
