@@ -7,6 +7,8 @@ import ScheduleBuilderPage from './components/ScheduleBuilderPage';
 import UserRecordPage from './components/UserRecordPage';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
+
+
 //Eventually this will be replaced by something received from the backend
 const testJson = [
   {
