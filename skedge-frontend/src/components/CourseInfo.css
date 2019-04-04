@@ -8,7 +8,7 @@
     display: grid;
     grid-gap: 15px;
     grid-template-columns: 50px repeat(5, 150px);
-    grid-template-rows: repeat(20, 50px);
+    grid-template-rows: repeat(25, 50px);
   }
 
   p {
@@ -18,9 +18,9 @@
   
   .tableElement {
     text-align:center;
-    height: 63px;
-    border: 2px solid black;
-    padding: 4px;
+    /* border: 2px solid black; */
+    /* padding: 4px; */
+    background-color:turquoise;
   }
 
   
@@ -38,7 +38,7 @@
     display: grid;
     grid-row: 2 / 27;
     grid-gap: 10px;
-    grid-template-rows: repeat(20, 50px);
+    grid-template-rows: repeat(27, 50px);
   }
   .timeWrapper div:nth-of-type(1) {
     grid-column: 1 / 2;
@@ -171,149 +171,155 @@
   }
   
   /* start times */
-  
-  .eightThirty {
-    grid-row-start: 2;
+
+  .eightOclock {
+      grid-row-start: 2;
+
   }
-  
-  .nineOclock {
+  .eightThirty {    
     grid-row-start: 3; 
   }
   
-  .nineThirty {
+  .nineOclock {
     grid-row-start: 4; 
   }
   
+  .nineThirty {
+      grid-row-start: 5; 
+
+  } 
   .tenOclock {
-    grid-row-start: 5; 
+      grid-row-start: 6;
+
   }
   
   .tenThirty {
-    grid-row-start: 6;
+        grid-row-start: 7;
+
   }
   
-  .elevenOclock {
-    grid-row-start: 7;
+  .elevenOclock {    grid-row-start: 8;
+
   }
   
-  .elevenThirty {
-    grid-row-start: 8;
+  .elevenThirty {    grid-row-start: 9;
+
   }
   
-  .twelveOclock {
-    grid-row-start: 9;
+  .twelveOclock {    grid-row-start: 10;
+
   }
   
-  .twelveThirty {
-    grid-row-start: 10;
+  .twelveThirty {    grid-row-start: 11;
+
   }
   
-  .oneOclock {
-    grid-row-start: 11;
+  .oneOclock {    grid-row-start: 12;
+
   }
   
-  .oneThirty {
-    grid-row-start: 12;
+  .oneThirty {    grid-row-start: 13;
+
   }
   
-  .twoOclock {
-    grid-row-start: 13;
+  .twoOclock {    grid-row-start: 14;
+
   }
   
-  .twoThirty {
-    grid-row-start: 14;
+  .twoThirty {    grid-row-start: 15;
+
   }
   
-  .threeOclock {
-    grid-row-start: 15;
+  .threeOclock {    grid-row-start: 16;
+
   }
   
-  .threeThirty {
-    grid-row-start: 16;
+  .threeThirty {    grid-row-start: 17;
+
   }
   
-  .fourOclock {
-    grid-row-start: 17;
+  .fourOclock {    grid-row-start: 18;
+
   }
   
-  .fourThirty {
-    grid-row-start: 18;
+  .fourThirty {    grid-row-start: 19;
+
   }
   
   .fiveOclock {
-    grid-row-start: 19;
+    grid-row-start: 20;
   }
   
   /* end times */
   
   .endNineThirty {
-    grid-row-end: 4; 
-  }
-  
-  .endTenOclock {
     grid-row-end: 5; 
   }
   
-  .endTenThirty {
-    grid-row-end: 6;
+  .endTenOclock {
+    grid-row-end: 6; 
   }
   
-  .endElevenOclock {
+  .endTenThirty {
     grid-row-end: 7;
   }
   
-  .endElevenThirty {
+  .endElevenOclock {
     grid-row-end: 8;
   }
   
-  .endTwelveOclock {
+  .endElevenThirty {
     grid-row-end: 9;
   }
   
-  .endTwelveThirty {
+  .endTwelveOclock {
     grid-row-end: 10;
   }
   
-  .endOneOclock {
+  .endTwelveThirty {
     grid-row-end: 11;
   }
   
-  .endOneThirty {
+  .endOneOclock {
     grid-row-end: 12;
   }
   
-  .endTwoOclock {
+  .endOneThirty {
     grid-row-end: 13;
   }
   
-  .endTwoThirty {
+  .endTwoOclock {
     grid-row-end: 14;
   }
   
-  .endThreeOclock {
+  .endTwoThirty {
     grid-row-end: 15;
   }
   
-  .endThreeThirty {
+  .endThreeOclock {
     grid-row-end: 16;
   }
   
-  .endFourOclock {
+  .endThreeThirty {
     grid-row-end: 17;
   }
   
-  .endFourThirty {
+  .endFourOclock {
     grid-row-end: 18;
   }
   
-  .endFiveOclock {
+  .endFourThirty {
     grid-row-end: 19;
   }
   
-  .endFiveThirty {
+  .endFiveOclock {
     grid-row-end: 20;
   }
   
-  .endSixOclock {
+  .endFiveThirty {
     grid-row-end: 21;
+  }
+  
+  .endSixOclock {
+    grid-row-end: 22;
   }

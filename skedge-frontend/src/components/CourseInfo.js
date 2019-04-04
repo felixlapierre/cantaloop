@@ -57,27 +57,26 @@ class CourseInfo extends Component {
     else return null;
   }
 
-  convertEndTime(end_time){
-    if (end_time === "8:20AM") return("endEightThirty");
-    else if (end_time === "08:50AM") return("endNineOclock");
-    else if (end_time === "09:20AM") return("endNineThirty");
-    else if (end_time === "09:50AM") return("endTenOclock");
-    else if (end_time === "10:20AM") return("endTenThirty");
-    else if (end_time === "10:50AM") return("endElevenOclock");
-    else if (end_time === "11:20AM") return("endElevenThirty");
-    else if (end_time === "11:50AM") return("endTwelveOclock");
-    else if (end_time === "12:20PM") return("endTwelveThirty");
-    else if (end_time === "12:50PM") return("endOneOclock");
-    else if (end_time === "01:20PM") return("endOneThirty");
-    else if (end_time === "01:50PM") return("endTwoOclock");
-    else if (end_time === "02:20PM") return("endTwoThirty");
-    else if (end_time === "02:50PM") return("endThreeOclock");
-    else if (end_time === "03:20PM") return("endThreeThirty");
-    else if (end_time === "03:50PM") return("endFourOclock");
-    else if (end_time === "04:20PM") return("endFourThirty");
-    else if (end_time === "04:50PM") return("endFiveOclock");
-    else if (end_time === "05:20PM") return("endFiveThirty");
-    else if (end_time === "05:50PM") return("endSixOclock");
+  convertEndTime(endTime){
+    if (endTime === "9:00AM") return("endNineOclock");
+    else if (endTime === "9:30AM") return("endNineThirty");
+    else if (endTime === "10:00AM") return("endTenOclock");
+    else if (endTime === "10:30AM") return("endTenThirty");
+    else if (endTime === "11:00AM") return("endElevenOclock");
+    else if (endTime === "11:30AM") return("endElevenThirty");
+    else if (endTime === "12:00AM") return("endTwelveOclock");
+    else if (endTime === "12:30PM") return("endTwelveThirty");
+    else if (endTime === "1:00PM") return("endOneOclock");
+    else if (endTime === "1:30PM") return("endOneThirty");
+    else if (endTime === "2:00PM") return("endTwoOclock");
+    else if (endTime === "2:30PM") return("endTwoThirty");
+    else if (endTime === "3:00PM") return("endThreeOclock");
+    else if (endTime === "3:30PM") return("endThreeThirty");
+    else if (endTime === "4:00PM") return("endFourOclock");
+    else if (endTime === "4:30PM") return("endFourThirty");
+    else if (endTime === "5:00PM") return("endFiveOclock");
+    else if (endTime === "5:30PM") return("endFiveThirty");
+    else if (endTime === "6:00PM") return("endSixOclock");
   }
 
   render(){
