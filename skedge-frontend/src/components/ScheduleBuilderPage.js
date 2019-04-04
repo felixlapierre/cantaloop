@@ -47,13 +47,24 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentDidMount() {
-    axios.get('/get/courseRecAndSeq', {headers: this.header})
+    axios.get('/load/courseRecAndSeq', {headers: this.header})
       .then(res => {
-        this.setState({ 
+        if (res.data == null) // If the user has no saved course record/sequence, it should be blank.
+        {
+          this.setState({ 
+            currentClasses: [],
+            courseRecord: [],
+            semesters: []
+          })
+        }
+        else
+        {
+          this.setState({ 
           currentClasses: res.data.courseSequence,
           courseRecord: res.data.courseRecord,
           semesters: res.data.semesters
-        })
+          })
+        }
       }).catch(function (error) {
         console.log(error);
       });

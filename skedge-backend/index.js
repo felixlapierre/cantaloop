@@ -157,25 +157,26 @@ app.post('/save/courseRecAndSeq', checkAuth, (req, res, next) => {
     let userId;
     try {
         // How to get the userId from the token
-        const token = req.headers.authorization.split(" ")[1];
-        jwt.verify(token, "secret_this_should_be_longer")
+        //const token = req.headers.authorization.split(" ")[1];
+        //jwt.verify(token, "secret_this_should_be_longer")
+        userId = '5c990d92d8181460f41a8c17';
     } catch (error) {
         res.status(401).json({
             message: "No user found!"
         });
     }
 
-    const userRecAndSeq = mongoose.userRecordSequenceSchema({
+    const userRecord = mongoose.userRecordSequenceSchema({
         courseRecord: req.body.courseRecord,
         courseSequence: req.body.courseSequence,
         semesters: req.body.semesters,
         creator: userId
     });
 
-    endpoint_service.saveCourseRecAndSeq(userRecAndSeq)
+    endpoint_service.saveUserRecord(userRecord)
     .then(result => {
         res.status(201).json({
-            message: "Course record, course sequence and semesters are saved in the database!",
+            message: "User record is saved in the database!",
         });
     })
     .catch(error => {
@@ -186,11 +187,13 @@ app.post('/save/courseRecAndSeq', checkAuth, (req, res, next) => {
 })
 
 // "If there’s nothing, don’t crash." --> That should be ensured by the database?
-app.get('/get/courseRecAndSeq', checkAuth, (req, res, next) => {
-    endpoint_service.getCourseRecAndSeq()
-    .then((courseRecAndSeqList) => {
-        courseRecAndSeqList = db_response_cleanup.cleanGetCoursesDescription(courseRecAndSeqList);
-        res.json(courseRecAndSeqList);
+app.get('/load/courseRecAndSeq', checkAuth, (req, res, next) => {
+    let userId = '5c990d92d8181460f41a8c17';
+    // retrieve user ID
+    endpoint_service.getUserRecord(userId)
+    .then((userRecord) => {
+        userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
+        res.json(userRecord);
     })
     .catch(error => {
         res.status(500).json({
