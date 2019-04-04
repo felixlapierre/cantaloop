@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
+let courseSection = require('./courseCatalogSchema');
 
 
 const scheduleSchema = new mongoose.Schema({
 
-            studentID: String,
-            year : Number,
-            season:String,
-            credits: Number,
-            Schedules: Array(section)
-
-
+            year : {type: Number},
+            semester:{type: String},
+            credits: {type: Number},
+            Schedules: {type: Array},
+            creator: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
 })
 
 module.exports = {

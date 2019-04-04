@@ -5,7 +5,7 @@ const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 const userSchema = require ('../schemas/userSchema');
 const userRecordSchema = require ('../schemas/userRecordSequenceSchema');
-// const scheduleSchema = require ('../schemas/scheduleSchema');
+const scheduleSchema = require ('../schemas/scheduleSchema');
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -165,9 +165,10 @@ module.exports = {
       })
     },
 
-    deleteSchedule: function (userSchedule) {
+    deleteSchedule: function (scheduleJSON) {
       return new Promise ((resolve, reject) => {
-        mongoose.connection.collection("userSchedule").deleteOne({studentID: userSchedule.studentID}, function (err,result) {
+        var id = mongoose.Types.ObjectId(scheduleJSON);
+        mongoose.connection.collection("userSchedule").deleteOne({ _id : id}, function (err,result) {
           if (err) {
             reject (err);
           } else {
@@ -176,42 +177,4 @@ module.exports = {
         })
       })
     },
-
-    saveSchedule: function(objectJSON,userID){
-        var studentID = 'studentID';
-        objectJSON[studentID]= userID;
-        mongoose.connection.collection(userSchedule).insertOne(finalSchedToBeSaved, function(err,result){
-            if(err){
-                return err;
-            }else{
-                console.log("Successfully added into database!");
-            }
-        })
-    },
-
-    retrieveAllSchedule: function(userID){
-        mongoose.connection.collection(userSchedule).find({'studentID':userID}, function(err, result){
-            if(err){
-                return err;
-            }else{
-                return result;
-            }
-        })
-    },
-
-    clearCourseCatalog: function() {
-        return new Promise((resolve, reject) => {
-            mongoose.connection.collection("courseCatalogs").deleteMany({}, function(err, result) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            })
-        })
-    },
-
-    disconnect: function() {
-        return mongoose.disconnect();
-    }
 };
