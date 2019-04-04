@@ -14,6 +14,9 @@ const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 const rsa_encryption = require('./web_api_utilities/rsa-encryption');
 
 const CourseDescription = require('./database/schemas/courseDescriptionSchema');
+// Only for testing frontend until builder is ready to go.
+const testSchedule = require('./web_api_utilities/testSchedules');
+const UserRecordSequenceSchema = require('./database/schemas/userRecordSequenceSchema');
 
 // User authentication
 const User = require('./database/schemas/userSchema');
@@ -107,7 +110,7 @@ app.post('/builder/genSchedules', (req, res) => {
     } catch (error) {
         let theError = "Schedule Builder Error:"+error+"\n\n";
         console.log(theError);
-        generatedSchedules = {"error":"The Schedule Builder failed."};
+        generatedSchedules = testSchedule; //{"error":"The Schedule Builder failed."};
     }
     
     res.json(generatedSchedules);
@@ -169,53 +172,59 @@ app.post('/users/login', (req, res, next) => {
 });
 
 // The following endpoints are secure endpoints
-app.post('/save/courseRecAndSeq', checkAuth, (req, res, next) => {
-    let userId;
-    try {
-        // How to get the userId from the token
-        //const token = req.headers.authorization.split(" ")[1];
-        //jwt.verify(token, "secret_this_should_be_longer")
-        userId = '5c990d92d8181460f41a8c17';
-    } catch (error) {
-        res.status(401).json({
-            message: "No user found!"
-        });
-    }
+app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
+    
+    let userId = req.body.authToken.userId;
 
-    const userRecord = mongoose.userRecordSequenceSchema({
+    const userRecord = new UserRecordSequenceSchema({
         courseRecord: req.body.courseRecord,
         courseSequence: req.body.courseSequence,
         semesters: req.body.semesters,
         creator: userId
     });
-
-    endpoint_service.saveUserRecord(userRecord)
+    // Get rid of try catch once database function works
+    try {
+        endpoint_service.saveUserRecord(userRecord)
     .then(result => {
         res.status(201).json({
-            message: "User record is saved in the database!",
+            message: "User record and sequence were saved in the database!"
         });
     })
     .catch(error => {
+        console.log(error);
         res.status(500).json({
-            error: error
+            error: "Sorry, could not save the record and sequence."
         });
     });
+    } catch (error) {
+        res.status(201).json({
+            message: "This function is not available yet."
+        });
+    }
+    
 })
 
 // "If there’s nothing, don’t crash." --> That should be ensured by the database?
-app.get('/load/courseRecAndSeq', checkAuth, (req, res, next) => {
-    let userId = '5c990d92d8181460f41a8c17';
-    // retrieve user ID
-    endpoint_service.getUserRecord(userId)
-    .then((userRecord) => {
-        userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
-        res.json(userRecord);
-    })
-    .catch(error => {
-        res.status(500).json({
-            error: error
+app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
+    let userId = req.body.authToken.userId;
+    try {
+        endpoint_service.getUserRecord(userId)
+        .then((userRecord) => {
+            userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
+            res.json(userRecord);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                error: "Sorry, could not load the course record and sequence."
+            });
         });
-    });
+    } catch (error) {
+        res.status(201).json({
+            message: "This function is not available yet."
+        });
+    }
+    
 })
 
  ////////////////////

@@ -52,12 +52,12 @@ class UserRecordPage extends Component {
       console.log(error);
     });
 
-    console.log("Sending POST request to secure endpoint!!!");
-    axios.post('test/secureEndpoint', {authToken: this.state.authToken})
-    .then(res => {
-      console.log('Response from secureEndpoint:');
-      console.log(JSON.stringify(res.data));
-    });
+    // console.log("Sending POST request to secure endpoint!!!");
+    // axios.post('test/secureEndpoint', {authToken: this.state.authToken})
+    // .then(res => {
+    //   console.log('Response from secureEndpoint:');
+    //   console.log(JSON.stringify(res.data));
+    // });
   }
   
   handleBack(){
@@ -231,9 +231,6 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
     
-    console.log("SENDING:");
-    console.log(coursesPayload);
-
     let postBody = coursesPayload;
     postBody.authToken = this.state.authToken;
 
@@ -243,13 +240,10 @@ class UserRecordPage extends Component {
       window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
       window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions)); // TODO: need to update it
     });
-
-    axios.post('/builder/genSchedules', coursesPayload).then(response => {
-      this.props.history.push({
-        pathname: '/schedule',
-        authToken: this.state.authToken,
-        scheduleGiven: response.data
-      }); 
+    this.props.history.push({
+      pathname: '/schedule',
+      authToken: this.state.authToken,
+      recSeqSem: coursesPayload
     });
   }
   

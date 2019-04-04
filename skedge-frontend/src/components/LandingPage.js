@@ -68,6 +68,7 @@ class LandingPage extends Component {
       }).catch(error => {
         console.log(error);
         // Reset fields
+        console.log("Trying to set state after pushing...?");//////////////////////////////////////////////////////////////////
         this.setState({
           value: '',
           username: '',
