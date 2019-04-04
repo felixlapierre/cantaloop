@@ -6,10 +6,10 @@ module.exports =
         let cleanCoursesObj = {};
         for (const dbCourseObj of dbOutput) 
         {
-            let unfuckedDBObject = JSON.parse(JSON.stringify(dbCourseObj));
-            Object.keys(unfuckedDBObject).forEach( key => {
+            let reformattedDBObject = JSON.parse(JSON.stringify(dbCourseObj));
+            Object.keys(reformattedDBObject).forEach( key => {
                 if(key != "_id"){
-                    cleanCoursesObj[key] = unfuckedDBObject[key];
+                    cleanCoursesObj[key] = reformattedDBObject[key];
                 }
             });
         }
