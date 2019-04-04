@@ -152,10 +152,8 @@ module.exports = {
     },
     
 
-    saveSchedule: function(objectJSON,userID){
-        var studentID = 'studentID';
-        objectJSON[studentID]= userID;
-        mongoose.connection.collection(userSchedule).insertOne(finalSchedToBeSaved, function(err,result){
+    saveSchedule: function(objectJSON){
+        mongoose.connection.collection(userSchedule).insertOne(objectJSON, function(err,result){
             if(err){
                 return err;
             }else{
@@ -166,8 +164,8 @@ module.exports = {
 
     },
 
-    retrieveAllSchedule: function(userID){
-        mongoose.connection.collection(userSchedule).find({'studentID':userID}, function(err, result){
+    loadSchedule: function(userID){
+        mongoose.connection.collection(userSchedule).find({'creator':userID}, function(err, result){
             if(err){
                 return err;
             }else{

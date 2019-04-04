@@ -4,9 +4,8 @@ let courseSection = require('./courseCatalogSchema');
 
 const scheduleSchema = new mongoose.Schema({
     
-            studentID: String,
             year : Number,
-            season:String,
+            semester:String,
             credits: Number,
             Schedules: Array(courseSection.sectionSchema),
             creator: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}

@@ -15,6 +15,7 @@ const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 
 
 const User = require('./database/schemas/userSchema');
+const scheduleSchema = require('./database/schemas/scheduleSchema');
 const bcryptjs = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
@@ -67,20 +68,40 @@ app.get('/courses/catalogue', (req, res) => {
 
 });
 
-//This is just for testing purposes
-app.get('/testing/saveSchedule', (req, res) => {
+//Save Schedule
+app.post('/users/saveSchedules', checkAuth, (req, res, next) => {
 
     //Method has not been defined yet, but assuming that it will take the info directly from
     //MongoDB and it would return an array of all courses available with instances variable
     //such as Name, semester, nb of credits, timeslot etc.
+    let userID = req.body.authToken.userId;
 
+    let userSchedule = new scheduleSchema({
+        year : req.body.year,
+        semesters: req.body.semesters,
+        credits: req.body.credits,
+        Schedules: req.body.Schedules,
+        creator: userId
+    })
 
-    endpoint_service.saveSchedule()
-    .then((courseList) =>{
-        res.json(courseList);
+    endpoint_service.saveSchedule(userSchedule)
+    .then(result =>{
+        res.status(201).json({
+            message: "Schedule successfully saved!"
+        });
     });
 
 });
+
+//Load schedule
+app.post('/users/loadSchedules', checkAuth, (req, res, next)=>{
+    let userID = req.body.authToken.userId;
+
+    endpoint_service.loadSchedule(userID)
+    .then((results)=>{
+        res.json(results);
+    })
+})
 
 
 // Returns a list of possible schedules for each semester

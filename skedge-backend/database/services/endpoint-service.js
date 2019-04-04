@@ -9,9 +9,13 @@ module.exports = {
         return database_services.getCourseCatalog();
     },
 
-    saveSchedule: function(userID){
-        return database_services.saveSchedule(userID);
+    saveSchedule: function(userSchedule){
+        return database_services.saveSchedule(userSchedule);
     },
+
+    loadSchedule: function(userID){
+      return database_services.loadSchedule(userID);
+  },
 
     deleteSchedule: function(userSchedule){
       return database_services.deleteSchedule(userSchedule);
