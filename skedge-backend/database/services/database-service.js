@@ -32,6 +32,20 @@ function removeDuplicateCourses(myArray) {
     return result;
 }
 
+function formatCourseCatalog(entries)
+{
+    var catalog = {};
+    entries.forEach(entry => {
+        var id = entry.courseId;
+        if(id != undefined)
+        {
+            catalog[id] = entry;
+            delete catalog[id].courseId;
+        }
+    })
+    return catalog;
+}
+
 module.exports = {
     getCourseCatalog: function () {
 
@@ -40,7 +54,7 @@ module.exports = {
                if(err){
                    return err;
                }else{
-                   resolve(result);
+                   resolve(formatCourseCatalog(result));
                }
            });
 
@@ -151,14 +165,15 @@ module.exports = {
       })
     },
 
-    // TODO: Argument taken will most likely token instead of JSON object
     deleteSchedule: function (userSchedule) {
-      mongoose.connection.collection("userSchedule").deleteOne({studentID: userSchedule.studentID}, function (err,result) {
-        if (err) {
-          return err;
-        } else {
-          console.log("Schedule removed from database.");
-        }
+      return new Promise ((resolve, reject) => {
+        mongoose.connection.collection("userSchedule").deleteOne({studentID: userSchedule.studentID}, function (err,result) {
+          if (err) {
+            reject (err);
+          } else {
+            resolve (result);
+          }
+        })
       })
     },
 
@@ -182,5 +197,21 @@ module.exports = {
                 return result;
             }
         })
+    },
+
+    clearCourseCatalog: function() {
+        return new Promise((resolve, reject) => {
+            mongoose.connection.collection("courseCatalogs").deleteMany({}, function(err, result) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            })
+        })
+    },
+
+    disconnect: function() {
+        return mongoose.disconnect();
     }
 };
