@@ -6,18 +6,21 @@ const app = express();
 
 const port = 4200;
 
-
+// Services
 const endpoint_service = require('./database/services/endpoint-service');
 const Scheduler = require('./scheduler/scheduler');
 var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 const rsa_encryption = require('./web_api_utilities/rsa-encryption');
 
+const CourseDescription = require('./database/schemas/courseDescriptionSchema');
+// Only for testing frontend until builder is ready to go.
+const testSchedule = require('./web_api_utilities/testSchedules');
+const UserRecordSequenceSchema = require('./database/schemas/userRecordSequenceSchema');
 
-
+// User authentication
 const User = require('./database/schemas/userSchema');
 const bcryptjs = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 const checkAuth = require('./middlewares/check-auth');
 const decrypt_req = require('./middlewares/decrypt-requests');
@@ -69,14 +72,11 @@ app.get('/courses', (req, res) => {
     });
 });
 
-
-
 app.get('/courses/catalogue', (req, res) => {
 
     //Method has not been defined yet, but assuming that it will take the info directly from
     //MongoDB and it would return an array of all courses available with instances variable
     //such as Name, semester, nb of credits, timeslot etc.
-
 
     endpoint_service.getCourseCatalog()
     .then((courseList) =>{
@@ -100,17 +100,17 @@ app.post('/builder/genSchedules', (req, res) => {
     // credits should be a number, any restrictions for credits (bond de .5 seulements)????
     // numCourses should be an integer
 
-    let courseRecord = req.body.courseRecord;
-    let courseSequence = req.body.courseSequence;
-    let semesters = req.body.semesters;
+    let courseRecordIDArr = req.body.courseRecord;
+    let courseSequenceIDArr = req.body.courseSequence;
+    let semestersArr = req.body.semesters;
 
     let generatedSchedules;
     try {
-        generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+        generatedSchedules = scheduler_service.GenerateSchedules(courseRecorIDdArr, courseSequenceIDArr, semestersArr);
     } catch (error) {
         let theError = "Schedule Builder Error:"+error+"\n\n";
         console.log(theError);
-        generatedSchedules = {"error":"The Schedule Builder failed."};
+        generatedSchedules = testSchedule; //{"error":"The Schedule Builder failed."};
     }
     
     res.json(generatedSchedules);
@@ -170,6 +170,62 @@ app.post('/users/login', (req, res, next) => {
             });
         });
 });
+
+// The following endpoints are secure endpoints
+app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
+    
+    let userId = req.body.authToken.userId;
+
+    const userRecord = new UserRecordSequenceSchema({
+        courseRecord: req.body.courseRecord,
+        courseSequence: req.body.courseSequence,
+        semesters: req.body.semesters,
+        creator: userId
+    });
+    // Get rid of try catch once database function works
+    try {
+        endpoint_service.saveUserRecord(userRecord)
+    .then(result => {
+        res.status(201).json({
+            message: "User record and sequence were saved in the database!"
+        });
+    })
+    .catch(error => {
+        console.log(error);
+        res.status(500).json({
+            error: "Sorry, could not save the record and sequence."
+        });
+    });
+    } catch (error) {
+        res.status(201).json({
+            message: "This function is not available yet."
+        });
+    }
+    
+})
+
+// "If there’s nothing, don’t crash." --> That should be ensured by the database?
+app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
+    let userId = req.body.authToken.userId;
+    try {
+        endpoint_service.getUserRecord(userId)
+        .then((userRecord) => {
+            userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
+            res.json(userRecord);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({
+                error: "Sorry, could not load the course record and sequence."
+            });
+        });
+    } catch (error) {
+        res.status(201).json({
+            message: "This function is not available yet."
+        });
+    }
+    
+})
 
  ////////////////////
 // Express listener

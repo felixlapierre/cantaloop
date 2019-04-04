@@ -10,9 +10,8 @@ import { axios_secure as axios } from '../services/AxiosEncrypted';
 class ScheduleBuilderPage extends Component {
   constructor(props) {
     super(props);
-    
     this.state = {
-      //authToken : props.location.authToken,
+      authToken : props.location.authToken,
       visible: false,
       allClasses:[],
       currentClasses:[],
@@ -42,30 +41,60 @@ class ScheduleBuilderPage extends Component {
       });
     }
   }
-  
+
+  componentDidMount() {
+    axios.post('/users/loadRecAndSeq', {authToken: this.state.authToken})
+      .then(res => {
+        if (res.data === null || res.data.courseSequence === undefined) // If the user has no saved course record/sequence, it should be blank.
+        {
+          this.setState({ 
+            currentClasses: [],
+            courseRecord: [],
+            semesters: []
+          })
+        }
+        else
+        {
+          this.setState({ 
+            currentClasses: res.data.courseSequence,
+            courseRecord: res.data.courseRecord,
+            semesters: res.data.semesters
+          })
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
+
   componentWillMount(){
     this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
     this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
     this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
     this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
 
-    var years = {};
-    this.props.scheduleGiven.forEach(element => {
-      var year = element.year;
-      var season = element.season;
-      if(years[year] === undefined)
-      years[year] = {};
-      years[year][season] = element.schedules;
-    });
-    for(var yearKey in years){
-      for(var seasonKey in years[yearKey]){
-        this.scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
-      }
-      this.panes.push({
-        menuItem: yearKey,
-        render: () => this.paneRender()
+    axios.post('/builder/genSchedules', this.props.location.recSeqSem)
+    .then(response => {
+      this.props.location.scheduleGiven = response.data;
+      
+
+      var years = {};
+      this.props.location.scheduleGiven.forEach(element => {
+        var year = element.year;
+        var season = element.season;
+        if(years[year] === undefined)
+        years[year] = {};
+        years[year][season] = element.schedules;
       });
-    }
+      for(var yearKey in years){
+        for(var seasonKey in years[yearKey]){
+          this.scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+        }
+        this.panes.push({
+          menuItem: yearKey,
+          render: () => this.paneRender()
+        });
+      }
+    });
   }
   
   listItemClicked(event){
@@ -109,19 +138,30 @@ class ScheduleBuilderPage extends Component {
   }
   
   regenerateSchedule(){
-    let dataToSend = {"courseRecord": this.state.courseRecord,
+    let coursesPayload = {"courseRecord": this.state.courseRecord,
     "courseSequence": this.state.currentClasses,
     "semesters": this.state.semesters};
-    axios.post('/builder/genSchedules', dataToSend).then(response => {
+    axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
     })
     .catch(error => {
       console.log('error', error)
     });
+
+    let postBody = coursesPayload;
+    postBody.authToken = this.state.authToken;
+
+    // When coursePayload has properly been saved in the database, we can update the sessions storage
+    axios.post('/users/saveRecAndSeq', postBody).then(res => {
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+      window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+      window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.allClasses)); // TODO: need to update it
+    });
   }
   paneRender(){
-    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
+    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.location.scheduleGiven}/></Tab.Pane>)
   }
   
   render() {
