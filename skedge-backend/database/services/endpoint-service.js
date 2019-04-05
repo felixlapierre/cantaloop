@@ -9,6 +9,17 @@ module.exports = {
         return database_services.getCourseCatalog();
     },
 
+    saveSchedule: function(userSchedule){
+        return database_services.saveSchedule(userSchedule);
+    },
+
+    loadSchedule: function(userID){
+      return database_services.loadSchedule(userID);
+  },
+
+    deleteSchedule: function(userSchedule){
+      return database_services.deleteSchedule(userSchedule);
+  },
     createUser: function (userJSON) {
       return database_services.createUser(userJSON);
     },
@@ -24,4 +35,6 @@ module.exports = {
     saveUserRecord: function(userRecord){
       return database_services.getUserRecord(userRecord);
     }
+
+
 };

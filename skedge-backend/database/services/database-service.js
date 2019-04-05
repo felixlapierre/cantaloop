@@ -139,7 +139,7 @@ module.exports = {
       })
     },
 
-    createUser: function (userJSON) {
+    createUser: function (userJSON) {   
       return new Promise((resolve, reject) => {
         mongoose.connection.collection("users").insertOne(userJSON, function (err, result) {
             if (err) {
@@ -148,8 +148,33 @@ module.exports = {
                 resolve("Successfully added into database!");
             }
         })
-      })
+        })
     },
+    
+
+    saveSchedule: function(objectJSON){
+        mongoose.connection.collection(userSchedule).insertOne(objectJSON, function(err,result){
+            if(err){
+                return err;
+            }else{
+                console.log("Successfully added into database!");
+            }
+        })
+
+
+    },
+
+    loadSchedule: function(userID){
+        mongoose.connection.collection(userSchedule).find({'creator':userID}, function(err, result){
+            if(err){
+                return err;
+            }else{
+                return result;
+            }
+        })
+
+    },
+     
 
     checkUserCredential: function (userJSON) {
       return new Promise((resolve, reject) => {
