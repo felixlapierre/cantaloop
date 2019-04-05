@@ -40,6 +40,7 @@ class UserRecordPage extends Component {
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
+    
     this.handleBack = this.handleBack.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
@@ -74,12 +75,12 @@ class UserRecordPage extends Component {
       console.log(error);
     });
 
-    console.log("Sending POST request to secure endpoint!!!");
-    axios.post('test/secureEndpoint', {authToken: this.state.authToken})
-    .then(res => {
-      console.log('Response from secureEndpoint:');
-      console.log(JSON.stringify(res.data));
-    });
+    // console.log("Sending POST request to secure endpoint!!!");
+    // axios.post('test/secureEndpoint', {authToken: this.state.authToken})
+    // .then(res => {
+    //   console.log('Response from secureEndpoint:');
+    //   console.log(JSON.stringify(res.data));
+    // });
   }
   
   handleBack(){
@@ -252,16 +253,21 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
     window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
-    var that = this;
-    console.log("SENDING:");
-    console.log(coursesPayload);
-    axios.post('/builder/genSchedules', coursesPayload).then(response => {
-      this.props.history.push({
-        pathname: '/schedule',
-        authToken: this.state.authToken
-      }); 
-    });
     
+    let postBody = coursesPayload;
+    postBody.authToken = this.state.authToken;
+
+    axios.post('/users/saveRecAndSeq', postBody).then(res => {
+      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+      window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+      window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+      window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions)); // TODO: need to update it
+    });
+    this.props.history.push({
+      pathname: '/schedule',
+      authToken: this.state.authToken,
+      recSeqSem: coursesPayload
+    });
   }
   
   handleUpdateSemesters(_State){

@@ -8,6 +8,7 @@ import {withRouter} from 'react-router-dom';
 class HeaderPage extends Component {
   constructor(props) {
     super(props);
+    this.state = { authToken : props.location.authToken };
 
     this.handleRecordButtonClick = this.handleRecordButtonClick.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -15,7 +16,10 @@ class HeaderPage extends Component {
   }
 
   handleRecordButtonClick(){
-    this.props.history.push('/record');
+    this.props.history.push({
+      pathname: '/record',
+      authToken: this.state.authToken
+    }); 
   }
 
   handleLogout(){
