@@ -35,7 +35,7 @@ class TabContent extends Component{
             <Grid>
                 <Grid.Row columns={3} verticalAlign='middle' stretched>
                     <Grid.Column width={1} textAlign="center">
-                        <Button className="SemesterButton" onClick={this.handleBack} icon='chevron left' size='massive'/>
+                        <Button className="SemesterButton" onClick={this.handleBack} icon='chevron left' size='huge'/>
                     </Grid.Column>
                     <Grid.Column width={14} textAlign="center">
                         <Slider ref={(sliderInstance) => { this.slider = sliderInstance; }} {...this.settings}>
@@ -51,7 +51,7 @@ class TabContent extends Component{
                         </Slider>
                     </Grid.Column>
                     <Grid.Column width={1} textAlign="center">
-                        <Button className="SemesterButton" onClick={this.handleNext} icon='chevron right' size='massive'/>
+                        <Button className="SemesterButton" onClick={this.handleNext} icon='chevron right' size='huge'/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

@@ -3,8 +3,10 @@ import '../styles/ScheduleBuilderPage.css';
 import Schedule from './Schedule';
 import HeaderPage from './HeaderPage.js';
 import TabContent from './TabContent.js';
+import CourseSequenceMenuItem from './CourseSequenceMenuItem.js'
 import { Button, Icon, Menu, Dropdown, List, Grid, Segment, Sidebar, Tab, Divider, Label} from 'semantic-ui-react';
 import axios from "axios";
+import courseSequenceMenuItem from './CourseSequenceMenuItem';
 
 //The main page after a user logs in
 class ScheduleBuilderPage extends Component {
@@ -151,17 +153,12 @@ class ScheduleBuilderPage extends Component {
 
   courseSequenceItem(name){
     return(
-      <Grid> 
-        <Grid.Column width={9}>
-          <Menu.Item as='a'>{name}</Menu.Item>
-        </Grid.Column>
-        <Grid.Column width={3} textAlign="center">
-          <Button size='mini'></Button>
-        </Grid.Column>
-        <Grid.Column width={3} textAlign="center">
-          <Button size='mini'></Button>
-        </Grid.Column>
-      </Grid>);
+        <Menu.Item as='a'>
+          <div className="courseSequenceItem">
+            <div>{name}</div>
+            <div><Button></Button><Button></Button></div>
+          </div>
+        </Menu.Item>);
   }
 
   render() {
@@ -185,21 +182,12 @@ class ScheduleBuilderPage extends Component {
             width= 'wide'
           >
             <Menu.Menu>
-              <Menu.Item as='a'>space</Menu.Item>
-              <Menu.Item as='a'>space</Menu.Item>
-              <Menu.Item as='a'>space</Menu.Item>
-            </Menu.Menu>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <Menu.Menu>
               <Menu.Header as='a'>Previously Saved</Menu.Header>
-              {this.courseSequenceItem("name")}
-              {this.courseSequenceItem("name")}
-              {this.courseSequenceItem("name")}
+              <CourseSequenceMenuItem name="space"></CourseSequenceMenuItem>
+              <Menu.Item as='a'>Test</Menu.Item>
+              <Menu.Item as='a'>Test</Menu.Item>
+              <Menu.Item as='a'>Test</Menu.Item>
+              <Menu.Item as='a'>Test</Menu.Item>
             </Menu.Menu>
           </Sidebar>
 

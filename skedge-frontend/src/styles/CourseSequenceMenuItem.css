@@ -1,0 +1,8 @@
+div.MenuItem{
+    justify-content: space-between;
+    display: flex;
+  }
+.VerticalCenter{
+  vertical-align: middle;
+  top: 50%;
+}
