@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 
-var courseSchem = require('../schemas/courseSchema');
-var courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
-var courseCatalogSchema = require('../schemas/courseCatalogSchema');
-const userSchema = require ('../schemas/userSchema')
+const courseSchem = require('../schemas/courseSchema');
+const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
+const courseCatalogSchema = require('../schemas/courseCatalogSchema');
+const userSchema = require ('../schemas/userSchema');
+const userRecordSequenceSchema = require('../schemas/userRecordSequenceSchema');
+
 
 mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
     .then(() => {
@@ -177,7 +179,7 @@ module.exports = {
 
     getUserRecord: function (userId) {
         return new Promise((resolve, reject) => {
-            userRecordSchema.userRecordSequence.findOne({creator: userId}, function(err, result){
+            userRecordSequenceSchema.userRecord.findOne({creator: userId}, function(err, result){
                 if(err)
                     reject(err);
                 else
