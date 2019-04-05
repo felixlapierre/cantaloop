@@ -175,6 +175,28 @@ module.exports = {
         })
     },
 
+    getUserRecord: function (userId) {
+        return new Promise((resolve, reject) => {
+            userRecordSchema.userRecordSequence.findOne({creator: userId}, function(err, result){
+                if(err)
+                    reject(err);
+                else
+                    resolve(result);
+            })
+        });
+    },
+
+    saveUserRecord: function(userRecord) {
+        return new Promise((resolve, reject) => {
+            mongoose.connection.collection("userRecord").insertOne(userRecord, function(err, result){
+                if(err)
+                    reject(err);
+                else
+                    resolve(result);
+            })
+        });
+    },
+
     disconnect: function() {
         return mongoose.disconnect();
     }
