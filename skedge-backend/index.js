@@ -100,6 +100,14 @@ app.post('/builder/genSchedules', (req, res) => {
     let courseSequence = req.body.courseSequence;
     let semesters = req.body.semesters;
 
+    //Temporary fix: Set season to lower case
+    if(semesters != undefined)
+    {
+        semesters.forEach(semester => {
+            semester.season = semester.season.toLowerCase();
+        })
+    }
+
     try {
         var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
         res.json(generatedSchedules);
