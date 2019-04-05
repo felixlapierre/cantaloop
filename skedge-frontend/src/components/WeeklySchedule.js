@@ -7,12 +7,17 @@ class WeeklySchedule extends Component
     constructor(props)
     {
         super(props);
-        this.courseInfos = [];
+        this.state={
+        courseInfos: []
+        }
+    }
+    componentDidMount()
+    { 
         for(var courseId in this.props.schedule)
         {
           for(var classType in this.props.schedule[courseId])
           { 
-            this.courseInfos.push(
+            this.setState({courseInfos: this.state.courseInfos.push(
               <CourseInfo 
                 key={courseId+classType}
                 course={courseId}
@@ -20,7 +25,7 @@ class WeeklySchedule extends Component
                 startTime={this.props.schedule[courseId][classType].time_start}
                 endTime={this.props.schedule[courseId][classType].time_end}
                 day={this.props.schedule[courseId][classType].days}
-              />);
+            />)});
           }
         } 
     }
@@ -64,7 +69,7 @@ class WeeklySchedule extends Component
                   <p className='thursday'>THURSDAY</p>
                   <p className='friday'>FRIDAY</p>
                 </section>
-                {this.courseInfos}
+                {this.state.courseInfos}
             </div>          
           </div>
         )

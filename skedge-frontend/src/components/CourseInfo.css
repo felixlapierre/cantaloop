@@ -3,14 +3,12 @@
     margin-left: 5px;
   }
   
-  
   .timetable {
     display: grid;
     grid-gap: 15px;
     grid-template-columns: 50px repeat(5, 150px);
     grid-template-rows: repeat(25, 50px);
   }
-
   p {
     margin: 0;
     padding: 0;
@@ -23,7 +21,6 @@
     background-color:turquoise;
   }
 
-  
   .titleWrapper {
     display: grid;
     grid-column: 1 / 7;
