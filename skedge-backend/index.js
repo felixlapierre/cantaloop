@@ -89,9 +89,6 @@ app.get('/courses/catalogue', (req, res) => {
 //Save Schedule
 app.post('/users/saveSchedules', checkAuth, (req, res, next) => {
 
-    //Method has not been defined yet, but assuming that it will take the info directly from
-    //MongoDB and it would return an array of all courses available with instances variable
-    //such as Name, semester, nb of credits, timeslot etc.
     let userID = req.body.authToken.userId;
 
     let userSchedule = new scheduleSchema({
@@ -120,6 +117,29 @@ app.post('/users/loadSchedules', checkAuth, (req, res, next)=>{
         res.json(results);
     })
 })
+
+
+//Delete Schedule
+app.post('/users/deleteSchedules', checkAuth, (req, res, next) => {
+
+    let userID = req.body.authToken.userId;
+
+    let userSchedule = new scheduleSchema({
+        year : req.body.year,
+        semesters: req.body.semesters,
+        credits: req.body.credits,
+        Schedules: req.body.Schedules,
+        creator: userId
+    })
+
+    endpoint_service.deleteSchedule(userSchedule)
+    .then(result =>{
+        res.status(201).json({
+            message: "Schedule successfully deleted!"
+        });
+    });
+
+});
 
 
 // Returns a list of possible schedules for each semester
