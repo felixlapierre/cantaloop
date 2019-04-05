@@ -32,3 +32,5 @@ function scaleToPercentage( times, timeOverlap){
 
     return percentage;
 }
+
+module.exports = restrictionOverlap;

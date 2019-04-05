@@ -15,7 +15,6 @@ function generation(parentPopulation, fitnessFunctions, sectionList, populationL
     this.population.forEach(individual => {
         fitnessFunctions.forEach(fitnessFunction => {
             fitnessFunction.EvaluateFitness(individual);
-            
         });
     });
 
@@ -62,7 +61,7 @@ function performBreeding(survivors, populationSize, population)
     }
 }
 
-function initalGeneration(genome, sectionList, rankGeneration, populationLimit)
+function initalGeneration(genome, sectionList, fitnessFunctions, populationLimit)
 {
     var generation = [];
     var semester = {};
@@ -76,7 +75,11 @@ function initalGeneration(genome, sectionList, rankGeneration, populationLimit)
         generation.push( new individual(semester));
     }
 
-    rankGeneration(generation);
+    this.population.forEach(individual => {
+        fitnessFunctions.forEach(fitnessFunction => {
+            fitnessFunction.EvaluateFitness(individual);
+        });
+    });
 
     return generation;
     

@@ -1,4 +1,5 @@
-const overlaps = require('./overlaps.js');
+const restrictionOverlap = require('./restrictionOverlap.js');
+const conflictOverlap = require('./conflictOverlap.js');
 
 class TimeRestrictionFitness{
     constructor(restrictions){
@@ -9,17 +10,17 @@ class TimeRestrictionFitness{
     {
         var semester = individual.semester;
         var genome = individual.genome;
-        var restrictionOverlap = 0;
+        var overlap = 0;
     
         for (let i = 0; i < genome.length; i++) {
             for (let j = 0; j < restriction.length; j++) {
                 for (const key in semester[genome[i]]) {
-                    restrictionOverlap = restrictionOverlap + overlaps(semester[genome[i]][key], restriction[i]);
+                    overlap = overlap + restrictionOverlap(semester[genome[i]][key], restriction[i]);
                 }
             }  
         }
         
-        individual.fitness = restrictionOverlap;
+        individual.fitness = individual.fitness - overlap;
     }
 }
 
@@ -28,7 +29,7 @@ class CourseConflictFitness{
     EvaluateFitness(individual){
         var semester = individual.semester;
         var genome = individual.genome;
-        var courseOverlap = 5000
+        var overlap = 5000
     
         for (let i = 0; i < genome.length; i++) {
             for (let j = (i + 1); j < genome.length; j++) {
@@ -40,16 +41,16 @@ class CourseConflictFitness{
                         for (const key2 in semester[genome[j]]) {
     
                             if (semester[genome[j]].hasOwnProperty(key2)) {
-                                courseOverlap = courseOverlap - overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
+                                overlap = overlap - conflictOverlap( semester[genome[i]][key], semester[genome[j]][key2]);
                             }
                         }
                     }
                 }
             }
         }
-        if (courseOverlap != 5000) individual.hasConflicts = true;
+        if (overlap != 5000) individual.hasConflicts = true;
 
-        individual.fitness = courseOverlap;
+        individual.fitness = overlap;
     }
 }
 
