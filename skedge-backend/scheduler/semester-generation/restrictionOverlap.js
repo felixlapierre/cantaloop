@@ -1,22 +1,21 @@
-const overlaps = require('./overlaps.js');
+const checkDayOverlap= require('./overlaps.js').checkDayOverlap;
+const convertTimeToInt= require('./overlaps.js').convertTimeToInt;
+const computeTimeOverlap= require('./overlaps.js').computeTimeOverlap;
 
 function restrictionOverlap( sectionClass , restriction){
 
-    var dayMultiplier = overlaps.checkDayOverlap( sectionClass.days ,  restriction.days);
+    var dayMultiplier = checkDayOverlap( sectionClass.days ,  restriction.days);
     
     if (dayMultiplier == 0) return 0;
 
-    var classTimes = {
-        "sectionClass" : [],
-        "restriction" : []
-    }; 
+    var classTimes = [];
 
-    classTimes['sectionClass'][0] = overlaps.convertTimeToInt(sectionClass.time_start);
-    classTimes['sectionClass'][1] = overlaps.convertTimeToInt(sectionClass.time_end);
-    classTimes['restriction'][0] = overlaps.convertTimeToInt(restriction.time_start);
-    classTimes['restriction'][1] = overlaps.convertTimeToInt(restriction.time_end);
+    classTimes[0][0] = convertTimeToInt(sectionClass.time_start);
+    classTimes[0][1] = convertTimeToInt(sectionClass.time_end);
+    classTimes[1][0] = convertTimeToInt(restriction.time_start);
+    classTimes[1][1] = convertTimeToInt(restriction.time_end);
 
-    var timeOverlap = overlaps.computeTimeOverlap(classTimes);
+    var timeOverlap = computeTimeOverlap(classTimes);
 
     var percentage = scaleToPercentage(classTimes, timeOverlap);
 
@@ -26,7 +25,7 @@ function restrictionOverlap( sectionClass , restriction){
 
 function scaleToPercentage( times, timeOverlap){
 
-    var restrictionDuration = times['restriction'][1] - times['restriction'][0]; 
+    var restrictionDuration = times[1][1] - times[1][0]; 
 
     var percentage = timeOverlap /restrictionDuration;
 

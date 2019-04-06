@@ -7,9 +7,8 @@
  * @returns integer amount of time overlapping in minutes
  */
 
-class overlaps
-{
-    checkDayOverlap(c1days, c2days){
+
+function checkDayOverlap(c1days, c2days){
 
         if (c1days.match(/TBD|N\/A/g) || c2days.match(/TBD|N\/A/g) ) 
             return 0; // no overlap
@@ -26,21 +25,20 @@ class overlaps
 
         else return 0;
     }
-
-    convertTimeToInt(timeString){
+    
+function convertTimeToInt(timeString){
 
         var SplitTime = timeString.split(":");
         var intTime = parseInt(SplitTime[0], 10) * 60 + parseInt(SplitTime[1], 10);
         return intTime;
     }
 
-    computeTimeOverlap(times){
-
-        var s1 = times["class1"][0];
-        var s2 = times["class2"][0];
-        var e1 = times["class1"][1];
-        var e2 = times["class2"][1];
-
+    function computeTimeOverlap(times){
+        var s1 = times[0][0];
+        var e1 = times[0][1];
+        var s2 = times[1][0];
+        var e2 = times[1][1];
+        
         if (s1<s2)
         {
             // c1 starts earlier than c2
@@ -128,6 +126,9 @@ class overlaps
         }
     }
 
-}
 
-module.exports = overlaps;
+
+module.exports = {};
+module.exports.checkDayOverlap = checkDayOverlap;
+module.exports.convertTimeToInt = convertTimeToInt;
+module.exports.computeTimeOverlap = computeTimeOverlap;

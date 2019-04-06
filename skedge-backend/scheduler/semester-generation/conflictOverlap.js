@@ -6,15 +6,11 @@ function conflictOverlap (class1, class2){
     
     if (dayMultiplier==0) return 0;
 
-    var classTimes = {
-        "class1" : [],
-        "class2" : []
-    }; 
+    classTimes[0][0] = overlaps.convertTimeToInt(class1.time_start);
+    classTimes[0][1] = overlaps.convertTimeToInt(class1.time_end);
 
-    classTimes['class1'][0] = overlaps.convertTimeToInt(class1.time_start);
-    classTimes['class1'][1] = overlaps.convertTimeToInt(class1.time_end);
-    classTimes['class2'][0] = overlaps.convertTimeToInt(class2.time_start);
-    classTimes['class2'][1] = overlaps.convertTimeToInt(class2.time_end);
+    classTimes[1][0] = overlaps.convertTimeToInt(class2.time_start);
+    classTimes[1][1] = overlaps.convertTimeToInt(class2.time_end);
 
     var timeOverlap = overlaps.computeTimeOverlap(classTimes);
 
