@@ -106,7 +106,7 @@ app.post('/builder/genSchedules', (req, res) => {
 
     let generatedSchedules;
     try {
-        generatedSchedules = scheduler_service.GenerateSchedules(courseRecorIDdArr, courseSequenceIDArr, semestersArr);
+        generatedSchedules = scheduler_service.GenerateSchedules(courseRecordIDArr, courseSequenceIDArr, semestersArr);
     } catch (error) {
         let theError = "Schedule Builder Error:"+error+"\n\n";
         console.log(theError);
@@ -180,7 +180,7 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
         courseRecord: req.body.courseRecord,
         courseSequence: req.body.courseSequence,
         semesters: req.body.semesters,
-        creator: userId
+        creator: JSON.parse(userId)
     });
     // Get rid of try catch once database function works
     try {
@@ -208,7 +208,7 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
 app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
     let userId = req.body.authToken.userId;
     try {
-        endpoint_service.getUserRecord(userId)
+        endpoint_service.getUserRecord(JSON.parse(userId))
         .then((userRecord) => {
             userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
             res.json(userRecord);

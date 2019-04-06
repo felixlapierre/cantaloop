@@ -43,6 +43,11 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentDidMount() {
+
+    if(this.props.location.isLoggedInAsGuest){
+      return;
+    }
+
     axios.post('/users/loadRecAndSeq', {authToken: this.state.authToken})
       .then(res => {
         if (res.data === null || res.data.courseSequence === undefined) // If the user has no saved course record/sequence, it should be blank.
@@ -138,9 +143,12 @@ class ScheduleBuilderPage extends Component {
   }
   
   regenerateSchedule(){
-    let coursesPayload = {"courseRecord": this.state.courseRecord,
-    "courseSequence": this.state.currentClasses,
-    "semesters": this.state.semesters};
+    let coursesPayload = {
+      "courseRecord": this.state.courseRecord,
+      "courseSequence": this.state.currentClasses,
+      "semesters": this.state.semesters
+    };
+
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
@@ -149,17 +157,21 @@ class ScheduleBuilderPage extends Component {
       console.log('error', error)
     });
 
-    let postBody = coursesPayload;
-    postBody.authToken = this.state.authToken;
+    if(!this.props.location.isLoggedInAsGuest)
+    {
+      let postBody = coursesPayload;
+      postBody.authToken = this.state.authToken;
 
-    // When coursePayload has properly been saved in the database, we can update the sessions storage
-    axios.post('/users/saveRecAndSeq', postBody).then(res => {
-      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
-      window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
-      window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
-      window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.allClasses)); // TODO: need to update it
-    });
+      // When coursePayload has properly been saved in the database, we can update the sessions storage
+      axios.post('/users/saveRecAndSeq', postBody).then(res => {
+        window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+        window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+        window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+        window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.allClasses)); // TODO: need to update it
+      });
+    }
   }
+
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.location.scheduleGiven}/></Tab.Pane>)
   }

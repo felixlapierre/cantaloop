@@ -31,7 +31,7 @@ class LandingPage extends Component {
     });
   }
   
-  componentDidMount(){
+  componentDidMount() {
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
     window.sessionStorage.setItem('semesters', JSON.stringify([]));
@@ -62,7 +62,8 @@ class LandingPage extends Component {
           }
           this.props.history.push({
             pathname: pathName,
-            authToken: authToken
+            authToken: authToken,
+            isLoggedInAsGuest: false
           }); 
           
       }).catch(error => {
@@ -97,7 +98,10 @@ class LandingPage extends Component {
   
   handleLoginGuest(event) {
     console.log("Guest");
-    this.props.history.push('/record')
+    this.props.history.push({
+      pathname: '/record',
+      isLoggedInAsGuest: true
+    })
   }
   
   // Display error messages
