@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 
 var initialGeneration = require("../semester-generation/generation.js").initalGeneration;
-var rankGeneration = require("../semester-generation/fitness.js").rankGeneration;
+// var rankGeneration = require("../semester-generation/fitness.js").rankGeneration;
 
 describe('initialGeneration', function(){
     it('should create and rank a generation from a given genome', function()
