@@ -2,40 +2,9 @@ var expect = require('chai').expect;
 var CoursePlacer = require("../../course-placement/course-placement");
 var Requisites = require("../../course-placement/requisites");
 
-var someCatalog = {
-    "BasicClassA": {
-        "prerequisites": [],
-        "corequisites": [],
-        "credits": 1
-    },
-    "BasicClassB": {
-        "prerequisites": [],
-        "corequisites": [],
-        "credits": 2
-    },
-    "BasicClassC": {
-        "prerequisites": [],
-        "corequisites": [],
-        "credits": 3
-    },
-    "HasClassACorequisite": {
-        "prerequisites": [],
-        "corequisites": ["BasicClassA"],
-        "credits": 1
-    },
-    "HasClassBPrerequisite": {
-        "prerequisites": ["BasicClassB"],
-        "corequisites": [],
-        "credits": 2
-    },
-    "HasClassBPrereqClassCCoreq": {
-        "prerequisites": ["BasicClassB"],
-        "corequisites": ["BasicClassC"],
-        "credits": 2
-    }
-}
+//See end of file for course catalog used
 
-var someRankedCourses = ["BasicClassB", "BasicClassC", "BasicClassA", "HasClassACorequisite", "HasClassBPrereqClassCCoreq", "HasClassBPrerequisite"];
+var someRankedCourses = ["BasicClassB", "BasicClassC", "BasicClassA", "HasClassACorequisite", "HasClassBPrereqClassCCoreq", "HasClassBPrerequisite", "HasNoSectionsInFall"];
 
 var someSemesters = [
     {"year": 2018, "season": "fall"},
@@ -142,7 +111,22 @@ describe('placeCourses', () => {
     })
 
     it('Should not place a course in a semester that has no sections', () => {
-        
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["HasNoSectionsInFall"];
+        var ranks = MockRankCourses(courseSequence);
+
+        someSemesters[0].credits = 5;
+        someSemesters[0].credits = 5;
+
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
+
+        //Act
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
+
+        //Assert
+        expect(placements['fall 2018']).to.have.length(0);
+        expect(placements['winter 2019']).to.include.members(["HasNoSectionsInFall"]);
     })
 
     //Check with classes in course record
@@ -195,4 +179,57 @@ class CourseChecker
             .to.be.true;
     }
 
+}
+
+
+var someCatalog = {
+    "BasicClassA": {
+        "prerequisites": [],
+        "corequisites": [],
+        "credits": 1,
+        "fall": ["SomeSection"],
+        "winter": ["SomeSection"]
+    },
+    "BasicClassB": {
+        "prerequisites": [],
+        "corequisites": [],
+        "credits": 2,
+        "fall": ["SomeSection"],
+        "winter": ["SomeSection"]
+    },
+    "BasicClassC": {
+        "prerequisites": [],
+        "corequisites": [],
+        "credits": 3,
+        "fall": ["SomeSection"],
+        "winter": ["SomeSection"]
+    },
+    "HasClassACorequisite": {
+        "prerequisites": [],
+        "corequisites": ["BasicClassA"],
+        "credits": 1,
+        "fall": ["SomeSection"],
+        "winter": ["SomeSection"]
+    },
+    "HasClassBPrerequisite": {
+        "prerequisites": ["BasicClassB"],
+        "corequisites": [],
+        "credits": 2,
+        "fall": ["SomeSection"],
+        "winter": ["SomeSection"]
+    },
+    "HasClassBPrereqClassCCoreq": {
+        "prerequisites": ["BasicClassB"],
+        "corequisites": ["BasicClassC"],
+        "credits": 2,
+        "fall": ["SomeSection"],
+        "winter": ["SomeSection"]
+    },
+    "HasNoSectionsInFall": {
+        "prerequisites": [],
+        "corequisites": [],
+        "credits": 1,
+        "fall": [],
+        "winter": ["SomeSection"]
+    }
 }
