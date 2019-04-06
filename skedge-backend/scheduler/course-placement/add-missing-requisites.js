@@ -38,7 +38,7 @@ function GetAllMissingCoursesFrom(courses, requisites)
 
 function CourseExcluded(courseId)
 {
-    return courseId.match(/(MATH|PHYS)/);
+    return courseId.match(/(MATH|PHYS|BIOL)/);
 }
 
 module.exports = AddMissingPrerequisitesAndCorequisites;

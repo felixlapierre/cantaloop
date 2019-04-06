@@ -59,7 +59,7 @@ class Requisites
 
     IsCourseIgnored(courseId)
     {
-        return courseId.match(/(MATH|PHYS)/);
+        return courseId.match(/(MATH|PHYS|BIOL)/);
     }
 
     SetCourseInProgress(courseId)

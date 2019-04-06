@@ -141,6 +141,10 @@ describe('placeCourses', () => {
         checker.isTakenWith("BasicClassC", "HasClassBPrereqClassCCoreq");
     })
 
+    it('Should not place a course in a semester that has no sections', () => {
+        
+    })
+
     //Check with classes in course record
 })
 
