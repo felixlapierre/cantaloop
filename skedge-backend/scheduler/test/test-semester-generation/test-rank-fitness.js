@@ -148,4 +148,16 @@ describe('rankFitness', function(){
 
     });
 
+    it('should not crash when provided objects with properties other than lecture, lab, tutorial', () => {
+        //arrange
+        semesterCopy = JSON.parse(JSON.stringify(semester[4]));
+        semesterCopy.COMP346.id = "5";
+
+        //act
+        var fitnessRank = evaluateFitness(semesterCopy);
+
+        //assert
+        expect(fitnessRank).to.equal(1440);
+    })
+
 });

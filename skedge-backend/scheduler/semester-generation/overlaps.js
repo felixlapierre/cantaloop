@@ -9,10 +9,6 @@
 
 function overlaps(class1, class2)
 {
-    if(class1.days == undefined || class2.days == undefined)
-    {
-        console.log("Day of class was undefined. Class 1:\n" + class1 + "\nClass2: " + class2);
-    }
     if ( class1.days.length == 3 || class2.days.length == 3) {// "TBD"
         return 0;
     }
