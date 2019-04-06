@@ -41,17 +41,18 @@ function evaluateFitness(semester)
         for (let j = (i + 1); j < genome.length; j++) {
 
             // semester[genome[i]] = { "LEC": stuff, "TUT": stuff, "LAB": stuff };
-            for (const key in semester[genome[i]]) {
-                if (semester[genome[i]].hasOwnProperty(key)) {
-
-                    for (const key2 in semester[genome[j]]) {
-
-                        if (semester[genome[j]].hasOwnProperty(key2)) {
-                            fitness = fitness - overlaps( semester[genome[i]][key], semester[genome[j]][key2]);
+            const classType = ["lecture", "lab", "tutorial"];
+            classType.forEach(type1 => {
+                if(semester[genome[i]].hasOwnProperty(type1))
+                {
+                    classType.forEach(type2 => {
+                        if(semester[genome[j]].hasOwnProperty(type2))
+                        {
+                            fitness = fitness - overlaps( semester[genome[i]][type1], semester[genome[j]][type2]);
                         }
-                    }
+                    })
                 }
-            }
+            });
         }
     }
     return fitness;
