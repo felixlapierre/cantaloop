@@ -44,7 +44,7 @@ class ScheduleBuilderPage extends Component {
 
   componentDidMount() {
 
-    if(this.props.location.isLoggedInAsGuest){
+    if(window.sessionStorage.getItem('isLoggedInAsGuest') === "true"){
       return;
     }
 

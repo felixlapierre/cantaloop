@@ -18,10 +18,10 @@ module.exports = {
     },
 
     getUserRecord: function(userId){
-      return database_services.saveUserRecord(userId);
+      return database_services.getUserRecord(userId);
     },
 
     saveUserRecord: function(userRecord){
-      return database_services.getUserRecord(userRecord);
+      return database_services.saveUserRecord(userRecord);
     }
 };

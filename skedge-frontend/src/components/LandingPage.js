@@ -35,6 +35,7 @@ class LandingPage extends Component {
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
     window.sessionStorage.setItem('semesters', JSON.stringify([]));
+    window.sessionStorage.setItem('isLoggedInAsGuest', "");
   }
 
   // TODO: ensure password is hashed before sending it to backend
@@ -49,6 +50,9 @@ class LandingPage extends Component {
             console.log(error)
             alert("Login unsuccessful. Could not verify server signature.");
           }
+
+          window.sessionStorage.setItem('isLoggedInAsGuest', "false");
+
           // Save authToken to memory (NOT TO SESSION STORAGE)
           let authToken = wrapperToken.authToken;
 
@@ -63,7 +67,6 @@ class LandingPage extends Component {
           this.props.history.push({
             pathname: pathName,
             authToken: authToken,
-            isLoggedInAsGuest: false
           }); 
           
       }).catch(error => {
@@ -97,7 +100,8 @@ class LandingPage extends Component {
   }
   
   handleLoginGuest(event) {
-    console.log("Guest");
+    window.sessionStorage.setItem('isLoggedInAsGuest', "true");
+
     this.props.history.push({
       pathname: '/record',
       isLoggedInAsGuest: true
