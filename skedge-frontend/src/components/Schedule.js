@@ -52,7 +52,7 @@ class Schedule extends Component {
         <Grid.Row centered>
           <Grid.Column>
             <Segment raised>
-              <WeeklySchedule schedule={this.props.schedules[this.state.pickedSchedule-1]}/>
+              <WeeklySchedule schedule={this.props.schedules[this.state.pickedSchedule-1]} scheduleNumber={this.state.pickedSchedule}/>
               {/* example on how to access the classes for the schedule */}
 ]            </Segment>
           </Grid.Column>
