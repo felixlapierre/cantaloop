@@ -7,44 +7,39 @@ class WeeklySchedule extends Component
     constructor(props)
     {
         super(props);
-        this.state = {
-          courseInfos: []
-        };
+        this.courseInfos = [];
         this.updateCourseState = this.updateCourseState.bind(this);
     }
 
     componentWillUpdate()
     { 
-      this.updateCourseState();
-    }
-
-    componentWillMount(){
-      this.updateCourseState();
+      this.courseInfos = []
     }
 
     updateCourseState(){
+      var newCourseInfos = [];
       for(var courseId in this.props.schedule)
       {
         for(var classType in this.props.schedule[courseId])
         {
-          this.setState((state, props) => ({
-            courseInfos: state.courseInfos.concat(
-              <CourseInfo 
-                key={courseId+classType+this.props.scheduleNumber}
-                course={courseId}
-                type={classType}
-                startTime={props.schedule[courseId][classType].time_start}
-                endTime={props.schedule[courseId][classType].time_end}
-                day={props.schedule[courseId][classType].days}
-              />
-            )
-          }));
+          newCourseInfos.push(
+            <CourseInfo 
+              key={courseId+classType+this.props.scheduleNumber}
+              course={courseId}
+              type={classType}
+              startTime={this.props.schedule[courseId][classType].time_start}
+              endTime={this.props.schedule[courseId][classType].time_end}
+              day={this.props.schedule[courseId][classType].days}
+            />
+          );
         }
-      } 
+      }
+      this.courseInfos = newCourseInfos;
     }
 
     render()
     {
+      this.updateCourseState();
         return (
             <div className='myCourses'>
               <div className='timetable'>
@@ -83,7 +78,7 @@ class WeeklySchedule extends Component
                   <p className='thursday'>THURSDAY</p>
                   <p className='friday'>FRIDAY</p>
                 </section>
-                {this.state.courseInfos}
+                {this.courseInfos}
             </div>          
           </div>
         )
