@@ -17,16 +17,19 @@ class ScheduleBuilderPage extends Component {
       allClasses:[],
       currentClasses:[],
       semesters:[],
-      courseRecord:[]
+      courseRecord:[],
+      scheduleComponentsIndex: 0
     };
     this.panes = [];
-    this.scheduleComponents = [];
+    this.scheduleYearComponents = [];
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
     this.handleDimmedPusher = this.handleDimmedPusher.bind(this);
     this.listItemClicked = this.listItemClicked.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
+    this.paneRender = this.paneRender.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
   
   handleHamburgerButton(){
@@ -58,12 +61,13 @@ class ScheduleBuilderPage extends Component {
       years[year][season] = element.schedules;
     });
     for(var yearKey in years){
+      this.scheduleYearComponents[yearKey] = [];
       for(var seasonKey in years[yearKey]){
-        this.scheduleComponents.push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+        this.scheduleYearComponents[yearKey].push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
       }
       this.panes.push({
         menuItem: yearKey,
-        render: () => this.paneRender()
+        render: (props) => this.paneRender(props)
       });
     }
   }
@@ -120,8 +124,15 @@ class ScheduleBuilderPage extends Component {
       console.log('error', error)
     });
   }
-  paneRender(){
-    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>)
+
+  paneRender(props){
+    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleYearComponents[props.panes[this.state.scheduleComponentsIndex].menuItem]} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>);
+  }
+
+  handleTabChange(e, { activeIndex }){
+    this.setState({
+      scheduleComponentsIndex: activeIndex
+    });
   }
   
   render() {
@@ -170,7 +181,7 @@ class ScheduleBuilderPage extends Component {
       </div>
       </Grid.Column>
       <Grid.Column width={12}>
-      <Tab panes={this.panes} />
+      <Tab panes={this.panes} onTabChange={this.handleTabChange}/>
       </Grid.Column>
       </Grid.Row>
       </Grid>
