@@ -27,7 +27,7 @@ describe('restrictionOverlap', function(){
         expect(timeOverlap).to.equal(0);
     });
 
-    it('should return the amo for non overlapping class and restriction', function(){
+    it('should return the length of the restriction if a class overlaps entirely with the restriction', function(){
         // Arrange
         var someClass = { "time_start":"00:30","time_end":"03:00","days":"Tu"};
         var restriction = { "time_start":"00:30","time_end":"00:45","days":"Tu"};
@@ -38,5 +38,43 @@ describe('restrictionOverlap', function(){
         // Assert
         expect(timeOverlap).to.equal(15);
     });
+
+    it('should return double the length of the restriction if a class overlaps entirely with the restriction on two days', function(){
+        // Arrange
+        var someClass = { "time_start":"00:30","time_end":"03:00","days":"TuTh"};
+        var restriction = { "time_start":"00:30","time_end":"00:45","days":"TuTh"};
+
+        // Act
+        var timeOverlap = restrictionOverlap(someClass, restriction)
+
+        // Assert
+        expect(timeOverlap).to.equal(30);
+    });
     
+    it('should return a value proportional to the amount of overlap onto the restriction', function(){
+        
+        // Arrange
+        var someClass = { "time_start":"00:30","time_end":"03:00","days":"Tu"};
+        var restriction = { "time_start":"00:00","time_end":"01:00","days":"Tu"};
+
+        // Act
+        var timeOverlap = restrictionOverlap(someClass, restriction)
+
+        // Assert
+        expect(timeOverlap).to.equal(15);
+    });
+
+    it('should return double the value proportional to the amount of overlap onto the restriction ', function(){
+        
+        // Arrange
+        var someClass = { "time_start":"00:30","time_end":"03:00","days":"TuTh"};
+        var restriction = { "time_start":"00:00","time_end":"01:00","days":"TuTh"};
+
+        // Act
+        var timeOverlap = restrictionOverlap(someClass, restriction)
+
+        // Assert
+        expect(timeOverlap).to.equal(30);
+    });
+
 });

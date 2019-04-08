@@ -47,7 +47,7 @@ describe('conflictOverlap', function(){
         var overlapTime = conflictOverlap(someClass, someClassOnTheSameDayAtASeparateTime);
 
         // Assert
-        expect(overlapTime).to.equal(60);
+        expect(overlapTime).to.equal(120);
     });
     
     it('should return the amount of overlapping time for two classes happening in the same slot across one day', function(){

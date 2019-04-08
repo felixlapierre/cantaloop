@@ -8,7 +8,7 @@ function restrictionOverlap( sectionClass , restriction){
     
     if (dayMultiplier == 0) return 0;
 
-    var classTimes = [];
+    var classTimes = [[], [] ];
 
     classTimes[0][0] = convertTimeToInt(sectionClass.time_start);
     classTimes[0][1] = convertTimeToInt(sectionClass.time_end);
