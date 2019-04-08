@@ -16,12 +16,12 @@ var someCatalog = {
         "corequisites": ["COMP101"]
     },
     "HasExcludedPrereqs": {
-        "prerequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101"],
+        "prerequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272"],
         "corequisites": []
     },
     "HasExcludedCoreqs": {
         "prerequisites": [],
-        "corequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101"]
+        "corequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272"]
     }
 }
 
@@ -170,7 +170,7 @@ describe('ArePrereqsCoreqsTaken', () => {
         expect(result).to.be.true;
     });
 
-    it('should be true if a class\' prerequisite is from math, physics or biology', () => {
+    it('should be true if a class\' prerequisite is from math, physics or biology, or is an ignored class', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = ["HasExcludedPrereqs"];
@@ -184,7 +184,7 @@ describe('ArePrereqsCoreqsTaken', () => {
         expect(result).to.be.true;
     })
 
-    it('should be true if a class\' corequisite is from math, physics or biology', () => {
+    it('should be true if a class\' corequisite is from math, physics or biology, or is an ignored class', () => {
         //Arrange
         var courseRecord = [];
         var courseSequence = ["HasExcludedCoreqs"];
