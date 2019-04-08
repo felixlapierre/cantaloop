@@ -20,8 +20,6 @@ class UserRecordPage extends Component {
       semesters : [],
       authToken : this.props.location.authToken,
       courseOptions : [],
-      currentRecordItem: {text: '', key: ''},
-      currentCourseItem: {text: '', key: ''}
     }
     this.settings = {
         arrows: false,
@@ -31,20 +29,17 @@ class UserRecordPage extends Component {
         slidesToShow: 1,
         slidesToScroll: 1
     };
-    this.handleRecordInput = this.handleRecordInput.bind(this);
-    this.handleCourseInput = this.handleCourseInput.bind(this);
-    this.addRecordItem = this.addRecordItem.bind(this);
-    this.addCourseItem = this.addCourseItem.bind(this);
     this.deleteRecordItem = this.deleteRecordItem.bind(this);
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
-    
+    this.handleRecordDropdownChange = this.handleRecordDropdownChange.bind(this);
+    this.handleCouresDropdownChange = this.handleCouresDropdownChange.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
-  
+
   componentDidMount() {
       const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
       const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
@@ -82,7 +77,7 @@ class UserRecordPage extends Component {
     //   console.log(JSON.stringify(res.data));
     // });
   }
-  
+
   handleBack(){
       this.slider.slickPrev();
   }
@@ -100,11 +95,11 @@ class UserRecordPage extends Component {
       optionEntry.text = [courseID.slice(0, 4), " ", courseID.slice(4)].join('') + " - " + courseList[courseID].name;
       courseListArray.push(optionEntry);
     });
-    
+
     return courseListArray;
   }
-  
-  handleRecordInput(event, data) {
+
+  handleRecordDropdownChange(event, data){
     const itemText = data.value;
     var itemKey = "";
     for (var i in data.options){
@@ -112,54 +107,36 @@ class UserRecordPage extends Component {
         itemKey = data.options[i].key;
       }
     }
+
     const currentItem = { text: itemText, key: itemKey };
-    
-    this.setState({
-      currentRecordItem: currentItem
-    })
-  }
-  
-  handleCourseInput(event, data) {
-    const itemText = data.value;
-    var itemKey = "";
-    for (var i in data.options){
-      if(data.options[i].text === itemText){
-        itemKey = data.options[i].key;
-      }
-    }
-    const currentItem = { text: itemText, key: itemKey };
-    
-    this.setState({
-      currentCourseItem: currentItem
-    })
-  }
-  
-  addRecordItem(event) {
-    event.preventDefault();
-    const currentItem = this.state.currentRecordItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
       window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
       this.setState({
         recordItems: items,
-        currentRecordItem: { text: '', key: '' },
       })
     }
   }
-  
-  addCourseItem(event) {
-    event.preventDefault();
-    const currentItem = this.state.currentCourseItem;
+
+  handleCouresDropdownChange(event, data){
+    const itemText = data.value;
+    var itemKey = "";
+    for (var i in data.options){
+      if(data.options[i].text === itemText){
+        itemKey = data.options[i].key;
+      }
+    }
+    const currentItem = { text: itemText, key: itemKey };
+
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
       window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
         courseItems: items,
-        currentCourseItem: { text: '', key: '' },
       })
     }
   }
-  
+
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -168,7 +145,7 @@ class UserRecordPage extends Component {
     }
     return false;
   }
-  
+
   deleteRecordItem(key){
     const filteredItems = this.state.recordItems.filter(item => {
       return item.key !== key
@@ -177,7 +154,7 @@ class UserRecordPage extends Component {
       recordItems: filteredItems
     })
   }
-  
+
   deleteCourseItem(key){
     const filteredItems = this.state.courseItems.filter(item => {
       return item.key !== key
@@ -186,7 +163,7 @@ class UserRecordPage extends Component {
       courseItems: filteredItems
     })
   }
-  
+
   formatRecordAndCourseSequence(){
     var recordArray = [];
     var courseSequenceArray = [];
@@ -203,14 +180,14 @@ class UserRecordPage extends Component {
       var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
       courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
     }
-    
+
     return {
       "courseRecord": recordArray,
       "courseSequence": courseSequenceArray,
       "semesters": semesters
     }
   }
-  
+
   validateSubmission(coursesPayload){
     var errorString = '';
     var problem = false;
@@ -241,9 +218,9 @@ class UserRecordPage extends Component {
       return false;
     }
     return true;
-    
+
   }
-  
+
   handleCourseSubmission(){
     let coursesPayload = this.formatRecordAndCourseSequence();
     if(this.validateSubmission(coursesPayload) === false){
@@ -253,7 +230,7 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
     window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
-    
+
     let postBody = coursesPayload;
     postBody.authToken = this.state.authToken;
 
@@ -269,13 +246,13 @@ class UserRecordPage extends Component {
       recSeqSem: coursesPayload
     });
   }
-  
+
   handleUpdateSemesters(_State){
     this.setState({
       semesters : _State.semesters
     })
   }
-  
+
   render() {
     return (
       <div className = "outer">
@@ -300,10 +277,9 @@ class UserRecordPage extends Component {
                         search
                         selection
                         options = {this.state.courseOptions}
-                        onChange = {this.handleRecordInput}
+                        onChange = {this.handleRecordDropdownChange}
                         />
                     </div>
-                    <Button id = "addRecordItemButton" onClick = {this.addRecordItem}>Add Course</Button>
                     <div id = "recordCourseItems">
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
@@ -323,10 +299,9 @@ class UserRecordPage extends Component {
                         search
                         selection
                         options = {this.state.courseOptions}
-                        onChange = {this.handleCourseInput}
+                        onChange = {this.handleCouresDropdownChange}
                         />
                     </div>
-                    <Button id = "addCourseItemButton"  onClick = {this.addCourseItem}>Add Course</Button>
                     <div id = "wantedCourses">
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
@@ -356,6 +331,5 @@ class UserRecordPage extends Component {
       );
     }
   }
-  
+
   export default UserRecordPage;
-  

@@ -4,6 +4,8 @@
   "description": "skedge",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "debug": "npm run start",
     "test": "npm run scheduler-tests",
     "scheduler-tests": "mocha scheduler --recursive",
     "scheduler-unit-tests": "mocha scheduler/test --recursive",
