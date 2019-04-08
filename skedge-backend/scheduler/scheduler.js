@@ -1,107 +1,107 @@
-// var CoursePlacer = require("./course-placement/course-placement");
-// var Requisites = require("./course-placement/requisites");
-// var AddMissingRequisites = require("./course-placement/add-missing-requisites");
-// var RankCourses = require("./course-placement/rank-courses");
+var CoursePlacer = require("./course-placement/course-placement");
+var Requisites = require("./course-placement/requisites");
+var AddMissingRequisites = require("./course-placement/add-missing-requisites");
+var RankCourses = require("./course-placement/rank-courses");
 
-// var Generation = require("./semester-generation/generation").generation;
-// var InitialGeneration = require("./semester-generation/generation").initalGeneration;
-// var rankingFunction = require("./semester-generation/fitness").rankGeneration;
-// var validator = require("./validate-scheduler-input");
+var Generation = require("./semester-generation/generation").generation;
+var InitialGeneration = require("./semester-generation/generation").initalGeneration;
+var rankingFunction = require("./semester-generation/fitness").rankGeneration;
+var validator = require("./validate-scheduler-input");
 
-// const populationLimit = 20;
-// const numberOfGenerations = 100;
+const populationLimit = 20;
+const numberOfGenerations = 100;
 
-// class Scheduler
-// {
-//     constructor(courseCatalog)
-//     {
-//         this.catalog = courseCatalog;
-//     }
+class Scheduler
+{
+    constructor(courseCatalog)
+    {
+        this.catalog = courseCatalog;
+    }
 
-//     GenerateSchedules(courseRecord, courseSequence, semesters)
-//     {
-//         this.ValidateInput(courseRecord, courseSequence, semesters);
+    GenerateSchedules(courseRecord, courseSequence, semesters)
+    {
+        this.ValidateInput(courseRecord, courseSequence, semesters);
 
-//         var placements = this.GetPlacements(courseRecord, courseSequence, semesters);
+        var placements = this.GetPlacements(courseRecord, courseSequence, semesters);
 
-//         var schedules = this.GenerateSchedulesForSemesters(semesters, placements);
+        var schedules = this.GenerateSchedulesForSemesters(semesters, placements);
 
-//         return schedules;
-//     }
+        return schedules;
+    }
 
-//     ValidateInput(courseRecord, courseSequence, semesters)
-//     {
-//         validator.ValidateParameterIsArrayOfCourseIds(courseRecord, "courseRecord");
-//         validator.ValidateCourseIdsAreInCourseCatalog(courseRecord, this.catalog, "courseRecord");
+    ValidateInput(courseRecord, courseSequence, semesters)
+    {
+        validator.ValidateParameterIsArrayOfCourseIds(courseRecord, "courseRecord");
+        validator.ValidateCourseIdsAreInCourseCatalog(courseRecord, this.catalog, "courseRecord");
 
-//         validator.ValidateParameterIsArrayOfCourseIds(courseSequence, "courseSequence");
-//         validator.ValidateCourseIdsAreInCourseCatalog(courseSequence, this.catalog, "courseSequence");
+        validator.ValidateParameterIsArrayOfCourseIds(courseSequence, "courseSequence");
+        validator.ValidateCourseIdsAreInCourseCatalog(courseSequence, this.catalog, "courseSequence");
         
-//         validator.ValidateParameterIsArrayOfSemesters(semesters, "semesters");
-//     }
+        validator.ValidateParameterIsArrayOfSemesters(semesters, "semesters");
+    }
 
-//     GetPlacements(courseRecord, courseSequence, semesters)
-//     {
-//         var requisites = new Requisites(this.catalog, courseRecord, courseSequence);
+    GetPlacements(courseRecord, courseSequence, semesters)
+    {
+        var requisites = new Requisites(this.catalog, courseRecord, courseSequence);
 
-//         AddMissingRequisites(this.catalog, courseSequence, requisites);
+        AddMissingRequisites(this.catalog, courseSequence, requisites);
 
-//         var ranks = RankCourses(courseSequence, this.catalog);
+        var ranks = RankCourses(courseSequence, this.catalog);
 
-//         var placer = new CoursePlacer(this.catalog, requisites);
+        var placer = new CoursePlacer(this.catalog, requisites);
 
-//         var placements = placer.PlaceCourses(semesters, ranks);
+        var placements = placer.PlaceCourses(semesters, ranks);
 
-//         return placements;
-//     }
+        return placements;
+    }
 
-//     GenerateSchedulesForSemesters(semesters, placements)
-//     {
-//         var allSchedules = [];
+    GenerateSchedulesForSemesters(semesters, placements)
+    {
+        var allSchedules = [];
 
-//         semesters.forEach(semester => {
+        semesters.forEach(semester => {
 
-//             var currentSemesterSchedules = [];
+            var currentSemesterSchedules = [];
 
-//             var placement = placements[semester.season + " " + semester.year];
+            var placement = placements[semester.season + " " + semester.year];
 
-//             if(placement.length != 0)
-//             {
-//                 var sectionList = this.GetSectionList(placement, semester.season);
+            if(placement.length != 0)
+            {
+                var sectionList = this.GetSectionList(placement, semester.season);
 
-//                 var generation = InitialGeneration(placement, sectionList, rankingFunction, populationLimit);
+                var generation = InitialGeneration(placement, sectionList, rankingFunction, populationLimit);
 
-//                 for(var i = 0; i < numberOfGenerations; i++)
-//                 {
-//                     generation = Generation(generation, rankingFunction, sectionList, populationLimit);
-//                 }
+                for(var i = 0; i < numberOfGenerations; i++)
+                {
+                    generation = Generation(generation, rankingFunction, sectionList, populationLimit);
+                }
 
-//                 generation.forEach(individual => {
-//                     currentSemesterSchedules.push(individual.semester);
-//                 })
-//             }
+                generation.forEach(individual => {
+                    currentSemesterSchedules.push(individual.semester);
+                })
+            }
 
-//             allSchedules.push({
-//                 "year": semester.year,
-//                 "season": semester.season,
-//                 "credits": semester.credits,
-//                 "schedules": currentSemesterSchedules
-//             });
-//         });
+            allSchedules.push({
+                "year": semester.year,
+                "season": semester.season,
+                "credits": semester.credits,
+                "schedules": currentSemesterSchedules
+            });
+        });
 
-//         return allSchedules;
-//     }
+        return allSchedules;
+    }
 
-//     GetSectionList(courses, season)
-//     {
-//         var sectionList = {};
+    GetSectionList(courses, season)
+    {
+        var sectionList = {};
 
-//         courses.forEach(courseId => {
-//             sectionList[courseId] = this.catalog[courseId][season];
-//         })
+        courses.forEach(courseId => {
+            sectionList[courseId] = this.catalog[courseId][season];
+        })
 
-//         return sectionList;
-//     }
-// }
+        return sectionList;
+    }
+}
 
-// module.exports = Scheduler;
+module.exports = Scheduler;
