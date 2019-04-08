@@ -2,12 +2,14 @@ const restrictionOverlap = require('./restrictionOverlap.js');
 const conflictOverlap = require('./conflictOverlap.js');
 
 class TimeRestrictionFitness{
+    
     constructor(restrictions){
         this.restrictions = restrictions;
     }
 
-    EvaluateFitness(individual, restriction)
+    EvaluateFitness(individual)
     {
+        var restriction = this.restrictions
         var semester = individual.semester;
         var genome = individual.genome;
         var overlap = 0;
@@ -15,7 +17,7 @@ class TimeRestrictionFitness{
         for (let i = 0; i < genome.length; i++) {
             for (let j = 0; j < restriction.length; j++) {
                 for (const key in semester[genome[i]]) {
-                    overlap = overlap + restrictionOverlap(semester[genome[i]][key], restriction[i]);
+                    overlap = overlap + restrictionOverlap(semester[genome[i]][key], restriction[j]);
                 }
             }  
         }
