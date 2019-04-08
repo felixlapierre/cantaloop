@@ -12,12 +12,12 @@ function generation(parentPopulation, fitnessFunctions, sectionList, populationL
     performMutations(survivors, this.population, sectionList);
     performBreeding(survivors, ( populationLimit - this.population.length ), this.population);
 
+
     this.population.forEach(individual => {
         fitnessFunctions.forEach(fitnessFunction => {
             fitnessFunction.EvaluateFitness(individual);
         });
     });
-
 
     this.population.sort(function(a, b) {
             if (a.hasConflicts && b.hasConflicts) return 0;
@@ -75,7 +75,7 @@ function initalGeneration(genome, sectionList, fitnessFunctions, populationLimit
         generation.push( new individual(semester));
     }
 
-    this.population.forEach(individual => {
+    generation.forEach(individual => {
         fitnessFunctions.forEach(fitnessFunction => {
             fitnessFunction.EvaluateFitness(individual);
         });

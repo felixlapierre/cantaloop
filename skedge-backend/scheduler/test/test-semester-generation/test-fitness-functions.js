@@ -179,6 +179,38 @@ describe('CourseConflictFitness', ()=>{
 });
 
 describe('TimeRestrictionFitness', ()=>{
+
+    it('should assign full score for a schedule that does not have a restriction', ()=>{
+        
+        // Arrange
+        var restrictions = [];
+        var restrictionFitness = new TimeRestrictionFitness(restrictions);
+
+        var someSemesterThatDoesNotOverlapTheRestriction = {
+            "SomeCourse1" : {
+                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+            },
+            "SomeCourse2" : {
+                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We"},
+                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+            }
+        }
+        var someIndividual = new individual(someSemesterThatDoesNotOverlapTheRestriction);
+
+        someIndividual.fitness = 5000;
+        // Act
+
+        restrictionFitness.EvaluateFitness(someIndividual);
+
+        // Assert
+
+        expect(someIndividual.fitness).to.equal(5000);
+
+    });
+
     it('should assign full score for a schedule that does not overlap with a restriction ', ()=>{
         
         // Arrange
