@@ -19,7 +19,7 @@ class HeaderPage extends Component {
     this.props.history.push({
       pathname: '/record',
       authToken: this.state.authToken
-    }); 
+    });
   }
 
   handleLogout(){
@@ -35,7 +35,7 @@ class HeaderPage extends Component {
 
   logoutORlogin() // depends on whether you are logged in as a guest or not
   {
-    if(window.sessionStorage.getItem('token') === null)
+    if(this.props.location.authToken === undefined)
     {
       return (
         <Menu.Item

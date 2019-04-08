@@ -30,7 +30,7 @@ class LandingPage extends Component {
       console.log(error);
     });
   }
-  
+
   componentDidMount(){
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
@@ -63,8 +63,8 @@ class LandingPage extends Component {
           this.props.history.push({
             pathname: pathName,
             authToken: authToken
-          }); 
-          
+          });
+
       }).catch(error => {
         console.log(error);
         // Reset fields
@@ -78,28 +78,36 @@ class LandingPage extends Component {
   }
 
 
-  
+
   handleUsernameChange(event){
     this.setState({username: event.target.value});
   }
-  
+
   handlePasswordChange(event){
     this.setState({password: event.target.value});
   }
-  
+
   handleRegister(event) {
     axios.post('/users/register', {username: this.state.username, password: this.state.password})
     .then(response => {
         console.log('Received response' + response);
         this.handleLogin(undefined, false);
+    }).catch(error => {
+      console.log(error);
+      // Reset fields
+      this.setState({
+        value: '',
+        username: '',
+        password: '',
+        errorWhenLoggingIn: true
+      })
     });
   }
-  
+
   handleLoginGuest(event) {
-    console.log("Guest");
     this.props.history.push('/record')
   }
-  
+
   // Display error messages
   renderErrorMessage() {
     if(this.state.errorWhenLoggingIn === true) {
@@ -141,6 +149,5 @@ class LandingPage extends Component {
         );
       }
     }
-    
+
     export default LandingPage;
-    

@@ -1005,10 +1005,13 @@ const testJson = [
     ]
   },
 ];
+let authToken = 'hello';
+let location = {authToken};
+
 describe('ScheduleBuilderPage', () => {
     it('renders without crashing', () => {
         const wrapper = mount(<BrowserRouter>
-                                <ScheduleBuilderPage scheduleGiven={testJson} />
+                                <ScheduleBuilderPage scheduleGiven={testJson} location={location}/>
                               </BrowserRouter>);
         expect(wrapper.length).toBe(1);
     });

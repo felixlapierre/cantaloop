@@ -48,34 +48,19 @@ class UserRecordPage extends Component {
       this.setState({courseItems: courseSequenceSessionStorage});
       this.setState({semesters: semestersSessionStorage});
 
-      let header = {
-          'Authorization': "Bearer " + window.sessionStorage.getItem('token')
-      };
-    axios.get('/courses/getNames')
+      axios.get('/courses')
       .then(res => {
         this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
       }).catch(function (error) {
         console.log(error);
       });
-      axios.get('/secureEndpoint', {headers: header})
-          .then(res => console.log(JSON.stringify(res)))
-          .catch(function(error){
-            //just do nothing, returns promise resolved with undefined
-          })
-  }
-    axios.get('/courses')
-    .then(res => {
-      this.setState({ courseOptions: this.formatCourseListForDropdown(res.data)})
-    }).catch(function (error) {
-      console.log(error);
-    });
 
-    // console.log("Sending POST request to secure endpoint!!!");
-    // axios.post('test/secureEndpoint', {authToken: this.state.authToken})
-    // .then(res => {
-    //   console.log('Response from secureEndpoint:');
-    //   console.log(JSON.stringify(res.data));
-    // });
+      // console.log("Sending POST request to secure endpoint!!!");
+      // axios.post('test/secureEndpoint', {authToken: this.state.authToken})
+      // .then(res => {
+      //   console.log('Response from secureEndpoint:');
+      //   console.log(JSON.stringify(res.data));
+      // });
   }
 
   handleBack(){
