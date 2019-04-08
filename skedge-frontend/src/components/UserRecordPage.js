@@ -30,8 +30,6 @@ class UserRecordPage extends Component {
         slidesToShow: 1,
         slidesToScroll: 1
     };
-  //  this.handleCourseInput = this.handleCourseInput.bind(this);
-    //this.addCourseItem = this.addCourseItem.bind(this);
     this.deleteRecordItem = this.deleteRecordItem.bind(this);
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);

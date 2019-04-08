@@ -92,6 +92,6 @@ h5 {
 border: none; outline:none !important; }
 
 .dropdown{
-  float: left;
+  margin:auto;
   width: 65%;
 }
