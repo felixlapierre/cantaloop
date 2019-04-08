@@ -10,71 +10,69 @@ describe( 'generation', function(){
         // arrange
         var sectionList = 
         {
-            "COMP346" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-            "SOEN341" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
-            "SOEN331" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+            "SomeClass1" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+            "SomeClass2" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+            "SomeClass3" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         };
+        class fitnessFunction{
 
-        function evaluateFitness(population)
-        {
+            EvaluateFitness(individual)
+            {
+                var testA = individual.semester["SomeClass1"].valueOf() == (individual.semester["SomeClass2"]).valueOf();
+                var testB = individual.semester["SomeClass3"].valueOf() == (individual.semester["SomeClass2"]).valueOf();
+                var testC = individual.semester["SomeClass3"].valueOf() == (individual.semester["SomeClass1"]).valueOf();
 
-            for (const key in population) {
-                if (population.hasOwnProperty(key)) {
-                    var testA = population[key].semester["COMP346"].valueOf() == (population[key].semester["SOEN341"]).valueOf();
-                    var testB = population[key].semester["SOEN331"].valueOf() == (population[key].semester["SOEN341"]).valueOf();
-                    var testC = population[key].semester["SOEN331"].valueOf() == (population[key].semester["COMP346"]).valueOf();
-
-                    if(testA)
-                    {   
-                        if (testB)
-                        {
-                            if(testC){population[key].fitness = 10;}
-                            else
-                            {
-                                population[key].fitness = 9;
-                            }
-                        }
-                        else
-                        {
-                            if(testC){population[key].fitness = 9;}
-                            else { population[key].fitness = 6;}
-                        }
+                if(testA)
+                {   
+                    if (testB)
+                    {
+                        if(testC){individual.fitness = 10;}
+                        else{  individual.fitness = 9; }
                     }
                     else
                     {
-                        if (testB)
-                        {
-                            if(testC){ population[key].fitness = 9; }
-                            else{ population[key].fitness = 6;  }
-                        }
-                        else
-                        {
-                            if(testC){population[key].fitness = 6;}
-                            else{population[key].fitness = 2;}
-                        }
+                        if(testC){individual.fitness = 9;}
+                        else { individual.fitness = 6;}
                     }
                 }
+                else
+                {
+                    if (testB)
+                    {
+                        if(testC){ individual.fitness = 9; }
+                        else{ individual.fitness = 6;  }
+                    }
+                    else
+                    {
+                        if(testC){individual.fitness = 6;}
+                        else{individual.fitness = 2;}
+                    }
+                }
+                
             }
-            population.sort(function(a, b){return a.fitness - b.fitness});
-        }
 
-        
+        }
+        var fitnessFunctions = [new fitnessFunction];
         var oldGeneration = [];
         for (let index = 0; index < 20; index++) 
         {
             var semester = 
             {
-                "COMP346" : sectionList["COMP346"][Math.floor(sectionList["COMP346"].length* Math.random())],
-                "SOEN341" : sectionList["SOEN341"][Math.floor(sectionList["SOEN341"].length* Math.random())],
-                "SOEN331" : sectionList["SOEN331"][Math.floor(sectionList["SOEN331"].length* Math.random())]
+                "SomeClass1" : sectionList["SomeClass1"][Math.floor(sectionList["SomeClass1"].length* Math.random())],
+                "SomeClass2" : sectionList["SomeClass2"][Math.floor(sectionList["SomeClass2"].length* Math.random())],
+                "SomeClass3" : sectionList["SomeClass3"][Math.floor(sectionList["SomeClass3"].length* Math.random())]
             };
             oldGeneration[index] = new individual(semester);    
         }
 
-        evaluateFitness(oldGeneration);
+        oldGeneration.forEach(individual => {
+            fitnessFunctions.forEach(fitnessFunction => {
+                fitnessFunction.EvaluateFitness(individual);
+            });
+        });
 
         // act
-        var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList, 20);
+        var newGeneration = new generation(oldGeneration, fitnessFunctions, sectionList, 20);
         
         // assert
         expect(newGeneration).to.satisfy( function(newGeneration){
