@@ -1,3 +1,5 @@
+var CourseIgnored = require("./ignored-courses");
+
 function AddMissingPrerequisitesAndCorequisites(courseCatalog, courseSequence, requisites)
 {
     //Regular for loop since course sequence will be extended
@@ -26,7 +28,7 @@ function GetAllMissingCoursesFrom(courses, requisites)
     var missingCourses = [];
 
     courses.forEach(courseId => {
-        if(requisites.status[courseId] === undefined)
+        if(requisites.status[courseId] === undefined && !CourseIgnored(courseId))
         {
             requisites.status[courseId] = "Incomplete";
             missingCourses.push(courseId);

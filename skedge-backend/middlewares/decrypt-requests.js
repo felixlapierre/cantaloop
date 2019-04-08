@@ -4,16 +4,16 @@ module.exports = function (req, res, next) {
     try {
         if(req.method == "POST" && req.body != undefined)
         {
-            console.log("---------------------------------------------------------\nReceived encrypted data:");
-            console.log(req.body.encrypted_data);
             decryptedBodyString = decrypt(req.body.encrypted_data).toString();
             req.body = JSON.parse(decryptedBodyString);
-            console.log("---------------------------------------------------------\nDecrypted above data:");
-            console.log(req.body);
         }
     } 
     catch (error) {
         console.log(error);
+        console.log("---------------------------------------------------------\nReceived encrypted data:");
+        console.log(req.body.encrypted_data);
+        console.log("---------------------------------------------------------\nDecrypted above data:");
+        console.log(req.body);
     }
     
     next();

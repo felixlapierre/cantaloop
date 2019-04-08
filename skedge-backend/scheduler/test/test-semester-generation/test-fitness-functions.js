@@ -11,14 +11,14 @@ describe('CourseConflictFitness', ()=>{
 
         var someSemesterWithoutConflicts = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We" },
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We" },
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We" }
             }
         }
         var someIndividual = new individual(someSemesterWithoutConflicts);
@@ -40,14 +40,14 @@ describe('CourseConflictFitness', ()=>{
 
         var someSemesterWithoutConflicts = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We" },
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We" },
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We" }
             }
         }
         var someIndividual = new individual(someSemesterWithoutConflicts);
@@ -69,12 +69,12 @@ describe('CourseConflictFitness', ()=>{
 
         var someSemesterWithoutConflicts = {
             "SomeCourse" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeOnlineCourse" : {
-                "LEC" : { "time_start":"00:00","time_end":"00:00","days":"N\/A" }
+                "lecture" : { "time_start":"00:00","time_end":"00:00","days":"N\/A" }
             }
         }
         var someIndividual = new individual(someSemesterWithoutConflicts);
@@ -96,14 +96,14 @@ describe('CourseConflictFitness', ()=>{
 
         var someSemesterWithOneFullConflict = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterWithOneFullConflict);
@@ -125,14 +125,14 @@ describe('CourseConflictFitness', ()=>{
 
         var someSemesterWithOneFullConflict = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterWithOneFullConflict);
@@ -154,14 +154,14 @@ describe('CourseConflictFitness', ()=>{
 
         var someSemesterWithOneFullConflict = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"TuTh" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"TuTh" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"TuTh"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"TuTh"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterWithOneFullConflict);
@@ -188,14 +188,14 @@ describe('TimeRestrictionFitness', ()=>{
 
         var someSemesterThatDoesNotOverlapTheRestriction = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterThatDoesNotOverlapTheRestriction);
@@ -219,14 +219,14 @@ describe('TimeRestrictionFitness', ()=>{
 
         var someSemesterThatDoesNotOverlapTheRestriction = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterThatDoesNotOverlapTheRestriction);
@@ -250,14 +250,14 @@ describe('TimeRestrictionFitness', ()=>{
 
         var someSemesterThatDoesNotOverlapTheRestriction = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterThatDoesNotOverlapTheRestriction);
@@ -281,14 +281,14 @@ describe('TimeRestrictionFitness', ()=>{
 
         var someSemesterThatFullyOverlapsTheRestriction = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterThatFullyOverlapsTheRestriction);
@@ -312,14 +312,14 @@ describe('TimeRestrictionFitness', ()=>{
 
         var someSemesterThatPartiallyOverlapsTheRestriction = {
             "SomeCourse1" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
-                "TUT" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"Tu" },
+                "tutorial" : { "time_start":"11:45","time_end":"13:00","days":"Tu" },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"Tu" }
             },
             "SomeCourse2" : {
-                "LEC" : { "time_start":"08:45","time_end":"10:00","days":"We"},
-                "TUT" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
-                "LAB" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
+                "lecture" : { "time_start":"08:45","time_end":"10:00","days":"We"},
+                "tutorial" : { "time_start":"14:45","time_end":"16:00","days":"We"  },
+                "lab" : { "time_start":"10:15","time_end":"11:30","days":"We"  }
             }
         }
         var someIndividual = new individual(someSemesterThatPartiallyOverlapsTheRestriction);
