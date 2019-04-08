@@ -1,6 +1,8 @@
 const restrictionOverlap = require('./restrictionOverlap.js');
 const conflictOverlap = require('./conflictOverlap.js');
 
+const classTypes = ["lecture", "lab", "tutorial"];
+
 class TimeRestrictionFitness{
     
     constructor(restrictions){
@@ -16,9 +18,10 @@ class TimeRestrictionFitness{
     
         for (let i = 0; i < genome.length; i++) {
             for (let j = 0; j < restriction.length; j++) {
-                for (const key in semester[genome[i]]) {
-                    overlap = overlap + restrictionOverlap(semester[genome[i]][key], restriction[j]);
-                }
+                classTypes.forEach(classType => {
+                    if(semester[genome[i]].hasOwnProperty(classType))
+                        overlap = overlap + restrictionOverlap(semester[genome[i]][classType], restriction[j]);
+                });
             }  
         }
         
@@ -37,17 +40,15 @@ class CourseConflictFitness{
             for (let j = (i + 1); j < genome.length; j++) {
     
                 // semester[genome[i]] = { "LEC": stuff, "TUT": stuff, "LAB": stuff };
-                for (const key in semester[genome[i]]) {
-                    if (semester[genome[i]].hasOwnProperty(key)) {
-    
-                        for (const key2 in semester[genome[j]]) {
-    
-                            if (semester[genome[j]].hasOwnProperty(key2)) {
-                                overlap = overlap - conflictOverlap( semester[genome[i]][key], semester[genome[j]][key2]);
+                classTypes.forEach(classType1 => {
+                    if (semester[genome[i]].hasOwnProperty(classType1)) {
+                        classTypes.forEach(classType2 => {
+                            if (semester[genome[j]].hasOwnProperty(classType2)) {
+                                overlap = overlap - conflictOverlap( semester[genome[i]][classType1], semester[genome[j]][classType2]);
                             }
-                        }
+                        })
                     }
-                }
+                })
             }
         }
         if (overlap != 5000) individual.hasConflicts = true;
