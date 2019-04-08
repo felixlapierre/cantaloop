@@ -1,9 +1,7 @@
 var expect = require('chai').expect;
 
 var initialGeneration = require("../semester-generation/generation.js").initalGeneration;
-var CourseConflictFitness = require("../semester-generation/fitnessfunctions.js").CourseConflictFitness;
-var TimeRestrictionFitness = require("../semester-generation/fitnessfunctions.js").TimeRestrictionFitness;
-
+var rankGeneration = require("../semester-generation/fitness.js").rankGeneration;
 
 describe('initialGeneration', function(){
     it('should create and rank a generation from a given genome', function()
@@ -63,12 +61,9 @@ describe('initialGeneration', function(){
                     "TUT" : { "code":"C3", "time_start":"14:45","time_end":"16:00","days":"Fr" } //conflict 
                 }]
         };
-
-        var restrictions = [{ "time_start":"02:00","time_end":"04:00","days":"Mo"}];
-        var fitnessfunctions = [ new CourseConflictFitness(), new TimeRestrictionFitness(restrictions)];
         var POPULATIONLIMIT = 20;
         // Act
-        var population = initialGeneration(genome, sectionList, fitnessfunctions, POPULATIONLIMIT);
+        var population = initialGeneration(genome, sectionList, rankGeneration, POPULATIONLIMIT);
 
         // Assert
         expect(population).to.satisfy( function(population)

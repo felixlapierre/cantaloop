@@ -17,7 +17,6 @@
 function individual(parentSemester)
 {
     this.fitness = 0;
-    this.hasConflicts = false;
     this.genome = []; //array of course name and codes
     this.semester = JSON.parse(JSON.stringify(parentSemester));
 

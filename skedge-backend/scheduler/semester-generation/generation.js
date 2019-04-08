@@ -3,7 +3,7 @@ var breed = require("./breed.js");
 var mutate = require("./mutate.js");
 var individual = require('./individual.js');
 
-function generation(parentPopulation, fitnessFunctions, sectionList, populationLimit)
+function generation(parentPopulation, evaluateFitness, sectionList, populationLimit)
 {
     this.population = [];
     var survivors = survive(parentPopulation);
@@ -12,19 +12,7 @@ function generation(parentPopulation, fitnessFunctions, sectionList, populationL
     performMutations(survivors, this.population, sectionList);
     performBreeding(survivors, ( populationLimit - this.population.length ), this.population);
 
-
-    this.population.forEach(individual => {
-        fitnessFunctions.forEach(fitnessFunction => {
-            fitnessFunction.EvaluateFitness(individual);
-        });
-    });
-
-    this.population.sort(function(a, b) {
-            if (a.hasConflicts && b.hasConflicts) return 0;
-            else if (a.hasConflicts) return 1;
-            else if (b.hasConflicts) return -1;
-            else return 0;
-        });
+    evaluateFitness( this.population );
     this.population.sort(function(a, b) { return a.fitness - b.fitness });
     
     return this.population;
@@ -61,7 +49,7 @@ function performBreeding(survivors, populationSize, population)
     }
 }
 
-function initalGeneration(genome, sectionList, fitnessFunctions, populationLimit)
+function initalGeneration(genome, sectionList, rankGeneration, populationLimit)
 {
     var generation = [];
     var semester = {};
@@ -75,11 +63,7 @@ function initalGeneration(genome, sectionList, fitnessFunctions, populationLimit
         generation.push( new individual(semester));
     }
 
-    generation.forEach(individual => {
-        fitnessFunctions.forEach(fitnessFunction => {
-            fitnessFunction.EvaluateFitness(individual);
-        });
-    });
+    rankGeneration(generation);
 
     return generation;
     

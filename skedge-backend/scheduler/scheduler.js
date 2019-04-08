@@ -5,8 +5,7 @@ var RankCourses = require("./course-placement/rank-courses");
 
 var Generation = require("./semester-generation/generation").generation;
 var InitialGeneration = require("./semester-generation/generation").initalGeneration;
-var TimeRestrictionFitness = require("./semester-generation/fitnessFunctions").TimeRestrictionFitness;
-var CourseConflictFitness = require("./semester-generation/fitnessFunctions").CourseConflictFitness;
+var rankingFunction = require("./semester-generation/fitness").rankGeneration;
 var validator = require("./validate-scheduler-input");
 
 const populationLimit = 20;
@@ -66,17 +65,15 @@ class Scheduler
 
             var placement = placements[semester.season + " " + semester.year];
 
-            var fitnessFunctions = [ new CourseConflictFitness(), new TimeRestrictionFitness(semester.restrictions)];
-
             if(placement.length != 0)
             {
                 var sectionList = this.GetSectionList(placement, semester.season);
 
-                var generation = InitialGeneration(placement, sectionList, fitnessFunctions, populationLimit);
+                var generation = InitialGeneration(placement, sectionList, rankingFunction, populationLimit);
 
                 for(var i = 0; i < numberOfGenerations; i++)
                 {
-                    generation = Generation(generation, fitnessFunctions, sectionList, populationLimit);
+                    generation = Generation(generation, rankingFunction, sectionList, populationLimit);
                 }
 
                 generation.forEach(individual => {

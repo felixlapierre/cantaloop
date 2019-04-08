@@ -15,28 +15,44 @@ describe( 'multigeneration', function(){
             "SOEN331" : ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         };
 
-        class fitnessFunction{
+        function evaluateFitness(population)
+        {
 
-            EvaluateFitness(individual)
+            for (const key in population) 
             {
-
-                
-                var testA = individual.semester["COMP346"].valueOf() == (individual.semester["SOEN341"]).valueOf();
-                var testB = individual.semester["SOEN331"].valueOf() == (individual.semester["SOEN341"]).valueOf();
-            
-                if(testA)
-                {   
-                    if (testB) { individual.fitness = 10;}
-                    else { individual.fitness = 8;}
-                }
-                else
+                if (population.hasOwnProperty(key)) 
                 {
-                    if (testB) { individual.fitness = 6;}
-                    else{ individual.fitness = 2;}
+                    var testA = population[key].semester["COMP346"].valueOf() == (population[key].semester["SOEN341"]).valueOf();
+                    var testB = population[key].semester["SOEN331"].valueOf() == (population[key].semester["SOEN341"]).valueOf();
+                
+                    if(testA)
+                    {   
+                        if (testB)
+                        {
+                            population[key].fitness = 10; 
+                        }
+                        else
+                        {
+                            population[key].fitness = 8;
+                        }
+                    }
+                    else
+                    {
+                        if (testB)
+                        {
+                            population[key].fitness = 6;
+                        }
+                        else
+                        {
+                            population[key].fitness = 2;
+                        }
+                    }
                 }
             }
+            population.sort(function(a, b){return a.fitness - b.fitness});
         }
-        var fitnessFunctions = [new fitnessFunction];
+
+        
         var oldGeneration = [];
         for (let index = 0; index < 20; index++) 
         {
@@ -51,16 +67,12 @@ describe( 'multigeneration', function(){
                  
         }
 
-        oldGeneration.forEach(individual => {
-            fitnessFunctions.forEach(fitnessFunction => {
-                fitnessFunction.EvaluateFitness(individual);
-            });
-        });
-
+        evaluateFitness(oldGeneration);
         var oldGenAverage = 0;
         var newGenAverage = 0;
         oldGeneration.every(function(val)
         {
+            // console.log(val.fitness+ " "+JSON.stringify(val.semester));
             oldGenAverage += val.fitness;
             return true;
         });
@@ -68,15 +80,16 @@ describe( 'multigeneration', function(){
         oldGenAverage = oldGenAverage/20;
 
         // act
-        var newGeneration = new generation(oldGeneration, fitnessFunctions, sectionList, 20);
+        var newGeneration = new generation(oldGeneration, evaluateFitness, sectionList, 20);
         for (let i = 0; i < 100; i++) { 
-            var temp = new generation(oldGeneration, fitnessFunctions, sectionList, 20);
+            var temp = new generation(oldGeneration, evaluateFitness, sectionList, 20);
             oldGeneration = newGeneration;
             newGeneration = temp;
         }
 
         newGeneration.every(function(val)
         {     
+            // console.log(val.fitness+ " "+JSON.stringify(val.semester));
             newGenAverage += val.fitness;
             return true;
         });

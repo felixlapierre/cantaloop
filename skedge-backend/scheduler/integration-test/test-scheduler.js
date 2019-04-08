@@ -11,15 +11,13 @@ var twoSemesters = [
         "season": "fall",
         "year":"2019",
         "credits":15,
-        "numCourses":5,
-        "restrictions" :[]
+        "numCourses":5
     },
     {
         "season": "winter",
         "year": "2020",
         "credits":15,
-        "numCourses":5,
-        "restrictions" :[]
+        "numCourses":5
     }
 ];
 
@@ -33,8 +31,7 @@ describe('createSchedules', () => {
                 "season": "fall",
                 "year": "2019",
                 "credits": 16,
-                "numCourses": 5,
-                "restrictions" :[]
+                "numCourses": 5
             }
         ]
 
@@ -57,8 +54,7 @@ describe('createSchedules', () => {
                 "season":"fall",
                 "year":"2019",
                 "credits": 16,
-                "numCourses": 5,
-                "restrictions" :[]
+                "numCourses": 5
             }
         ]
 
