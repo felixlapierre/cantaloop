@@ -1,3 +1,5 @@
+var CourseIgnored = require("./ignored-courses");
+
 var Status = {
     Complete: "Complete",
     InProgress: "In Progress",
@@ -33,7 +35,7 @@ class Requisites
     CoursesAreFulfilledPrerequisites(listOfCourses)
     {
         return listOfCourses.every(courseId => {
-            return this.IsCourseIgnored(courseId)
+            return CourseIgnored(courseId)
                 || this.IsCourseComplete(courseId);
         });
     }
@@ -41,7 +43,7 @@ class Requisites
     CoursesAreFulfilledCorequisites(listOfCourses)
     {
         return listOfCourses.every(courseId => {
-            return this.IsCourseIgnored(courseId)
+            return CourseIgnored(courseId)
                 || this.IsCourseComplete(courseId)
                 || this.IsCourseInProgress(courseId);
         });
@@ -55,11 +57,6 @@ class Requisites
     IsCourseInProgress(courseId)
     {
         return this.status[courseId] === Status.InProgress;
-    }
-
-    IsCourseIgnored(courseId)
-    {
-        return courseId.match(/(MATH|PHYS|BIOL|COEN)/);
     }
 
     SetCourseInProgress(courseId)
