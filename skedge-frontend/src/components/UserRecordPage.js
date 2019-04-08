@@ -19,8 +19,6 @@ class UserRecordPage extends Component {
       courseItems : JSON.parse(window.sessionStorage.getItem('courseSequence')),
       semesters : JSON.parse(window.sessionStorage.getItem('semesters')),
       courseOptions : [],
-      currentRecordItem: {text: '', key: ''},
-      currentCourseItem: {text: '', key: ''}
     }
     this.settings = {
         arrows: false,
@@ -93,7 +91,6 @@ class UserRecordPage extends Component {
       window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
       this.setState({
         recordItems: items,
-        currentRecordItem: { text: '', key: '' },
       })
     }
   }
@@ -113,7 +110,6 @@ class UserRecordPage extends Component {
       window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
         courseItems: items,
-        currentCourseItem: currentItem
       })
     }
   }
