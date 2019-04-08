@@ -224,49 +224,49 @@ var someCatalog = {
     "BasicClassA": {
         "prerequisites": [],
         "corequisites": [],
-        "credits": 1,
+        "credits": "1.00",
         "fall": ["SomeSection"],
         "winter": ["SomeSection"]
     },
     "BasicClassB": {
         "prerequisites": [],
         "corequisites": [],
-        "credits": 2,
+        "credits": "2.00",
         "fall": ["SomeSection"],
         "winter": ["SomeSection"]
     },
     "BasicClassC": {
         "prerequisites": [],
         "corequisites": [],
-        "credits": 3,
+        "credits": "3.00",
         "fall": ["SomeSection"],
         "winter": ["SomeSection"]
     },
     "HasClassACorequisite": {
         "prerequisites": [],
         "corequisites": ["BasicClassA"],
-        "credits": 1,
+        "credits": "1.00",
         "fall": ["SomeSection"],
         "winter": ["SomeSection"]
     },
     "HasClassBPrerequisite": {
         "prerequisites": ["BasicClassB"],
         "corequisites": [],
-        "credits": 2,
+        "credits": "2.00",
         "fall": ["SomeSection"],
         "winter": ["SomeSection"]
     },
     "HasClassBPrereqClassCCoreq": {
         "prerequisites": ["BasicClassB"],
         "corequisites": ["BasicClassC"],
-        "credits": 2,
+        "credits": "2.00",
         "fall": ["SomeSection"],
         "winter": ["SomeSection"]
     },
     "HasNoSectionsInFall": {
         "prerequisites": [],
         "corequisites": [],
-        "credits": 1,
+        "credits": "1.00",
         "fall": [],
         "winter": ["SomeSection"]
     }
