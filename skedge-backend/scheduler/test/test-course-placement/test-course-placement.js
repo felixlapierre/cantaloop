@@ -129,6 +129,25 @@ describe('placeCourses', () => {
         expect(placements['winter 2019']).to.include.members(["HasNoSectionsInFall"]);
     })
 
+    it('Should place several courses in a semester that has a high enough credit load for all of them', () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["BasicClassA", "BasicClassB", "BasicClassC"];
+        var ranks = MockRankCourses(courseSequence);
+
+        someSemesters[0].credits = 6;
+        someSemesters[1].credits = 6;
+
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
+
+        //Act
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
+
+        //Assert
+        expect(placements['fall 2018']).to.include.members(courseSequence);
+        expect(placements['winter 2019']).to.have.length(0);
+    })
+
     //Check with classes in course record
 })
 
