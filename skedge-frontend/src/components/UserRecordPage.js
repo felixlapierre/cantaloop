@@ -30,16 +30,15 @@ class UserRecordPage extends Component {
         slidesToShow: 1,
         slidesToScroll: 1
     };
-    this.handleRecordInput = this.handleRecordInput.bind(this);
-    this.handleCourseInput = this.handleCourseInput.bind(this);
-    this.addRecordItem = this.addRecordItem.bind(this);
-    this.addCourseItem = this.addCourseItem.bind(this);
+  //  this.handleCourseInput = this.handleCourseInput.bind(this);
+    //this.addCourseItem = this.addCourseItem.bind(this);
     this.deleteRecordItem = this.deleteRecordItem.bind(this);
     this.deleteCourseItem = this.deleteCourseItem.bind(this);
     this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
     this.handleCourseSubmission = this.handleCourseSubmission.bind(this);
     this.validateSubmission = this.validateSubmission.bind(this);
     this.handleRecordDropdownChange = this.handleRecordDropdownChange.bind(this);
+    this.handleCouresDropdownChange = this.handleCouresDropdownChange.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
@@ -81,7 +80,7 @@ class UserRecordPage extends Component {
     return courseListArray;
   }
 
-  handleRecordInput(event, data) {
+  handleRecordDropdownChange(event, data){
     const itemText = data.value;
     var itemKey = "";
     for (var i in data.options){
@@ -89,31 +88,8 @@ class UserRecordPage extends Component {
         itemKey = data.options[i].key;
       }
     }
+
     const currentItem = { text: itemText, key: itemKey };
-
-    this.setState({
-      currentRecordItem: currentItem
-    })
-  }
-
-  handleCourseInput(event, data) {
-    const itemText = data.value;
-    var itemKey = "";
-    for (var i in data.options){
-      if(data.options[i].text === itemText){
-        itemKey = data.options[i].key;
-      }
-    }
-    const currentItem = { text: itemText, key: itemKey };
-
-    this.setState({
-      currentCourseItem: currentItem
-    })
-  }
-
-  addRecordItem(event) {
-    event.preventDefault();
-    const currentItem = this.state.currentRecordItem;
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.recordItems, currentItem)){
       const items = [...this.state.recordItems, currentItem]
       window.sessionStorage.setItem('courseRecord', JSON.stringify(this.state.recordItems));
@@ -124,15 +100,22 @@ class UserRecordPage extends Component {
     }
   }
 
-  addCourseItem(event) {
-    event.preventDefault();
-    const currentItem = this.state.currentCourseItem;
+  handleCouresDropdownChange(event, data){
+    const itemText = data.value;
+    var itemKey = "";
+    for (var i in data.options){
+      if(data.options[i].text === itemText){
+        itemKey = data.options[i].key;
+      }
+    }
+    const currentItem = { text: itemText, key: itemKey };
+
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.courseItems, currentItem)){
       const items = [...this.state.courseItems, currentItem]
       window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
       this.setState({
         courseItems: items,
-        currentCourseItem: { text: '', key: '' },
+        currentCourseItem: currentItem
       })
     }
   }
@@ -280,7 +263,6 @@ class UserRecordPage extends Component {
                         onChange = {this.handleRecordDropdownChange}
                         />
                     </div>
-                    <Button id = "addRecordItemButton" onClick = {this.addRecordItem}>Add Course</Button>
                     <div id = "recordCourseItems">
                         <CourseItems entries={this.state.recordItems} deleteItem = {this.deleteRecordItem}/>
                     </div>
@@ -300,10 +282,9 @@ class UserRecordPage extends Component {
                         search
                         selection
                         options = {this.state.courseOptions}
-                        onChange = {this.handleCourseInput}
+                        onChange = {this.handleCouresDropdownChange}
                         />
                     </div>
-                    <Button id = "addCourseItemButton"  onClick = {this.addCourseItem}>Add Course</Button>
                     <div id = "wantedCourses">
                         <CourseItems entries={this.state.courseItems} deleteItem = {this.deleteCourseItem}/>
                     </div>
