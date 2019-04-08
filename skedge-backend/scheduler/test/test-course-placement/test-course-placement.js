@@ -148,6 +148,25 @@ describe('placeCourses', () => {
         expect(placements['winter 2019']).to.have.length(0);
     })
 
+    it('Should avoid placing a course in a semester that has hit the credit maximum', () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["BasicClassA", "BasicClassB", "BasicClassC"];
+        var ranks = MockRankCourses(courseSequence);
+
+        someSemesters[0].credits = 4;
+        someSemesters[1].credits = 4;
+
+        var coursePlacer = CreateCoursePlacer(courseRecord, courseSequence);
+
+        //Act
+        var placements = coursePlacer.PlaceCourses(someSemesters, ranks);
+
+        //Assert
+        expect(placements['fall 2018']).to.have.length(2);
+        expect(placements['winter 2019']).to.have.length(1);
+    })
+
     //Check with classes in course record
 })
 
