@@ -1,7 +1,8 @@
 var expect = require('chai').expect;
 var individual = require("../semester-generation/individual.js");
 var generation = require("../semester-generation/generation.js").generation;
-var rankGeneration = require("../semester-generation/fitness.js").rankGeneration;
+var CourseConflictFitness = require("../semester-generation/fitnessfunctions.js").CourseConflictFitness;
+var TimeRestrictionFitness = require("../semester-generation/fitnessfunctions.js").TimeRestrictionFitness;
 
 
 
@@ -143,6 +144,9 @@ describe( 'rankMultigenerationFitness', function(){
                 "TUT" : { "code":"C", "time_start":"14:45","time_end":"16:00","days":"Mo" } 
             }
         };
+        var restrictions = [{ "time_start":"02:00","time_end":"04:00","days":"Mo"}];
+        var fitnessFunctions = [ new CourseConflictFitness(), new TimeRestrictionFitness(restrictions)];
+
         var oldGeneration = [];
         for (let i = 0; i < 4; i++) {
             oldGeneration[i] = new individual(semester[0]);
@@ -152,13 +156,17 @@ describe( 'rankMultigenerationFitness', function(){
             oldGeneration[i+16] = new individual(semester[4]);
             
         }
-        rankGeneration(oldGeneration);
+        
+        oldGeneration.forEach(individual => {
+            fitnessFunctions.forEach(fitnessFunction => {
+                fitnessFunction.EvaluateFitness(individual);
+            });
+        });
 
         var oldGenAverage = 0;
         var newGenAverage = 0;
         oldGeneration.every(function(val)
         {
-            // console.log(val.fitness);
             oldGenAverage += val.fitness;
             return true;
         });
@@ -166,21 +174,22 @@ describe( 'rankMultigenerationFitness', function(){
         oldGenAverage = oldGenAverage/20;
 
         // act
-        var newGeneration = new generation(oldGeneration, rankGeneration, sectionList, 20);
+        var newGeneration = new generation(oldGeneration, fitnessFunctions, sectionList, 20);
         
         for (let i = 0; i < 100; i++) { 
-            var temp = new generation(oldGeneration, rankGeneration, sectionList, 20);
+            var temp = new generation(oldGeneration, fitnessFunctions, sectionList, 20);
             oldGeneration = newGeneration;
             newGeneration = temp;
         }
 
         newGeneration.every(function(val)
         {     
-            // console.log(val.fitness+ " help "+ val.semester);
             newGenAverage += val.fitness;
             return true;
         });
         newGenAverage = newGenAverage/20;
+
+        expect(newGenAverage).to.be.greaterThan(oldGenAverage);
 
 
     });
