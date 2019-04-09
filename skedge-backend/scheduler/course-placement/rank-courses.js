@@ -1,3 +1,5 @@
+var CourseIgnored = require("./ignored-courses");
+
 /**
  * Ranks each course in the provided course list by how many classes
  * depend on it.
@@ -42,7 +44,7 @@ function addRankToAllInRecursively(listOfCoursesToRankUp, coursesToRank, courseM
     for(var i = 0; i < listOfCoursesToRankUp.length; i++)
     {
         var courseId = listOfCoursesToRankUp[i];
-        if(!CourseExcluded(courseId))
+        if(!CourseIgnored(courseId))
         {
             RankUp(courseId, courseRanks);
             addRankToPrerequisitesAndCorequisites(courseId, coursesToRank, courseMap, courseRanks);
@@ -73,11 +75,6 @@ function toSortedArray(courseRanks)
     });
 
     return sorted;
-}
-
-function CourseExcluded(courseId)
-{
-    return courseId.match(/(MATH|PHYS)/);
 }
 
 //TODO: Add test for use cases that use this function
