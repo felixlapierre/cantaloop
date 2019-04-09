@@ -16,12 +16,10 @@ class HeaderPage extends Component {
   }
 
   handleRecordButtonClick(){
-    console.log("Record");
     this.props.history.push({
       pathname: '/record',
       authToken: this.state.authToken
-    }); 
-
+    });
   }
 
   handleLogout(){

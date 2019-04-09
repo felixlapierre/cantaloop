@@ -1,3 +1,5 @@
+var CourseIgnored = require("./ignored-courses");
+
 var Status = {
     Complete: "Complete",
     InProgress: "In Progress",
@@ -33,14 +35,17 @@ class Requisites
     CoursesAreFulfilledPrerequisites(listOfCourses)
     {
         return listOfCourses.every(courseId => {
-            return this.IsCourseComplete(courseId);
+            return CourseIgnored(courseId)
+                || this.IsCourseComplete(courseId);
         });
     }
 
     CoursesAreFulfilledCorequisites(listOfCourses)
     {
         return listOfCourses.every(courseId => {
-            return this.IsCourseComplete(courseId) || this.IsCourseInProgress(courseId);
+            return CourseIgnored(courseId)
+                || this.IsCourseComplete(courseId)
+                || this.IsCourseInProgress(courseId);
         });
     }
 

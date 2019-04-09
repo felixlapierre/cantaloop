@@ -65,9 +65,8 @@ class LandingPage extends Component {
           }
           this.props.history.push({
             pathname: pathName,
-            authToken: authToken,
+            authToken: authToken
           }); 
-          
       }).catch(error => {
         console.log(error);
         // Reset fields
@@ -81,23 +80,32 @@ class LandingPage extends Component {
   }
 
 
-  
+
   handleUsernameChange(event){
     this.setState({username: event.target.value});
   }
-  
+
   handlePasswordChange(event){
     this.setState({password: event.target.value});
   }
-  
+
   handleRegister(event) {
     axios.post('/users/register', {username: this.state.username, password: this.state.password})
     .then(response => {
         console.log('Received response' + response);
         this.handleLogin(undefined, false);
+    }).catch(error => {
+      console.log(error);
+      // Reset fields
+      this.setState({
+        value: '',
+        username: '',
+        password: '',
+        errorWhenLoggingIn: true
+      })
     });
   }
-  
+
   handleLoginGuest(event) {
     window.sessionStorage.setItem('isLoggedInAsGuest', "true");
 
@@ -106,7 +114,7 @@ class LandingPage extends Component {
       isLoggedInAsGuest: true
     })
   }
-  
+
   // Display error messages
   renderErrorMessage() {
     if(this.state.errorWhenLoggingIn === true) {
@@ -148,6 +156,5 @@ class LandingPage extends Component {
         );
       }
     }
-    
+
     export default LandingPage;
-    

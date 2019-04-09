@@ -1,17 +1,22 @@
+//Server setup
 const express = require('express')
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
-const app = express();
 
+const app = express();
 const port = 4200;
 
 // Services
 const endpoint_service = require('./database/services/endpoint-service');
-const Scheduler = require('./scheduler/scheduler');
-var scheduler_service = new Scheduler();
 const db_response_cleanup = require('./web_api_utilities/db_response_cleanup');
 const rsa_encryption = require('./web_api_utilities/rsa-encryption');
+
+//Setup scheduler
+const Scheduler = require('./scheduler/scheduler');
+var scheduler_service = null;
+endpoint_service.getCourseCatalog()
+.then((catalog) => scheduler_service = new Scheduler(catalog));
 
 const CourseDescription = require('./database/schemas/courseDescriptionSchema');
 // Only for testing frontend until builder is ready to go.
@@ -48,9 +53,8 @@ app.use(decrypt_req);
 // Using express.static to serve the React frontend at root.
 app.use(express.static(path.join(__dirname, '../skedge-frontend/build')));
 
-
  ///////////////////
-// Express Enpoints
+// Express Endpoints
 
 
 // This is an example of basic use of the "checkAuth" middleware
@@ -85,35 +89,32 @@ app.get('/courses/catalogue', (req, res) => {
 
 });
 
-
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {
-    // TESTING
-
-    // Empty input
-    // Missing information (semesters array is empty, etc.)
-    // CourseRecord must be an array of strings (valid if matches with one of the courses in the database)
-    // CourseSequence must be an array of valid strings (valid if matches with one of the courses in the database)
-    // In Semesters,
-    // year should be a number and it should be >= 2019
-    // season should be either "Fall", "Winter" or "Summer"
-    // credits should be a number, any restrictions for credits (bond de .5 seulements)????
-    // numCourses should be an integer
-
-    let courseRecordIDArr = req.body.courseRecord;
-    let courseSequenceIDArr = req.body.courseSequence;
-    let semestersArr = req.body.semesters;
-
-    let generatedSchedules;
-    try {
-        generatedSchedules = scheduler_service.GenerateSchedules(courseRecordIDArr, courseSequenceIDArr, semestersArr);
-    } catch (error) {
-        let theError = "Schedule Builder Error:"+error+"\n\n";
-        console.log(theError);
-        generatedSchedules = testSchedule; //{"error":"The Schedule Builder failed."};
+    if(scheduler_service === null)
+    {
+        res.status(500).send("Please try again later");
+        return;
     }
-    
-    res.json(generatedSchedules);
+    let courseRecord = req.body.courseRecord;
+    let courseSequence = req.body.courseSequence;
+    let semesters = req.body.semesters;
+
+    //Temporary fix: Set season to lower case
+    if(semesters != undefined)
+    {
+        semesters.forEach(semester => {
+            semester.season = semester.season.toLowerCase();
+        })
+    }
+
+    try {
+        var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
+        res.json(generatedSchedules);
+    } catch (error) {
+        console.log("An error occured in the scheduler: " + error.stack);
+        res.status(500).send("An error occured when trying to build the schedule.");
+    }
 });
 
 app.post('/users/register', (req, res, next) => {
@@ -138,7 +139,6 @@ app.post('/users/register', (req, res, next) => {
                 });
         });
 });
-
 
 app.post('/users/login', (req, res, next) => {
     let fetchedUser;
