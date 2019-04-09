@@ -208,7 +208,7 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
 app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
     let userId = req.body.authToken.userId;
     try {
-        endpoint_service.getUserRecord("5ca961bd3c25331770b57501")
+        endpoint_service.getUserRecord(userId)
         .then((userRecord) => {
             res.json(userRecord);
         })
