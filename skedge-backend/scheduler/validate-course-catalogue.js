@@ -73,21 +73,24 @@ function ThrowCatalogueUndefinedException(message)
 {
     throw {
         name: "CatalogueUndefinedException",
-        message: "CatalogueUndefinedException: " + message
+        message: "CatalogueUndefinedException: " + message,
+        stack: "CatalogueUndefinedException: " + message
     }
 }
 function ThrowInvalidCoursePropertyException(message)
 {
     throw {
         name: "InvalidCoursePropertyException",
-        message: "InvalidCoursePropertyException: " + message
+        message: "InvalidCoursePropertyException: " + message,
+        stack: "InvalidCoursePropertyException: " + message
     }
 }
 function ThrowCourseSectionInvalidPropertyException(message)
 {
     throw {
         name: "CourseSectionInvalidPropertyException",
-        message: "CourseSectionInvalidPropertyException: " + message
+        message: "CourseSectionInvalidPropertyException: " + message,
+        stack: "CourseSectionInvalidPropertyException: " + message
     }
 }
 
