@@ -180,7 +180,7 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
         courseRecord: req.body.courseRecord,
         courseSequence: req.body.courseSequence,
         semesters: req.body.semesters,
-        creator: JSON.parse(userId)
+        creator: {_id: userId}
     });
     // Get rid of try catch once database function works
     try {
@@ -208,9 +208,8 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
 app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
     let userId = req.body.authToken.userId;
     try {
-        endpoint_service.getUserRecord(JSON.parse(userId))
+        endpoint_service.getUserRecord("5ca961bd3c25331770b57501")
         .then((userRecord) => {
-            userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
             res.json(userRecord);
         })
         .catch(error => {

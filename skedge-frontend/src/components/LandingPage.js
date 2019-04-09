@@ -38,7 +38,6 @@ class LandingPage extends Component {
     window.sessionStorage.setItem('isLoggedInAsGuest', "");
   }
 
-  // TODO: ensure password is hashed before sending it to backend
   handleLogin(event, goToSchedule = true) {
 
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
