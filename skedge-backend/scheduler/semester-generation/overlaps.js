@@ -33,7 +33,7 @@ function convertTimeToInt(timeString){
         return intTime;
     }
 
-    function computeTimeOverlap(times){
+function computeTimeOverlap(times){
         var s1 = times[0][0];
         var e1 = times[0][1];
         var s2 = times[1][0];

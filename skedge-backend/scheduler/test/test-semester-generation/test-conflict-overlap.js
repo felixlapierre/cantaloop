@@ -5,8 +5,10 @@ describe('conflictOverlap', function(){
 
     it('should return zero for two classes happening on different days', function(){
         // Arrange
-        var someClass = { "time_start":"02:00","time_end":"04:00","days":"Tu"};
-        var someClassHappeningOnAnotherDay = { "time_start":"02:00","time_end":"04:00","days":"Mo"};
+        var someClass = 
+            { "time_start":"02:00","time_end":"04:00","days":"Tu"};
+        var someClassHappeningOnAnotherDay =
+            { "time_start":"02:00","time_end":"04:00","days":"Mo"};
 
         // Act
         var overlap = conflictOverlap(someClass, someClassHappeningOnAnotherDay);
@@ -17,8 +19,10 @@ describe('conflictOverlap', function(){
 
     it('should return zero for two classes happening on the same day at separate times', function(){
         // Arrange
-        var someClass = { "time_start":"02:00","time_end":"04:00","days":"Tu"};
-        var someClassOnTheSameDayAtASeparateTime = { "time_start":"07:00","time_end":"09:00","days":"Tu"};
+        var someClass = 
+            { "time_start":"02:00","time_end":"04:00","days":"Tu"};
+        var someClassOnTheSameDayAtASeparateTime = 
+            { "time_start":"07:00","time_end":"09:00","days":"Tu"};
 
         // Act
         var overlapTime = conflictOverlap(someClass, someClassOnTheSameDayAtASeparateTime);
@@ -29,22 +33,26 @@ describe('conflictOverlap', function(){
 
     it('should return the amount of overlapping time for two classes happening in the same slot with partial overlap across one day', function(){
         // Arrange
-        var someClass = { "time_start":"02:00","time_end":"08:00","days":"Tu"};
-        var someClassOnTheSameDayAtASeparateTime = { "time_start":"07:00","time_end":"09:00","days":"Tu"};
+        var someClass =
+            { "time_start":"02:00","time_end":"08:00","days":"Tu"};
+        var someClassWithPartialOverlapAcrossOneDay =
+            { "time_start":"07:00","time_end":"09:00","days":"Tu"};
 
         // Act
-        var overlapTime = conflictOverlap(someClass, someClassOnTheSameDayAtASeparateTime);
+        var overlapTime = conflictOverlap(someClass, someClassWithPartialOverlapAcrossOneDay);
 
         // Assert
         expect(overlapTime).to.equal(60);
     });
     it('should return the amount of overlapping time for two classes happening in the same slot with partial overlap across two days', function(){
         // Arrange
-        var someClass = { "time_start":"02:00","time_end":"08:00","days":"TuTh"};
-        var someClassOnTheSameDayAtASeparateTime = { "time_start":"07:00","time_end":"09:00","days":"TuTh"};
+        var someClass = 
+            { "time_start":"02:00","time_end":"08:00","days":"TuTh"};
+        var someClassWithPartialOverlapAcrossTwoDays =
+            { "time_start":"07:00","time_end":"09:00","days":"TuTh"};
 
         // Act
-        var overlapTime = conflictOverlap(someClass, someClassOnTheSameDayAtASeparateTime);
+        var overlapTime = conflictOverlap(someClass, someClassWithPartialOverlapAcrossTwoDays);
 
         // Assert
         expect(overlapTime).to.equal(120);
@@ -52,11 +60,13 @@ describe('conflictOverlap', function(){
     
     it('should return the amount of overlapping time for two classes happening in the same slot across one day', function(){
         // Arrange
-        var someClass = { "time_start":"07:00","time_end":"09:00","days":"Tu"};
-        var someClassOnTheSameDayAtASeparateTime = { "time_start":"07:00","time_end":"09:00","days":"Tu"};
+        var someClass =
+            { "time_start":"07:00","time_end":"09:00","days":"Tu"};
+        var someClassHappeningAtTheSameTimeAcrossOneDay =
+            { "time_start":"07:00","time_end":"09:00","days":"Tu"};
 
         // Act
-        var overlapTime = conflictOverlap(someClass, someClassOnTheSameDayAtASeparateTime);
+        var overlapTime = conflictOverlap(someClass, someClassHappeningAtTheSameTimeAcrossOneDay);
 
         // Assert
         expect(overlapTime).to.equal(120);
@@ -64,11 +74,13 @@ describe('conflictOverlap', function(){
 
     it('should return the amount of overlapping time for two classes happening in the same slot across two days', function(){
         // Arrange
-        var someClass = { "time_start":"07:00","time_end":"08:00","days":"TuTh"};
-        var someClassOnTheSameDayAtASeparateTime = { "time_start":"07:00","time_end":"08:00","days":"TuTh"};
+        var someClass =
+            { "time_start":"07:00","time_end":"08:00","days":"TuTh"};
+        var someClassHappeningAtTheSameTimeAcrossTwoDays =
+            { "time_start":"07:00","time_end":"08:00","days":"TuTh"};
 
         // Act
-        var overlapTime = conflictOverlap(someClass, someClassOnTheSameDayAtASeparateTime);
+        var overlapTime = conflictOverlap(someClass, someClassHappeningAtTheSameTimeAcrossTwoDays);
 
         // Assert
         expect(overlapTime).to.equal(120);

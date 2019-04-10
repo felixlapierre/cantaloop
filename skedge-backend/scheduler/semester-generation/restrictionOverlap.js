@@ -1,3 +1,11 @@
+/**
+ * Evaluates the cost of an overlap between a class and its restrictions
+ * 
+ * @param sectionClass a class
+ * @param restriction a restriction
+ * @returns score to be deducted from final fitness of an individual
+ */
+
 const checkDayOverlap= require('./overlaps.js').checkDayOverlap;
 const convertTimeToInt= require('./overlaps.js').convertTimeToInt;
 const computeTimeOverlap= require('./overlaps.js').computeTimeOverlap;

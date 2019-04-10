@@ -30,4 +30,5 @@ function individual(parentSemester)
     }
     return this;
 }
+
 module.exports = individual;
