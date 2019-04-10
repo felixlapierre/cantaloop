@@ -9,7 +9,6 @@ class HeaderPage extends Component {
   constructor(props) {
     super(props);
     this.state = { authToken : props.location.authToken };
-    
 
     this.handleRecordButtonClick = this.handleRecordButtonClick.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
@@ -17,12 +16,10 @@ class HeaderPage extends Component {
   }
 
   handleRecordButtonClick(){
-    console.log("Record");
     this.props.history.push({
       pathname: '/record',
       authToken: this.state.authToken
-    }); 
-
+    });
   }
 
   handleLogout(){
@@ -38,7 +35,7 @@ class HeaderPage extends Component {
 
   logoutORlogin() // depends on whether you are logged in as a guest or not
   {
-    if(window.sessionStorage.getItem('token') === null)
+    if(this.props.location.authToken === undefined)
     {
       return (
         <Menu.Item
