@@ -4,6 +4,7 @@ import { Button, Grid } from 'semantic-ui-react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import { element } from 'prop-types';
 
 class TabContent extends Component{
 
@@ -17,7 +18,7 @@ class TabContent extends Component{
             slidesToShow: 1,
             slidesToScroll: 1
         };
-
+        this.slides = [];
         this.handleBack = this.handleBack.bind(this);
         this.handleNext = this.handleNext.bind(this);
     }
@@ -31,6 +32,10 @@ class TabContent extends Component{
     }
 
     render() {
+        this.slides = [];
+        for(var key in this.props.scheduleComponents){
+            this.slides.push(<div key={key+this.props.year}>{this.props.scheduleComponents[key]}</div>);
+        }
         return (
             <Grid>
                 <Grid.Row columns={3} verticalAlign='middle' stretched>
@@ -39,15 +44,7 @@ class TabContent extends Component{
                     </Grid.Column>
                     <Grid.Column width={14} textAlign="center">
                         <Slider ref={(sliderInstance) => { this.slider = sliderInstance; }} {...this.settings}>
-                            <div>
-                                {this.props.scheduleComponents[0]}
-                            </div>
-                            <div>
-                                {this.props.scheduleComponents[1]}
-                            </div>
-                            <div>
-                                {this.props.scheduleComponents[2]}
-                            </div>
+                            {this.slides}
                         </Slider>
                     </Grid.Column>
                     <Grid.Column width={1} textAlign="center">
