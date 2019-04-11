@@ -3,14 +3,14 @@
     margin-left: 5px;
   }
   
-  
   .timetable {
     display: grid;
-    grid-gap: 15px;
-    grid-template-columns: 50px repeat(5, 150px);
+    grid-gap: 10px;
+    grid-template-columns: 50px repeat(5, 200px);
     grid-template-rows: repeat(20, 50px);
+width:80%;
+height:60%;    
   }
-
   p {
     margin: 0;
     padding: 0;
@@ -18,17 +18,15 @@
   
   .tableElement {
     text-align:center;
-    height: 63px;
-    border: 2px solid black;
-    padding: 4px;
+    border: 2px solid black; 
+    background-color:turquoise;
   }
 
-  
   .titleWrapper {
     display: grid;
     grid-column: 1 / 7;
-    grid-gap: 20px;
-    grid-template-columns: 25px repeat(5, 150px);
+    grid-gap: 10px;
+    grid-template-columns: 50px repeat(5, 200px);
     border-bottom: 1px solid black;
     margin-bottom: 10px;
     justify-items: center;
@@ -36,7 +34,7 @@
   
   .timeWrapper {
     display: grid;
-    grid-row: 2 / 27;
+    grid-row: 2 / 30;
     grid-gap: 10px;
     grid-template-rows: repeat(20, 50px);
   }
@@ -144,7 +142,19 @@
     grid-column: 1 / 2;
     grid-row: 26 / 27;
   }
-
+  .timeWrapper div:nth-of-type(27) {
+    grid-column: 1 / 2;
+    grid-row: 27 / 28;
+  }
+  .timeWrapper div:nth-of-type(28) {
+    grid-column: 1 / 2;
+    grid-row: 28 / 29;
+  }
+  .timeWrapper div:nth-of-type(29) {
+    grid-column: 1 / 2;
+    grid-row: 29 / 30;
+  }
+  
   
   .timeColumn {
     grid-column: 1 / 2;
@@ -171,149 +181,207 @@
   }
   
   /* start times */
-  
-  .eightThirty {
-    grid-row-start: 2;
+
+  .eightOclock {
+      grid-row-start: 2;
+
   }
-  
-  .nineOclock {
+  .eightThirty {    
     grid-row-start: 3; 
   }
   
-  .nineThirty {
+  .nineOclock {
     grid-row-start: 4; 
   }
   
+  .nineThirty {
+      grid-row-start: 5; 
+
+  } 
   .tenOclock {
-    grid-row-start: 5; 
+      grid-row-start: 6;
+
   }
   
   .tenThirty {
-    grid-row-start: 6;
+        grid-row-start: 7;
+
   }
   
-  .elevenOclock {
-    grid-row-start: 7;
+  .elevenOclock {    grid-row-start: 8;
+
   }
   
-  .elevenThirty {
-    grid-row-start: 8;
+  .elevenThirty {    grid-row-start: 9;
+
   }
   
-  .twelveOclock {
-    grid-row-start: 9;
+  .twelveOclock {    grid-row-start: 10;
+
   }
   
-  .twelveThirty {
-    grid-row-start: 10;
+  .twelveThirty {    grid-row-start: 11;
+
   }
   
-  .oneOclock {
-    grid-row-start: 11;
+  .oneOclock {    grid-row-start: 12;
+
   }
   
-  .oneThirty {
-    grid-row-start: 12;
+  .oneThirty {    grid-row-start: 13;
+
   }
   
-  .twoOclock {
-    grid-row-start: 13;
+  .twoOclock {    grid-row-start: 14;
+
   }
   
-  .twoThirty {
-    grid-row-start: 14;
+  .twoThirty {    grid-row-start: 15;
+
   }
   
-  .threeOclock {
-    grid-row-start: 15;
+  .threeOclock {    grid-row-start: 16;
+
   }
   
-  .threeThirty {
-    grid-row-start: 16;
+  .threeThirty {    grid-row-start: 17;
+
   }
   
-  .fourOclock {
-    grid-row-start: 17;
+  .fourOclock {    grid-row-start: 18;
+
   }
   
-  .fourThirty {
-    grid-row-start: 18;
+  .fourThirty {    grid-row-start: 19;
+
   }
   
   .fiveOclock {
-    grid-row-start: 19;
+    grid-row-start: 20;
   }
   
+  .fiveThirty {
+    grid-row-start: 21;
+  }
+  .sixOclock {
+    grid-row-start: 22;
+  }
+  .sixThirty {
+    grid-row-start: 23;
+  }
+  .sevenOclock {
+    grid-row-start: 24;
+  }
+  .sevenThirty {
+    grid-row-start: 25;
+  }
+  .eightOclockPM {
+    grid-row-start:26;
+  }
+  .eightThirtyPM {
+    grid-row-start:27;
+  }
+  .nineOclockPM {
+    grid-row-start: 28;
+  }
+  .nineThirtyPM {
+    grid-row-start:29;
+  }
   /* end times */
   
   .endNineThirty {
-    grid-row-end: 4; 
-  }
-  
-  .endTenOclock {
     grid-row-end: 5; 
   }
   
-  .endTenThirty {
-    grid-row-end: 6;
+  .endTenOclock {
+    grid-row-end: 6; 
   }
   
-  .endElevenOclock {
+  .endtenThirty {
     grid-row-end: 7;
   }
   
-  .endElevenThirty {
+  .endElevenOclock {
     grid-row-end: 8;
   }
   
-  .endTwelveOclock {
+  .endelevenThirty {
     grid-row-end: 9;
   }
   
-  .endTwelveThirty {
+  .endTwelveOclock {
     grid-row-end: 10;
   }
   
-  .endOneOclock {
+  .endtwelveThirty {
     grid-row-end: 11;
   }
   
-  .endOneThirty {
+  .endOneOclock {
     grid-row-end: 12;
   }
   
-  .endTwoOclock {
+  .endoneThirty {
     grid-row-end: 13;
   }
   
-  .endTwoThirty {
+  .endTwoOclock {
     grid-row-end: 14;
   }
   
-  .endThreeOclock {
+  .endtwoThirty {
     grid-row-end: 15;
   }
   
-  .endThreeThirty {
+  .endThreeOclock {
     grid-row-end: 16;
   }
   
-  .endFourOclock {
+  .endthreeThirty {
     grid-row-end: 17;
   }
   
-  .endFourThirty {
+  .endFourOclock {
     grid-row-end: 18;
   }
   
-  .endFiveOclock {
+  .endfourThirty {
     grid-row-end: 19;
   }
   
-  .endFiveThirty {
+  .endFiveOclock {
     grid-row-end: 20;
   }
   
-  .endSixOclock {
+  .endfiveThirty {
     grid-row-end: 21;
+  }
+  
+  .endSixOclock {
+    grid-row-end: 22;
+  }
+
+  .endsixThirty{
+    grid-row-end:23;
+  }
+  .endSevenOclock{
+grid-row-end:24;
+  }
+  .endsevenThirty{
+    grid-row-end:25;
+  }
+  .endEightOclockPM{
+    grid-row-end:26;
+  }
+  .endeightThirtyPM{
+    grid-row-end:27;
+  }
+  .endNineOclockPM{
+    grid-row-end:28;
+  }
+  .endnineThirtyPM{
+    grid-row-end:29;
+  }
+  .endTenOclockPM{
+    grid-row-end:30;
   }
