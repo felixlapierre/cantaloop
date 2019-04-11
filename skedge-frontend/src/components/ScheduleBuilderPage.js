@@ -49,8 +49,11 @@ class ScheduleBuilderPage extends Component {
     }
   }
 
+  componentDidMount() {
+  }
+
   componentWillMount(){
-    if (this.state.authToken !== undefined) { // If logged in
+    if (window.sessionStorage.getItem('isLoggedInAsGuest') === "false") { // If logged in
       axios.post('/users/loadRecAndSeq', {authToken: this.state.authToken})
       .then(res => {
         if (res.data === null || res.data.courseSequence === undefined) // If the user has no saved course record/sequence, it should be blank.
@@ -190,19 +193,36 @@ class ScheduleBuilderPage extends Component {
   }
 
   regenerateSchedule(){
-    let dataToSend = {"courseRecord": this.state.courseRecord,
-    "courseSequence": this.state.currentClasses,
-    "semesters": this.state.semesters};
-    axios.post('/builder/genSchedules', dataToSend).then(response => {
+    let coursesPayload = {
+      "courseRecord": this.state.courseRecord,
+      "courseSequence": this.state.currentClasses,
+      "semesters": this.state.semesters
+    };
+
+    axios.post('/builder/genSchedules', coursesPayload).then(response => {
       console.log("Received: ");
       console.log(response.data);
     })
     .catch(error => {
       console.log('error', error)
     });
+
+    if(!this.props.location.isLoggedInAsGuest)
+    {
+      let postBody = coursesPayload;
+      postBody.authToken = this.state.authToken;
+
+      // When coursePayload has properly been saved in the database, we can update the sessions storage
+      axios.post('/users/saveRecAndSeq', postBody).then(res => {
+        window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+        window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+        window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+        window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.allClasses)); // TODO: need to update it
+      });
+    }
   }
 
-  paneRender(props){
+    paneRender(props){
     var yearKey = props.panes[this.state.scheduleComponentsIndex].menuItem;
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleYearComponents[yearKey]} year={yearKey} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>);
   }

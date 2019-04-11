@@ -16,12 +16,12 @@ var someCatalog = {
         "corequisites": ["COMP101"]
     },
     "HasExcludedPrereqs": {
-        "prerequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272"],
+        "prerequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272", "COMP228"],
         "corequisites": []
     },
     "HasExcludedCoreqs": {
         "prerequisites": [],
-        "corequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272"]
+        "corequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272", "COMP228"]
     }
 }
 
