@@ -14,6 +14,14 @@ var someCatalog = {
     "HasCoreq": {
         "prerequisites": [],
         "corequisites": ["COMP101"]
+    },
+    "HasExcludedPrereqs": {
+        "prerequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272", "COMP228"],
+        "corequisites": []
+    },
+    "HasExcludedCoreqs": {
+        "prerequisites": [],
+        "corequisites": ["MATH101", "PHYS101", "BIOL101", "COEN101", "ENCS272", "COMP228"]
     }
 }
 
@@ -45,6 +53,34 @@ describe('addMissingPrerequisitesAndCorequisites', () => {
         //Assert
         expect(courseSequence).to.include.members(["COMP101"]);
     });
+
+    it('should not add prerequisites if they are MATH, PHYS or BIOL classes', () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["HasExcludedPrereqs"];
+
+        var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
+
+        //Act
+        AddMissingPrerequisitesAndCorequisites(someCatalog, courseSequence, requisites);
+
+        //Assert
+        expect(courseSequence).to.not.include.members(["MATH101", "PHYS101", "BIOL101"]);
+    })
+
+    it('should not add corequisites if they are MATH, PHYS or BIOL classes', () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["HasExcludedCoreqs"];
+
+        var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
+
+        //Act
+        AddMissingPrerequisitesAndCorequisites(someCatalog, courseSequence, requisites);
+
+        //Assert
+        expect(courseSequence).to.not.include.members(["MATH101", "PHYS101", "BIOL101"])
+    })
 })
 
 describe('ArePrereqsCoreqsTaken', () => {
@@ -133,4 +169,32 @@ describe('ArePrereqsCoreqsTaken', () => {
         //Assert
         expect(result).to.be.true;
     });
+
+    it('should be true if a class\' prerequisite is from math, physics or biology, or is an ignored class', () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["HasExcludedPrereqs"];
+
+        var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
+
+        //Act
+        var result = requisites.ArePrereqsAndCoreqsTaken("HasExcludedPrereqs");
+
+        //Assert
+        expect(result).to.be.true;
+    })
+
+    it('should be true if a class\' corequisite is from math, physics or biology, or is an ignored class', () => {
+        //Arrange
+        var courseRecord = [];
+        var courseSequence = ["HasExcludedCoreqs"];
+
+        var requisites = new Requisites(someCatalog, courseRecord, courseSequence);
+
+        //Act
+        var result = requisites.ArePrereqsAndCoreqsTaken("HasExcludedCoreqs");
+
+        //Assert
+        expect(result).to.be.true;
+    })
 })

@@ -30,15 +30,15 @@ class LandingPage extends Component {
       console.log(error);
     });
   }
-  
-  componentDidMount(){
+
+  componentDidMount() {
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
     window.sessionStorage.setItem('semesters', JSON.stringify([]));
+    window.sessionStorage.setItem('isLoggedInAsGuest', "");
   }
 
-  // TODO: ensure password is hashed before sending it to backend
-  handleLogin(event) {
+  handleLogin(event, goToSchedule = true) {
 
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
           // Verify that the wrapper token was sent from the server using user password.
@@ -49,15 +49,24 @@ class LandingPage extends Component {
             console.log(error)
             alert("Login unsuccessful. Could not verify server signature.");
           }
+
+          window.sessionStorage.setItem('isLoggedInAsGuest', "false");
+
           // Save authToken to memory (NOT TO SESSION STORAGE)
           let authToken = wrapperToken.authToken;
 
           this.setState({errorWhenLoggingIn: false});
           // Switch to user record page and pass the authToken in the state (NOT USING SESSION STORAGE)
+          let pathName;
+          if (goToSchedule){
+            pathName = '/schedule';
+          } else {
+            pathName = '/record';
+          }
           this.props.history.push({
-            pathname: '/record',
+            pathname: pathName,
             authToken: authToken
-          }); 
+          });
       }).catch(error => {
         console.log(error);
         // Reset fields
@@ -69,28 +78,43 @@ class LandingPage extends Component {
         })
       });
   }
-  
+
+
+
   handleUsernameChange(event){
     this.setState({username: event.target.value});
   }
-  
+
   handlePasswordChange(event){
     this.setState({password: event.target.value});
   }
-  
+
   handleRegister(event) {
     axios.post('/users/register', {username: this.state.username, password: this.state.password})
     .then(response => {
         console.log('Received response' + response);
-        alert("Thank you for registering.\nPlease login to confirm your account.");
+        this.handleLogin(undefined, false);
+    }).catch(error => {
+      console.log(error);
+      // Reset fields
+      this.setState({
+        value: '',
+        username: '',
+        password: '',
+        errorWhenLoggingIn: true
+      })
     });
   }
-  
+
   handleLoginGuest(event) {
-    console.log("Guest");
-    this.props.history.push('/record')
+    window.sessionStorage.setItem('isLoggedInAsGuest', "true");
+
+    this.props.history.push({
+      pathname: '/record',
+      isLoggedInAsGuest: true
+    })
   }
-  
+
   // Display error messages
   renderErrorMessage() {
     if(this.state.errorWhenLoggingIn === true) {
@@ -119,7 +143,7 @@ class LandingPage extends Component {
                             onChange={this.handlePasswordChange}/>
                 <Form.Group>
                   <Button fluid onClick={this.handleLogin} id='loginButton'>Login</Button>
-                  <Button fluid onClick={this.handleRegister} id='registerButton'>Register</Button>
+                  <Button fluid onClick={this.handleRegister } id='registerButton'>Register</Button>
                 </Form.Group>
                 <Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button>
                 {this.renderErrorMessage()}
@@ -132,6 +156,5 @@ class LandingPage extends Component {
         );
       }
     }
-    
+
     export default LandingPage;
-    
