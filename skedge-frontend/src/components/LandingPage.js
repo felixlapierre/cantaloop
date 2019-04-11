@@ -59,7 +59,7 @@ class LandingPage extends Component {
           // Switch to user record page and pass the authToken in the state (NOT USING SESSION STORAGE)
           let pathName;
           if (goToSchedule){
-            pathName = '/record';
+            pathName = '/schedule';
           } else {
             pathName = '/record';
           }
