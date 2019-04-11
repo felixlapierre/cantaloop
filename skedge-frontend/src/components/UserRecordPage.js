@@ -232,7 +232,7 @@ class UserRecordPage extends Component {
     this.props.history.push({
       pathname: '/schedule',
       authToken: this.state.authToken,
-      recSeqSem: coursesPayload,
+      recSeqSem: coursesPayload
     });
   }
 

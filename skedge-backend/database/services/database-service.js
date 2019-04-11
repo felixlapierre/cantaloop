@@ -179,7 +179,7 @@ module.exports = {
 
     getUserRecord: function (userId) {
         return new Promise((resolve, reject) => {
-            userRecordSequenceSchema.userRecord.findOne({creator: userId}, function(err, result){
+            userRecordSequenceSchema.findOne({creator: userId}, function(err, result){
                 if(err)
                     reject(err);
                 else

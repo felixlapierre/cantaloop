@@ -8,9 +8,9 @@ class CourseInfo extends Component {
     this.convertStartTime = this.convertStartTime.bind(this);
     this.convertEndTime = this.convertEndTime.bind(this);
   }
-  
+
   convertDay(day){
-      if (day.length==2)
+      if (day.length===2)
       {
            if (day==='Mo') return("monday");
            else if (day === 'Tu') return("tuesday");
@@ -19,7 +19,7 @@ class CourseInfo extends Component {
            else if (day === 'Fr') return("friday");
            else return null;
       }
-      if (day.length==4)
+      if (day.length===4)
       {
           var firstDay=day.substring(0,1)
           if (firstDay==='Mo') return("monday");
@@ -29,7 +29,7 @@ class CourseInfo extends Component {
            else if (firstDay === 'Fr') return("friday");
            else return null;
       }
-   
+
   }
 
   convertStartTime(start_time){
@@ -84,10 +84,10 @@ class CourseInfo extends Component {
     return(
       <p
         className={`tableElement ${this.convertDay(this.props.day)}
-        ${this.convertStartTime(this.props.startTime)} 
+        ${this.convertStartTime(this.props.startTime)}
         ${this.convertEndTime(this.props.endTime)}`}
       >
-      {this.props.course}<br/> 
+      {this.props.course}<br/>
       {this.props.startTime} - {this.props.endTime} <br/>
       {this.props.type} <br/>
     </p>
