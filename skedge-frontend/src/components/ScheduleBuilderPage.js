@@ -18,10 +18,12 @@ class ScheduleBuilderPage extends Component {
       currentClasses:[],
       semesters:[],
       courseRecord:[],
-      scheduleComponentsIndex: 0
+      scheduleComponentsIndex: 0,
     };
     this.panes = [];
-    this.scheduleYearComponents = [];
+    this.scheduleYearComponents = {};
+    this.pickedSchedule = {};
+    this.years = {};
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
     this.handleDimmedPusher = this.handleDimmedPusher.bind(this);
     this.listItemClicked = this.listItemClicked.bind(this);
@@ -30,6 +32,7 @@ class ScheduleBuilderPage extends Component {
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
     this.paneRender = this.paneRender.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.changePickedSchedule = this.changePickedSchedule.bind(this);
   }
   
   handleHamburgerButton(){
@@ -52,24 +55,31 @@ class ScheduleBuilderPage extends Component {
     this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
     this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
 
-    var years = {};
     this.props.scheduleGiven.forEach(element => {
       var year = element.year;
       var season = element.season;
-      if(years[year] === undefined)
-      years[year] = {};
-      years[year][season] = element.schedules;
+      if(this.years[year] === undefined)
+      this.years[year] = {};
+      this.years[year][season] = element.schedules;
     });
-    for(var yearKey in years){
-      this.scheduleYearComponents[yearKey] = [];
-      for(var seasonKey in years[yearKey]){
-        this.scheduleYearComponents[yearKey].push(<Schedule key={seasonKey} season={seasonKey} schedules={years[yearKey][seasonKey]} />);
+    for(var yearKey in this.years){
+      this.scheduleYearComponents[yearKey] = {};
+      for(var seasonKey in this.years[yearKey]){
+        this.changePickedSchedule(1, yearKey, seasonKey);
       }
       this.panes.push({
         menuItem: yearKey,
         render: (props) => this.paneRender(props)
       });
     }
+  }
+
+  changePickedSchedule(picked, yearKey, seasonKey){
+    if(this.pickedSchedule[yearKey] === undefined){
+      this.pickedSchedule[yearKey] = {};
+    }
+    this.pickedSchedule[yearKey][seasonKey] = picked;
+    this.scheduleYearComponents[yearKey][seasonKey]=(<Schedule key={seasonKey+yearKey} season={seasonKey} year={yearKey} schedules={this.years[yearKey][seasonKey]} onPickedScheduleChanged={this.changePickedSchedule} picked={this.pickedSchedule[yearKey][seasonKey]}/>);
   }
   
   listItemClicked(event){
@@ -126,7 +136,8 @@ class ScheduleBuilderPage extends Component {
   }
 
   paneRender(props){
-    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleYearComponents[props.panes[this.state.scheduleComponentsIndex].menuItem]} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>);
+    var yearKey = props.panes[this.state.scheduleComponentsIndex].menuItem;
+    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleYearComponents[yearKey]} year={yearKey} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>);
   }
 
   handleTabChange(e, { activeIndex }){
