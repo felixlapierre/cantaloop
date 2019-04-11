@@ -9,6 +9,8 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
+const historyMock = { push: jest.fn() };
+
 describe('LandingPage', () => {
   it('renders without crashing', () => {
     const wrapper = mount(<BrowserRouter>
@@ -30,7 +32,7 @@ describe('LandingPage', () => {
   it('Clicks on Login as guest button', () => {
     const HandleLoginGuest = jest.spyOn(LandingPage.prototype, 'handleLoginGuest');
 
-    const wrapper = shallow(<LandingPage />);
+    const wrapper = shallow(<LandingPage history={historyMock}/>);
     const loginButtonGuest = wrapper.find('#loginButtonGuest');
     loginButtonGuest.simulate('click');
     expect(HandleLoginGuest).toHaveBeenCalled();

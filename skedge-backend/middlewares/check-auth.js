@@ -9,7 +9,7 @@ module.exports = (req, res, next) =>{
     } catch (error) {
         console.log(error);
         res.status(401).json({
-            message: "Authorization failed for secureEndpoint!"
+            message: "Authorization failed. Could not verify auth token."
         });
     }
 };

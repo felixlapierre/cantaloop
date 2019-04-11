@@ -8,7 +8,7 @@ class CourseInfo extends Component {
     this.convertStartTime = this.convertStartTime.bind(this);
     this.convertEndTime = this.convertEndTime.bind(this);
   }
-  
+
   convertDay(day){
            if (day==='Mo') return("monday");
            else if (day === 'Tu') return("tuesday");
@@ -52,10 +52,10 @@ class CourseInfo extends Component {
     return(
       <p
         className={`tableElement ${this.convertDay(this.props.day)}
-        ${this.convertStartTime(this.props.startTime)} 
+        ${this.convertStartTime(this.props.startTime)}
         ${this.convertEndTime(this.props.endTime)}`}
       >
-      {this.props.course}<br/> 
+      {this.props.course}<br/>
       {this.props.startTime} - {this.props.endTime} <br/>
       {this.props.type} <br/>
     </p>

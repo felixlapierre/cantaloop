@@ -24,7 +24,7 @@ class CoursePlacer
                 {
                     placementOfThisSemester.push(courseId);
                     this.requisites.SetCourseInProgress(courseId);
-                    creditsTakenSoFar += this.courseCatalog[courseId].credits;
+                    creditsTakenSoFar += Number.parseFloat(this.courseCatalog[courseId].credits);
                 }
             })
 
@@ -43,12 +43,19 @@ class CoursePlacer
         return !this.requisites.IsCourseComplete(courseId)
             && this.requisites.ArePrereqsAndCoreqsTaken(courseId)
             && this.CourseCreditsFitInSemester(courseId, creditsSoFar, semester)
+            && this.CourseIsGivenInSemester(courseId, semester);
     }
 
     CourseCreditsFitInSemester(courseId, creditsTaken, semester)
     {
         return semester.credits - creditsTaken >= this.courseCatalog[courseId].credits;
     }
+
+    CourseIsGivenInSemester(courseId, semester)
+    {
+        return this.courseCatalog[courseId][semester.season].length > 0;
+    }
+
 }
 
 

@@ -61,7 +61,8 @@ function ThrowSchedulerInputFormatException(message)
 {
     throw {
         name: "SchedulerInputFormatException",
-        message: "SchedulerInputFormatException: " + message
+        message: "SchedulerInputFormatException: " + message,
+        stack: "SchedulerInputFormatException: " + message
     }
 }
 
