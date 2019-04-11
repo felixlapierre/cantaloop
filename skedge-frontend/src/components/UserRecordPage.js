@@ -216,7 +216,8 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
 
-    if (this.state.authToken !== undefined) { // User is logged in
+    if(window.sessionStorage.getItem('isLoggedInAsGuest') === "false")
+    {
       let postBody = coursesPayload;
       postBody.authToken = this.state.authToken;
 
@@ -227,7 +228,7 @@ class UserRecordPage extends Component {
         window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions)); // TODO: need to update it
       });
     }
-    
+
     this.props.history.push({
       pathname: '/schedule',
       authToken: this.state.authToken,
