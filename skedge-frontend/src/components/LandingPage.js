@@ -30,14 +30,14 @@ class LandingPage extends Component {
       console.log(error);
     });
   }
-
-  componentDidMount(){
+  
+  componentDidMount() {
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
     window.sessionStorage.setItem('semesters', JSON.stringify([]));
+    window.sessionStorage.setItem('isLoggedInAsGuest', "");
   }
 
-  // TODO: ensure password is hashed before sending it to backend
   handleLogin(event, goToSchedule = true) {
 
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
@@ -49,6 +49,9 @@ class LandingPage extends Component {
             console.log(error)
             alert("Login unsuccessful. Could not verify server signature.");
           }
+
+          window.sessionStorage.setItem('isLoggedInAsGuest', "false");
+
           // Save authToken to memory (NOT TO SESSION STORAGE)
           let authToken = wrapperToken.authToken;
 
@@ -63,8 +66,7 @@ class LandingPage extends Component {
           this.props.history.push({
             pathname: pathName,
             authToken: authToken
-          });
-
+          }); 
       }).catch(error => {
         console.log(error);
         // Reset fields
@@ -105,7 +107,12 @@ class LandingPage extends Component {
   }
 
   handleLoginGuest(event) {
-    this.props.history.push('/record')
+    window.sessionStorage.setItem('isLoggedInAsGuest', "true");
+
+    this.props.history.push({
+      pathname: '/record',
+      isLoggedInAsGuest: true
+    })
   }
 
   // Display error messages

@@ -35,7 +35,7 @@ class HeaderPage extends Component {
 
   logoutORlogin() // depends on whether you are logged in as a guest or not
   {
-    if(this.props.location.authToken === undefined)
+    if(window.sessionStorage.getItem('isLoggedInAsGuest') === "true")
     {
       return (
         <Menu.Item
