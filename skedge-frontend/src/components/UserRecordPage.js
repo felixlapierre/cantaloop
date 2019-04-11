@@ -216,15 +216,18 @@ class UserRecordPage extends Component {
     window.sessionStorage.setItem('semesters', JSON.stringify(this.state.semesters));
     window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions));
 
-    let postBody = coursesPayload;
-    postBody.authToken = this.state.authToken;
+    if (this.state.authToken !== undefined) { // User is logged in
+      let postBody = coursesPayload;
+      postBody.authToken = this.state.authToken;
 
-    axios.post('/users/saveRecAndSeq', postBody).then(res => {
-      window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
-      window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
-      window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
-      window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions)); // TODO: need to update it
-    });
+      axios.post('/users/saveRecAndSeq', postBody).then(res => {
+        window.sessionStorage.setItem('courseSequence', JSON.stringify(this.state.courseItems));
+        window.sessionStorage.setItem('courseRecord', JSON.stringify(coursesPayload.courseRecord));
+        window.sessionStorage.setItem('semesters', JSON.stringify(coursesPayload.semesters));
+        window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.courseOptions)); // TODO: need to update it
+      });
+    }
+    
     this.props.history.push({
       pathname: '/schedule',
       authToken: this.state.authToken,
