@@ -22,7 +22,7 @@ class CourseInfo extends Component {
   convertStartTime(start_time){
     if (start_time>="08:00"&&start_time<"08:30") return ("eightOclock");
     else if (start_time>="08:30"&&start_time<"09:00") return ("eightThirty");
-    else if (start_time>="09:30"&&start_time<"09:30") return("nineOclock");
+    else if (start_time>="09:00"&&start_time<"09:30") return("nineOclock");
     else if (start_time>="09:30"&&start_time<"10:00") return ("nineThirty");
     else if (start_time>="10:00"&&start_time<"10:30") return("tenOclock");
     else if (start_time>="10:30"&&start_time<"11:00") return ("tenThirty");

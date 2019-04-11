@@ -6,8 +6,9 @@
   .timetable {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: 50px repeat(5, 200px);
+    grid-template-columns: 50px repeat(5, 150px);
     grid-template-rows: repeat(28, 50px);   
+    
   }
   p {
     margin: 0;
@@ -25,7 +26,7 @@
     display: grid;
     grid-column: 1 / 7;
     grid-gap: 10px;
-    grid-template-columns: 50px repeat(5, 200px);
+    grid-template-columns: 50px repeat(5, 150px);
     border-bottom: 1px solid black;
     margin-bottom: 10px;
     justify-items: center;
