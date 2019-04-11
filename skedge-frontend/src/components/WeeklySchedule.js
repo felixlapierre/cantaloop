@@ -23,7 +23,7 @@ class WeeklySchedule extends Component
         for(var classType in this.props.schedule[courseId])
         {
           var length=this.props.schedule[courseId][classType].days;
-          if (length.length==2)
+          if (length.length===2)
           {
           newCourseInfos.push(
             <CourseInfo 
@@ -36,7 +36,7 @@ class WeeklySchedule extends Component
             />
           );
           }
-          else if (length.length==4)
+          else if (length.length===4)
           {
             var Day1=length.substring(0,1);
             var Day2=length.substring(2,3);
@@ -115,6 +115,7 @@ class WeeklySchedule extends Component
             </div>          
           </div>
         )
+        
     }
 } 
 export default WeeklySchedule;
