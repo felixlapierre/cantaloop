@@ -112,7 +112,10 @@ app.post('/builder/genSchedules', (req, res) => {
         var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
         res.json(generatedSchedules);
     } catch (error) {
-        console.log("An error occured in the scheduler: " + error.stack);
+        if(error.stack === undefined)
+            console.log("An error occured in the scheduler: " + error.message);
+        else
+            console.log("An error occured in the scheduler: " + error.stack);
         res.status(500).send("An error occured when trying to build the schedule.");
     }
 });
@@ -180,7 +183,7 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
         courseRecord: req.body.courseRecord,
         courseSequence: req.body.courseSequence,
         semesters: req.body.semesters,
-        creator: userId
+        creator: {_id: userId}
     });
     // Get rid of try catch once database function works
     try {
@@ -210,7 +213,6 @@ app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
     try {
         endpoint_service.getUserRecord(userId)
         .then((userRecord) => {
-            userRecord = db_response_cleanup.cleanGetCoursesDescription(userRecord);
             res.json(userRecord);
         })
         .catch(error => {
