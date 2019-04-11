@@ -15,7 +15,7 @@ class Schedule extends Component {
   }
 
   handleNextSchedule(){
-    if(this.state.pickedSchedule < 3){
+    if(this.state.pickedSchedule < this.props.schedules.length){
       this.setState({
         pickedSchedule: this.state.pickedSchedule + 1,
       }, () => {

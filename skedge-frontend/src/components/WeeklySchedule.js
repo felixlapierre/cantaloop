@@ -17,14 +17,12 @@ class WeeklySchedule extends Component
     }
 
     updateCourseState(){
-      console.log(this.props.schedule);
       var newCourseInfos = [];
       for(var courseId in this.props.schedule)
       {
         for(var classType in this.props.schedule[courseId])
         {
           var length=this.props.schedule[courseId][classType].days;
-          console.log(length);
           if (length.length==2)
           {
           newCourseInfos.push(
