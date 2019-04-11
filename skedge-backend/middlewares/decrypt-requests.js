@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
                 console.log("+---------------------------------------------------------+");
                 console.log("| Received request @ "+req.originalUrl);
             }
-            
+
             decryptedBodyString = decrypt(req.body.encrypted_data).toString();
             req.body = JSON.parse(decryptedBodyString);
 
@@ -23,7 +23,7 @@ module.exports = function (req, res, next) {
     } 
     catch (error) {
         console.log(error);
-        console.log("---------------------------------------------------------\nReceived encrypted data:");
+        console.log("---------------------------------------------------------\nReceived encrypted data @ "+req.originalUrl+" :");
         console.log(req.body.encrypted_data);
         console.log("---------------------------------------------------------\nDecrypted above data:");
         console.log(req.body);
