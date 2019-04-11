@@ -47,28 +47,33 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
-    axios.post('/users/loadRecAndSeq', {authToken: this.state.authToken})
-    .then(res => {
-      if (res.data === null || res.data.courseSequence === undefined) // If the user has no saved course record/sequence, it should be blank.
-      {
-        this.setState({
-          currentClasses: [],
-          courseRecord: [],
-          semesters: []
-        })
-      }
-      else
-      {
-        this.setState({
-          currentClasses: res.data.courseSequence,
-          courseRecord: res.data.courseRecord,
-          semesters: res.data.semesters
-        })
-      }
+    if (this.state.authToken !== undefined) { // If logged in
+      axios.post('/users/loadRecAndSeq', {authToken: this.state.authToken})
+      .then(res => {
+        if (res.data === null || res.data.courseSequence === undefined) // If the user has no saved course record/sequence, it should be blank.
+        {
+          this.setState({
+            currentClasses: [],
+            courseRecord: [],
+            semesters: []
+          })
+        }
+        else
+        {
+          this.setState({
+            currentClasses: res.data.courseSequence,
+            courseRecord: res.data.courseRecord,
+            semesters: res.data.semesters
+          })
+        }
+        this.performInitialGenSchedule();
+      }).catch(function (error) {
+        console.log(error);
+      });
+    } else {
       this.performInitialGenSchedule();
-    }).catch(function (error) {
-      console.log(error);
-    });
+    }
+    
   }
   performInitialGenSchedule() {
     const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
