@@ -16,16 +16,22 @@ class ScheduleBuilderPage extends Component {
       allClasses:[],
       currentClasses:[],
       semesters:[],
-      courseRecord:[]
+      courseRecord:[],
+      scheduleComponentsIndex: 0,
     };
     this.panes = [];
-    this.scheduleComponents = [];
+    this.scheduleYearComponents = {};
+    this.pickedSchedule = {};
+    this.years = {};
     this.handleHamburgerButton = this.handleHamburgerButton.bind(this);
     this.handleDimmedPusher = this.handleDimmedPusher.bind(this);
     this.listItemClicked = this.listItemClicked.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
+    this.paneRender = this.paneRender.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
+    this.changePickedSchedule = this.changePickedSchedule.bind(this);
   }
 
   handleHamburgerButton(){
@@ -67,27 +73,26 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
-    const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
-    const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
-    const semestersSessionStorage = ((JSON.parse(window.sessionStorage.getItem('semesters')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('semesters')));
-    const courseOptionsSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseOptions')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseOptions')));
-    this.setState({currentClasses: courseSequenceSessionStorage});
-    this.setState({courseRecord: courseRecordSessionStorage});
-    this.setState({semesters: semestersSessionStorage});
-    this.setState({allClasses: courseOptionsSessionStorage});
+    this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
+    this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
+    this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
+    this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
 
-    axios.post('/builder/genSchedules', this.props.location.recSeqSem)
-    .then(response => {
-      this.props.location.scheduleGiven = response.data;
-
-
-      var years = {};
-      this.props.location.scheduleGiven.forEach(element => {
-        var year = element.year;
-        var season = element.season;
-        if(years[year] === undefined)
-        years[year] = {};
-        years[year][season] = element.schedules;
+    this.props.scheduleGiven.forEach(element => {
+      var year = element.year;
+      var season = element.season;
+      if(this.years[year] === undefined)
+      this.years[year] = {};
+      this.years[year][season] = element.schedules;
+    });
+    for(var yearKey in this.years){
+      this.scheduleYearComponents[yearKey] = {};
+      for(var seasonKey in this.years[yearKey]){
+        this.changePickedSchedule(1, yearKey, seasonKey);
+      }
+      this.panes.push({
+        menuItem: yearKey,
+        render: (props) => this.paneRender(props)
       });
       for(var yearKey in years){
         for(var seasonKey in years[yearKey]){
@@ -101,6 +106,14 @@ class ScheduleBuilderPage extends Component {
     });
   }
 
+  changePickedSchedule(picked, yearKey, seasonKey){
+    if(this.pickedSchedule[yearKey] === undefined){
+      this.pickedSchedule[yearKey] = {};
+    }
+    this.pickedSchedule[yearKey][seasonKey] = picked;
+    this.scheduleYearComponents[yearKey][seasonKey]=(<Schedule key={seasonKey+yearKey} season={seasonKey} year={yearKey} schedules={this.years[yearKey][seasonKey]} onPickedScheduleChanged={this.changePickedSchedule} picked={this.pickedSchedule[yearKey][seasonKey]}/>);
+  }
+  
   listItemClicked(event){
     var temp = this.state.currentClasses.filter(function(ele){
       return ele !== event;
@@ -164,8 +177,16 @@ class ScheduleBuilderPage extends Component {
       window.sessionStorage.setItem('courseOptions', JSON.stringify(this.state.allClasses)); // TODO: need to update it
     });
   }
-  paneRender(){
-    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.location.scheduleGiven}/></Tab.Pane>)
+
+  paneRender(props){
+    var yearKey = props.panes[this.state.scheduleComponentsIndex].menuItem;
+    return (<Tab.Pane><TabContent scheduleComponents={this.scheduleYearComponents[yearKey]} year={yearKey} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>);
+  }
+
+  handleTabChange(e, { activeIndex }){
+    this.setState({
+      scheduleComponentsIndex: activeIndex
+    });
   }
 
   render() {
@@ -176,49 +197,49 @@ class ScheduleBuilderPage extends Component {
       <div>
       <HeaderPage />
       <Sidebar.Pushable>
-        <Sidebar
-          as={Menu}
-          animation='overlay'
-          icon='labeled'
-          inverted
-          dimmed={'true'}
-          onHide={this.handleSidebarHide}
-          vertical
-          visible={this.state.visible}
-          width= 'thin'
-        >
-          <Menu.Item as='a'>Hamburger</Menu.Item>
-        </Sidebar>
-
-        <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
-          <Grid id='scheduleGrid' padded>
-            <Grid.Row id='scheduleGridRow'>
-              <Grid.Column width={16}>
-                <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
-              </Grid.Column>
-            </Grid.Row>
-          <Grid.Row id='sidebarFullPage'>
-            <Grid.Column width={4} id='courseListColumn'>
-              <Dropdown
-              placeholder = 'Search Course'
-              search
-              selection
-              options = {this.state.allClasses}
-              onChange={this.handleDropdownChange}
-              id='dropdownCourses'
-              />
-              <div id='coursesTaking'>
-                <List divided relaxed>
-                  {Children}
-                </List>
-              </div>
-            </Grid.Column>
-            <Grid.Column width={12}>
-              <Tab panes={this.panes} />
-            </Grid.Column>
-          </Grid.Row>
-          </Grid>
-        </Sidebar.Pusher>
+      <Sidebar
+      as={Menu}
+      animation='overlay'
+      icon='labeled'
+      inverted
+      dimmed={'true'}
+      onHide={this.handleSidebarHide}
+      vertical
+      visible={this.state.visible}
+      width= 'thin'
+      >
+      <Menu.Item as='a'>Hamburger</Menu.Item>
+      </Sidebar>
+      
+      <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
+      <Grid id='scheduleGrid' padded>
+      <Grid.Row id='scheduleGridRow'>
+      <Grid.Column width={16}>
+      <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
+      </Grid.Column>
+      </Grid.Row>
+      <Grid.Row id='sidebarFullPage'>
+      <Grid.Column width={4} id='courseListColumn'>
+      <Dropdown
+      placeholder = 'Search Course'
+      search
+      selection
+      options = {this.state.allClasses}
+      onChange={this.handleDropdownChange}
+      id='dropdownCourses'
+      />
+      <div id='coursesTaking'>
+      <List divided relaxed>
+      {Children}
+      </List>
+      </div>
+      </Grid.Column>
+      <Grid.Column width={12}>
+      <Tab panes={this.panes} onTabChange={this.handleTabChange}/>
+      </Grid.Column>
+      </Grid.Row>
+      </Grid>
+      </Sidebar.Pusher>
       </Sidebar.Pushable>
 
 

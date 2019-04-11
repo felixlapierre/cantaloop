@@ -8,7 +8,7 @@ class Schedule extends Component {
   constructor(props) {
     super(props);
     this.state= {
-      pickedSchedule: 1
+      pickedSchedule: this.props.picked
     };
     this.handleNextSchedule = this.handleNextSchedule.bind(this);
     this.handlePreviousSchedule = this.handlePreviousSchedule.bind(this);
@@ -18,6 +18,8 @@ class Schedule extends Component {
     if(this.state.pickedSchedule < 3){
       this.setState({
         pickedSchedule: this.state.pickedSchedule + 1,
+      }, () => {
+        this.props.onPickedScheduleChanged(this.state.pickedSchedule, this.props.year, this.props.season);
       });
     }
   }
@@ -26,6 +28,8 @@ class Schedule extends Component {
     if(this.state.pickedSchedule > 1){
       this.setState({
         pickedSchedule: this.state.pickedSchedule - 1,
+      }, () => {
+        this.props.onPickedScheduleChanged(this.state.pickedSchedule, this.props.year, this.props.season);
       });
     }
   }
@@ -53,7 +57,6 @@ class Schedule extends Component {
           <Grid.Column>
             <Segment raised>
               <WeeklySchedule schedule={this.props.schedules[this.state.pickedSchedule-1]} scheduleNumber={this.state.pickedSchedule}/>
-              {/* example on how to access the classes for the schedule */}
 ]            </Segment>
           </Grid.Column>
         </Grid.Row>
