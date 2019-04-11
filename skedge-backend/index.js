@@ -112,7 +112,10 @@ app.post('/builder/genSchedules', (req, res) => {
         var generatedSchedules = scheduler_service.GenerateSchedules(courseRecord, courseSequence, semesters);
         res.json(generatedSchedules);
     } catch (error) {
-        console.log("An error occured in the scheduler: " + error.stack);
+        if(error.stack === undefined)
+            console.log("An error occured in the scheduler: " + error.message);
+        else
+            console.log("An error occured in the scheduler: " + error.stack);
         res.status(500).send("An error occured when trying to build the schedule.");
     }
 });
