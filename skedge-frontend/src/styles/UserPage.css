@@ -29,14 +29,14 @@ h5 {
 }
 
 #recordCoursesDropdownAndItems {
-   width: 350px;
-   height: 100%;
+   width: 360px;
+   height: 300px;
    margin: auto;
 }
 
 #wantedCoursesDropdownAndItems {
-  width: 350px;
-  height: 100%;
+  width: 360px;
+  height: 300px;
   margin: auto;
 }
 
@@ -85,12 +85,13 @@ h5 {
   border-width: medium;
   border-style: groove;
   margin:auto;
+  padding: 10px;
 }
 
 .slick:focus {
 border: none; outline:none !important; }
 
 .dropdown{
-  float: left;
+  margin:auto;
   width: 65%;
 }

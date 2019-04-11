@@ -27,13 +27,13 @@ class ScheduleBuilderPage extends Component {
     this.arrayItemsContainsItem = this.arrayItemsContainsItem.bind(this);
     this.regenerateSchedule = this.regenerateSchedule.bind(this);
   }
-  
+
   handleHamburgerButton(){
     this.setState((state) => {
       return {visible: !this.state.visible};
     });
   }
-  
+
   handleDimmedPusher(){
     if(this.state.visible){
       this.setState((state) => {
@@ -47,7 +47,7 @@ class ScheduleBuilderPage extends Component {
       .then(res => {
         if (res.data === null || res.data.courseSequence === undefined) // If the user has no saved course record/sequence, it should be blank.
         {
-          this.setState({ 
+          this.setState({
             currentClasses: [],
             courseRecord: [],
             semesters: []
@@ -55,7 +55,7 @@ class ScheduleBuilderPage extends Component {
         }
         else
         {
-          this.setState({ 
+          this.setState({
             currentClasses: res.data.courseSequence,
             courseRecord: res.data.courseRecord,
             semesters: res.data.semesters
@@ -67,15 +67,19 @@ class ScheduleBuilderPage extends Component {
   }
 
   componentWillMount(){
-    this.setState({currentClasses: JSON.parse(window.sessionStorage.getItem('courseSequence'))});
-    this.setState({courseRecord: JSON.parse(window.sessionStorage.getItem('courseRecord'))});
-    this.setState({semesters: JSON.parse(window.sessionStorage.getItem('semesters'))});
-    this.setState({allClasses: JSON.parse(window.sessionStorage.getItem('courseOptions'))});
+    const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
+    const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
+    const semestersSessionStorage = ((JSON.parse(window.sessionStorage.getItem('semesters')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('semesters')));
+    const courseOptionsSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseOptions')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseOptions')));
+    this.setState({currentClasses: courseSequenceSessionStorage});
+    this.setState({courseRecord: courseRecordSessionStorage});
+    this.setState({semesters: semestersSessionStorage});
+    this.setState({allClasses: courseOptionsSessionStorage});
 
     axios.post('/builder/genSchedules', this.props.location.recSeqSem)
     .then(response => {
       this.props.location.scheduleGiven = response.data;
-      
+
 
       var years = {};
       this.props.location.scheduleGiven.forEach(element => {
@@ -96,7 +100,7 @@ class ScheduleBuilderPage extends Component {
       }
     });
   }
-  
+
   listItemClicked(event){
     var temp = this.state.currentClasses.filter(function(ele){
       return ele !== event;
@@ -106,7 +110,7 @@ class ScheduleBuilderPage extends Component {
       this.regenerateSchedule();
     });
   }
-  
+
   handleDropdownChange(event, data){
     const itemText = data.value;
     var itemKey = "";
@@ -116,7 +120,7 @@ class ScheduleBuilderPage extends Component {
       }
     }
     const currentItem = { text: itemText, key: itemKey };
-    
+
     if(currentItem.text !== "" && !this.arrayItemsContainsItem(this.state.currentClasses, currentItem)){
       const items = [...this.state.currentClasses, currentItem];
       window.sessionStorage.setItem('courseSequence', JSON.stringify(items));
@@ -127,7 +131,7 @@ class ScheduleBuilderPage extends Component {
       });
     }
   }
-  
+
   arrayItemsContainsItem(array, keyValuePair){
     for(var i in array){
       if(array[i].key === keyValuePair.key && array[i].value === keyValuePair.value){
@@ -136,7 +140,7 @@ class ScheduleBuilderPage extends Component {
     }
     return false;
   }
-  
+
   regenerateSchedule(){
     let coursesPayload = {"courseRecord": this.state.courseRecord,
     "courseSequence": this.state.currentClasses,
@@ -163,7 +167,7 @@ class ScheduleBuilderPage extends Component {
   paneRender(){
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleComponents} scheduleGiven={this.props.location.scheduleGiven}/></Tab.Pane>)
   }
-  
+
   render() {
     const Children = this.state.currentClasses.map((child) =>
           <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
@@ -172,52 +176,52 @@ class ScheduleBuilderPage extends Component {
       <div>
       <HeaderPage />
       <Sidebar.Pushable>
-      <Sidebar
-      as={Menu}
-      animation='overlay'
-      icon='labeled'
-      inverted
-      dimmed={'true'}
-      onHide={this.handleSidebarHide}
-      vertical
-      visible={this.state.visible}
-      width= 'thin'
-      >
-      <Menu.Item as='a'>Hamburger</Menu.Item>
-      </Sidebar>
-      
-      <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
-      <Grid id='scheduleGrid' padded>
-      <Grid.Row id='scheduleGridRow'>
-      <Grid.Column width={16}>
-      <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
-      </Grid.Column>
-      </Grid.Row>
-      <Grid.Row id='sidebarFullPage'>
-      <Grid.Column width={4} id='courseListColumn'>
-      <Dropdown
-      placeholder = 'Search Course'
-      search
-      selection
-      options = {this.state.allClasses}
-      onChange={this.handleDropdownChange}
-      id='dropdownCourses'
-      />
-      <div id='coursesTaking'>
-      <List divided relaxed>
-      {Children}
-      </List>
-      </div>
-      </Grid.Column>
-      <Grid.Column width={12}>
-      <Tab panes={this.panes} />
-      </Grid.Column>
-      </Grid.Row>
-      </Grid>
-      </Sidebar.Pusher>
+        <Sidebar
+          as={Menu}
+          animation='overlay'
+          icon='labeled'
+          inverted
+          dimmed={'true'}
+          onHide={this.handleSidebarHide}
+          vertical
+          visible={this.state.visible}
+          width= 'thin'
+        >
+          <Menu.Item as='a'>Hamburger</Menu.Item>
+        </Sidebar>
+
+        <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
+          <Grid id='scheduleGrid' padded>
+            <Grid.Row id='scheduleGridRow'>
+              <Grid.Column width={16}>
+                <Icon id='hamburgerButton' name='bars' size='big' onClick={this.handleHamburgerButton} />
+              </Grid.Column>
+            </Grid.Row>
+          <Grid.Row id='sidebarFullPage'>
+            <Grid.Column width={4} id='courseListColumn'>
+              <Dropdown
+              placeholder = 'Search Course'
+              search
+              selection
+              options = {this.state.allClasses}
+              onChange={this.handleDropdownChange}
+              id='dropdownCourses'
+              />
+              <div id='coursesTaking'>
+                <List divided relaxed>
+                  {Children}
+                </List>
+              </div>
+            </Grid.Column>
+            <Grid.Column width={12}>
+              <Tab panes={this.panes} />
+            </Grid.Column>
+          </Grid.Row>
+          </Grid>
+        </Sidebar.Pusher>
       </Sidebar.Pushable>
-      
-      
+
+
       </div>
       );
     }
