@@ -141,7 +141,7 @@ app.post('/users/register', (req, res, next) => {
 
 app.post('/users/login', (req, res, next) => {
     let fetchedUser;
-    User.findOne({username: req.body.username}).then(user => {
+    endpoint_service.checkUserCredential({username: req.body.username}).then(user => {
         if(!user){
             return res.status(401).json({
                 message: "Authorization failed!"

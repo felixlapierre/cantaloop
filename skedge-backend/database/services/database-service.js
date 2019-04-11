@@ -155,11 +155,11 @@ module.exports = {
 
     checkUserCredential: function (userJSON) {
       return new Promise((resolve, reject) => {
-        userSchema.users.findOne({username: userJSON.username},function (err, result) {
+        userSchema.findOne(userJSON,function (err, result) {
             if (err) {
               reject(err);
             } else {
-              resolve (userJSON);
+              resolve (result);
             }
           })
       })
