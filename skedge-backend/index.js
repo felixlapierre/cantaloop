@@ -90,7 +90,6 @@ app.get('/courses/catalogue', (req, res) => {
 
 });
 
-<<<<<<< HEAD
 //Save Schedule
 app.post('/users/saveSchedules', checkAuth, (req, res, next) => {
 
@@ -127,8 +126,6 @@ app.post('/users/loadSchedules', checkAuth, (req, res, next)=>{
 })
 
 
-=======
->>>>>>> 0c15ac2b1dd4d1c8f88d0147c50fb3e14118ea51
 // Returns a list of possible schedules for each semester
 app.post('/builder/genSchedules', (req, res) => {
     if(scheduler_service === null)
@@ -216,7 +213,7 @@ app.post('/users/login', (req, res, next) => {
 
 // The following endpoints are secure endpoints
 app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
-    
+
     let userId = req.body.authToken.userId;
 
     const userRecord = new UserRecordSequenceSchema({
@@ -244,7 +241,7 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
             message: "This function is not available yet."
         });
     }
-    
+
 })
 
 // "If there’s nothing, don’t crash." --> That should be ensured by the database?
@@ -267,7 +264,7 @@ app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
             message: "This function is not available yet."
         });
     }
-    
+
 })
 
  ////////////////////
