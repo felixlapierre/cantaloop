@@ -10,73 +10,42 @@ class CourseInfo extends Component {
   }
   
   convertDay(day){
-      if (day.length==2)
-      {
            if (day==='Mo') return("monday");
            else if (day === 'Tu') return("tuesday");
            else if (day === 'We') return("wednesday");
            else if (day === 'Th') return("thursday");
            else if (day === 'Fr') return("friday");
            else return null;
-      }
-      if (day.length==4)
-      {
-          var firstDay=day.substring(0,1)
-          if (firstDay==='Mo') return("monday");
-            else if (firstDay === 'Tu') return("tuesday");
-           else if (firstDay === 'We') return("wednesday");
-           else if (firstDay === 'Th') return("thursday");
-           else if (firstDay === 'Fr') return("friday");
-           else return null;
-      }
    
   }
 
   convertStartTime(start_time){
-    if (start_time === "8:00") return ("eightOclock");
-    else if (start_time === "8:30") return("eightThirty");
-    else if (start_time === "9:00") return("nineOclock");
-    else if (start_time === "9:30") return("nineThirty");
-    else if (start_time === "10:00") return("tenOclock");
-    else if (start_time === "10:30") return("tenThirty");
-    else if (start_time === "11:00") return("elevenOclock");
-    else if (start_time === "11:30") return("elevenThirty");
-    else if (start_time === "12:00") return("twelveOclock");
-    else if (start_time === "12:30") return("twelveThirty");
-    else if (start_time === "1:00") return("oneOclock");
-    else if (start_time === "1:30") return("oneThirty");
-    else if (start_time === "2:00") return("twoOclock");
-    else if (start_time === "2:30") return("twoThirty");
-    else if (start_time === "3:00") return("threeOclock");
-    else if (start_time === "3:30") return("threeThirty");
-    else if (start_time === "4:00") return("fourOclock");
-    else if (start_time === "4:30") return("fourThirty");
-    else if (start_time === "5:00") return("fiveOclock");
-    else if (start_time === "5:30") return("fiveThirty");
-    else if (start_time === "6:00") return("sixOclock");
+    if (parseFloat(start_time,10)>=8&&parseFloat(start_time,10)<9) return ("eightOclock");
+    else if (parseFloat(start_time,10)>=9&&parseFloat(start_time,10)<10) return("nineOclock");
+    else if (parseFloat(start_time,10)>=10&&parseFloat(start_time,10)<11) return("tenOclock");
+    else if (parseFloat(start_time,10)>=11&&parseFloat(start_time,10)<12) return("elevenOclock");
+    else if (parseFloat(start_time,10)>=12&&parseFloat(start_time,10)<13) return("twelveOclock");
+    else if (parseFloat(start_time,10)>=13&&parseFloat(start_time,10)<14) return("oneOclock");
+    else if (parseFloat(start_time,10)>=14&&parseFloat(start_time,10)<15) return("twoOclock");
+    else if (parseFloat(start_time,10)>=15&&parseFloat(start_time,10)<16) return("threeOclock");
+    else if (parseFloat(start_time,10)>=16&&parseFloat(start_time,10)<17) return("fourOclock");
+    else if (parseFloat(start_time,10)>=17&&parseFloat(start_time,10)<18) return("fiveOclock");
+    else if (parseFloat(start_time,10)>=18&&parseFloat(start_time,10)<19) return("sixOclock");
     else return null;
   }
 
   convertEndTime(endTime){
-    if (endTime === "9:00AM") return("endNineOclock");
-    else if (endTime === "9:30AM") return("endNineThirty");
-    else if (endTime === "10:00AM") return("endTenOclock");
-    else if (endTime === "10:30AM") return("endTenThirty");
-    else if (endTime === "11:00AM") return("endElevenOclock");
-    else if (endTime === "11:30AM") return("endElevenThirty");
-    else if (endTime === "12:00AM") return("endTwelveOclock");
-    else if (endTime === "12:30PM") return("endTwelveThirty");
-    else if (endTime === "1:00PM") return("endOneOclock");
-    else if (endTime === "1:30PM") return("endOneThirty");
-    else if (endTime === "2:00PM") return("endTwoOclock");
-    else if (endTime === "2:30PM") return("endTwoThirty");
-    else if (endTime === "3:00PM") return("endThreeOclock");
-    else if (endTime === "3:30PM") return("endThreeThirty");
-    else if (endTime === "4:00PM") return("endFourOclock");
-    else if (endTime === "4:30PM") return("endFourThirty");
-    else if (endTime === "5:00PM") return("endFiveOclock");
-    else if (endTime === "5:30PM") return("endFiveThirty");
-    else if (endTime === "6:00PM") return("endSixOclock");
+    if (parseFloat(endTime,10)>=9&&parseFloat(endTime,10)<10) return("endNineOclock");
+    else if (parseFloat(endTime,10)>=10&&parseFloat(endTime,10)<11) return("endTenOclock");
+    else if (parseFloat(endTime,10)>=11&&parseFloat(endTime,10)<12) return("endElevenOclock");
+   else if (parseFloat(endTime,10)>=12&&parseFloat(endTime,10)<13) return("endTwelveOclock");
+    else if (parseFloat(endTime,10)>=13&&parseFloat(endTime,10)<14) return("endOneOclock");
+    else if (parseFloat(endTime,10)>=14&&parseFloat(endTime,10)<15) return("endTwoOclock");
+    else if (parseFloat(endTime,10)>=15&&parseFloat(endTime,10)<16) return("endThreeOclock");
+    else if (parseFloat(endTime,10)>=16&&parseFloat(endTime,10)<17) return("endFourOclock");
+    else if (parseFloat(endTime,10)>=17&&parseFloat(endTime,10)<18) return("endFiveOclock");
+    else if (parseFloat(endTime,10)>=18&&parseFloat(endTime,10)<19) return("endSixOclock");
+    else return null;
   }
 
   render(){
