@@ -2,7 +2,7 @@ const decrypt = require("../web_api_utilities/rsa-encryption").decryptStringWith
 
 module.exports = function (req, res, next) {
     try {
-        let verbose_logging = true;
+        let verbose_logging = false;
         if(req.method == "POST" && req.body != undefined)
         {
             if(verbose_logging) {
@@ -22,10 +22,8 @@ module.exports = function (req, res, next) {
         }
         if(verbose_logging && req.method == "GET") 
         {
-            if(verbose_logging) {
-                console.log("+---------------------------------------------------------+");
-                console.log("| GET request @ "+req.originalUrl);
-            }
+            console.log("+---------------------------------------------------------+");
+            console.log("| GET request @ "+req.originalUrl);
         }
     } 
     catch (error) {

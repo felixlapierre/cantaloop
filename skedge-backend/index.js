@@ -207,7 +207,6 @@ app.post('/users/saveRecAndSeq', checkAuth, (req, res, next) => {
 // "If there’s nothing, don’t crash." --> That should be ensured by the database?
 app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
     let userId = req.body.authToken.userId;
-    console.log(userId);
     try {
         endpoint_service.getUserRecord(userId)
         .then((userRecord) => {
