@@ -57,7 +57,7 @@ class Schedule extends Component {
           <Grid.Column>
             <Segment raised>
               <WeeklySchedule schedule={this.props.schedules[this.state.pickedSchedule-1]} scheduleNumber={this.state.pickedSchedule}/>
-]            </Segment>
+            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
