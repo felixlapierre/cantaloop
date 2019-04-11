@@ -11,7 +11,7 @@ class ScheduleBuilderPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     // authToken : props.location.authToken,
+      authToken : props.location.authToken,
       visible: false,
       allClasses:[],
       currentClasses:[],
@@ -79,7 +79,7 @@ class ScheduleBuilderPage extends Component {
     } else {
       this.performInitialGenSchedule();
     }
-    
+
   }
   performInitialGenSchedule() {
     const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));
@@ -151,7 +151,7 @@ class ScheduleBuilderPage extends Component {
       "semesters": semesters
     }
   }
-  
+
   listItemClicked(event){
     var temp = this.state.currentClasses.filter(function(ele){
       return ele !== event;
@@ -254,7 +254,7 @@ class ScheduleBuilderPage extends Component {
       >
       <Menu.Item as='a'>Hamburger</Menu.Item>
       </Sidebar>
-      
+
       <Sidebar.Pusher  dimmed={this.state.visible} onClick={this.handleDimmedPusher}>
       <Grid id='scheduleGrid' padded>
       <Grid.Row id='scheduleGridRow'>

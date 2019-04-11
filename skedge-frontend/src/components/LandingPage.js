@@ -30,7 +30,7 @@ class LandingPage extends Component {
       console.log(error);
     });
   }
-  
+
   componentDidMount() {
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
@@ -66,7 +66,7 @@ class LandingPage extends Component {
           this.props.history.push({
             pathname: pathName,
             authToken: authToken
-          }); 
+          });
       }).catch(error => {
         console.log(error);
         // Reset fields
