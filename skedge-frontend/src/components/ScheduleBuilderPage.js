@@ -32,6 +32,7 @@ class ScheduleBuilderPage extends Component {
     this.paneRender = this.paneRender.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
     this.changePickedSchedule = this.changePickedSchedule.bind(this);
+    this.formatRecordAndCourseSequence = this.formatRecordAndCourseSequence.bind(this);
   }
 
   handleHamburgerButton(){
@@ -46,10 +47,6 @@ class ScheduleBuilderPage extends Component {
         return {visible: !this.state.visible};
       });
     }
-  }
-
-  componentDidMount() {
-    
   }
 
   componentWillMount(){
@@ -86,43 +83,39 @@ class ScheduleBuilderPage extends Component {
     const courseRecordSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseRecord')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseRecord')));
     const semestersSessionStorage = ((JSON.parse(window.sessionStorage.getItem('semesters')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('semesters')));
     const courseOptionsSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseOptions')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseOptions')));
-    this.setState({currentClasses: courseSequenceSessionStorage});
-    this.setState({courseRecord: courseRecordSessionStorage});
-    this.setState({semesters: semestersSessionStorage});
-    this.setState({allClasses: courseOptionsSessionStorage});
-
-    let coursesPayload = {"courseRecord": this.state.courseRecord,
-    "courseSequence": this.state.currentClasses,
-    "semesters": this.state.semesters};
-    if (this.props.location.recSeqSem !== undefined) {
-      coursesPayload = this.props.location.recSeqSem;
-    }
-
-    axios.post('/builder/genSchedules', coursesPayload)
-    .then(response => {
-      this.props.location.scheduleGiven = response.data;
-
-
-      var years = {};
-      this.props.location.scheduleGiven.forEach(element => {
-        var year = element.year;
-        var season = element.season;
-        if(years[year] === undefined)
-        years[year] = {};
-        years[year][season] = element.schedules;
-      });
-      for(var yearKey in this.years){
-        this.scheduleYearComponents[yearKey] = {};
-        for(var seasonKey in this.years[yearKey]){
-          this.changePickedSchedule(1, yearKey, seasonKey);
+    this.setState({
+      currentClasses: courseSequenceSessionStorage,
+      courseRecord: courseRecordSessionStorage,
+      semesters: semestersSessionStorage,
+      allClasses: courseOptionsSessionStorage
+    }, () => {
+        let coursesPayload = this.formatRecordAndCourseSequence();
+        if (this.props.location.recSeqSem !== undefined) {
+          coursesPayload = this.props.location.recSeqSem;
         }
-        this.panes.push({
-          menuItem: yearKey,
-          render: (props) => this.paneRender(props)
-        });
-      }
-  })
-}
+        axios.post('/builder/genSchedules', coursesPayload)
+        .then(response => {
+          this.props.location.scheduleGiven = response.data;
+          this.props.location.scheduleGiven.forEach(element => {
+            var year = element.year;
+            var season = element.season;
+            if(this.years[year] === undefined)  this.years[year] = {};
+            this.years[year][season] = element.schedules;
+          });
+          for(var yearKey in this.years){
+            this.scheduleYearComponents[yearKey] = {};
+            for(var seasonKey in this.years[yearKey]){
+              this.changePickedSchedule(1, yearKey, seasonKey);
+            }
+            this.panes.push({
+              menuItem: yearKey,
+              render: (props) => this.paneRender(props)
+            });
+          }
+          this.forceUpdate();
+      })
+    });
+  }
 
   changePickedSchedule(picked, yearKey, seasonKey){
     if(this.pickedSchedule[yearKey] === undefined){
@@ -130,6 +123,30 @@ class ScheduleBuilderPage extends Component {
     }
     this.pickedSchedule[yearKey][seasonKey] = picked;
     this.scheduleYearComponents[yearKey][seasonKey]=(<Schedule key={seasonKey+yearKey} season={seasonKey} year={yearKey} schedules={this.years[yearKey][seasonKey]} onPickedScheduleChanged={this.changePickedSchedule} picked={this.pickedSchedule[yearKey][seasonKey]}/>);
+  }
+
+  formatRecordAndCourseSequence(){
+    var recordArray = [];
+    var courseSequenceArray = [];
+    var recordItems = this.state.courseRecord;
+    var courseItems = this.state.currentClasses;
+    var semesters = this.state.semesters;
+    for(var i in recordItems){
+      var courseCodeR = recordItems[i].key;
+      var capitalizedCourseCodeR = courseCodeR.toUpperCase();
+      recordArray.push(capitalizedCourseCodeR.replace(/\s/g, ''));
+    }
+    for(var j in courseItems){
+      var courseCodeCS = courseItems[j].key;
+      var capitalizedCourseCodeCS = courseCodeCS.toUpperCase();
+      courseSequenceArray.push(capitalizedCourseCodeCS.replace(/\s/g, ''));
+    }
+
+    return {
+      "courseRecord": recordArray,
+      "courseSequence": courseSequenceArray,
+      "semesters": semesters
+    }
   }
   
   listItemClicked(event){

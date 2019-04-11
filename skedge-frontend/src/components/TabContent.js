@@ -35,8 +35,6 @@ class TabContent extends Component{
         this.slides = [];
         for(var key in this.props.scheduleComponents){
             this.slides.push(<div key={key+this.props.year}>{this.props.scheduleComponents[key]}</div>);
-            console.log(key+this.props.year);
-            console.log(this.props.scheduleComponents[key]);
         }
         return (
             <Grid>
