@@ -6,8 +6,8 @@ const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 const userSchema = require ('../schemas/userSchema');
 const userRecordSequenceSchema = require('../schemas/userRecordSequenceSchema');
 
-
-mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
+mongoose.set("useCreateIndex", true);
+mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app", {useNewUrlParser: true})
     .then(() => {
         console.log('Database connection successful')
     })
@@ -179,7 +179,8 @@ module.exports = {
 
     getUserRecord: function (userId) {
         return new Promise((resolve, reject) => {
-            userRecordSequenceSchema.findOne({creator: userId}, function(err, result){
+            var creatorID = new mongoose.Types.ObjectId(userId);
+            userRecordSequenceSchema.findOne({creator: creatorID}, function(err, result){
                 if(err)
                     reject(err);
                 else
