@@ -222,6 +222,7 @@ app.post('/users/loadRecAndSeq', checkAuth, (req, res, next) => {
             });
         });
     } catch (error) {
+        console.log(error);
         res.status(201).json({
             message: "This function is not available yet."
         });
