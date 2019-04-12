@@ -209,12 +209,15 @@ function filterForSections(myArray, semester) {
             }
 
             //Bugfix: Thursdays are always null
-            if(day == "")
-                day += "Th";
             var hours = Number.parseInt(endTime.substring(0,2)) - Number.parseInt(startTime.substring(0,2));
             var minutes = Number.parseInt(endTime.substring(3,5)) - Number.parseInt(startTime.substring(3,5));
-            if(hours > 2)
+            var courseLength = hours * 60 + minutes;
+            //A course with a time in minutes greater than 0 but no day must be on Thursday
+            if(day == "" && courseLength > 0)
                 day += "Th";
+                
+            // if(courseLength <= 75 && day.length < 3)
+            //     day += "Th";
 
             afterFilter.push(new Class({
                 "time_start": startTime,
