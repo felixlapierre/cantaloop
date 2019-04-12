@@ -79,7 +79,7 @@ class ScheduleBuilderPage extends Component {
     } else {
       this.performInitialGenSchedule();
     }
-    
+
   }
   performInitialGenSchedule() {
     const courseSequenceSessionStorage = ((JSON.parse(window.sessionStorage.getItem('courseSequence')) == null) ? [] : JSON.parse(window.sessionStorage.getItem('courseSequence')));

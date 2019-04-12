@@ -17,16 +17,25 @@
   
   .tableElement {
     text-align:center;
+<<<<<<< HEAD
     border-radius: 5px; 
     color:white;
     background-color:rgb(89, 98, 224);
+=======
+    border: 2px solid black; 
+    background-color:turquoise;
+>>>>>>> 0c15ac2b1dd4d1c8f88d0147c50fb3e14118ea51
   }
 
   .titleWrapper {
     display: grid;
     grid-column: 1 / 7;
     grid-gap: 10px;
+<<<<<<< HEAD
     grid-template-columns: 50px repeat(5, 150px);
+=======
+    grid-template-columns: 50px repeat(5, 200px);
+>>>>>>> 0c15ac2b1dd4d1c8f88d0147c50fb3e14118ea51
     border-bottom: 1px solid black;
     margin-bottom: 10px;
     justify-items: center;
