@@ -6,10 +6,9 @@
   .timetable {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: 50px repeat(5, 200px);
-    grid-template-rows: repeat(20, 50px);
-width:80%;
-height:60%;    
+    grid-template-columns: 50px repeat(5, 150px);
+    grid-template-rows: repeat(28, 50px);   
+    
   }
   p {
     margin: 0;
@@ -18,15 +17,16 @@ height:60%;
   
   .tableElement {
     text-align:center;
-    border: 2px solid black; 
-    background-color:turquoise;
+    border-radius: 5px; 
+    color:white;
+    background-color:rgb(89, 98, 224);
   }
 
   .titleWrapper {
     display: grid;
     grid-column: 1 / 7;
     grid-gap: 10px;
-    grid-template-columns: 50px repeat(5, 200px);
+    grid-template-columns: 50px repeat(5, 150px);
     border-bottom: 1px solid black;
     margin-bottom: 10px;
     justify-items: center;

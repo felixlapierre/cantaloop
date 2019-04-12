@@ -23,26 +23,26 @@ class WeeklySchedule extends Component
         for(var classType in this.props.schedule[courseId])
         {
           var length=this.props.schedule[courseId][classType].days;
-          if (length.length==2)
+          if (length.length===2)
           {
-          newCourseInfos.push(
-            <CourseInfo 
-              key={courseId+classType+this.props.scheduleNumber}
-              course={courseId}
-              type={classType}
-              startTime={this.props.schedule[courseId][classType].time_start}
-              endTime={this.props.schedule[courseId][classType].time_end}
-              day={this.props.schedule[courseId][classType].days}
-            />
-          );
+            newCourseInfos.push(
+              <CourseInfo 
+                key={courseId+classType+this.props.scheduleNumber}
+                course={courseId}
+                type={classType}
+                startTime={this.props.schedule[courseId][classType].time_start}
+                endTime={this.props.schedule[courseId][classType].time_end}
+                day={this.props.schedule[courseId][classType].days}
+              />
+            );
           }
-          else if (length.length==4)
+          else if (length.length===4)
           {
             var Day1=length.substring(0,1);
             var Day2=length.substring(2,3);
             newCourseInfos.push(
               <CourseInfo 
-                key={courseId+classType+this.props.scheduleNumber}
+                key={1+courseId+classType+this.props.scheduleNumber }
                 course={courseId}
                 type={classType}
                 startTime={this.props.schedule[courseId][classType].time_start}
@@ -52,7 +52,7 @@ class WeeklySchedule extends Component
             );
             newCourseInfos.push(
               <CourseInfo 
-                key={courseId+classType+this.props.scheduleNumber}
+                key={2+courseId+classType+this.props.scheduleNumber}
                 course={courseId}
                 type={classType}
                 startTime={this.props.schedule[courseId][classType].time_start}
@@ -115,6 +115,7 @@ class WeeklySchedule extends Component
             </div>          
           </div>
         )
+        
     }
 } 
 export default WeeklySchedule;
