@@ -74,6 +74,12 @@ h5 {
   width: 350px;
   height: 400px;
   margin: auto;
+}
+
+.semesters{
+  width: 350px;
+  height: 350px;
+  margin: auto;
   overflow-y: auto;
 }
 

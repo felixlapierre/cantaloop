@@ -303,7 +303,7 @@ class UserRecordPage extends Component {
                     <h5>
                         Enter number of semesters and semester info
                     </h5>
-                    <div className="semesterList">
+                    <div className="semesters">
                       <SemesterItems semesters={this.state.semesters} handleUpdateSemesters={(semesters) => this.setState({semesters})}/>
                     </div>
                 </div>
