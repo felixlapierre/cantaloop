@@ -6,7 +6,7 @@ const courseClass = new mongoose.Schema(
         time_end: String,
         days: String,
     }
-);
+, {"_id":false, "id":false});
 
 const section = new mongoose.Schema(
     {
@@ -14,7 +14,7 @@ const section = new mongoose.Schema(
         lab: courseClass,
         tutorial: courseClass,
     }
-);
+, {"_id":false, "id":false});
 
 const courseCatalog = new mongoose.Schema(
     {

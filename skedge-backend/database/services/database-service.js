@@ -4,10 +4,11 @@ const courseSchem = require('../schemas/courseSchema');
 const courseDescriptionSchema = require('../schemas/courseDescriptionSchema');
 const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 const userSchema = require ('../schemas/userSchema');
-const userRecordSchema = require ('../schemas/userRecordSequenceSchema');
+const userRecordSequenceSchema = require ('../schemas/userRecordSequenceSchema');
 const scheduleSchema = require ('../schemas/scheduleSchema');
 
-mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app")
+mongoose.set("useCreateIndex", true);
+mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app", {useNewUrlParser: true})
     .then(() => {
         console.log('Database connection successful')
     })
@@ -177,4 +178,31 @@ module.exports = {
         })
       })
     },
+
+    getUserRecord: function (userId) {
+        return new Promise((resolve, reject) => {
+            var creatorID = new mongoose.Types.ObjectId(userId);
+            userRecordSequenceSchema.findOne({creator: creatorID}, function(err, result){
+                if(err)
+                    reject(err);
+                else
+                    resolve(result);
+            })
+        });
+    },
+
+    saveUserRecord: function(userRecord) {
+        return new Promise((resolve, reject) => {
+            mongoose.connection.collection("userRecord").insertOne(userRecord, function(err, result){
+                if(err)
+                    reject(err);
+                else
+                    resolve(result);
+            })
+        });
+    },
+
+    disconnect: function() {
+        return mongoose.disconnect();
+    }
 };

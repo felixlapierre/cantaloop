@@ -17,11 +17,11 @@ module.exports = {
       return database_services.checkUserCredential(userJSON);
     },
 
-    getUserRecord: function(userId){
-      return database_services.saveUserRecord(userId);
+    getUserRecord: function (userId){
+      return database_services.getUserRecord(userId);
     },
 
-    saveUserRecord: function(userRecord){
+    saveUserRecord: function (userRecord){
       return database_services.getUserRecord(userRecord);
     },
 
@@ -29,8 +29,8 @@ module.exports = {
       return database_services.deleteSchedule(userSchedule);
     },
 
-    saveSchedule: function(){
-        return database_services.saveSchedule();
+    saveSchedule: function (userRecord){
+      return database_services.saveUserRecord(userRecord);
     }
 
 

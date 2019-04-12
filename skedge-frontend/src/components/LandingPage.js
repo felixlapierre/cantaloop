@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import '../styles/LandingPage.css';
-import axios from 'axios';
+import { axios_secure as axios } from '../services/AxiosEncrypted';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
+
+const jwt = require('jsonwebtoken');
 
 //LandingPage App class
 //Renders the landing page and login form
@@ -11,6 +13,7 @@ class LandingPage extends Component {
     this.state = {
       username: '',
       password: '',
+      rsaPublicKey: '',
       errorWhenLoggingIn: false
     }
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -18,22 +21,54 @@ class LandingPage extends Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
+
+    // Save server's public key to session storage
+  axios.get('https://cors.io/?https://pastebin.com/raw/8FH01qXk')
+    .then(res => {
+      window.sessionStorage.setItem( 'rsa_pubKey', res.data);
+    }).catch(function (error) {
+      console.log(error);
+    });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     window.sessionStorage.setItem('courseSequence', JSON.stringify([]));
     window.sessionStorage.setItem('courseRecord', JSON.stringify([]));
     window.sessionStorage.setItem('semesters', JSON.stringify([]));
+    window.sessionStorage.setItem('isLoggedInAsGuest', "");
   }
 
-  // TODO: ensure password is hashed before sending it to backend
-  handleLogin(event) {
+  handleLogin(event, goToSchedule = true) {
+
       axios.post('/users/login', {username: this.state.username, password: this.state.password}).then(res => {
-          console.log(res.data.token);
-          window.sessionStorage.setItem( 'token', res.data.token);
-          this.props.history.push("/record"); // Switch to the user record page
-          this.setState({errorWhenLoggingIn: false})
+          // Verify that the wrapper token was sent from the server using user password.
+          let wrapperToken;
+          try {
+            wrapperToken = jwt.verify(res.data.token, this.state.password);
+          } catch (error) {
+            console.log(error)
+            alert("Login unsuccessful. Could not verify server signature.");
+          }
+
+          window.sessionStorage.setItem('isLoggedInAsGuest', "false");
+
+          // Save authToken to memory (NOT TO SESSION STORAGE)
+          let authToken = wrapperToken.authToken;
+
+          this.setState({errorWhenLoggingIn: false});
+          // Switch to user record page and pass the authToken in the state (NOT USING SESSION STORAGE)
+          let pathName;
+          if (goToSchedule){
+            pathName = '/schedule';
+          } else {
+            pathName = '/record';
+          }
+          this.props.history.push({
+            pathname: pathName,
+            authToken: authToken
+          });
       }).catch(error => {
+        console.log(error);
         // Reset fields
         this.setState({
           value: '',
@@ -41,27 +76,43 @@ class LandingPage extends Component {
           password: '',
           errorWhenLoggingIn: true
         })
-      })
+      });
   }
+
+
 
   handleUsernameChange(event){
     this.setState({username: event.target.value});
   }
 
   handlePasswordChange(event){
-      this.setState({password: event.target.value});
+    this.setState({password: event.target.value});
   }
 
   handleRegister(event) {
-    axios.post('/users/register', {username: this.state.username, password: this.state.password}).then(response => {
+    axios.post('/users/register', {username: this.state.username, password: this.state.password})
+    .then(response => {
         console.log('Received response' + response);
-        this.props.history.push("/record"); // Switch to the user record page
+        this.handleLogin(undefined, false);
+    }).catch(error => {
+      console.log(error);
+      // Reset fields
+      this.setState({
+        value: '',
+        username: '',
+        password: '',
+        errorWhenLoggingIn: true
+      })
     });
   }
 
   handleLoginGuest(event) {
-    console.log("Guest");
-    this.props.history.push('/record')
+    window.sessionStorage.setItem('isLoggedInAsGuest', "true");
+
+    this.props.history.push({
+      pathname: '/record',
+      isLoggedInAsGuest: true
+    })
   }
 
   // Display error messages
@@ -92,7 +143,7 @@ class LandingPage extends Component {
                             onChange={this.handlePasswordChange}/>
                 <Form.Group>
                   <Button fluid onClick={this.handleLogin} id='loginButton'>Login</Button>
-                  <Button fluid onClick={this.handleRegister} id='registerButton'>Register</Button>
+                  <Button fluid onClick={this.handleRegister } id='registerButton'>Register</Button>
                 </Form.Group>
                 <Button onClick={this.handleLoginGuest} id='loginButtonGuest'>Login as a guest</Button>
                 {this.renderErrorMessage()}
@@ -101,9 +152,9 @@ class LandingPage extends Component {
             </Form>
           </Grid.Column>
         </Grid>
-      </div>
-    );
-  }
-}
+        </div>
+        );
+      }
+    }
 
-export default LandingPage;
+    export default LandingPage;
