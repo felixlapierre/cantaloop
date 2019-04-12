@@ -111,7 +111,7 @@ app.post('/builder/genSchedules', (req, res) => {
             semester.restrictions.push({
                 "time_start": "18:00",
                 "time_end": "22:00",
-                "days": "Fr"
+                "days": "ThFr"
             })
         })
     }
