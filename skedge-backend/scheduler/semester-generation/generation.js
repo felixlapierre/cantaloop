@@ -25,14 +25,14 @@ function generation(parentPopulation, fitnessFunctions, sectionList, populationL
             else if (b.hasConflicts) return -1;
             else return 0;
         });
-    this.population.sort(function(a, b) { return a.fitness - b.fitness });
+    this.population.sort(function(a, b) { return b.fitness - a.fitness });
     
     return this.population;
 }
 
 function copySurvivorsToNewPopulation(survivors, population)
 {
-    survivors.reverse();
+    // survivors.reverse();
     survivors.every(function(val){
         if (population.length <= 5)
         {
@@ -78,6 +78,7 @@ function initalGeneration(genome, sectionList, fitnessFunctions, populationLimit
     generation.forEach(individual => {
         fitnessFunctions.forEach(fitnessFunction => {
             fitnessFunction.EvaluateFitness(individual);
+            
         });
     });
 

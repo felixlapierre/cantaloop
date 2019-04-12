@@ -19,7 +19,7 @@ class TimeRestrictionFitness{
         for (let i = 0; i < genome.length; i++) {
             for (let j = 0; j < restriction.length; j++) {
                 classTypes.forEach(classType => {
-                    if(semester[genome[i]].hasOwnProperty(classType))
+                    if(semester[genome[i]][classType] !== undefined)
                         overlap = overlap + restrictionOverlap(semester[genome[i]][classType], restriction[j]);
                 });
             }  
@@ -38,9 +38,7 @@ class CourseConflictFitness{
     
         for (let i = 0; i < genome.length; i++) {
             for (let j = (i + 1); j < genome.length; j++) {
-    
-                // semester[genome[i]] = { "LEC": stuff, "TUT": stuff, "LAB": stuff };
-                classTypes.forEach(classType1 => {
+                    classTypes.forEach(classType1 => {
                     if (semester[genome[i]].hasOwnProperty(classType1)) {
                         classTypes.forEach(classType2 => {
                             if (semester[genome[j]].hasOwnProperty(classType2)) {
