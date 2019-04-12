@@ -15,10 +15,6 @@ function restrictionOverlap( sectionClass , restriction){
     classTimes[1][1] = convertTimeToInt(restriction.time_end);
 
     var timeOverlap = computeTimeOverlap(classTimes);
-    console.log("restriction "+ restriction.days+" "+ restriction.time_start +" "+ restriction.time_end);
-    console.log("            "+sectionClass.days +" "+ sectionClass.time_start +" "+ sectionClass.time_end+"    "+timeOverlap);
-
-    
     var percentage = scaleToPercentage(classTimes, timeOverlap);
 
     return timeOverlap * percentage *dayMultiplier;

@@ -105,14 +105,6 @@ app.post('/builder/genSchedules', (req, res) => {
     {
         semesters.forEach(semester => {
             semester.season = semester.season.toLowerCase();
-
-            //DEMO: Add time restriction to each semester
-            semester.restrictions = [];
-            semester.restrictions.push({
-                "time_start": "18:00",
-                "time_end": "22:00",
-                "days": "ThFr"
-            })
         })
     }
 
