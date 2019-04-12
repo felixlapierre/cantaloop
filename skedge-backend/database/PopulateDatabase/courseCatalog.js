@@ -211,6 +211,10 @@ function filterForSections(myArray, semester) {
             //Bugfix: Thursdays are always null
             if(day == "")
                 day += "Th";
+            var hours = Number.parseInt(endTime.substring(0,2)) - Number.parseInt(startTime.substring(0,2));
+            var minutes = Number.parseInt(endTime.substring(3,5)) - Number.parseInt(startTime.substring(3,5));
+            if(hours > 2)
+                day += "Th";
 
             afterFilter.push(new Class({
                 "time_start": startTime,
