@@ -81,9 +81,16 @@ class CourseInfo extends Component {
     else return null;
   }
 
+ 
   render(){
+  console.log(this.props.color);
+  var tableDataMainStyle = {
+    backgroundColor: "#"+this.props.color,
+    fontSize: '14px'
+  }
     return(
       <p
+        style={tableDataMainStyle}
         className={`tableElement ${this.convertDay(this.props.day)}
         ${this.convertStartTime(this.props.startTime)}
         ${this.convertEndTime(this.props.endTime)}`}

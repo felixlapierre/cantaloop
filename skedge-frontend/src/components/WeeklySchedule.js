@@ -9,13 +9,14 @@ class WeeklySchedule extends Component
         super(props);
         this.courseInfos = [];
         this.updateCourseState = this.updateCourseState.bind(this);
+        this.hash=this.hash.bind(this);
+        this.colorGenerator=this.colorGenerator.bind(this);
     }
 
     componentWillUpdate()
     { 
       this.courseInfos = []
     }
-
     updateCourseState(){
       var newCourseInfos = [];
       for(var courseId in this.props.schedule)
@@ -29,6 +30,7 @@ class WeeklySchedule extends Component
               <CourseInfo 
                 key={courseId+classType+this.props.scheduleNumber}
                 course={courseId}
+                color= {this.colorGenerator(this.hash(courseId))}
                 type={classType}
                 startTime={this.props.schedule[courseId][classType].time_start}
                 endTime={this.props.schedule[courseId][classType].time_end}
@@ -65,7 +67,22 @@ class WeeklySchedule extends Component
       }
       this.courseInfos = newCourseInfos;
     }
-
+    hash (courseID)
+    {
+      var hash=0;
+      if (courseID.length==0)
+        return 0;
+      for (var i=0;i<courseID.length;i++)
+          hash=courseID.charCodeAt(i)+((hash<<5)-hash);
+        return hash;
+    }
+    colorGenerator (number)
+    {
+      var c = (number & 0x00FFFFFF)
+      .toString(16)
+      .toUpperCase();
+      return "00000".substring(0, 6 - c.length) + c;
+    }
     render()
     {
       this.updateCourseState();
