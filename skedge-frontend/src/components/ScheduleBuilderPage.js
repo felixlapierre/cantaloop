@@ -18,6 +18,7 @@ class ScheduleBuilderPage extends Component {
       semesters:[],
       courseRecord:[],
       scheduleComponentsIndex: 0,
+      scheduleGiven: [],
     };
     this.panes = [];
     this.scheduleYearComponents = {};
@@ -47,9 +48,6 @@ class ScheduleBuilderPage extends Component {
         return {visible: !this.state.visible};
       });
     }
-  }
-
-  componentDidMount() {
   }
 
   componentWillMount(){
@@ -98,8 +96,10 @@ class ScheduleBuilderPage extends Component {
         }
         axios.post('/builder/genSchedules', coursesPayload)
         .then(response => {
-          this.props.location.scheduleGiven = response.data;
-          this.props.location.scheduleGiven.forEach(element => {
+          this.setState({
+            scheduleGiven : response.data
+          })
+          this.state.scheduleGiven.forEach(element => {
             var year = element.year;
             var season = element.season;
             if(this.years[year] === undefined)  this.years[year] = {};
@@ -193,15 +193,24 @@ class ScheduleBuilderPage extends Component {
   }
 
   regenerateSchedule(){
-    let coursesPayload = {
-      "courseRecord": this.state.courseRecord,
-      "courseSequence": this.state.currentClasses,
-      "semesters": this.state.semesters
-    };
+    let coursesPayload = this.formatRecordAndCourseSequence();
 
     axios.post('/builder/genSchedules', coursesPayload).then(response => {
-      console.log("Received: ");
-      console.log(response.data);
+      var newSchedule = response.data;
+      newSchedule.forEach(element => {
+        var year = element.year;
+        var season = element.season;
+        if(this.years[year] === undefined)  this.years[year] = {};
+        this.years[year][season] = element.schedules;
+      });
+      for(var yearKey in this.years){
+        for(var seasonKey in this.years[yearKey]){
+          this.scheduleYearComponents[yearKey][seasonKey]=(<Schedule key={seasonKey+yearKey} season={seasonKey} year={yearKey} schedules={this.years[yearKey][seasonKey]} onPickedScheduleChanged={this.changePickedSchedule} picked={this.pickedSchedule[yearKey][seasonKey]}/>);
+        }
+      }
+      this.setState({
+        scheduleGiven : response.data
+      });
     })
     .catch(error => {
       console.log('error', error)
@@ -222,7 +231,7 @@ class ScheduleBuilderPage extends Component {
     }
   }
 
-    paneRender(props){
+  paneRender(props){
     var yearKey = props.panes[this.state.scheduleComponentsIndex].menuItem;
     return (<Tab.Pane><TabContent scheduleComponents={this.scheduleYearComponents[yearKey]} year={yearKey} scheduleGiven={this.props.scheduleGiven}/></Tab.Pane>);
   }
@@ -236,7 +245,6 @@ class ScheduleBuilderPage extends Component {
   render() {
     const Children = this.state.currentClasses.map((child) =>
           <List.Item className="child-list-item" key={child.key} onClick={() => this.listItemClicked(child)}><Button className='buttonCourseList'>{child.text}</Button></List.Item>);
-
     return (
       <div>
       <HeaderPage />
