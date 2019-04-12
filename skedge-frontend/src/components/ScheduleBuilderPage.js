@@ -11,7 +11,7 @@ class ScheduleBuilderPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-     // authToken : props.location.authToken,
+      authToken : props.location.authToken,
       visible: false,
       allClasses:[],
       currentClasses:[],
