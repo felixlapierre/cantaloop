@@ -208,6 +208,10 @@ function filterForSections(myArray, semester) {
                 day += "Fr";
             }
 
+            //Bugfix: Thursdays are always null
+            if(day == "")
+                day += "Th";
+
             afterFilter.push(new Class({
                 "time_start": startTime,
                 "time_end": endTime,
