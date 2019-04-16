@@ -6,8 +6,10 @@ const courseCatalogSchema = require('../schemas/courseCatalogSchema');
 const userSchema = require ('../schemas/userSchema');
 const userRecordSequenceSchema = require('../schemas/userRecordSequenceSchema');
 
+const mongoDBConnectionString =  require('../../config').mongoDBConnectionString;
+
 mongoose.set("useCreateIndex", true);
-mongoose.connect("mongodb+srv://skedge-user:8sDBuOw3zMD4ZpQp@skedge-cantaloop-kueik.mongodb.net/skedge-app", {useNewUrlParser: true})
+mongoose.connect(mongoDBConnectionString, {useNewUrlParser: true})
     .then(() => {
         console.log('Database connection successful')
     })

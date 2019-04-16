@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/LandingPage.css';
 import { axios_secure as axios } from '../services/AxiosEncrypted';
 import {Button, Form, Grid, Segment} from 'semantic-ui-react';
+import { publicKeyPastebinURL } from '../config';
 
 const jwt = require('jsonwebtoken');
 
@@ -22,9 +23,10 @@ class LandingPage extends Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
 
-    // Save server's public key to session storage
-  axios.get('https://cors.io/?https://pastebin.com/raw/8FH01qXk')
+  // Save server's public key to session storage
+  axios.get(`https://cors.io/?${publicKeyPastebinURL}`)
     .then(res => {
+      console.log(res.data);
       window.sessionStorage.setItem( 'rsa_pubKey', res.data);
     }).catch(function (error) {
       console.log(error);
