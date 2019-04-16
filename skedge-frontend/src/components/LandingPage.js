@@ -23,8 +23,8 @@ class LandingPage extends Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.handleLoginGuest = this.handleLoginGuest.bind(this);
 
-    // Save server's public key to session storage
-  axios.get('https://cors.io/?'+publicKeyPastebinURL)
+  // Save server's public key to session storage
+  axios.get(`https://cors.io/?${publicKeyPastebinURL}`)
     .then(res => {
       console.log(res.data);
       window.sessionStorage.setItem( 'rsa_pubKey', res.data);

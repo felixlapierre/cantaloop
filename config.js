@@ -130,7 +130,7 @@ module.exports = {
 }
 `
 
-fs.writeFile("./skedge-frontend/config.js", frontend_config, (err) => {
+fs.writeFile("./skedge-frontend/src/config.js", frontend_config, (err) => {
     if (err) console.log(err);
     console.log("Successfully written frontend config.");
   });
