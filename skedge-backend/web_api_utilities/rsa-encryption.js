@@ -1,27 +1,29 @@
 var crypto = require("crypto");
-var path = require("path");
-var fs = require("fs");
+// var path = require("path");
+// var fs = require("fs");
+
+const config =  require('../config');
 
 var getRsaPrivateKey = function() {
-    let absolutePath;
-    if (process.cwd().slice(-9) == "cantaloop")
-    {
-        absolutePath = path.resolve("./skedge-backend/skegde-test-key-pair");
-    } else {
-        absolutePath = path.resolve("skegde-test-key-pair");
-    }
-    return fs.readFileSync(absolutePath, "utf8");
+    // let absolutePath;
+    // if (process.cwd().slice(-9) == "cantaloop")
+    // {
+    //     absolutePath = path.resolve("./skedge-backend/skegde-test-key-pair");
+    // } else {
+    //     absolutePath = path.resolve("skegde-test-key-pair");
+    // }
+    return config.privateRSAKey; //fs.readFileSync(absolutePath, "utf8");
 }
 var getRsaPublicKey = function() {
     // public key is also hosted at https://pastebin.com/raw/Dz7ng2pk
-    let absolutePath;
-    if (process.cwd().slice(-9) == "cantaloop")
-    {
-        absolutePath = path.resolve("./skedge-backend/skegde-test-key-pair.pub");
-    } else {
-        absolutePath = path.resolve("skegde-test-key-pair.pub");
-    }
-    return fs.readFileSync(absolutePath, "utf8");
+    // let absolutePath;
+    // if (process.cwd().slice(-9) == "cantaloop")
+    // {
+    //     absolutePath = path.resolve("./skedge-backend/skegde-test-key-pair.pub");
+    // } else {
+    //     absolutePath = path.resolve("skegde-test-key-pair.pub");
+    // }
+    return config.publicRSAKey; //fs.readFileSync(absolutePath, "utf8");
 }
 
 var encryptStringWithRsaPublicKey = function(toEncrypt) {
